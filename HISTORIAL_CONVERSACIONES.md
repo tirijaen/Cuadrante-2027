@@ -302,5 +302,14 @@ Vamos a implemenar en las pemutas inteligentes la opción del cambios de turno s
 En el tema de los festivos me parece que no has tenido en cuenta los datos desde el AB2 hasta el AH21, son muy importantes porque en ellos indican cuantas veces el trabajador ha hecho esa fiesta y tambien hay que llevarlos con equidad, añadelos tambien a tu información y para que lo puedan consultar los trabajadores
 ```
 
+### 💬 Mensaje de Antonio (2026-11-01T16:28:52Z):
+```text
+Vamos a corregir varios errores que he notado revisando la aplicación.
+1º en el apartado vacaciones, las quincenas son de 16 días por lo que no pueden durar hasta el 31 de agosto o 31 de julio.
+2º  Miguel Benitez es nuevo este año por lo que siempre que veas MB antes del 2027 se refiere a Marcos Brito, a Miguel Benitez solo lo ha precedido AC
+3º En equipo y coberturas  al cuadrante del mes en el formato PC le sale abaja una barra laeral molesta solo para desplacar la columna un poco, intenta ajustar las columans para que no salga la barra laterar como en la foto.
+4ª En la tabla equidad por Cada Festividad la últila columna que es el total no es necesaria.
+```
+
 ---
 

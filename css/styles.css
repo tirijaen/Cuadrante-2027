@@ -1103,14 +1103,14 @@ button, select, input, textarea {
 .matrix-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   text-align: center;
 }
 
 .matrix-table th, .matrix-table td {
-  padding: 8px 6px;
+  padding: 6px 2px;
   border: 1px solid var(--border-color);
-  min-width: 34px;
+  min-width: 24px;
 }
 
 .matrix-table thead th {
@@ -1120,6 +1120,7 @@ button, select, input, textarea {
   top: 0;
   z-index: 10;
   font-family: var(--font-heading);
+  font-size: 0.76rem;
 }
 
 [data-theme="light"] .matrix-table thead th {
@@ -1133,9 +1134,35 @@ button, select, input, textarea {
   background: var(--bg-surface);
   z-index: 5;
   text-align: left;
-  min-width: 120px;
+  min-width: 102px;
+  width: 104px;
+  max-width: 110px;
   font-weight: 600;
+  padding: 6px 6px;
+  font-size: 0.76rem;
   border-right: 2px solid var(--border-color);
+  white-space: nowrap;
+}
+
+.matrix-table th.total-col,
+.matrix-table td.total-col {
+  min-width: 38px;
+  width: 40px;
+  padding: 6px 2px;
+  font-weight: 700;
+  font-size: 0.75rem;
+}
+
+/* En PC / Pantallas medianas y grandes, forzar table-layout fixed para que ocupe el 100% exacto sin scrollbar */
+@media (min-width: 1024px) {
+  .matrix-table {
+    table-layout: fixed;
+    width: 100%;
+  }
+  .matrix-table th, .matrix-table td {
+    min-width: 0;
+    padding: 7px 1px;
+  }
 }
 
 .matrix-table thead th.sticky-col {

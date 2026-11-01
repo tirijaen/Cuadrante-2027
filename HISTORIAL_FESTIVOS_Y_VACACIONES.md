@@ -11,10 +11,10 @@ A lo largo de los años (2011 a 2027) la plantilla ha tenido jubilaciones o rele
 | Código Actual | Trabajador Actual | Predecesores Sumados en la Fórmula Excel | Motivo y Código(s) en Registro |
 |---|---|---|---|
 | **AJ** | Antonio Jesús Sánchez | `PS` + `AJ` | Relevó a `PS`. Códigos: `PS`, `AJ` |
-| **SM** | Santiago Molina | `PR` + `MB (antiguo)` + `SM` | Relevó a **Marcos Brito** (`MB` histórico) y a `PR`. |
+| **SM** | Santiago Molina | `PR` + `MB (Marcos Brito)` + `SM` | Relevó a **Marcos Brito** (`MB` en todo el histórico previo a 2027) y a `PR`. |
 | **AH** | Alberto Higueras | `DC` + `AH` | Relevó a `DC`. Códigos: `DC`, `AH` |
 | **FE** | Francisco Espín | `JM` + `FE` | Relevó a `JM`. Códigos: `JM`, `FE` |
-| **MB / MG** | Miguel Benítez | `AC` + `MB` (en 2027 anotado como `MG`) | Relevó a `AC`. En 2027 se le asignó la sigla **`MG`** para no crear confusión con el histórico Marcos Brito (`MB`). |
+| **MB / MG** | Miguel Benítez | `AC` + `MG` (nuevo en 2027) | **Miguel Benítez es nuevo en 2027** y **únicamente lo ha precedido `AC`**. En 2027 se le asignó el código `MG` en las fórmulas para no confundir con `MB` (Marcos Brito). |
 | **PC** | Francisco Cantarero | Sin predecesor (titular continuo) | Ha estado presente en todo el histórico (`PC`). |
 | **AL** | Antonio León | `FR` + `AL` | Relevó a `FR`. Códigos: `FR`, `AL` |
 | **HG** | Hilario Gómez | Exento de festivos (solo aparece en vacaciones) | Solo rota en quincenas de vacaciones (`HG`). |
@@ -81,14 +81,17 @@ Las vacaciones se dividen en 8 quincenas anuales (Junio a Septiembre) y se asign
 4. **Pareja 4**: `SM - AH` (Santiago Molina y Alberto Higueras - antiguamente `MB-DC`)
 
 ### Bloques Quincenales:
-* **Turno 1**: 1 al 15 de Junio y 1 al 15 de Agosto
-* **Turno 2**: 16 al 30 de Junio y 16 al 31 de Agosto
-* **Turno 3**: 1 al 15 de Julio y 1 al 15 de Septiembre
-* **Turno 4**: 16 al 31 de Julio y 16 al 30 de Septiembre
+* **Turno 1**: 01 al 15 de Junio (15 días) y 01 al 15 de Agosto (15 días)
+* **Turno 2**: 15 al 30 de Junio (16 días) y 15 al 30 de Agosto (16 días)
+* **Turno 3**: 01 al 15 de Julio (15 días) y 01 al 15 de Septiembre (15 días)
+* **Turno 4**: 15 al 30 de Julio (16 días) y 15 al 30 de Septiembre (16 días)
+
+> [!IMPORTANT]
+> **Duración exacta de las quincenas:** Las segundas quincenas son reglamentariamente de **16 días naturales** (del 15 al 30 de cada mes). Por ello, **no duran hasta el 31 de julio ni hasta el 31 de agosto** (el día 31 queda fuera del periodo quincenal).
 
 ### Secuencia Histórica de Rotación y Proyección 2028:
 
-| Año | Turno 1 (1-15 Jun & 1-15 Ago) | Turno 2 (16-30 Jun & 16-31 Ago) | Turno 3 (1-15 Jul & 1-15 Sep) | Turno 4 (16-31 Jul & 16-30 Sep) |
+| Año | Turno 1 (01-15 Jun & 01-15 Ago) | Turno 2 (15-30 Jun & 15-30 Ago) | Turno 3 (01-15 Jul & 01-15 Sep) | Turno 4 (15-30 Jul & 15-30 Sep) |
 |:---:|:---:|:---:|:---:|:---:|
 | **2025** | AL - HG | MB - AH | AJ - MB | PC - FE |
 | **2026** | PC - FE | AL - HG | MB - AH | AJ - MB |
@@ -105,26 +108,26 @@ Las vacaciones se dividen en 8 quincenas anuales (Junio a Septiembre) y se asign
 > **Rango de referencia Excel:** Columnas `S2:Y21` / `AB2:AH21`.  
 > En el servicio no solo se vigila la equidad del cómputo total de festivos anuales (71 vs 70), sino también **la justicia distributiva en cada festividad específica**. De este modo, nadie repite desproporcionadamente una fiesta señalada (Nochebuena, Nochevieja, Romería, Semana Santa, etc.) mientras otro no la realiza.
 
-| Festividad Oficial | AJ | SM | AH | FE | MB | PC | AL | Total Veces | Criterio de Equidad para 2028 |
-|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|---|
-| **NOCHES DEL 1 DE ENERO** | 3 | 2 | 2 | 2 | 2 | 2 | 2 | 15 | AJ máxima (3) libra; resto (2) en turno |
-| **1 DE ENERO** | 4 | 5 | 5 | 5 | 4 | 4 | 4 | 31 | SM, AH, FE (5) descansan; AJ, MB, PC, AL (4) prioridad |
-| **6 DE ENERO (Reyes)** | 4 | 4 | 5 | 4 | 4 | 6 | 4 | 31 | PC (6) y AH (5) descansan; AJ, SM, FE, MB, AL (4) prioridad |
-| **28 DE FEBRERO (Día de Andalucía)** | 4 | 4 | 4 | 5 | 4 | 5 | 5 | 31 | FE, PC, AL (5) descansan; AJ, SM, AH, MB (4) prioridad |
-| **SEMANA SANTA** | 5 | 5 | 6 | 4 | 4 | 4 | 4 | 32 | AH (6) y AJ, SM (5) descansan; FE, MB, PC, AL (4) prioridad |
-| **NOCHES SEMANA SANTA** | 2 | 3 | 2 | 2 | 3 | 2 | 2 | 16 | SM, MB (3) descansan; AJ, AH, FE, PC, AL (2) en turno |
-| **VIRGEN DE LA CABEZA (Romería)** | 5 | 5 | 4 | 4 | 5 | 4 | 5 | 32 | AJ, SM, MB, AL (5) descansan; AH, FE, PC (4) prioridad |
-| **NOCHES VIRGEN DE LA CABEZA** | 4 | 2 | 2 | 2 | 3 | 2 | 3 | 18 | AJ (4) y MB, AL (3) descansan; SM, AH, FE, PC (2) en turno |
-| **1 DE MAYO (Trabajo)** | 5 | 5 | 4 | 5 | 5 | 4 | 4 | 32 | AJ, SM, FE, MB (5) descansan; AH, PC, AL (4) prioridad |
-| **15 DE MAYO (San Eufrasio)** | 1 | 1 | 0 | 2 | 1 | 2 | 1 | 8 | FE, PC (2) descansan; AH (0) máxima prioridad |
-| **15 DE AGOSTO (Asunción)** | 3 | 4 | 3 | 3 | 3 | 4 | 6 | 26 | AL (6) máxima libranza; AJ, AH, FE, MB (3) prioridad |
-| **NOCHES DE FERIA** | 3 | 1 | 1 | 2 | 2 | 2 | 1 | 12 | AJ (3) descansa; SM, AH, AL (1) en turno |
-| **FERIA (Día)** | 3 | 3 | 4 | 4 | 3 | 3 | 4 | 24 | AH, FE, AL (4) descansan; AJ, SM, MB, PC (3) prioridad |
-| **12 DE OCTUBRE (Hispanidad)** | 5 | 4 | 5 | 4 | 5 | 5 | 4 | 32 | AJ, AH, MB, PC (5) descansan; SM, FE, AL (4) prioridad |
-| **1 DE NOVIEMBRE (Todos los Santos)** | 4 | 4 | 5 | 4 | 4 | 5 | 4 | 30 | AH, PC (5) descansan; AJ, SM, FE, MB, AL (4) prioridad |
-| **6 DICIEMBRE (Constitución)** | 4 | 5 | 4 | 4 | 5 | 4 | 5 | 31 | SM, MB, AL (5) descansan; AJ, AH, FE, PC (4) prioridad |
-| **8 DICIEMBRE (Inmaculada)** | 4 | 5 | 5 | 5 | 4 | 4 | 4 | 31 | SM, AH, FE (5) descansan; AJ, MB, PC, AL (4) prioridad |
-| **NOCHEBUENA** | 2 | 2 | 3 | 2 | 2 | 2 | 2 | 15 | AH (3) descansa; AJ, SM, FE, MB, PC, AL (2) en turno |
-| **25 DICIEMBRE (Navidad)** | 4 | 5 | 4 | 5 | 4 | 4 | 5 | 31 | SM, FE, AL (5) descansan; AJ, AH, MB, PC (4) prioridad |
-| **NOCHE 31 DICIEMBRE (Nochevieja)** | 2 | 2 | 2 | 2 | 4 | 2 | 2 | 16 | MB (4) máxima libranza; resto de plantilla (2) en turno |
-| **TOTALES ACUMULADOS** | **71** | **71** | **70** | **70** | **71** | **70** | **71** | **496** | **Equidad global: 70 - 71** |
+| Festividad Oficial | AJ | SM | AH | FE | MB | PC | AL | Criterio de Equidad para 2028 |
+|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|---|
+| **NOCHES DEL 1 DE ENERO** | 3 | 2 | 2 | 2 | 2 | 2 | 2 | AJ máxima (3) libra; resto (2) en turno |
+| **1 DE ENERO** | 4 | 5 | 5 | 5 | 4 | 4 | 4 | SM, AH, FE (5) descansan; AJ, MB, PC, AL (4) prioridad |
+| **6 DE ENERO (Reyes)** | 4 | 4 | 5 | 4 | 4 | 6 | 4 | PC (6) y AH (5) descansan; AJ, SM, FE, MB, AL (4) prioridad |
+| **28 DE FEBRERO (Día de Andalucía)** | 4 | 4 | 4 | 5 | 4 | 5 | 5 | FE, PC, AL (5) descansan; AJ, SM, AH, MB (4) prioridad |
+| **SEMANA SANTA** | 5 | 5 | 6 | 4 | 4 | 4 | 4 | AH (6) y AJ, SM (5) descansan; FE, MB, PC, AL (4) prioridad |
+| **NOCHES SEMANA SANTA** | 2 | 3 | 2 | 2 | 3 | 2 | 2 | SM, MB (3) descansan; AJ, AH, FE, PC, AL (2) en turno |
+| **VIRGEN DE LA CABEZA (Romería)** | 5 | 5 | 4 | 4 | 5 | 4 | 5 | AJ, SM, MB, AL (5) descansan; AH, FE, PC (4) prioridad |
+| **NOCHES VIRGEN DE LA CABEZA** | 4 | 2 | 2 | 2 | 3 | 2 | 3 | AJ (4) y MB, AL (3) descansan; SM, AH, FE, PC (2) en turno |
+| **1 DE MAYO (Trabajo)** | 5 | 5 | 4 | 5 | 5 | 4 | 4 | AJ, SM, FE, MB (5) descansan; AH, PC, AL (4) prioridad |
+| **15 DE MAYO (San Eufrasio)** | 1 | 1 | 0 | 2 | 1 | 2 | 1 | FE, PC (2) descansan; AH (0) máxima prioridad |
+| **15 DE AGOSTO (Asunción)** | 3 | 4 | 3 | 3 | 3 | 4 | 6 | AL (6) máxima libranza; AJ, AH, FE, MB (3) prioridad |
+| **NOCHES DE FERIA** | 3 | 1 | 1 | 2 | 2 | 2 | 1 | AJ (3) descansa; SM, AH, AL (1) en turno |
+| **FERIA (Día)** | 3 | 3 | 4 | 4 | 3 | 3 | 4 | AH, FE, AL (4) descansan; AJ, SM, MB, PC (3) prioridad |
+| **12 DE OCTUBRE (Hispanidad)** | 5 | 4 | 5 | 4 | 5 | 5 | 4 | AJ, AH, MB, PC (5) descansan; SM, FE, AL (4) prioridad |
+| **1 DE NOVIEMBRE (Todos los Santos)** | 4 | 4 | 5 | 4 | 4 | 5 | 4 | AH, PC (5) descansan; AJ, SM, FE, MB, AL (4) prioridad |
+| **6 DICIEMBRE (Constitución)** | 4 | 5 | 4 | 4 | 5 | 4 | 5 | SM, MB, AL (5) descansan; AJ, AH, FE, PC (4) prioridad |
+| **8 DICIEMBRE (Inmaculada)** | 4 | 5 | 5 | 5 | 4 | 4 | 4 | SM, AH, FE (5) descansan; AJ, MB, PC, AL (4) prioridad |
+| **NOCHEBUENA** | 2 | 2 | 3 | 2 | 2 | 2 | 2 | AH (3) descansa; AJ, SM, FE, MB, PC, AL (2) en turno |
+| **25 DICIEMBRE (Navidad)** | 4 | 5 | 4 | 5 | 4 | 4 | 5 | SM, FE, AL (5) descansan; AJ, AH, MB, PC (4) prioridad |
+| **NOCHE 31 DICIEMBRE (Nochevieja)** | 2 | 2 | 2 | 2 | 4 | 2 | 2 | MB (4) máxima libranza; resto de plantilla (2) en turno |
+| **TOTALES ACUMULADOS** | **71** | **71** | **70** | **70** | **71** | **70** | **71** | **Equidad global: 70 - 71** |

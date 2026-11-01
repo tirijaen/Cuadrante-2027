@@ -162,19 +162,19 @@ Entre los 7 trabajadores en rotación completa (excluyendo a Hilario y Extra 1) 
 
 ## 8. Periodos Vacacionales (Quincenas Reglamentarias)
 
-Las vacaciones se distribuyen en dos quincenas de 15 días naturales por trabajador:
+Las vacaciones se distribuyen en dos quincenas (una primera quincena de 15 días, y una segunda quincena de 16 días naturales del 15 al 30, sin extenderse hasta el 31 de julio ni el 31 de agosto):
 * **Antonio J y Miguel B**: 
-  * 1ª Quincena: 1 al 15 de Junio
-  * 2ª Quincena: 1 al 15 de Agosto
+  * 1ª Quincena: 01 al 15 de Junio (15 días)
+  * 2ª Quincena: 01 al 15 de Agosto (15 días)
 * **Paco C y Fran Espin**: 
-  * 1ª Quincena: 16 al 30 de Junio
-  * 2ª Quincena: 16 al 31 de Agosto
+  * 1ª Quincena: 15 al 30 de Junio (16 días)
+  * 2ª Quincena: 15 al 30 de Agosto (16 días)
 * **A. Leon e Hilario**: 
-  * 1ª Quincena: 1 al 15 de Julio
-  * 2ª Quincena: 1 al 15 de Septiembre
+  * 1ª Quincena: 01 al 15 de Julio (15 días)
+  * 2ª Quincena: 01 al 15 de Septiembre (15 días)
 * **Santi M y Alberto H**: 
-  * 1ª Quincena: 16 al 31 de Julio
-  * 2ª Quincena: 16 al 30 de Septiembre
+  * 1ª Quincena: 15 al 30 de Julio (16 días)
+  * 2ª Quincena: 15 al 30 de Septiembre (16 días)
 
 ---
 

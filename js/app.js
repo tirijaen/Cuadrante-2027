@@ -1246,7 +1246,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       theadHtml += `<th class="${cls}">${day}</th>`;
     }
-    theadHtml += '<th>Total</th></tr>';
+    theadHtml += '<th class="total-col">Total</th></tr>';
     el.matrixThead.innerHTML = theadHtml;
 
     let tbodyHtml = '';
@@ -1278,7 +1278,7 @@ document.addEventListener('DOMContentLoaded', () => {
         tbodyHtml += `<td class="${cls}" style="${colorStyle}">${displayShift}</td>`;
       }
 
-      tbodyHtml += `<td style="font-weight:700;">${monthWorked}d</td>`;
+      tbodyHtml += `<td class="total-col" style="font-weight:700;">${monthWorked}d</td>`;
       tbodyHtml += '</tr>';
     });
     el.matrixTbody.innerHTML = tbodyHtml;
@@ -3438,10 +3438,10 @@ ${debt.notes ? `• *Notas:* ${debt.notes}\n` : ''}
     }
 
     const slotNames = {
-      1: { name: 'Turno 1', q1: '01 al 15 de Junio', q2: '01 al 15 de Agosto' },
-      2: { name: 'Turno 2', q1: '16 al 30 de Junio', q2: '16 al 31 de Agosto' },
-      3: { name: 'Turno 3', q1: '01 al 15 de Julio', q2: '01 al 15 de Septiembre' },
-      4: { name: 'Turno 4', q1: '16 al 31 de Julio', q2: '16 al 30 de Septiembre' }
+      1: { name: 'Turno 1', q1: '01 al 15 de Junio (15d)', q2: '01 al 15 de Agosto (15d)' },
+      2: { name: 'Turno 2', q1: '15 al 30 de Junio (16d)', q2: '15 al 30 de Agosto (16d)' },
+      3: { name: 'Turno 3', q1: '01 al 15 de Julio (15d)', q2: '01 al 15 de Septiembre (15d)' },
+      4: { name: 'Turno 4', q1: '15 al 30 de Julio (16d)', q2: '15 al 30 de Septiembre (16d)' }
     };
 
     if (w === 'Extra 1') {
@@ -3498,22 +3498,22 @@ ${debt.notes ? `• *Notas:* ${debt.notes}\n` : ''}
 
     const slotConfigs = {
       '2027': [
-        { slotNum: 1, title: 'Turno 1', dates: '1-15 Jun & 1-15 Ago', pair: ['Antonio J', 'Miguel B'] },
-        { slotNum: 2, title: 'Turno 2', dates: '16-30 Jun & 16-31 Ago', pair: ['Paco C', 'Fran Espin'] },
-        { slotNum: 3, title: 'Turno 3', dates: '1-15 Jul & 1-15 Sep', pair: ['A. Leon', 'Hilario'] },
-        { slotNum: 4, title: 'Turno 4', dates: '16-31 Jul & 16-30 Sep', pair: ['Santi M', 'Alberto H'] }
+        { slotNum: 1, title: 'Turno 1', dates: '01-15 Jun & 01-15 Ago (15d)', pair: ['Antonio J', 'Miguel B'] },
+        { slotNum: 2, title: 'Turno 2', dates: '15-30 Jun & 15-30 Ago (16d)', pair: ['Paco C', 'Fran Espin'] },
+        { slotNum: 3, title: 'Turno 3', dates: '01-15 Jul & 01-15 Sep (15d)', pair: ['A. Leon', 'Hilario'] },
+        { slotNum: 4, title: 'Turno 4', dates: '15-30 Jul & 15-30 Sep (16d)', pair: ['Santi M', 'Alberto H'] }
       ],
       '2028': [
-        { slotNum: 1, title: 'Turno 1', dates: '1-15 Jun & 1-15 Ago', pair: ['Santi M', 'Alberto H'] },
-        { slotNum: 2, title: 'Turno 2', dates: '16-30 Jun & 16-31 Ago', pair: ['Antonio J', 'Miguel B'] },
-        { slotNum: 3, title: 'Turno 3', dates: '1-15 Jul & 1-15 Sep', pair: ['Paco C', 'Fran Espin'] },
-        { slotNum: 4, title: 'Turno 4', dates: '16-31 Jul & 16-30 Sep', pair: ['A. Leon', 'Hilario'] }
+        { slotNum: 1, title: 'Turno 1', dates: '01-15 Jun & 01-15 Ago (15d)', pair: ['Santi M', 'Alberto H'] },
+        { slotNum: 2, title: 'Turno 2', dates: '15-30 Jun & 15-30 Ago (16d)', pair: ['Antonio J', 'Miguel B'] },
+        { slotNum: 3, title: 'Turno 3', dates: '01-15 Jul & 01-15 Sep (15d)', pair: ['Paco C', 'Fran Espin'] },
+        { slotNum: 4, title: 'Turno 4', dates: '15-30 Jul & 15-30 Sep (16d)', pair: ['A. Leon', 'Hilario'] }
       ],
       '2029': [
-        { slotNum: 1, title: 'Turno 1', dates: '1-15 Jun & 1-15 Ago', pair: ['A. Leon', 'Hilario'] },
-        { slotNum: 2, title: 'Turno 2', dates: '16-30 Jun & 16-31 Ago', pair: ['Santi M', 'Alberto H'] },
-        { slotNum: 3, title: 'Turno 3', dates: '1-15 Jul & 1-15 Sep', pair: ['Antonio J', 'Miguel B'] },
-        { slotNum: 4, title: 'Turno 4', dates: '16-31 Jul & 16-30 Sep', pair: ['Paco C', 'Fran Espin'] }
+        { slotNum: 1, title: 'Turno 1', dates: '01-15 Jun & 01-15 Ago (15d)', pair: ['A. Leon', 'Hilario'] },
+        { slotNum: 2, title: 'Turno 2', dates: '15-30 Jun & 15-30 Ago (16d)', pair: ['Santi M', 'Alberto H'] },
+        { slotNum: 3, title: 'Turno 3', dates: '01-15 Jul & 01-15 Sep (15d)', pair: ['Antonio J', 'Miguel B'] },
+        { slotNum: 4, title: 'Turno 4', dates: '15-30 Jul & 15-30 Sep (16d)', pair: ['Paco C', 'Fran Espin'] }
       ]
     };
 
@@ -3651,7 +3651,6 @@ ${debt.notes ? `• *Notas:* ${debt.notes}\n` : ''}
               </th>
             `;
           }).join('')}
-          <th style="min-width:60px;">Total</th>
         </tr>
       </thead>
     `;
@@ -3692,7 +3691,6 @@ ${debt.notes ? `• *Notas:* ${debt.notes}\n` : ''}
                   </td>
                 `;
               }).join('')}
-              <td style="font-weight:700; color:var(--text-secondary);">${item.totalTimes || vals.reduce((a, b) => a + b, 0)}</td>
             </tr>
           `;
         }).join('')}
@@ -3700,7 +3698,6 @@ ${debt.notes ? `• *Notas:* ${debt.notes}\n` : ''}
     `;
 
     // Fila de totales acumulados
-    const totalAll = workers.reduce((acc, w) => acc + (totals[w.code] || 0), 0);
     const tfoot = `
       <tfoot>
         <tr style="background:var(--bg-card); font-weight:800; border-top:2px solid var(--border-color);">
@@ -3720,7 +3717,6 @@ ${debt.notes ? `• *Notas:* ${debt.notes}\n` : ''}
               </td>
             `;
           }).join('')}
-          <td style="font-size:0.85rem; font-weight:800; color:var(--accent-primary);">${totalAll}</td>
         </tr>
       </tfoot>
     `;
@@ -3971,8 +3967,8 @@ ${debt.notes ? `• *Notas:* ${debt.notes}\n` : ''}
       'PS': 'Antonio J (predecesor PS)',
       'SM': 'Santi M',
       'PR': 'Santi M (predecesor PR)',
-      'MB': 'Miguel B / Marcos Brito',
-      'MG': 'Miguel B',
+      'MB': 'Marcos Brito (predecesor SM)',
+      'MG': 'Miguel B (2027)',
       'AC': 'Miguel B (predecesor AC)',
       'AH': 'Alberto H',
       'DC': 'Alberto H (predecesor DC)',
@@ -3994,13 +3990,13 @@ ${debt.notes ? `• *Notas:* ${debt.notes}\n` : ''}
       return parts.map(p => {
         const clean = p.trim();
         const expanded = codeExpander[clean] || clean;
-        const isCurrent = clean === 'AJ' && state.currentWorker === 'Antonio J' ||
-                          clean === 'SM' && state.currentWorker === 'Santi M' ||
-                          clean === 'AH' && state.currentWorker === 'Alberto H' ||
-                          clean === 'FE' && state.currentWorker === 'Fran Espin' ||
-                          (clean === 'MB' || clean === 'MG') && state.currentWorker === 'Miguel B' ||
+        const isCurrent = (clean === 'AJ' || clean === 'PS') && state.currentWorker === 'Antonio J' ||
+                          (clean === 'SM' || clean === 'PR' || clean === 'MB') && state.currentWorker === 'Santi M' ||
+                          (clean === 'AH' || clean === 'DC') && state.currentWorker === 'Alberto H' ||
+                          (clean === 'FE' || clean === 'JM') && state.currentWorker === 'Fran Espin' ||
+                          (clean === 'MG' || clean === 'AC') && state.currentWorker === 'Miguel B' ||
                           clean === 'PC' && state.currentWorker === 'Paco C' ||
-                          clean === 'AL' && state.currentWorker === 'A. Leon';
+                          (clean === 'AL' || clean === 'FR') && state.currentWorker === 'A. Leon';
         
         return `<span style="${isCurrent ? 'color:var(--accent-primary); font-weight:800;' : ''}">${expanded}</span>`;
       }).join(' <span style="color:var(--text-muted); font-weight:normal;">+</span> ');
