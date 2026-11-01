@@ -203,6 +203,8 @@ Las vacaciones se distribuyen en dos quincenas de 15 días naturales cada una (d
   * Mañana y Tarde: Antonio J y Extra 1.
 * **12 de Octubre (Fiesta Nacional)**:
   * Mañana y Tarde: Miguel B y Paco C.
+* **01 de Noviembre (Todos los Santos)**:
+  * Mañana y Tarde: Antonio J y A. León (cubriendo uno la M y el otro la T).
 * **06 y 08 de Diciembre (Constitución e Inmaculada)**:
   * Mañana y Tarde: Paco C y Santi M.
 * **24 de Diciembre (Nochebuena)**:
@@ -210,7 +212,11 @@ Las vacaciones se distribuyen en dos quincenas de 15 días naturales cada una (d
 * **25 de Diciembre (Navidad)**:
   * Mañana y Tarde: Miguel B y Fran Espín.
 * **31 de Diciembre (Nochevieja)**:
-  * Noche: Miguel B.
+  * Noche: Antonio J (en sustitución de Miguel B, según cómputo histórico de festivos y tiempo sin realizarla).
+
+### 9.1. Eventos Personales y Descansos Blindados
+* **29 de Mayo**: Francisco Espín libre por evento personal. En la víspera (**28 de Mayo**) no realiza turno de noche.
+* **31 de Octubre**: Miguel Benítez libre por evento personal. En la víspera (**30 de Octubre**) no realiza turno de noche.
 
 ---
 

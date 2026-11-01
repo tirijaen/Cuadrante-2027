@@ -32,16 +32,16 @@ La equidad acumulada tras 17 años de registros es matemáticamente perfecta (m�
 
 | Trabajador | Festivos Acumulados (2011 - 2027) | Objetivo para 2028 |
 |---|:---:|---|
-| **Antonio Jesús Sánchez** (`AJ`) | **71** | +0 o compensación |
+| **Antonio Jesús Sánchez** (`AJ`) | **72** | +0 o compensación |
 | **Santiago Molina** (`SM`) | **71** | +0 o compensación |
 | **Alberto Higueras** (`AH`) | **70** | **Prioridad +1 (para alcanzar 71)** |
 | **Francisco Espín** (`FE`) | **70** | **Prioridad +1 (para alcanzar 71)** |
-| **Miguel Benítez** (`MB`) | **71** | +0 o compensación |
+| **Miguel Benítez** (`MB`) | **70** | **Prioridad +1 (para alcanzar 71)** |
 | **Francisco Cantarero** (`PC`) | **70** | **Prioridad +1 (para alcanzar 71)** |
 | **Antonio León** (`AL`) | **71** | +0 o compensación |
 
 > [!TIP]
-> En el diseño del **Cuadrante 2028**, los trabajadores con 70 festivos (**Alberto Higueras, Francisco Espín y Francisco Cantarero**) deben tener prioridad para asumir 1 festivo adicional y empatar a 71 con el resto del equipo.
+> En el diseño del **Cuadrante 2028**, los trabajadores con 70 festivos (**Alberto Higueras, Francisco Espín, Miguel Benítez y Francisco Cantarero**) deben tener prioridad para asumir 1 festivo adicional y equilibrar a 71-72 con el resto del equipo.
 
 ---
 
@@ -68,7 +68,7 @@ La equidad acumulada tras 17 años de registros es matemáticamente perfecta (m�
 | **8 DICIEMBRE-INMACULADA** | PC-DC | AL-AC | AL-MB | DC-MB | AJ-AC | AJ-FE | AH-FE | PC-SM |
 | **NOCHEBUENA** | AL | MB | DC | FE | PC | AJ | AC | AH |
 | **25 DICIEMBRE-NAVIDAD** | PC-AJ | AL-DC | FE-MB | AC-AJ | AH-AJ | PC-MB | MB-AL | MG-FE |
-| **NOCHE 31 DIEMBRE NOCHE** | AJ | DC | AC | MB | AL | FE | PC | MG |
+| **NOCHE 31 DIEMBRE NOCHE** | AJ | DC | AC | MB | AL | FE | PC | AJ |
 
 ---
 
@@ -129,5 +129,5 @@ Las vacaciones se dividen en 8 quincenas anuales (Junio a Septiembre) y se asign
 | **8 DICIEMBRE (Inmaculada)** | 4 | 5 | 5 | 5 | 4 | 4 | 4 | SM, AH, FE (5) descansan; AJ, MB, PC, AL (4) prioridad |
 | **NOCHEBUENA** | 2 | 2 | 3 | 2 | 2 | 2 | 2 | AH (3) descansa; AJ, SM, FE, MB, PC, AL (2) en turno |
 | **25 DICIEMBRE (Navidad)** | 4 | 5 | 4 | 5 | 4 | 4 | 5 | SM, FE, AL (5) descansan; AJ, AH, MB, PC (4) prioridad |
-| **NOCHE 31 DICIEMBRE (Nochevieja)** | 2 | 2 | 2 | 2 | 4 | 2 | 2 | MB (4) máxima libranza; resto de plantilla (2) en turno |
-| **TOTALES ACUMULADOS** | **71** | **71** | **70** | **70** | **71** | **70** | **71** | **Equidad global: 70 - 71** |
+| **NOCHE 31 DICIEMBRE (Nochevieja)** | 3 | 2 | 2 | 2 | 3 | 2 | 2 | AJ, MB (3) descansan; resto de plantilla (2) en turno |
+| **TOTALES ACUMULADOS** | **72** | **71** | **70** | **70** | **70** | **70** | **71** | **Equidad global: 70 - 72** |

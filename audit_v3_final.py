@@ -52,12 +52,12 @@ for d_idx, dt in enumerate(dates):
 vacations = [
     ("Antonio J", [(6, 1, 15), (8, 1, 15)]),
     ("Miguel B",  [(6, 1, 15), (8, 1, 15)]),
-    ("Paco C",    [(6, 16, 30), (8, 16, 31)]),
-    ("Fran Espin",[(6, 16, 30), (8, 16, 31)]),
+    ("Paco C",    [(6, 16, 30), (8, 16, 30)]),
+    ("Fran Espin",[(6, 16, 30), (8, 16, 30)]),
     ("A. Leon",   [(7, 1, 15), (9, 1, 15)]),
     ("Hilario",   [(7, 1, 15), (9, 1, 15)]),
-    ("Santi M",   [(7, 16, 31), (9, 16, 30)]),
-    ("Alberto H", [(7, 16, 31), (9, 16, 30)]),
+    ("Santi M",   [(7, 16, 30), (9, 16, 30)]),
+    ("Alberto H", [(7, 16, 30), (9, 16, 30)]),
 ]
 for w_name, periods in vacations:
     w_i = w_map[w_name]

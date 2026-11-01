@@ -650,14 +650,14 @@ window.HISTORICAL_DATA = {
           "2024": "AL",
           "2025": "FE",
           "2026": "PC",
-          "2027": "MG"
+          "2027": "AJ"
         },
         "counts": {
-          "AJ": 2,
+          "AJ": 3,
           "SM": 2,
           "AH": 2,
           "FE": 2,
-          "MB": 4,
+          "MB": 3,
           "PC": 2,
           "AL": 2
         },
@@ -665,11 +665,11 @@ window.HISTORICAL_DATA = {
       }
     ],
     "totals": {
-      "AJ": 71,
+      "AJ": 72,
       "SM": 71,
       "AH": 70,
       "FE": 70,
-      "MB": 71,
+      "MB": 70,
       "PC": 70,
       "AL": 71
     }

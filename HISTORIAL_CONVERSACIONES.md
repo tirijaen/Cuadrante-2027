@@ -340,3 +340,38 @@ Vamos a actualizar la infografía y manual con todo lo que hemos implementado tr
 - Se verificaron visualmente las 4 pestañas en el navegador mediante subagente de captura.
 
 ---
+
+## Sesión 4 (1-2 Nov): Reajuste Normativo de Nochevieja, Eventos Personales y 1 de Noviembre
+
+### 💬 Mensaje de Antonio (2026-11-01T22:38:00Z):
+```text
+Cometí un error al asignar la regla de la noche del 31 de diciembre a Miguel B, segun los datos que tenemos Antonio J por tiempo sin hacerla creo que es el que la debe hacer.
+Ademas Francisco Espín el 29 de mayo tiene un evento por lo que no puede trabajar ese día ni el anterior en turno de noche.
+Miguel Benitez tampoco puede trabajar el día 31 de Octubre por un evento. Evita ponerle turnos de noche el día 30.
+El día 1 de Noviembre trabajara Antonio J y Antonio León da igual el orden en turno de mañana y tardes.
+Actualiza las reglas con estas instrucciones 
+
+Reajusta el calendario para cumplir con eso y ademas actualiza todas las tablas que computan los festivos, días etc. 
+Si necesistas alguna alclaración en algun problemas de ajustes, o algo mas específico no dudes en consultar conmigo las veces necesarias
+```
+
+**Resolución y Cambios Aplicados:**
+1. **Actualización del Documento Normativo (`REGLAS_OFICIALES_CUADRANTE.md`):**
+   - **Sección 9 (Asignaciones Fijas):** Asignada la Noche del 31 de Diciembre a Antonio J en sustitución de Miguel B. Asignado el 1 de Noviembre en turnos diurnos (M/T) a Antonio J y Antonio León.
+   - **Sección 9.1 (Eventos Personales y Descansos Blindados):** Registrado Francisco Espín libre el 29 de mayo y sin noche el 28 de mayo; registrado Miguel Benítez libre el 31 de octubre y sin noche el 30 de octubre.
+2. **Reoptimización Matemática Completa (CP-SAT Solver en 2 Etapas):**
+   - **Stage 1 (Noches, Bloques, Cobertura y Conciliación):** Resuelto en 1.74s con **0 bloques de 4 noches** (todos los bloques de noche son de 2 o 3 noches). Nochevieja asignada a Antonio J; Fran Espín sin noche el 28 de mayo; Miguel Benítez sin noche el 30 de octubre.
+   - **Stage 2 (M/T, 220 Días, Festivos, 48h Descanso Post-Noche y 0 Fines de Semana Partidos):** Resuelto en 52.30s alcanzando el óptimo global sin una sola infracción.
+3. **Métricas de Auditoría (100% Conformes):**
+   - **Días Anuales:** Exactamente **220 días** para Antonio J, Santi M, Alberto H, Fran Espín, Miguel B, Paco C, Antonio León e Hilario (80 días para Extra 1).
+   - **Fines de Semana:** **0 fines de semana partidos** (definición Viernes Noche a Domingo Tarde).
+   - **Equidad Festivos:** Máxima diferencia de solo 1 festivo (46 o 47 festivos por titular).
+   - **Equidad Noches:** Máxima diferencia de 3 noches (47 a 50 noches por titular).
+   - **Equidad Diurnos:** Mañanas 92-95 (delta 3); Tardes 75-78 (delta 3).
+   - **Descansos Obligatorios:** 100% de cumplimiento de 12h entre turnos y exactamente 2 días completos de descanso tras cada bloque nocturno. Máximo 5 días consecutivos trabajados.
+4. **Actualización de Archivos y Entregables:**
+   - Generados nuevos archivos Excel oficiales: `Cuadrante_2027_Andujar_V3.xlsx` y `Cuadrante_2027_Andujar.xlsx` con cabeceras estilizadas y fórmulas automáticas.
+   - Actualizados datos de la App: `cuadrante_2027_v3.json`, `cuadrante_2027.json`, `js/cuadrante_data.js`.
+   - Actualizados archivos históricos: `HISTORIAL_FESTIVOS_Y_VACACIONES.md` y `js/historical_data.js` (reflejando a Antonio J con 3 Nocheviejas y 72 festivos totales, y Miguel B con 3 Nocheviejas y 70 festivos totales).
+   - Actualizada tabla Markdown en `all_tables_v3.md`.
+   - Incrementada la versión de caché del Service Worker a `cuadrante-2027-v4.6` en `sw.js`.
