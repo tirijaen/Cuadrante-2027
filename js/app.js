@@ -462,12 +462,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Tab 3: Permutas Inteligentes (4 Pasos)
     if (el.swapDateA) {
-      el.swapDateA.addEventListener('change', () => {
-        state.selectedWorkerB = null;
-        state.selectedDateB = null;
-        if (el.step3Card) el.step3Card.style.display = 'none';
-        if (el.step4AgreementCard) el.step4AgreementCard.style.display = 'none';
-        updatePermutasWorkflow();
+      ['change', 'input'].forEach(evt => {
+        el.swapDateA.addEventListener(evt, () => {
+          state.selectedWorkerB = null;
+          state.selectedDateB = null;
+          if (el.step3Card) el.step3Card.style.display = 'none';
+          if (el.step4AgreementCard) el.step4AgreementCard.style.display = 'none';
+          updatePermutasWorkflow();
+        });
       });
     }
 
