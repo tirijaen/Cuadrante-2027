@@ -185,6 +185,25 @@
         </div>
       </div>
 
+      <!-- Banner de Permutas Activas en el Calendario -->
+      <div class="active-swaps-banner" id="calendarActiveSwapsBanner" style="display:none;">
+        <div class="active-swaps-info">
+          <span class="active-swaps-icon">🔀</span>
+          <div>
+            <div style="font-weight:700; font-size:0.92rem; color:#f8fafc;" id="calendarActiveSwapsTitle">1 permuta activa en tu cuadrante</div>
+            <div style="font-size:0.75rem; color:#94a3b8;" id="calendarActiveSwapsSub">Tus turnos se muestran actualizados según los cambios acordados.</div>
+          </div>
+        </div>
+        <div class="active-swaps-actions">
+          <button class="btn-sm-swap-view" id="btnViewActiveSwaps" type="button">
+            📋 Ver detalles
+          </button>
+          <button class="btn-sm-swap-reset" id="btnResetAllSwaps" type="button">
+            ↩️ Restablecer cuadrante oficial
+          </button>
+        </div>
+      </div>
+
       <!-- Calendario Mensual Interactivo -->
       <div class="calendar-card">
         <div class="calendar-controls">
@@ -964,6 +983,24 @@
           </div>
         </div>
 
+        <!-- Aviso de Permuta Activa en este día -->
+        <div id="modalSwapAlertBox" style="display:none; background:rgba(56,189,248,0.12); border:1px solid rgba(56,189,248,0.35); border-radius:var(--radius-md); padding:12px; margin-bottom:14px;">
+          <div style="display:flex; align-items:center; gap:8px; font-weight:700; color:#38bdf8; font-size:0.9rem;">
+            <span>🔀</span> Turno Modificado por Permuta
+          </div>
+          <div id="modalSwapAlertText" style="font-size:0.82rem; color:var(--text-primary); margin:6px 0 10px 0; line-height:1.4;">
+            <!-- Texto explicativo inyectado dinámicamente -->
+          </div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button type="button" class="btn-secondary" id="modalBtnRevertSwap" style="font-size:0.75rem; padding:6px 12px; color:#f43f5e; border-color:rgba(244,63,94,0.4); background:rgba(244,63,94,0.08);">
+              ↩️ Cancelar permuta y volver a turno original
+            </button>
+            <button type="button" class="btn-secondary" id="modalBtnVolanteSwap" style="font-size:0.75rem; padding:6px 12px; color:#38bdf8; border-color:rgba(56,189,248,0.35); background:rgba(56,189,248,0.08);">
+              📄 Ver Volante RRHH
+            </button>
+          </div>
+        </div>
+
         <div style="background:var(--bg-surface); border-radius:var(--radius-md); padding:12px; border:1px solid var(--border-color); margin-bottom:16px;">
           <div style="font-size:0.75rem; color:var(--text-muted); font-weight:600; margin-bottom:6px;">DOTACIÓN DEL TURNO:</div>
           <div class="buddies-list" id="modalBuddiesList"></div>
@@ -1208,6 +1245,34 @@
           </div>
 
         </div> <!-- /#volantePaperPrintArea -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Listado de Permutas Activas -->
+  <div class="modal-overlay" id="activeSwapsListModal" style="display:none;">
+    <div class="modal-dialog" style="max-width:640px; width:95%;">
+      <div class="modal-header">
+        <h3 style="font-size:1.15rem; font-weight:800; display:flex; align-items:center; gap:8px;">
+          <span>🔀</span> Permutas Activas en tu Cuadrante
+        </h3>
+        <button class="modal-close-btn" id="closeActiveSwapsModalBtn" aria-label="Cerrar modal">&times;</button>
+      </div>
+      <div class="modal-body" style="padding:16px 20px;">
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:14px;">
+          Estas permutas están modificando tus turnos en el calendario y estadísticas. Puedes cancelarlas individualmente para volver a los turnos oficiales o restablecer todo tu cuadrante.
+        </p>
+        <div id="activeSwapsModalList" style="display:flex; flex-direction:column; gap:12px;">
+          <!-- Tarjetas de permutas inyectadas dinámicamente -->
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:20px; padding-top:14px; border-top:1px solid var(--border-color);">
+          <button class="btn-secondary" id="modalResetAllSwapsBtn" type="button" style="color:#f43f5e; border-color:rgba(244,63,94,0.4); background:rgba(244,63,94,0.08); font-size:0.8rem; padding:7px 14px;">
+            ↩️ Restablecer todo al Cuadrante Oficial
+          </button>
+          <button class="btn-primary" id="modalCloseActiveSwapsBtn" type="button" style="font-size:0.8rem; padding:7px 16px;">
+            Cerrar
+          </button>
+        </div>
       </div>
     </div>
   </div>

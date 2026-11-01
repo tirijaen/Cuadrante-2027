@@ -42,7 +42,8 @@ document.addEventListener('DOMContentLoaded', () => {
     modalDate: null,
     swapsMode: 'assistant', // 'assistant' | 'bank'
     bankFilter: 'pending', // 'pending' | 'settled' | 'all'
-    debts: []
+    debts: [],
+    appliedSwaps: [] // Permutas activas aplicadas permanentemente
   };
 
   // Cargar notas del trabajador actual
@@ -67,6 +68,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
   loadDebts();
+
+  // Cargar permutas activas persistentes
+  function loadAppliedSwaps() {
+    try {
+      const raw = localStorage.getItem('cuadrante_applied_swaps');
+      state.appliedSwaps = raw ? JSON.parse(raw) : [];
+    } catch (e) {
+      console.error('Error cargando permutas aplicadas:', e);
+      state.appliedSwaps = [];
+    }
+    rebuildOverridesFromSwaps();
+  }
+  loadAppliedSwaps();
 
   // --- ELEMENTOS DEL DOM ---
   const el = {
@@ -233,6 +247,24 @@ document.addEventListener('DOMContentLoaded', () => {
     modalDayNote: document.getElementById('modalDayNote'),
     modalSaveNoteBtn: document.getElementById('modalSaveNoteBtn'),
     modalCloseBtn: document.getElementById('modalCloseBtn'),
+
+    // Banner y Modal de Permutas Activas (Opción A)
+    calendarActiveSwapsBanner: document.getElementById('calendarActiveSwapsBanner'),
+    calendarActiveSwapsTitle: document.getElementById('calendarActiveSwapsTitle'),
+    calendarActiveSwapsSub: document.getElementById('calendarActiveSwapsSub'),
+    btnViewActiveSwaps: document.getElementById('btnViewActiveSwaps'),
+    btnResetAllSwaps: document.getElementById('btnResetAllSwaps'),
+    activeSwapsListModal: document.getElementById('activeSwapsListModal'),
+    closeActiveSwapsModalBtn: document.getElementById('closeActiveSwapsModalBtn'),
+    activeSwapsModalList: document.getElementById('activeSwapsModalList'),
+    modalResetAllSwapsBtn: document.getElementById('modalResetAllSwapsBtn'),
+    modalCloseActiveSwapsBtn: document.getElementById('modalCloseActiveSwapsBtn'),
+
+    // Detalle de permuta en modal de día
+    modalSwapAlertBox: document.getElementById('modalSwapAlertBox'),
+    modalSwapAlertText: document.getElementById('modalSwapAlertText'),
+    modalBtnRevertSwap: document.getElementById('modalBtnRevertSwap'),
+    modalBtnVolanteSwap: document.getElementById('modalBtnVolanteSwap'),
 
     // Toast
     toastContainer: document.getElementById('toastContainer')
@@ -526,6 +558,28 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
+    // Gestión de Permutas Activas (Opción A)
+    if (el.btnViewActiveSwaps) {
+      el.btnViewActiveSwaps.addEventListener('click', openActiveSwapsListModal);
+    }
+    if (el.btnResetAllSwaps) {
+      el.btnResetAllSwaps.addEventListener('click', resetAllSwaps);
+    }
+    if (el.closeActiveSwapsModalBtn) {
+      el.closeActiveSwapsModalBtn.addEventListener('click', closeActiveSwapsListModal);
+    }
+    if (el.modalCloseActiveSwapsBtn) {
+      el.modalCloseActiveSwapsBtn.addEventListener('click', closeActiveSwapsListModal);
+    }
+    if (el.modalResetAllSwapsBtn) {
+      el.modalResetAllSwapsBtn.addEventListener('click', resetAllSwaps);
+    }
+    if (el.activeSwapsListModal) {
+      el.activeSwapsListModal.addEventListener('click', (e) => {
+        if (e.target === el.activeSwapsListModal) closeActiveSwapsListModal();
+      });
+    }
+
     // Modal de Día
     el.modalCloseBtn.addEventListener('click', closeModal);
     el.dayDetailModal.addEventListener('click', (e) => {
@@ -536,6 +590,17 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --- HELPERS DE TURNOS Y DATOS ---
+  function getOfficialShift(workerName, dateStr) {
+    const wIdx = DATA.workers.indexOf(workerName);
+    const dIdx = DATA.dates.indexOf(dateStr);
+    if (wIdx === -1 || dIdx === -1) return ' ';
+    let shift = DATA.matrix_dot[wIdx][dIdx];
+    if ((!shift || shift.trim() === '') && window.CuadranteValidator.isDateInVacation(workerName, dateStr)) {
+      return 'VAC';
+    }
+    return (!shift || shift.trim() === '') ? 'LIBRE' : shift;
+  }
+
   function getEffectiveShift(workerName, dateStr) {
     if (state.simulatedOverrides[workerName] && state.simulatedOverrides[workerName][dateStr] !== undefined) {
       return state.simulatedOverrides[workerName][dateStr];
@@ -581,6 +646,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderHeroCard();
     renderTimeline();
     renderCalendar();
+    renderActiveSwapsBanner();
     renderTeamDaily();
     renderMatrix();
     renderStatistics();
@@ -725,16 +791,24 @@ document.addEventListener('DOMContentLoaded', () => {
       const isHolidayShift = shift.includes('.') || isHoliday;
       const hasNote = Boolean(state.notes[dateStr]);
 
+      const activeSwap = getSwapForDate(state.currentWorker, dateStr);
+      const isPermutaSwap = Boolean(activeSwap);
+      let otherWorkerName = '';
+      if (activeSwap) {
+        otherWorkerName = activeSwap.workerA === state.currentWorker ? activeSwap.workerB : activeSwap.workerA;
+      }
+
       const displayBadgeText = base === 'L' ? (shift === 'VAC' ? 'VAC' : 'L') : (shift.includes('.') ? `${base}.` : base);
 
       const cell = document.createElement('div');
-      cell.className = `calendar-cell ${isWeekend ? 'weekend' : ''} ${isHoliday ? 'is-holiday' : ''}`;
+      cell.className = `calendar-cell ${isWeekend ? 'weekend' : ''} ${isHoliday ? 'is-holiday' : ''} ${isPermutaSwap ? 'is-permuta-swap' : ''}`;
       
       // La clase CSS usa shift-${base} (ej: shift-M, shift-T, shift-N) para que funcione tanto en findes como entre semana
       cell.innerHTML = `
         <div class="cell-top">
           <span class="cell-date-num">${day}</span>
           <div style="display:flex; gap:3px; align-items:center;">
+            ${isPermutaSwap ? `<span class="cell-swap-badge" title="Permuta activa con ${otherWorkerName}">🔀</span>` : ''}
             ${hasNote ? '<span class="cell-has-note" title="Tiene nota personal"></span>' : ''}
             ${isHoliday ? '<span class="cell-dot-fest" title="Festivo Oficial"></span>' : ''}
           </div>
@@ -769,6 +843,47 @@ document.addEventListener('DOMContentLoaded', () => {
       el.modalHolidayNotice.style.display = 'block';
     } else {
       el.modalHolidayNotice.style.display = 'none';
+    }
+
+    // Comprobar si este día tiene una permuta activa
+    const activeSwap = getSwapForDate(state.currentWorker, dateStr);
+    if (activeSwap && el.modalSwapAlertBox) {
+      el.modalSwapAlertBox.style.display = 'block';
+      const otherWorker = activeSwap.workerA === state.currentWorker ? activeSwap.workerB : activeSwap.workerA;
+      const otherFullName = getWorkerFullName(otherWorker);
+
+      let explanation = '';
+      if (activeSwap.workerA === state.currentWorker) {
+        if (dateStr === activeSwap.dateA) {
+          explanation = `Permuta activa con <strong>${otherFullName}</strong>. Solicitaste estar <strong>LIBRE</strong> en esta jornada (tu turno oficial en cuadrante era <strong>${formatShiftDesc(activeSwap.origShiftA)}</strong>). ${otherWorker} asume el servicio por ti.`;
+        } else {
+          explanation = `Permuta activa con <strong>${otherFullName}</strong>. Cubres el turno de tu compañero asumiendo <strong>${formatShiftDesc(activeSwap.origShiftB)}</strong> en devolución. Tu jornada oficial era Descanso.`;
+        }
+      } else {
+        if (dateStr === activeSwap.dateA) {
+          explanation = `Permuta activa con <strong>${otherFullName}</strong>. Cubres a tu compañero asumiendo su turno de <strong>${formatShiftDesc(activeSwap.origShiftA)}</strong>.`;
+        } else {
+          explanation = `Permuta activa con <strong>${otherFullName}</strong>. Disfrutas de jornada <strong>LIBRE</strong> por compensación pactada.`;
+        }
+      }
+
+      if (el.modalSwapAlertText) el.modalSwapAlertText.innerHTML = explanation;
+      if (el.modalBtnRevertSwap) {
+        el.modalBtnRevertSwap.onclick = () => {
+          if (confirm(`¿Deseas cancelar esta permuta con ${otherFullName} y restablecer los turnos oficiales de ambas fechas?`)) {
+            cancelSingleSwap(activeSwap.id);
+            closeModal();
+          }
+        };
+      }
+      if (el.modalBtnVolanteSwap) {
+        el.modalBtnVolanteSwap.onclick = () => {
+          openRrhhVolanteModal(activeSwap);
+          closeModal();
+        };
+      }
+    } else if (el.modalSwapAlertBox) {
+      el.modalSwapAlertBox.style.display = 'none';
     }
 
     el.modalBuddiesList.innerHTML = '';
@@ -1296,34 +1411,58 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!workerA || !workerB || !dateA || !dateB) return;
 
-    const curShiftA = getEffectiveShift(workerA, dateA);
-    const origShiftB = getEffectiveShift(workerB, dateB);
+    const curShiftA = getOfficialShift(workerA, dateA);
+    const origShiftB = getOfficialShift(workerB, dateB);
 
-    if (!state.simulatedOverrides[workerA]) state.simulatedOverrides[workerA] = {};
-    if (!state.simulatedOverrides[workerB]) state.simulatedOverrides[workerB] = {};
+    const newSwap = {
+      id: 'swap_' + Date.now(),
+      createdAt: new Date().toISOString(),
+      workerA,
+      workerB,
+      dateA,
+      origShiftA: curShiftA,
+      newShiftA: 'LIBRE',
+      dateB,
+      origShiftB,
+      newShiftB: 'LIBRE',
+      status: 'active'
+    };
 
-    // A libra en dateA, y trabaja el turno de B en dateB
-    state.simulatedOverrides[workerA][dateA] = ' ';
-    state.simulatedOverrides[workerA][dateB] = origShiftB;
+    // Reemplazar si ya existía una permuta activa en esas fechas
+    state.appliedSwaps = [newSwap, ...state.appliedSwaps.filter(s => 
+      !(s.status === 'active' && 
+        ((s.workerA === workerA && s.dateA === dateA) || 
+         (s.workerA === workerA && s.dateB === dateB)))
+    )];
 
-    // B trabaja el turno de A en dateA, y libra en dateB
-    state.simulatedOverrides[workerB][dateA] = curShiftA;
-    state.simulatedOverrides[workerB][dateB] = ' ';
+    // Registrar también en la Bolsa de Turnos vinculada
+    const linkedDebt = {
+      id: 'debt_' + Date.now(),
+      createdAt: new Date().toISOString(),
+      workerA: workerA,
+      workerB: workerB,
+      direction: 'me_debe',
+      dateOriginal: dateA,
+      shiftOriginal: curShiftA,
+      dateReturn: dateB,
+      shiftReturn: origShiftB,
+      notes: `Permuta aplicada en cuadrante con ${workerB}`,
+      status: 'pending',
+      settledDate: null,
+      appliedToCalendar: true,
+      swapId: newSwap.id
+    };
+    state.debts = [linkedDebt, ...state.debts];
+    localStorage.setItem('cuadrante_turn_debts', JSON.stringify(state.debts));
 
-    if (el.activeSimulationsNotice) el.activeSimulationsNotice.style.display = 'block';
-    if (el.resetSimulationBtn) el.resetSimulationBtn.style.display = 'inline-flex';
-
+    rebuildOverridesFromSwaps();
     updateAppView();
-    showToast(`Permuta aplicada con éxito entre ${workerA} y ${workerB}`);
+
+    showToast(`✓ Permuta guardada permanentemente en tu calendario con ${workerB}`);
   }
 
   function resetSimulation() {
-    state.simulatedOverrides = {};
-    if (el.activeSimulationsNotice) el.activeSimulationsNotice.style.display = 'none';
-    if (el.resetSimulationBtn) el.resetSimulationBtn.style.display = 'none';
-
-    updateAppView();
-    showToast('Cuadrante oficial restablecido');
+    resetAllSwaps();
   }
 
   // ====================================================================
@@ -1488,8 +1627,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 ${debt.theyOweMe ? 'Tiene un compromiso pendiente contigo' : 'Tienes un compromiso pendiente con él/ella'}
               </div>
             </div>
+          <div>
+            ${debt.appliedToCalendar ? `<span class="debt-badge-pill" style="background:rgba(56,189,248,0.2); color:#38bdf8; border:1px solid rgba(56,189,248,0.4); margin-right:6px;">🔀 En tu calendario</span>` : ''}
+            ${badgeHtml}
           </div>
-          <div>${badgeHtml}</div>
         </div>
 
         <div class="debt-details-flow">
@@ -1526,6 +1667,9 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="debt-card-actions">
           <button class="btn-share-debt-whatsapp" data-id="${debt.id}" title="Compartir acuerdo por WhatsApp">📲 WhatsApp</button>
           <button class="btn-print-debt-volante" data-id="${debt.id}" title="Generar Volante Oficial para RRHH">📄 Volante RRHH</button>
+          ${debt.appliedToCalendar && debt.swapId ? `
+            <button class="btn-revert-from-bank" data-swap-id="${debt.swapId}" style="padding:6px 12px; font-size:0.8rem; font-weight:600; border-radius:var(--radius-md); cursor:pointer; background:rgba(244,63,94,0.12); color:#f43f5e; border:1px solid rgba(244,63,94,0.3);" title="Revertir y quitar del calendario">↩️ Quitar de Calendario</button>
+          ` : ''}
           ${debt.status === 'pending' ? `
             <button class="btn-settle" data-id="${debt.id}">✓ Saldar</button>
           ` : `
@@ -1543,6 +1687,14 @@ document.addEventListener('DOMContentLoaded', () => {
       const printVolanteBtn = card.querySelector('.btn-print-debt-volante');
       if (printVolanteBtn) {
         printVolanteBtn.addEventListener('click', () => openRrhhVolanteModal(debt));
+      }
+      const revertBankBtn = card.querySelector('.btn-revert-from-bank');
+      if (revertBankBtn) {
+        revertBankBtn.addEventListener('click', () => {
+          if (confirm('¿Deseas cancelar esta permuta y restablecer los turnos oficiales en tu calendario?')) {
+            cancelSingleSwap(debt.swapId);
+          }
+        });
       }
       const settleBtn = card.querySelector('.btn-settle');
       if (settleBtn) {
@@ -1866,13 +2018,235 @@ ${debt.notes ? `• *Notas:* ${debt.notes}\n` : ''}
     window.print();
   }
 
+  // ====================================================================
+  // GESTIÓN Y PERSISTENCIA DE PERMUTAS ACTIVAS (OPCIÓN A)
+  // ====================================================================
+
+  function rebuildOverridesFromSwaps() {
+    state.simulatedOverrides = {};
+    (state.appliedSwaps || []).forEach(swap => {
+      if (swap.status !== 'active') return;
+      if (!state.simulatedOverrides[swap.workerA]) state.simulatedOverrides[swap.workerA] = {};
+      if (!state.simulatedOverrides[swap.workerB]) state.simulatedOverrides[swap.workerB] = {};
+
+      // workerA libra en dateA, trabaja origShiftB en dateB
+      state.simulatedOverrides[swap.workerA][swap.dateA] = ' ';
+      state.simulatedOverrides[swap.workerA][swap.dateB] = swap.origShiftB;
+
+      // workerB trabaja origShiftA en dateA, libra en dateB
+      state.simulatedOverrides[swap.workerB][swap.dateA] = swap.origShiftA;
+      state.simulatedOverrides[swap.workerB][swap.dateB] = ' ';
+    });
+    localStorage.setItem('cuadrante_applied_swaps', JSON.stringify(state.appliedSwaps));
+    localStorage.setItem('cuadrante_simulated_overrides', JSON.stringify(state.simulatedOverrides));
+  }
+
+  function getWorkerActiveSwaps(workerName) {
+    return (state.appliedSwaps || []).filter(s => 
+      s.status === 'active' && (s.workerA === workerName || s.workerB === workerName)
+    );
+  }
+
+  function getSwapForDate(workerName, dateStr) {
+    return (state.appliedSwaps || []).find(s => 
+      s.status === 'active' && 
+      ((s.workerA === workerName && (s.dateA === dateStr || s.dateB === dateStr)) ||
+       (s.workerB === workerName && (s.dateA === dateStr || s.dateB === dateStr)))
+    );
+  }
+
+  function renderActiveSwapsBanner() {
+    if (!el.calendarActiveSwapsBanner) return;
+    const workerSwaps = getWorkerActiveSwaps(state.currentWorker);
+    if (workerSwaps.length > 0) {
+      el.calendarActiveSwapsBanner.style.display = 'flex';
+      if (el.calendarActiveSwapsTitle) {
+        el.calendarActiveSwapsTitle.textContent = `${workerSwaps.length} ${workerSwaps.length === 1 ? 'permuta activa' : 'permutas activas'} en tu cuadrante`;
+      }
+      if (el.calendarActiveSwapsSub) {
+        el.calendarActiveSwapsSub.textContent = `Tus turnos se muestran actualizados según los cambios acordados con tus compañeros.`;
+      }
+      if (el.activeSimulationsNotice) el.activeSimulationsNotice.style.display = 'block';
+      if (el.resetSimulationBtn) el.resetSimulationBtn.style.display = 'inline-flex';
+    } else {
+      el.calendarActiveSwapsBanner.style.display = 'none';
+      if (el.activeSimulationsNotice) el.activeSimulationsNotice.style.display = 'none';
+      if (el.resetSimulationBtn) el.resetSimulationBtn.style.display = 'none';
+    }
+  }
+
+  function openActiveSwapsListModal() {
+    renderActiveSwapsModalList();
+    if (el.activeSwapsListModal) {
+      el.activeSwapsListModal.style.display = 'flex';
+    }
+  }
+
+  function closeActiveSwapsListModal() {
+    if (el.activeSwapsListModal) {
+      el.activeSwapsListModal.style.display = 'none';
+    }
+  }
+
+  function renderActiveSwapsModalList() {
+    if (!el.activeSwapsModalList) return;
+    const workerSwaps = getWorkerActiveSwaps(state.currentWorker);
+    el.activeSwapsModalList.innerHTML = '';
+
+    if (workerSwaps.length === 0) {
+      el.activeSwapsModalList.innerHTML = `
+        <div style="text-align:center; padding:24px 16px; color:var(--text-muted);">
+          <div style="font-size:2rem; margin-bottom:8px;">✓</div>
+          <div style="font-weight:700; color:var(--text-primary); font-size:1rem;">No tienes ninguna permuta activa</div>
+          <div style="font-size:0.8rem; margin-top:4px;">Tu calendario coincide al 100% con el cuadrante oficial de Andújar.</div>
+        </div>
+      `;
+      if (el.modalResetAllSwapsBtn) el.modalResetAllSwapsBtn.style.display = 'none';
+      return;
+    }
+
+    if (el.modalResetAllSwapsBtn) el.modalResetAllSwapsBtn.style.display = 'inline-flex';
+
+    workerSwaps.forEach(swap => {
+      const otherWorker = swap.workerA === state.currentWorker ? swap.workerB : swap.workerA;
+      const otherFullName = getWorkerFullName(otherWorker);
+      const textDateA = formatDateSpanishWithYear(swap.dateA);
+      const textDateB = formatDateSpanishWithYear(swap.dateB);
+
+      const card = document.createElement('div');
+      card.className = 'swap-active-item-card';
+      card.innerHTML = `
+        <div class="swap-active-header">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:1.2rem;">🔀</span>
+            <div>
+              <div style="font-weight:800; font-size:0.95rem; color:var(--text-primary);">${otherFullName}</div>
+              <div style="font-size:0.75rem; color:var(--text-secondary);">Acuerdo de permuta mutua</div>
+            </div>
+          </div>
+          <span style="background:rgba(56,189,248,0.2); color:#38bdf8; font-size:0.72rem; font-weight:700; padding:2px 8px; border-radius:4px; border:1px solid rgba(56,189,248,0.4);">
+            Activa en Calendario
+          </span>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; background:rgba(0,0,0,0.2); padding:10px; border-radius:var(--radius-sm); font-size:0.8rem;">
+          <div>
+            <div style="font-size:0.7rem; color:var(--text-muted); font-weight:700; text-transform:uppercase;">Jornada A (Cesión):</div>
+            <div style="font-weight:700; margin:2px 0;">${textDateA}</div>
+            <div style="color:#10b981;">${swap.workerA === state.currentWorker ? `Tú quedas: LIBRE (${otherWorker} te cubre)` : `${swap.workerA} queda LIBRE (tú cubres)`}</div>
+          </div>
+          <div>
+            <div style="font-size:0.7rem; color:var(--text-muted); font-weight:700; text-transform:uppercase;">Jornada B (Devolución):</div>
+            <div style="font-weight:700; margin:2px 0;">${textDateB}</div>
+            <div style="color:#38bdf8;">${swap.workerA === state.currentWorker ? `Tú cubres turno (${otherWorker} libra)` : `Tú libras (${swap.workerA} te cubre)`}</div>
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; gap:8px; flex-wrap:wrap; margin-top:4px;">
+          <button type="button" class="btn-secondary btn-swap-item-wa" style="font-size:0.75rem; padding:5px 10px; color:#25D366; border-color:rgba(37,211,102,0.3);">
+            📲 WhatsApp
+          </button>
+          <button type="button" class="btn-secondary btn-swap-item-pdf" style="font-size:0.75rem; padding:5px 10px; color:#cbd5e1; border-color:#475569;">
+            📄 Volante RRHH
+          </button>
+          <button type="button" class="btn-secondary btn-swap-item-revert" style="font-size:0.75rem; padding:5px 10px; color:#f43f5e; border-color:rgba(244,63,94,0.4); background:rgba(244,63,94,0.08);">
+            ↩️ Cancelar permuta
+          </button>
+        </div>
+      `;
+
+      card.querySelector('.btn-swap-item-wa').addEventListener('click', () => {
+        shareDebtViaWhatsapp({
+          workerA: swap.workerA,
+          workerB: swap.workerB,
+          dateOriginal: swap.dateA,
+          shiftOriginal: swap.origShiftA,
+          dateReturn: swap.dateB,
+          shiftReturn: swap.origShiftB
+        });
+      });
+
+      card.querySelector('.btn-swap-item-pdf').addEventListener('click', () => {
+        openRrhhVolanteModal({
+          workerA: swap.workerA,
+          workerB: swap.workerB,
+          dateOriginal: swap.dateA,
+          shiftOriginal: swap.origShiftA,
+          dateReturn: swap.dateB,
+          shiftReturn: swap.origShiftB
+        });
+      });
+
+      card.querySelector('.btn-swap-item-revert').addEventListener('click', () => {
+        if (confirm(`¿Deseas cancelar esta permuta con ${otherFullName} y restablecer los turnos originales de ambas fechas en tu calendario?`)) {
+          cancelSingleSwap(swap.id);
+        }
+      });
+
+      el.activeSwapsModalList.appendChild(card);
+    });
+  }
+
+  function cancelSingleSwap(swapId) {
+    const swap = state.appliedSwaps.find(s => s.id === swapId);
+    if (!swap) return;
+
+    state.appliedSwaps = state.appliedSwaps.filter(s => s.id !== swapId);
+    
+    // Si hay una deuda enlazada en la Bolsa de Turnos, desmarcar appliedToCalendar
+    state.debts = state.debts.map(d => {
+      if (d.swapId === swapId) {
+        return { ...d, appliedToCalendar: false };
+      }
+      return d;
+    });
+    localStorage.setItem('cuadrante_turn_debts', JSON.stringify(state.debts));
+
+    rebuildOverridesFromSwaps();
+    updateAppView();
+    renderActiveSwapsModalList();
+    showToast('↩️ Permuta cancelada. Turnos originales restablecidos.');
+  }
+
+  function resetAllSwaps() {
+    const count = getWorkerActiveSwaps(state.currentWorker).length;
+    if (count === 0) {
+      showToast('No tienes permutas activas que restablecer.');
+      return;
+    }
+    const confirmed = confirm(`¿Seguro que deseas restablecer tu cuadrante al calendario oficial?\nSe cancelarán las ${count} permutas activas de ${state.currentWorker}.`);
+    if (!confirmed) return;
+
+    // Eliminar permutas de este trabajador
+    state.appliedSwaps = state.appliedSwaps.filter(s => s.workerA !== state.currentWorker && s.workerB !== state.currentWorker);
+
+    // Desmarcar en la Bolsa
+    state.debts = state.debts.map(d => {
+      if (d.workerA === state.currentWorker || d.workerB === state.currentWorker) {
+        return { ...d, appliedToCalendar: false };
+      }
+      return d;
+    });
+    localStorage.setItem('cuadrante_turn_debts', JSON.stringify(state.debts));
+
+    rebuildOverridesFromSwaps();
+    closeActiveSwapsListModal();
+    updateAppView();
+
+    showToast('✓ Cuadrante restablecido al calendario oficial.');
+  }
+
   window.CuadranteApp = {
     openManualDebtModal,
     openRrhhVolanteModal,
     closeRrhhVolanteModal,
     shareCurrentPermutaViaWhatsapp,
     shareDebtViaWhatsapp,
-    getWorkerFullName
+    getWorkerFullName,
+    openActiveSwapsListModal,
+    closeActiveSwapsListModal,
+    cancelSingleSwap,
+    resetAllSwaps
   };
 
 // --- TAB 4: ESTADÍSTICAS DE JORNADA ---

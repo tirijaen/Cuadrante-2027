@@ -2336,6 +2336,120 @@ button, select, input, textarea {
   margin-top: 14px;
 }
 
+/* ====================================================================
+   GESTIÓN DE PERMUTAS ACTIVAS (OPCIÓN A)
+   ==================================================================== */
+
+.active-swaps-banner {
+  background: linear-gradient(135deg, rgba(2, 132, 199, 0.16), rgba(37, 99, 235, 0.12));
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.08);
+}
+
+.active-swaps-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.active-swaps-icon {
+  font-size: 1.35rem;
+  background: rgba(56, 189, 248, 0.22);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1px solid rgba(56, 189, 248, 0.4);
+}
+
+.active-swaps-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.btn-sm-swap-view {
+  background: rgba(56, 189, 248, 0.18);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.45);
+  padding: 7px 13px;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-sm-swap-view:hover {
+  background: #0284c7;
+  color: #fff;
+}
+
+.btn-sm-swap-reset {
+  background: rgba(244, 63, 94, 0.12);
+  color: #f43f5e;
+  border: 1px solid rgba(244, 63, 94, 0.35);
+  padding: 7px 13px;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-sm-swap-reset:hover {
+  background: #f43f5e;
+  color: #fff;
+}
+
+/* Indicador visual de día permutado en el calendario */
+.calendar-cell.is-permuta-swap {
+  border: 1.5px dashed #38bdf8 !important;
+  background: rgba(56, 189, 248, 0.08);
+  position: relative;
+}
+
+.cell-swap-badge {
+  font-size: 0.68rem;
+  line-height: 1;
+  background: rgba(56, 189, 248, 0.25);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.5);
+  border-radius: 4px;
+  padding: 1px 3px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+/* Tarjeta individual en el modal de permutas activas */
+.swap-active-item-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.swap-active-item-card:hover {
+  border-color: rgba(56, 189, 248, 0.4);
+}
+
 /* Reglas de Impresión A4 Nítida */
 @media print {
   body {
