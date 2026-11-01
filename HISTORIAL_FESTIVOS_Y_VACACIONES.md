@@ -8,16 +8,21 @@
 
 A lo largo de los años (2011 a 2027) la plantilla ha tenido jubilaciones o relevos. Para mantener la justicia distributiva y el cómputo acumulado, los trabajadores actuales heredan el historial de sus predecesores según las fórmulas del Excel:
 
-| Código Actual | Trabajador Actual | Predecesores Sumados en la Fórmula Excel | Código(s) en Registro |
+| Código Actual | Trabajador Actual | Predecesores Sumados en la Fórmula Excel | Motivo y Código(s) en Registro |
 |---|---|---|---|
-| **AJ** | Antonio Jesús Sánchez | `PS` + `AJ` | `PS`, `AJ` |
-| **SM** | Santiago Molina | `PR` + `MB (antiguo)` + `SM` | `PR`, `MB`, `SM` |
-| **AH** | Alberto Higueras | `DC` + `AH` | `DC`, `AH` |
-| **FE** | Francisco Espín | `JM` + `FE` | `JM`, `FE` |
-| **MB / MG** | Miguel Benítez | `AC` + `MB` (en 2027 anotado como `MG`) | `AC`, `MB`, `MG` |
-| **PC** | Francisco Cantarero | Sin predecesor (titular continuo) | `PC` |
-| **AL** | Antonio León | `FR` + `AL` | `FR`, `AL` |
-| **HG** | Hilario Gómez | Exento de festivos (solo aparece en vacaciones) | `HG` |
+| **AJ** | Antonio Jesús Sánchez | `PS` + `AJ` | Relevó a `PS`. Códigos: `PS`, `AJ` |
+| **SM** | Santiago Molina | `PR` + `MB (antiguo)` + `SM` | Relevó a **Marcos Brito** (`MB` histórico) y a `PR`. |
+| **AH** | Alberto Higueras | `DC` + `AH` | Relevó a `DC`. Códigos: `DC`, `AH` |
+| **FE** | Francisco Espín | `JM` + `FE` | Relevó a `JM`. Códigos: `JM`, `FE` |
+| **MB / MG** | Miguel Benítez | `AC` + `MB` (en 2027 anotado como `MG`) | Relevó a `AC`. En 2027 se le asignó la sigla **`MG`** para no crear confusión con el histórico Marcos Brito (`MB`). |
+| **PC** | Francisco Cantarero | Sin predecesor (titular continuo) | Ha estado presente en todo el histórico (`PC`). |
+| **AL** | Antonio León | `FR` + `AL` | Relevó a `FR`. Códigos: `FR`, `AL` |
+| **HG** | Hilario Gómez | Exento de festivos (solo aparece en vacaciones) | Solo rota en quincenas de vacaciones (`HG`). |
+
+> [!NOTE]
+> **Criterio de Asignación en Festivos con 2 Trabajadores (ej. `AL-AH`, `FE-PC`):**  
+> Cuando en una casilla del registro aparecen dos compañeros, significa que **uno realiza el turno de Mañana (07:00 a 15:00) y el otro realiza el de Tarde (15:00 a 23:00) indistintamente**, ya que ambos turnos tienen la misma consideración legal y retributiva de festivo diurno.
+
 
 ---
 

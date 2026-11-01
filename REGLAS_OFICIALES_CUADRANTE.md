@@ -180,6 +180,8 @@ Las vacaciones se distribuyen en dos quincenas de 15 días naturales por trabaja
 
 ## 9. Asignaciones Fijas e Inamovibles
 
+> Las asignaciones fijas anuales provienen del archivo histórico oficial `Cuadrante 2026 para Agente.xlsx` (Hoja `FESTIVOS`). En las fechas donde se asignan 2 trabajadores, uno cubre la Mañana (M) y el otro la Tarde (T) indistintamente. En dicho registro, **Miguel Benítez** aparece identificado como **`MG`** para distinguirlo del histórico Marcos Brito (`MB`).
+
 * **01 de Enero (Año Nuevo)**:
   * Mañana y Tarde: A. León y Alberto H (indiferente quién hace M y quién T).
   * Noche: Santi M.

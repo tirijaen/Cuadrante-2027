@@ -268,4 +268,18 @@ Si les paso el archivo exel y los trabajadores me proponen cambios en el excel, 
 Como pocemos hacer para que no se pierdan estas conversaciones como me ocurrio ayer por la noche, que al abrir el pc ya no estaban , aunque tu las tuvieses guardadas yo no podia consultar todo lo que escribí, me comentates que no había definicio bien el directorio del proyecto, se puede solucionar ahora?
 ```
 
+### 💬 Mensaje de Antonio (2026-11-01T04:59:11Z):
+```text
+Te voy a pasar una archivo de hoja de calculo, que esta compuesto por 2 hojas, la primera llamada festivos, se trata de una relación de años desde el 2011 al 2027 en la que se anotan que trabajadores trabajaron en las fiestas anotadas en la columna Z. Las columnas de la s a la Y tienen las formulas para contar que trabajadores las hicieron, como son de muchos años hay trabajadores antiguos por eso sumo esos trabajadores a las realizadas por los trabajadores actuales.
+La otra hoja es una relación de las vacaciones de los trabajadores , si te cuenta en los ultimos años seguimos un patron. Analiza las dos hojas y si tienes alguna duda consultame. Las quiero añadir al proyecto para que el año que viene al diseñar el cuadrante de 2028 ya tengamos esos datos. Este año las fechas que te he pasado yo fijas en las reglas provienen de esa hoja llamada festivos. El archivo lo he añadido al directorio del proyecto y se llama Cuadrante 2026 para Agente.xlsx
+```
+
+### 💬 Mensaje de Antonio (2026-11-01T05:11:35Z):
+```text
+1ª Confirmamos que MG es Miguel Benitez
+2º Santiago suma al trabajador que sustituyo llamado Marcos Brito, por eso llame a Miguel Benitez MG en 2027 para no crear confusión, Marcos Brito ya no pertenece a la plantilla pero si a Miguel le ponía MB podía generar confusión.
+Tambien te quiero aclarar que en las fechas que hay 2 trabajadores es por que uno hizo la tarde y otra la mañana indistintamente.
+```
+
 ---
+
