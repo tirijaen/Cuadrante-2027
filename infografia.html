@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Infografías Oficiales & Manual de Usuario | Cuadrante 2027 Andújar</title>
+  <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-body: #0b0f19;
+      --bg-card: rgba(17, 24, 39, 0.75);
+      --bg-surface: #1e293b;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --accent-primary: #38bdf8;
+      --accent-gradient: linear-gradient(135deg, #0284c7 0%, #38bdf8 100%);
+      --accent-green: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-purple: #a855f7;
+      --accent-rose: #f43f5e;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 18px;
+      --radius-xl: 24px;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-display: 'Outfit', sans-serif;
+    }
+
+    [data-theme="light"] {
+      --bg-body: #f8fafc;
+      --bg-card: #ffffff;
+      --bg-surface: #f1f5f9;
+      --border-color: #e2e8f0;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #64748b;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg-body);
+      color: var(--text-primary);
+      line-height: 1.6;
+      padding: 0;
+      margin: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Cabecera */
+    .top-bar {
+      background: rgba(11, 15, 25, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .brand-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-sm);
+      background: var(--accent-gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 14px rgba(56, 189, 248, 0.35);
+    }
+
+    .brand-title {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
+    }
+
+    .btn-primary {
+      background: var(--accent-gradient);
+      color: #fff;
+      box-shadow: 0 2px 10px rgba(56, 189, 248, 0.3);
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 4px 16px rgba(56, 189, 248, 0.45);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: var(--bg-surface);
+      color: var(--text-primary);
+      border-color: var(--border-color);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: var(--accent-primary);
+    }
+
+    /* Hero Banner */
+    .hero-header {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 24px 24px 24px;
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 14px;
+      border-radius: 20px;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: var(--accent-primary);
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, #ffffff 30%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    [data-theme="light"] .hero-title {
+      background: linear-gradient(135deg, #0f172a 30%, #475569 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-desc {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      max-width: 720px;
+      margin: 0 auto 28px auto;
+    }
+
+    /* Tabs de Navegación */
+    .info-nav-wrapper {
+      max-width: 1200px;
+      margin: 0 auto 32px auto;
+      padding: 0 24px;
+    }
+
+    .info-nav {
+      display: flex;
+      gap: 8px;
+      background: var(--bg-card);
+      padding: 6px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-color);
+      overflow-x: auto;
+    }
+
+    .info-tab-btn {
+      flex: 1;
+      min-width: 170px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 18px;
+      border-radius: var(--radius-md);
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 0.92rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .info-tab-btn:hover {
+      color: var(--text-primary);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .info-tab-btn.active {
+      background: var(--accent-gradient);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(56, 189, 248, 0.35);
+    }
+
+    /* Contenedor Principal */
+    .info-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px 60px 24px;
+    }
+
+    .tab-pane {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .tab-pane.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Grid y Tarjetas de Infografía */
+    .infographic-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    .info-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      position: relative;
+      transition: all 0.2s ease;
+    }
+
+    .info-card:hover {
+      border-color: rgba(56, 189, 248, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .card-icon-badge {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+    }
+
+    .badge-blue { background: rgba(56, 189, 248, 0.15); color: var(--accent-primary); }
+    .badge-green { background: rgba(16, 185, 129, 0.15); color: var(--accent-green); }
+    .badge-amber { background: rgba(245, 158, 11, 0.15); color: var(--accent-amber); }
+    .badge-purple { background: rgba(168, 85, 247, 0.15); color: var(--accent-purple); }
+
+    .card-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text-primary);
+    }
+
+    .card-desc {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+
+    /* KPIs destacados en infografía */
+    .kpi-stat-box {
+      background: var(--bg-surface);
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid var(--border-color);
+      margin-top: 10px;
+    }
+
+    .kpi-stat-num {
+      font-size: 1.6rem;
+      font-weight: 800;
+      font-family: var(--font-display);
+      color: var(--accent-primary);
+    }
+
+    .kpi-stat-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    /* Banner Gran Impacto */
+    .highlight-banner {
+      background: linear-gradient(135deg, rgba(2, 132, 199, 0.25) 0%, rgba(56, 189, 248, 0.1) 100%);
+      border: 1.5px solid rgba(56, 189, 248, 0.4);
+      border-radius: var(--radius-xl);
+      padding: 32px 36px;
+      margin-bottom: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .highlight-banner h3 {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    .highlight-banner p {
+      font-size: 1rem;
+      color: #e2e8f0;
+      max-width: 860px;
+      margin-bottom: 20px;
+    }
+
+    .highlight-metrics-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    .highlight-metric-item {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      text-align: center;
+    }
+
+    .highlight-metric-item .big-number {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--accent-primary);
+      font-family: var(--font-display);
+    }
+
+    .highlight-metric-item .sub-text {
+      font-size: 0.8rem;
+      color: #cbd5e1;
+      margin-top: 4px;
+    }
+
+    /* Tablas de Reglas & Comparativa */
+    .info-table-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-bottom: 24px;
+      overflow-x: auto;
+    }
+
+    .info-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      text-align: left;
+    }
+
+    .info-table th {
+      background: var(--bg-surface);
+      color: var(--text-primary);
+      font-weight: 700;
+      padding: 12px 16px;
+      border-bottom: 2px solid var(--border-color);
+    }
+
+    .info-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border-color);
+      color: var(--text-secondary);
+    }
+
+    .info-table tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+      color: var(--text-primary);
+    }
+
+    /* Pasos de Instalación / Manual */
+    .steps-container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .step-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 20px 24px;
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      transition: all 0.2s ease;
+    }
+
+    .step-box:hover {
+      border-color: rgba(56, 189, 248, 0.4);
+    }
+
+    .step-number {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--accent-gradient);
+      color: #fff;
+      font-weight: 800;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(56, 189, 248, 0.35);
+    }
+
+    .step-content {
+      flex: 1;
+    }
+
+    .step-content h4 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: var(--text-primary);
+    }
+
+    .step-content p {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+
+    .step-tip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      color: #34d399;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+
+    /* Estilos de Impresión */
+    @media print {
+      .top-bar, .info-nav-wrapper, .no-print {
+        display: none !important;
+      }
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+      }
+      .tab-pane {
+        display: block !important;
+        page-break-after: always;
+      }
+      .info-card, .highlight-banner, .step-box, .info-table-card {
+        background: #ffffff !important;
+        border: 1px solid #cbd5e1 !important;
+        color: #000000 !important;
+        box-shadow: none !important;
+      }
+      .hero-title, .card-title, .step-content h4 {
+        color: #000000 !important;
+        -webkit-text-fill-color: initial !important;
+      }
+      .hero-desc, .card-desc, .step-content p, .info-table td {
+        color: #334155 !important;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .top-bar { padding: 12px 16px; }
+      .hero-header { padding: 24px 16px 16px 16px; }
+      .info-container { padding: 0 16px 40px 16px; }
+      .step-box { flex-direction: column; gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <header class="top-bar">
+    <a href="index.html" class="brand-group" title="Volver a la App Principal">
+      <div class="brand-icon">📅</div>
+      <div>
+        <div class="brand-title">Cuadrante 2027 · Andújar</div>
+        <div class="brand-sub">Portal Oficial de Infografías & Manual</div>
+      </div>
+    </a>
+    <div class="top-actions">
+      <a href="index.html" class="btn btn-secondary">
+        <span>📱</span> Abrir la App
+      </a>
+      <button type="button" class="btn btn-primary" onclick="window.print()">
+        <span>🖨️</span> Imprimir / PDF
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero Header -->
+  <section class="hero-header">
+    <div class="hero-badge">📢 Lanzamiento Oficial para la Plantilla</div>
+    <h1 class="hero-title">Cuadrante 2027 & Aplicación Móvil</h1>
+    <p class="hero-desc">
+      Toda la información, reglas ergonómicas, ventajas de conciliación y la guía de inicio rápido para sacar el 100% de provecho a nuestro cuadrante y a la nueva app de Andújar.
+    </p>
+  </section>
+
+  <!-- Navegación de Pestañas de Infografía -->
+  <div class="info-nav-wrapper">
+    <nav class="info-nav">
+      <button type="button" class="info-tab-btn active" data-tab="tab-cuadrante">
+        <span>📊</span> 1. El Cuadrante 2027
+      </button>
+      <button type="button" class="info-tab-btn" data-tab="tab-app">
+        <span>📱</span> 2. La Aplicación Web
+      </button>
+      <button type="button" class="info-tab-btn" data-tab="tab-instalacion">
+        <span>📲</span> 3. Cómo Instalar la App
+      </button>
+      <button type="button" class="info-tab-btn" data-tab="tab-manual">
+        <span>📖</span> 4. Manual de Usuario
+      </button>
+    </nav>
+  </div>
+
+  <!-- Contenido -->
+  <main class="info-container">
+
+    <!-- ====================================================================
+         TAB 1: INFOGRAFÍA DEL CUADRANTE 2027
+         ==================================================================== -->
+    <section id="tab-cuadrante" class="tab-pane active">
+
+      <!-- Gran Banner de Conciliación -->
+      <div class="highlight-banner">
+        <h3>🏖️ Conciliación Familiar Real: 0 Fines de Semana Partidos</h3>
+        <p>
+          El gran pilar de este nuevo cuadrante es la erradicación absoluta de los turnos aislados de fin de semana. 
+          Nadie trabaja un sábado o domingo suelto: cuando libras el fin de semana, disfrutas de descanso continuo e ininterrumpido 
+          desde el viernes por la tarde hasta el lunes por la mañana.
+        </p>
+        <div class="highlight-metrics-row">
+          <div class="highlight-metric-item">
+            <div class="big-number">0</div>
+            <div class="sub-text">Fines de semana partidos en todo el año</div>
+          </div>
+          <div class="highlight-metric-item">
+            <div class="big-number">6 de 8</div>
+            <div class="sub-text">Compañeros descansando cada fin de semana</div>
+          </div>
+          <div class="highlight-metric-item">
+            <div class="big-number">220</div>
+            <div class="sub-text">Jornadas anuales exactas por trabajador</div>
+          </div>
+          <div class="highlight-metric-item">
+            <div class="big-number">≤ 1 día</div>
+            <div class="sub-text">Diferencia máxima en festivos trabajados</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tarjetas de Reglas y Ergonomía -->
+      <div class="infographic-grid">
+        <div class="info-card">
+          <div class="card-icon-badge badge-blue">⏱️</div>
+          <h3 class="card-title">12h de Descanso Mínimo</h3>
+          <p class="card-desc">
+            Respeto estricto a las 12 horas mínimas legales entre la salida de un turno y la entrada al siguiente. 
+            Cero doblajes abusivos y rotación ergonómica hacia adelante (Mañana → Tarde → Noche).
+          </p>
+          <div class="kpi-stat-box">
+            <span class="kpi-stat-label">Conformidad legal</span>
+            <span class="kpi-stat-num" style="color:var(--accent-green);">100%</span>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="card-icon-badge badge-purple">🌙</div>
+          <h3 class="card-title">Bloques de 3 Noches</h3>
+          <p class="card-desc">
+            Se erradican las noches sueltas de un día que descomponen el ritmo circadiano. 
+            Las noches se agrupan en bloques de 3 jornadas continuas con un límite máximo estricto de 7 noches al mes.
+          </p>
+          <div class="kpi-stat-box">
+            <span class="kpi-stat-label">Espaciado medio</span>
+            <span class="kpi-stat-num">~15 días</span>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="card-icon-badge badge-green">🛡️</div>
+          <h3 class="card-title">2 Días Libres Obligatorios Post-Noche</h3>
+          <p class="card-desc">
+            Tras concluir el bloque de noches, cada trabajador disfruta de al menos 2 días completos consecutivos libres 
+            (día saliente libre + día completo de descanso), garantizando entre 48h y 56h de desconexión sin excepciones.
+          </p>
+          <div class="kpi-stat-box">
+            <span class="kpi-stat-label">Desconexión garantizada</span>
+            <span class="kpi-stat-num" style="color:var(--accent-green);">≥ 48 horas</span>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="card-icon-badge badge-amber">⚖️</div>
+          <h3 class="card-title">Equidad y Justicia Anual</h3>
+          <p class="card-desc">
+            Reparto matemático transparente entre los 7 trabajadores regulares: misma carga de festivos (diferencia máx. de 1 día), 
+            mismo número de noches (diferencia máx. de 3 noches) y reparto balanceado de mañanas y tardes.
+          </p>
+          <div class="kpi-stat-box">
+            <span class="kpi-stat-label">Desviación anual</span>
+            <span class="kpi-stat-num">Mínima</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabla Comparativa de Reglas Organizativas -->
+      <div class="info-table-card">
+        <h3 style="font-family:var(--font-display); font-size:1.2rem; margin-bottom:14px; color:var(--text-primary);">
+          📋 Resumen de Reglas Ergonómicas Aplicadas
+        </h3>
+        <table class="info-table">
+          <thead>
+            <tr>
+              <th>Criterio Ergonómico</th>
+              <th>Regla Oficial Aplicada</th>
+              <th>Beneficio para el Trabajador</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Jornada Mensual</strong></td>
+              <td>Regla de 20 días (rango operativo 18 a 21 días)</td>
+              <td>Cargas de trabajo estables. <strong>NUNCA 22 días trabajados en un mes</strong>.</td>
+            </tr>
+            <tr>
+              <td><strong>Días Seguidos</strong></td>
+              <td>Máximo 5 días consecutivos de trabajo</td>
+              <td>Erradica la fatiga acumulada; prohibido encadenar 6 días seguidos.</td>
+            </tr>
+            <tr>
+              <td><strong>Fines de Semana</strong></td>
+              <td>Estructura compacta (Sáb+Dom Mañana, Sáb+Dom Tarde, Vie+Sáb Noche)</td>
+              <td>Sin turnos aislados; descanso completo de viernes tarde a lunes mañana.</td>
+            </tr>
+            <tr>
+              <td><strong>Víspera de Vacaciones</strong></td>
+              <td>Prohibido turno de noche el día antes de comenzar quincena</td>
+              <td>Inicio de vacaciones plenamente descansado desde las 00:00 del día 1 o 16.</td>
+            </tr>
+            <tr>
+              <td><strong>Coberturas Mínimas</strong></td>
+              <td>3M / 2T / 1N (laborables) y 1M / 1T / 1N (fines de semana y festivos)</td>
+              <td>Servicio 100% blindado los 365 días del año sin sobrecargas improvisadas.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </section>
+
+    <!-- ====================================================================
+         TAB 2: INFOGRAFÍA DE LA APLICACIÓN WEB (PWA)
+         ==================================================================== -->
+    <section id="tab-app" class="tab-pane">
+
+      <div class="highlight-banner" style="background:linear-gradient(135deg, rgba(16, 185, 129, 0.25) 0%, rgba(56, 189, 248, 0.15) 100%); border-color:rgba(16, 185, 129, 0.4);">
+        <h3>📱 Tu Cuadrante Digital en el Bolsillo: Sin Papeles ni Dudas</h3>
+        <p>
+          Una aplicación web progresiva (PWA) creada a medida para la plantilla de Andújar. 
+          No necesitas descargar nada de tiendas ni ocupa espacio: funciona en tu navegador, sin conexión a internet y respetando tu privacidad al 100%.
+        </p>
+        <div class="highlight-metrics-row">
+          <div class="highlight-metric-item">
+            <div class="big-number" style="color:var(--accent-green);">100%</div>
+            <div class="sub-text">Privada: tus notas no salen de tu móvil</div>
+          </div>
+          <div class="highlight-metric-item">
+            <div class="big-number">1 toque</div>
+            <div class="sub-text">Sincronización con Google y Apple Calendar</div>
+          </div>
+          <div class="highlight-metric-item">
+            <div class="big-number">4 Pasos</div>
+            <div class="sub-text">Asistente Inteligente para cambios de turno</div>
+          </div>
+          <div class="highlight-metric-item">
+            <div class="big-number">Oficial</div>
+            <div class="sub-text">Volante RRHH en PDF listo para firmar</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Las 6 Grandes Funcionalidades -->
+      <div class="infographic-grid">
+        <div class="info-card">
+          <div class="card-icon-badge badge-blue">🏠</div>
+          <h3 class="card-title">1. Portal Personal "Mi Cuadrante"</h3>
+          <p class="card-desc">
+            Al abrir la app sabes al segundo qué turno tienes hoy, el horario, qué compañeros entran contigo, la previsión de los próximos 7 días y el calendario mensual a todo color con tus notas privadas.
+          </p>
+        </div>
+
+        <div class="info-card">
+          <div class="card-icon-badge badge-purple">🔀</div>
+          <h3 class="card-title">2. Asistente Inteligente de Permutas</h3>
+          <p class="card-desc">
+            ¿Necesitas librar un día? Selecciona la fecha y la app te dirá automáticamente qué compañeros descansan, cuáles cumplen el descanso legal de 12 horas y qué días limpios pueden devolverte el turno.
+          </p>
+        </div>
+
+        <div class="info-card">
+          <div class="card-icon-badge badge-amber">💼</div>
+          <h3 class="card-title">3. Bolsa de Turnos & Deudas</h3>
+          <p class="card-desc">
+            Nunca más te olvidarás de un favor. La app lleva la cuenta exacta de tus turnos dados y recibidos con balance (+/-), historial de permutas activas en tu calendario y botón de saldar.
+          </p>
+        </div>
+
+        <div class="info-card">
+          <div class="card-icon-badge badge-green">📄</div>
+          <h3 class="card-title">4. Volante Oficial para RRHH en PDF</h3>
+          <p class="card-desc">
+            Genera al instante el impreso formal A4 con los nombres oficiales completos de ambos trabajadores, fecha de emisión, turnos y casillas de firma. Listo para imprimir o enviar a la empresa.
+          </p>
+        </div>
+
+        <div class="info-card">
+          <div class="card-icon-badge badge-blue">👥</div>
+          <h3 class="card-title">5. Comparador ("¿Cuándo libramos?")</h3>
+          <p class="card-desc">
+            Cruza tu cuadrante con cualquier compañero: descubre cuántos días libres y fines de semana completos compartís, en qué turnos coincidís y mándale un resumen con botón directo a WhatsApp.
+          </p>
+        </div>
+
+        <div class="info-card">
+          <div class="card-icon-badge badge-purple">📅</div>
+          <h3 class="card-title">6. Sincronización Móvil (.ics) & Offline</h3>
+          <p class="card-desc">
+            Descarga tus turnos en Google Calendar o Apple Calendar en un clic con alarmas automáticas. Además, la app funciona sin cobertura, guardando todos los datos en tu propio teléfono.
+          </p>
+        </div>
+      </div>
+
+      <!-- Comparativa Tradicional vs App -->
+      <div class="info-table-card">
+        <h3 style="font-family:var(--font-display); font-size:1.2rem; margin-bottom:14px; color:var(--text-primary);">
+          ⚡ El Cambio: Del Cuadrante en Papel a la App 2027
+        </h3>
+        <table class="info-table">
+          <thead>
+            <tr>
+              <th>Situación Habitual</th>
+              <th>Con el Papel Tradicional</th>
+              <th>Con la Aplicación Cuadrante 2027</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Saber tu turno de hoy</strong></td>
+              <td>Buscar la foto borrosa en la galería del móvil.</td>
+              <td>Abres la app y te lo dice en grande en 1 segundo con tu horario.</td>
+            </tr>
+            <tr>
+              <td><strong>Saber quién trabaja contigo</strong></td>
+              <td>Rastrear filas y columnas cruzadas con el dedo.</td>
+              <td>Panel <em>Compañeros en el mismo turno</em> con sus nombres claros.</td>
+            </tr>
+            <tr>
+              <td><strong>Pedir un cambio de turno</strong></td>
+              <td>Llamar a ciegas sin saber quién libra o si incumple descansos.</td>
+              <td>El asistente te muestra solo a los disponibles y conformes con la ley.</td>
+            </tr>
+            <tr>
+              <td><strong>Avisar a la empresa</strong></td>
+              <td>Buscar la plantilla de papel y rellenarla a mano.</td>
+              <td>Botón <em>Generar Volante RRHH</em>: documento A4 listo para firmar.</td>
+            </tr>
+            <tr>
+              <td><strong>Recordar favores</strong></td>
+              <td>Apuntarlo en notas sueltas o fiarse de la memoria.</td>
+              <td><em>Bolsa de Turnos</em> con balance automático (+1 / -1) y registro.</td>
+            </tr>
+            <tr>
+              <td><strong>Hacer planes con un compañero</strong></td>
+              <td>Comparar dos cuadrantes día por día manualmente.</td>
+              <td><em>Comparador Dual</em>: detecta fines de semana y libres juntos al vuelo.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </section>
+
+    <!-- ====================================================================
+         TAB 3: CÓMO INSTALAR LA APP (GUÍA PASO A PASO)
+         ==================================================================== -->
+    <section id="tab-instalacion" class="tab-pane">
+
+      <div class="highlight-banner" style="background:linear-gradient(135deg, rgba(168, 85, 247, 0.25) 0%, rgba(56, 189, 248, 0.15) 100%); border-color:rgba(168, 85, 247, 0.4);">
+        <h3>📲 Instalación en 30 Segundos (Sin pasar por Play Store o App Store)</h3>
+        <p>
+          Al ser una PWA, la instalas directamente desde tu navegador web. Tendrás un icono en tu pantalla como cualquier aplicación normal, 
+          se abrirá a pantalla completa y no ocupará espacio en tu teléfono.
+        </p>
+        <div style="font-weight:700; color:#fff; font-size:1.05rem;">
+          Enlace oficial: <span style="color:var(--accent-primary); text-decoration:underline;">https://tirijaen.github.io/Cuadrante-2027/</span>
+        </div>
+      </div>
+
+      <div class="infographic-grid">
+        <!-- Android -->
+        <div class="info-card">
+          <div class="card-icon-badge badge-green">🤖</div>
+          <h3 class="card-title">En Android (Google Chrome)</h3>
+          <div class="steps-container">
+            <div class="step-box" style="padding:14px;">
+              <div class="step-number" style="width:32px; height:32px; font-size:0.9rem;">1</div>
+              <div class="step-content">
+                <h4>Abre el enlace en Chrome</h4>
+                <p>Entra con tu móvil en la web del cuadrante.</p>
+              </div>
+            </div>
+            <div class="step-box" style="padding:14px;">
+              <div class="step-number" style="width:32px; height:32px; font-size:0.9rem;">2</div>
+              <div class="step-content">
+                <h4>Pulsa el aviso o los 3 puntos</h4>
+                <p>Te saldrá un mensaje abajo que dice <strong>"Añadir a pantalla de inicio"</strong>. Si no sale, pulsa los <strong>3 puntos ⋮</strong> arriba a la derecha.</p>
+              </div>
+            </div>
+            <div class="step-box" style="padding:14px;">
+              <div class="step-number" style="width:32px; height:32px; font-size:0.9rem;">3</div>
+              <div class="step-content">
+                <h4>Elige "Instalar aplicación"</h4>
+                <p>Confirma en <strong>Instalar</strong>. En 2 segundos tendrás el icono oficial en tu móvil.</p>
+                <span class="step-tip">✓ Se abre como app nativa</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- iPhone / iPad -->
+        <div class="info-card">
+          <div class="card-icon-badge badge-blue">🍏</div>
+          <h3 class="card-title">En iPhone / iPad (Safari)</h3>
+          <div class="steps-container">
+            <div class="step-box" style="padding:14px;">
+              <div class="step-number" style="width:32px; height:32px; font-size:0.9rem;">1</div>
+              <div class="step-content">
+                <h4>Abre el enlace en Safari</h4>
+                <p>Asegúrate de abrirlo en el navegador <strong>Safari</strong> de Apple.</p>
+              </div>
+            </div>
+            <div class="step-box" style="padding:14px;">
+              <div class="step-number" style="width:32px; height:32px; font-size:0.9rem;">2</div>
+              <div class="step-content">
+                <h4>Pulsa el botón "Compartir"</h4>
+                <p>Toca el icono del cuadrado con una flecha hacia arriba (<strong>⎋</strong>) en la barra inferior.</p>
+              </div>
+            </div>
+            <div class="step-box" style="padding:14px;">
+              <div class="step-number" style="width:32px; height:32px; font-size:0.9rem;">3</div>
+              <div class="step-content">
+                <h4>"Añadir a pantalla de inicio"</h4>
+                <p>Baja en el menú, pulsa <strong>"Añadir a pantalla de inicio" ⊞</strong> y luego <strong>"Añadir"</strong> arriba a la derecha.</p>
+                <span class="step-tip">✓ Pantalla completa sin barras</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ====================================================================
+         TAB 4: MANUAL DE USUARIO (PRIMEROS PASOS)
+         ==================================================================== -->
+    <section id="tab-manual" class="tab-pane">
+
+      <div class="info-card" style="margin-bottom:24px;">
+        <h3 class="card-title" style="font-size:1.4rem;">📖 Guía de Primeros Pasos para el Trabajador</h3>
+        <p class="card-desc">
+          Sigue estos 7 sencillos pasos para familiarizarte con todas las posibilidades de la aplicación desde el primer día:
+        </p>
+
+        <div class="steps-container">
+          <div class="step-box">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h4>Elige tu nombre una sola vez</h4>
+              <p>
+                En la esquina superior derecha verás un selector de trabajador. Haz clic y selecciona tu nombre 
+                (ej: <em>Antonio J, Santi M, Alberto H, etc.</em>). <strong>La app lo recordará para siempre</strong>: 
+                no tendrás que volver a seleccionarlo.
+              </p>
+              <span class="step-tip">✓ Tu cuadrante personalizado siempre listo</span>
+            </div>
+          </div>
+
+          <div class="step-box">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h4>Consulta tu día en "Mi Cuadrante" y sincroniza tu móvil</h4>
+              <p>
+                En la primera pestaña verás tu turno de hoy, los compañeros que entran contigo y los próximos 7 días. 
+                Pulsa el botón azul <strong>"Sincronizar mi Cuadrante (.ics)"</strong> para meter todos tus turnos en el calendario de tu teléfono.
+              </p>
+              <span class="step-tip">✓ Te avisará el móvil antes de cada turno</span>
+            </div>
+          </div>
+
+          <div class="step-box">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h4>Apunta notas personales en cualquier día</h4>
+              <p>
+                Toca cualquier día del calendario mensual: se abrirá una ventana para escribir una nota privada 
+                (ej: <em>"Cita dentista 10:00"</em> o <em>"Asunto propio"</em>). El día se marcará con un lápiz y solo tú podrás verlo.
+              </p>
+            </div>
+          </div>
+
+          <div class="step-box">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <h4>¿Cuándo libramos juntos? Compara con un compañero</h4>
+              <p>
+                Pulsa el botón <strong>"Comparar con un compañero"</strong> o ve a la pestaña <em>Equipo y Coberturas</em> → <em>Comparador</em>. 
+                Elige a un compañero con las pastillas rápidas y verás los fines de semana completos y días libres que tenéis juntos en 2027. 
+                Pulsa el botón verde para mandarle el resumen por WhatsApp.
+              </p>
+              <span class="step-tip">✓ Ideal para cuadrar planes o vacaciones</span>
+            </div>
+          </div>
+
+          <div class="step-box">
+            <div class="step-number">5</div>
+            <div class="step-content">
+              <h4>Cómo pedir un cambio de turno seguro (Asistente en 4 Pasos)</h4>
+              <p>
+                Entra en <strong>Permutas Inteligentes</strong>:
+                <br>• <strong>Paso 1</strong>: Elige el día que trabajas y necesitas librar.
+                <br>• <strong>Paso 2</strong>: La app te muestra en tarjetas solo a los compañeros que libran y cumplen el descanso legal. Elige uno.
+                <br>• <strong>Paso 3</strong>: La app busca automáticamente qué días libres tienes tú en los que tu compañero trabaja para devolverle el favor.
+                <br>• <strong>Paso 4</strong>: Revisa el acuerdo y pulsa <em>"Aplicar al Calendario"</em>.
+              </p>
+            </div>
+          </div>
+
+          <div class="step-box">
+            <div class="step-number">6</div>
+            <div class="step-content">
+              <h4>Genera el volante para RRHH y compártelo por WhatsApp</h4>
+              <p>
+                Una vez acordado el cambio, pulsa <strong>"Compartir por WhatsApp"</strong> para enviarle todos los detalles a tu compañero, 
+                o pulsa <strong>"Generar Volante RRHH (PDF)"</strong> para obtener el documento formal oficial listo para imprimir o enviar por correo a la empresa.
+              </p>
+            </div>
+          </div>
+
+          <div class="step-box">
+            <div class="step-number">7</div>
+            <div class="step-content">
+              <h4>Controla tus favores en la "Bolsa de Turnos"</h4>
+              <p>
+                En <strong>Permutas Inteligentes</strong> → <strong>Bolsa de Turnos</strong> podrás ver tu saldo de favores: 
+                quién te debe un turno y a quién le debes tú. Cuando el turno se devuelva, pulsa <em>"Saldar"</em> para mantener tus cuentas en paz.
+              </p>
+              <span class="step-tip">✓ Cero malentendidos entre compañeros</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <script>
+    // Manejo de tabs de infografía
+    document.addEventListener('DOMContentLoaded', () => {
+      const tabBtns = document.querySelectorAll('.info-tab-btn');
+      const tabPanes = document.querySelectorAll('.tab-pane');
+
+      tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const targetId = btn.getAttribute('data-tab');
+
+          tabBtns.forEach(b => b.classList.remove('active'));
+          tabPanes.forEach(p => p.classList.remove('active'));
+
+          btn.classList.add('active');
+          const targetPane = document.getElementById(targetId);
+          if (targetPane) {
+            targetPane.classList.add('active');
+            window.scrollTo({ top: 220, behavior: 'smooth' });
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
