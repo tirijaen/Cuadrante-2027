@@ -297,5 +297,10 @@ Selector rápido para consultar "¿Con quién libro o coincido en quincena este 
 Vamos a implemenar en las pemutas inteligentes la opción del cambios de turno si el trabajador esta trabajando tambien. Es decir , si yo estoy trabajando de mañanas y por ejemplo otro trabajador de tardes o noches, ahora mismo ese trabajador sale como no disponible, vamos a dar la opción de cambiar y al ejecutar ese cambio cumplioms las reglas, y actuaremos al igual que los otros cambios con 100% conforme, warning o No disponible si no hay opción
 ```
 
+### 💬 Mensaje de Antonio (2026-11-01T05:55:00Z):
+```text
+En el tema de los festivos me parece que no has tenido en cuenta los datos desde el AB2 hasta el AH21, son muy importantes porque en ellos indican cuantas veces el trabajador ha hecho esa fiesta y tambien hay que llevarlos con equidad, añadelos tambien a tu información y para que lo puedan consultar los trabajadores
+```
+
 ---
 

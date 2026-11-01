@@ -55,7 +55,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Festivos & Vacaciones
     holidaysVacationsMode: 'vacations', // 'vacations' | 'holidays'
     vacationsViewYear: '2027', // '2027' | '2028' | '2029' | 'history'
-    selectedHolidayTimeline: 'NOCHES DEL 1 DE ENERO'
+    selectedHolidayTimeline: 'NOCHES DEL 1 DE ENERO',
+    holidayMatrixView: 'matrix' // 'matrix' | 'personal'
   };
 
   // Cargar notas del trabajador actual
@@ -326,7 +327,14 @@ document.addEventListener('DOMContentLoaded', () => {
     mySpecialFestList: document.getElementById('mySpecialFestList'),
     selectHolidayCategory: document.getElementById('selectHolidayCategory'),
     holidayTimelineContainer: document.getElementById('holidayTimelineContainer'),
-    fixedHolidays2027List: document.getElementById('fixedHolidays2027List')
+    fixedHolidays2027List: document.getElementById('fixedHolidays2027List'),
+    holidayMatrixTable: document.getElementById('holidayMatrixTable'),
+    holidayMatrixContainer: document.getElementById('holidayMatrixContainer'),
+    holidayPersonalListContainer: document.getElementById('holidayPersonalListContainer'),
+    holidayPersonalAllList: document.getElementById('holidayPersonalAllList'),
+    btnHolidayViewMatrix: document.getElementById('btnHolidayViewMatrix'),
+    btnHolidayViewPersonal: document.getElementById('btnHolidayViewPersonal'),
+    btnHolidayMyName: document.getElementById('btnHolidayMyName')
   };
 
   // --- INICIALIZACIÓN ---
@@ -793,6 +801,28 @@ document.addEventListener('DOMContentLoaded', () => {
       el.selectHolidayCategory.addEventListener('change', (e) => {
         state.selectedHolidayTimeline = e.target.value;
         renderHolidayTimeline(state.selectedHolidayTimeline);
+      });
+    }
+
+    if (el.btnHolidayViewMatrix) {
+      el.btnHolidayViewMatrix.addEventListener('click', () => {
+        state.holidayMatrixView = 'matrix';
+        el.btnHolidayViewMatrix.classList.add('active');
+        el.btnHolidayViewPersonal.classList.remove('active');
+        if (el.holidayMatrixContainer) el.holidayMatrixContainer.style.display = 'block';
+        if (el.holidayPersonalListContainer) el.holidayPersonalListContainer.style.display = 'none';
+        renderHolidayMatrixTable();
+      });
+    }
+
+    if (el.btnHolidayViewPersonal) {
+      el.btnHolidayViewPersonal.addEventListener('click', () => {
+        state.holidayMatrixView = 'personal';
+        el.btnHolidayViewPersonal.classList.add('active');
+        el.btnHolidayViewMatrix.classList.remove('active');
+        if (el.holidayPersonalListContainer) el.holidayPersonalListContainer.style.display = 'block';
+        if (el.holidayMatrixContainer) el.holidayMatrixContainer.style.display = 'none';
+        renderHolidayPersonalList();
       });
     }
   }
@@ -3547,21 +3577,227 @@ ${debt.notes ? `• *Notas:* ${debt.notes}\n` : ''}
     if (el.holidayMyWorkerTitle) {
       el.holidayMyWorkerTitle.textContent = state.currentWorker;
     }
+    if (el.btnHolidayMyName) {
+      el.btnHolidayMyName.textContent = state.currentWorker;
+    }
 
     // 1. Barras de equidad
     renderHolidayEquityBars();
 
-    // 2. Mis Fiestas Señaladas
+    // 2. Matriz de los 20 festivos o Vista Personal
+    if (state.holidayMatrixView === 'personal') {
+      if (el.holidayMatrixContainer) el.holidayMatrixContainer.style.display = 'none';
+      if (el.holidayPersonalListContainer) el.holidayPersonalListContainer.style.display = 'block';
+      renderHolidayPersonalList();
+    } else {
+      if (el.holidayMatrixContainer) el.holidayMatrixContainer.style.display = 'block';
+      if (el.holidayPersonalListContainer) el.holidayPersonalListContainer.style.display = 'none';
+      renderHolidayMatrixTable();
+    }
+
+    // 3. Mis Fiestas Señaladas
     renderMySpecialHolidays();
 
-    // 3. Dropdown y Línea de Tiempo
+    // 4. Dropdown y Línea de Tiempo
     if (el.selectHolidayCategory && !el.selectHolidayCategory.children.length) {
       populateHolidayCategories();
     }
     renderHolidayTimeline(state.selectedHolidayTimeline);
 
-    // 4. Asignaciones fijas 2027
+    // 5. Asignaciones fijas 2027
     renderFixed2027Holidays();
+  }
+
+  function getWorkerShortCode(workerName) {
+    if (!workerName) return 'AJ';
+    if (workerName.includes('Antonio J')) return 'AJ';
+    if (workerName.includes('Santi') || workerName.includes('Santiago')) return 'SM';
+    if (workerName.includes('Alberto') || workerName.includes('Higueras')) return 'AH';
+    if (workerName.includes('Fran Esp') || workerName.includes('Espín') || workerName.includes('Espin')) return 'FE';
+    if (workerName.includes('Miguel') || workerName.includes('Benítez') || workerName.includes('Benitez')) return 'MB';
+    if (workerName.includes('Paco') || workerName.includes('Cantarero')) return 'PC';
+    if (workerName.includes('León') || workerName.includes('Leon') || workerName === 'A. Leon') return 'AL';
+    return 'AJ';
+  }
+
+  function renderHolidayMatrixTable() {
+    if (!el.holidayMatrixTable || !window.HISTORICAL_DATA) return;
+    const items = window.HISTORICAL_DATA.festivos.items;
+    const totals = window.HISTORICAL_DATA.festivos.totals || {};
+
+    const workers = [
+      { code: 'AJ', short: 'Antonio J', full: 'Antonio Jesús Sánchez' },
+      { code: 'SM', short: 'Santi M', full: 'Santiago Molina' },
+      { code: 'AH', short: 'Alberto H', full: 'Alberto Higueras' },
+      { code: 'FE', short: 'Fran Esp', full: 'Francisco Espín' },
+      { code: 'MB', short: 'Miguel B', full: 'Miguel Benítez' },
+      { code: 'PC', short: 'Paco C', full: 'Francisco Cantarero' },
+      { code: 'AL', short: 'A. León', full: 'Antonio León' }
+    ];
+
+    const currentCode = getWorkerShortCode(state.currentWorker);
+
+    // Encabezados
+    const thead = `
+      <thead>
+        <tr>
+          <th style="text-align:left; padding-left:14px; min-width:180px;">Festividad Oficial (20)</th>
+          ${workers.map(w => {
+            const isAct = w.code === currentCode;
+            return `
+              <th class="${isAct ? 'is-active-col' : ''}" title="${w.full}">
+                ${w.short}
+                ${isAct ? '<div style="font-size:0.62rem; color:var(--accent-primary); font-weight:normal;">(Tú)</div>' : ''}
+              </th>
+            `;
+          }).join('')}
+          <th style="min-width:60px;">Total</th>
+        </tr>
+      </thead>
+    `;
+
+    // Filas de las 20 festividades
+    const tbody = `
+      <tbody>
+        ${items.map(item => {
+          const counts = item.counts || {};
+          const vals = workers.map(w => counts[w.code] ?? 0);
+          const minVal = Math.min(...vals);
+          const maxVal = Math.max(...vals);
+          const isDiff = minVal !== maxVal;
+
+          return `
+            <tr>
+              <td class="fest-name-col">
+                <a href="javascript:void(0)" class="matrix-fest-link" data-fest="${item.name}" style="color:var(--text-primary); text-decoration:none; display:flex; align-items:center; gap:6px;">
+                  <span>${item.name}</span>
+                </a>
+              </td>
+              ${workers.map(w => {
+                const c = counts[w.code] ?? 0;
+                const isAct = w.code === currentCode;
+                let badgeClass = 'val-badge-normal';
+                let titleAttr = `${w.short}: ${c} veces`;
+                if (isDiff && c === minVal) {
+                  badgeClass = 'val-badge-min';
+                  titleAttr += ' (Mínimo de plantilla: Prioridad 2028)';
+                } else if (isDiff && c === maxVal) {
+                  badgeClass = 'val-badge-max';
+                  titleAttr += ' (Máximo de plantilla: Prioridad descanso 2028)';
+                }
+
+                return `
+                  <td class="${isAct ? 'is-active-col' : ''}">
+                    <span class="${badgeClass}" title="${titleAttr}">${c}</span>
+                  </td>
+                `;
+              }).join('')}
+              <td style="font-weight:700; color:var(--text-secondary);">${item.totalTimes || vals.reduce((a, b) => a + b, 0)}</td>
+            </tr>
+          `;
+        }).join('')}
+      </tbody>
+    `;
+
+    // Fila de totales acumulados
+    const totalAll = workers.reduce((acc, w) => acc + (totals[w.code] || 0), 0);
+    const tfoot = `
+      <tfoot>
+        <tr style="background:var(--bg-card); font-weight:800; border-top:2px solid var(--border-color);">
+          <td style="text-align:left; padding-left:14px; font-weight:800; color:var(--accent-primary);">
+            TOTAL ACUMULADO (2011-2027)
+          </td>
+          ${workers.map(w => {
+            const tot = totals[w.code] || 0;
+            const isAct = w.code === currentCode;
+            const isFull = tot >= 71;
+            return `
+              <td class="${isAct ? 'is-active-col' : ''}" style="font-size:0.85rem;">
+                <span style="${isFull ? 'color:#10b981;' : 'color:#f59e0b;'} font-weight:800;">${tot}</span>
+                <div style="font-size:0.6rem; color:var(--text-muted); font-weight:normal;">
+                  ${isFull ? 'Equitativo' : '+1 en 2028'}
+                </div>
+              </td>
+            `;
+          }).join('')}
+          <td style="font-size:0.85rem; font-weight:800; color:var(--accent-primary);">${totalAll}</td>
+        </tr>
+      </tfoot>
+    `;
+
+    el.holidayMatrixTable.innerHTML = thead + tbody + tfoot;
+
+    // Conectar clics en el nombre de la festividad para abrir su línea de tiempo directa
+    el.holidayMatrixTable.querySelectorAll('.matrix-fest-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        const festName = link.dataset.fest;
+        if (festName && el.selectHolidayCategory) {
+          state.selectedHolidayTimeline = festName;
+          el.selectHolidayCategory.value = festName;
+          renderHolidayTimeline(festName);
+          el.selectHolidayCategory.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      });
+    });
+  }
+
+  function renderHolidayPersonalList() {
+    if (!el.holidayPersonalAllList || !window.HISTORICAL_DATA) return;
+    const items = window.HISTORICAL_DATA.festivos.items;
+    const currentCode = getWorkerShortCode(state.currentWorker);
+
+    const workers = [
+      { code: 'AJ', name: 'Antonio J' },
+      { code: 'SM', name: 'Santi M' },
+      { code: 'AH', name: 'Alberto H' },
+      { code: 'FE', name: 'Fran Esp' },
+      { code: 'MB', name: 'Miguel B' },
+      { code: 'PC', name: 'Paco C' },
+      { code: 'AL', name: 'A. León' }
+    ];
+
+    el.holidayPersonalAllList.innerHTML = items.map(item => {
+      const counts = item.counts || {};
+      const myCount = counts[currentCode] ?? 0;
+      const vals = workers.map(w => counts[w.code] ?? 0);
+      const minVal = Math.min(...vals);
+      const maxVal = Math.max(...vals);
+      const avg = (vals.reduce((a, b) => a + b, 0) / vals.length).toFixed(1);
+      const isDiff = minVal !== maxVal;
+
+      let cardClass = 'my-fest-item-card';
+      let badgeHtml = '';
+      let equityNote = '';
+
+      if (isDiff && myCount === minVal) {
+        cardClass += ' is-priority';
+        badgeHtml = '<span class="val-badge-min" style="font-size:0.7rem;">🟢 Menos Realizada</span>';
+        equityNote = `Has hecho esta fiesta <strong>${myCount} veces</strong> (el mínimo de la plantilla es ${minVal}, media del equipo: ${avg}). Candidato preferente para realizarla en el cuadrante de 2028 para equilibrar.`;
+      } else if (isDiff && myCount === maxVal) {
+        cardClass += ' is-resting';
+        badgeHtml = '<span class="val-badge-max" style="font-size:0.7rem;">🟠 Más Realizada</span>';
+        equityNote = `Has hecho esta fiesta <strong>${myCount} veces</strong> (el máximo de la plantilla es ${maxVal}, media del equipo: ${avg}). Tienes preferencia de descanso/libranza en 2028.`;
+      } else {
+        badgeHtml = `<span style="font-size:0.7rem; color:var(--text-secondary); background:rgba(255,255,255,0.06); padding:2px 6px; border-radius:4px;">Equilibrado</span>`;
+        equityNote = `Has hecho esta fiesta <strong>${myCount} veces</strong> (dentro del rango normal de la plantilla entre ${minVal} y ${maxVal}, media: ${avg}).`;
+      }
+
+      return `
+        <div class="${cardClass}">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
+            <div style="font-weight:700; font-size:0.85rem; color:var(--text-primary);">${item.name}</div>
+            <div>${badgeHtml}</div>
+          </div>
+          <div style="font-size:0.78rem; color:var(--text-secondary); line-height:1.4;">
+            ${equityNote}
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.72rem; color:var(--text-muted); border-top:1px dashed var(--border-color); padding-top:6px; margin-top:2px;">
+            <span>Mi cómputo: <strong style="color:var(--accent-primary); font-size:0.8rem;">${myCount} veces</strong></span>
+            <span>Rango plantilla: ${minVal} - ${maxVal}</span>
+          </div>
+        </div>
+      `;
+    }).join('');
   }
 
   function renderHolidayEquityBars() {
@@ -3770,7 +4006,72 @@ ${debt.notes ? `• *Notas:* ${debt.notes}\n` : ''}
       }).join(' <span style="color:var(--text-muted); font-weight:normal;">+</span> ');
     }
 
+    // Estadísticas de equidad para este festivo
+    const workers = [
+      { code: 'AJ', name: 'Antonio J' },
+      { code: 'SM', name: 'Santi M' },
+      { code: 'AH', name: 'Alberto H' },
+      { code: 'FE', name: 'Fran Esp' },
+      { code: 'MB', name: 'Miguel B' },
+      { code: 'PC', name: 'Paco C' },
+      { code: 'AL', name: 'A. León' }
+    ];
+
+    const currentCode = getWorkerShortCode(state.currentWorker);
+    const counts = item.counts || {};
+    const vals = workers.map(w => counts[w.code] ?? 0);
+    const minVal = Math.min(...vals);
+    const maxVal = Math.max(...vals);
+    const minWorkers = workers.filter(w => (counts[w.code] ?? 0) === minVal).map(w => w.name);
+    const maxWorkers = workers.filter(w => (counts[w.code] ?? 0) === maxVal).map(w => w.name);
+
+    const equityHeaderHtml = `
+      <div class="holiday-timeline-equity-box">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <strong style="font-size:0.85rem; color:var(--text-primary);">
+            ⚖️ Historial individual acumulado en "${item.name}" (2011 - 2027):
+          </strong>
+          <span style="font-size:0.75rem; color:var(--text-muted);">
+            Total veces realizada: <strong>${item.totalTimes || vals.reduce((a, b) => a + b, 0)}</strong>
+          </span>
+        </div>
+        <div class="holiday-workers-equity-pills">
+          ${workers.map(w => {
+            const c = counts[w.code] ?? 0;
+            const isAct = w.code === currentCode;
+            const isMin = minVal !== maxVal && c === minVal;
+            const isMax = minVal !== maxVal && c === maxVal;
+            let cls = 'holiday-worker-pill';
+            if (isAct) cls += ' is-active';
+            if (isMin) cls += ' is-min';
+            if (isMax) cls += ' is-max';
+
+            return `
+              <div class="${cls}" title="${w.name}: ${c} veces realizadas">
+                <span>${w.name}:</span>
+                <strong>${c}</strong>
+                ${isMin ? '<span style="color:#10b981; font-size:0.68rem; font-weight:700;">(Mín)</span>' : ''}
+                ${isMax ? '<span style="color:#f59e0b; font-size:0.68rem; font-weight:700;">(Máx)</span>' : ''}
+              </div>
+            `;
+          }).join('')}
+        </div>
+        ${minVal !== maxVal ? `
+          <div style="font-size:0.75rem; color:var(--text-secondary); line-height:1.4; border-top:1px dashed var(--border-color); padding-top:8px;">
+            📌 <strong>Criterio para Cuadrante 2028:</strong> Prioridad de turno para 
+            <span style="color:#10b981; font-weight:700;">${minWorkers.join(', ')}</span> (${minVal} veces) y preferencia de libranza para 
+            <span style="color:#f59e0b; font-weight:700;">${maxWorkers.join(', ')}</span> (${maxVal} veces).
+          </div>
+        ` : `
+          <div style="font-size:0.75rem; color:var(--text-secondary); border-top:1px dashed var(--border-color); padding-top:8px;">
+            ✅ <strong>Equidad perfecta:</strong> Todos los compañeros han realizado esta fiesta exactamente ${minVal} veces.
+          </div>
+        `}
+      </div>
+    `;
+
     el.holidayTimelineContainer.innerHTML = `
+      ${equityHeaderHtml}
       <div class="holiday-timeline-wrap">
         ${years.map(yr => {
           const raw = item.years[yr] || '';

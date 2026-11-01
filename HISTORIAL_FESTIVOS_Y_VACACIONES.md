@@ -97,3 +97,34 @@ Las vacaciones se dividen en 8 quincenas anuales (Junio a Septiembre) y se asign
 | **2029 (Previsto)** | **AL - HG** | **SM - AH** | **AJ - MB** | **PC - FE** |
 
 > La rotación es un ciclo puro de 4 años: cada año cada pareja avanza exactamente 1 turno (+1 quincena).
+
+---
+
+## 5. Tabla de Equidad por Cada Fiesta Individual (2011 - 2027)
+
+> **Rango de referencia Excel:** Columnas `S2:Y21` / `AB2:AH21`.  
+> En el servicio no solo se vigila la equidad del cómputo total de festivos anuales (71 vs 70), sino también **la justicia distributiva en cada festividad específica**. De este modo, nadie repite desproporcionadamente una fiesta señalada (Nochebuena, Nochevieja, Romería, Semana Santa, etc.) mientras otro no la realiza.
+
+| Festividad Oficial | AJ | SM | AH | FE | MB | PC | AL | Total Veces | Criterio de Equidad para 2028 |
+|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|---|
+| **NOCHES DEL 1 DE ENERO** | 3 | 2 | 2 | 2 | 2 | 2 | 2 | 15 | AJ máxima (3) libra; resto (2) en turno |
+| **1 DE ENERO** | 4 | 5 | 5 | 5 | 4 | 4 | 4 | 31 | SM, AH, FE (5) descansan; AJ, MB, PC, AL (4) prioridad |
+| **6 DE ENERO (Reyes)** | 4 | 4 | 5 | 4 | 4 | 6 | 4 | 31 | PC (6) y AH (5) descansan; AJ, SM, FE, MB, AL (4) prioridad |
+| **28 DE FEBRERO (Día de Andalucía)** | 4 | 4 | 4 | 5 | 4 | 5 | 5 | 31 | FE, PC, AL (5) descansan; AJ, SM, AH, MB (4) prioridad |
+| **SEMANA SANTA** | 5 | 5 | 6 | 4 | 4 | 4 | 4 | 32 | AH (6) y AJ, SM (5) descansan; FE, MB, PC, AL (4) prioridad |
+| **NOCHES SEMANA SANTA** | 2 | 3 | 2 | 2 | 3 | 2 | 2 | 16 | SM, MB (3) descansan; AJ, AH, FE, PC, AL (2) en turno |
+| **VIRGEN DE LA CABEZA (Romería)** | 5 | 5 | 4 | 4 | 5 | 4 | 5 | 32 | AJ, SM, MB, AL (5) descansan; AH, FE, PC (4) prioridad |
+| **NOCHES VIRGEN DE LA CABEZA** | 4 | 2 | 2 | 2 | 3 | 2 | 3 | 18 | AJ (4) y MB, AL (3) descansan; SM, AH, FE, PC (2) en turno |
+| **1 DE MAYO (Trabajo)** | 5 | 5 | 4 | 5 | 5 | 4 | 4 | 32 | AJ, SM, FE, MB (5) descansan; AH, PC, AL (4) prioridad |
+| **15 DE MAYO (San Eufrasio)** | 1 | 1 | 0 | 2 | 1 | 2 | 1 | 8 | FE, PC (2) descansan; AH (0) máxima prioridad |
+| **15 DE AGOSTO (Asunción)** | 3 | 4 | 3 | 3 | 3 | 4 | 6 | 26 | AL (6) máxima libranza; AJ, AH, FE, MB (3) prioridad |
+| **NOCHES DE FERIA** | 3 | 1 | 1 | 2 | 2 | 2 | 1 | 12 | AJ (3) descansa; SM, AH, AL (1) en turno |
+| **FERIA (Día)** | 3 | 3 | 4 | 4 | 3 | 3 | 4 | 24 | AH, FE, AL (4) descansan; AJ, SM, MB, PC (3) prioridad |
+| **12 DE OCTUBRE (Hispanidad)** | 5 | 4 | 5 | 4 | 5 | 5 | 4 | 32 | AJ, AH, MB, PC (5) descansan; SM, FE, AL (4) prioridad |
+| **1 DE NOVIEMBRE (Todos los Santos)** | 4 | 4 | 5 | 4 | 4 | 5 | 4 | 30 | AH, PC (5) descansan; AJ, SM, FE, MB, AL (4) prioridad |
+| **6 DICIEMBRE (Constitución)** | 4 | 5 | 4 | 4 | 5 | 4 | 5 | 31 | SM, MB, AL (5) descansan; AJ, AH, FE, PC (4) prioridad |
+| **8 DICIEMBRE (Inmaculada)** | 4 | 5 | 5 | 5 | 4 | 4 | 4 | 31 | SM, AH, FE (5) descansan; AJ, MB, PC, AL (4) prioridad |
+| **NOCHEBUENA** | 2 | 2 | 3 | 2 | 2 | 2 | 2 | 15 | AH (3) descansa; AJ, SM, FE, MB, PC, AL (2) en turno |
+| **25 DICIEMBRE (Navidad)** | 4 | 5 | 4 | 5 | 4 | 4 | 5 | 31 | SM, FE, AL (5) descansan; AJ, AH, MB, PC (4) prioridad |
+| **NOCHE 31 DICIEMBRE (Nochevieja)** | 2 | 2 | 2 | 2 | 4 | 2 | 2 | 16 | MB (4) máxima libranza; resto de plantilla (2) en turno |
+| **TOTALES ACUMULADOS** | **71** | **71** | **70** | **70** | **71** | **70** | **71** | **496** | **Equidad global: 70 - 71** |

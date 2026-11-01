@@ -3478,4 +3478,166 @@ button, select, input, textarea {
   font-weight: 600;
 }
 
+/* Tabla de Equidad de 20 Festivos x 7 Trabajadores (Datos AB:AH) */
+.holiday-matrix-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  background: var(--bg-surface);
+}
+
+.holiday-matrix-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+  text-align: center;
+  min-width: 680px;
+}
+
+.holiday-matrix-table th {
+  background: var(--bg-card);
+  padding: 10px 8px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  border-bottom: 2px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.holiday-matrix-table th.is-active-col,
+.holiday-matrix-table td.is-active-col {
+  background: rgba(56, 189, 248, 0.08);
+  font-weight: 800;
+  color: var(--accent-primary);
+}
+
+.holiday-matrix-table td {
+  padding: 8px 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  color: var(--text-primary);
+}
+
+.holiday-matrix-table tr:hover td {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.holiday-matrix-table td.fest-name-col {
+  text-align: left;
+  font-weight: 700;
+  padding-left: 14px;
+  max-width: 220px;
+}
+
+.val-badge-min {
+  background: rgba(16, 185, 129, 0.18);
+  color: #10b981;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 4px;
+  display: inline-block;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.val-badge-max {
+  background: rgba(245, 158, 11, 0.18);
+  color: #f59e0b;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 4px;
+  display: inline-block;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.val-badge-normal {
+  padding: 2px 7px;
+  display: inline-block;
+  color: var(--text-primary);
+}
+
+/* Grid de Mis 20 Festivos (Vista Personal) */
+.my-fest-all-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+@media (min-width: 640px) {
+  .my-fest-all-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .my-fest-all-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.my-fest-item-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.my-fest-item-card.is-priority {
+  border-left: 3px solid #10b981;
+}
+
+.my-fest-item-card.is-resting {
+  border-left: 3px solid #f59e0b;
+}
+
+/* Panel de Equidad específica en el Buscador Cronológico */
+.holiday-timeline-equity-box {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  margin-bottom: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.holiday-workers-equity-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.holiday-worker-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  font-size: 0.78rem;
+}
+
+.holiday-worker-pill.is-active {
+  border-color: var(--accent-primary);
+  background: rgba(56, 189, 248, 0.12);
+  color: var(--accent-primary);
+  font-weight: 700;
+}
+
+.holiday-worker-pill.is-min {
+  border-color: #10b981;
+}
+
+.holiday-worker-pill.is-max {
+  border-color: #f59e0b;
+}
+
+
 
