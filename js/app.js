@@ -43,7 +43,13 @@ document.addEventListener('DOMContentLoaded', () => {
     swapsMode: 'assistant', // 'assistant' | 'bank'
     bankFilter: 'pending', // 'pending' | 'settled' | 'all'
     debts: [],
-    appliedSwaps: [] // Permutas activas aplicadas permanentemente
+    appliedSwaps: [], // Permutas activas aplicadas permanentemente
+    // Mejora 3: Comparador de cuadrantes
+    teamMode: 'matrix', // 'matrix' | 'compare'
+    compareWorker1: localStorage.getItem('cuadrante_worker') || 'Antonio J',
+    compareWorker2: 'Alberto H',
+    compareMonth: 1,
+    compareFilter: 'all' // 'all' | 'free' | 'weekend' | 'shift' | 'swap'
   };
 
   // Cargar notas del trabajador actual
@@ -113,8 +119,13 @@ document.addEventListener('DOMContentLoaded', () => {
     nextMonthBtn: document.getElementById('nextMonthBtn'),
     calendarGrid: document.getElementById('calendarGrid'),
     quickExportIcsBtn: document.getElementById('quickExportIcsBtn'),
+    quickCompareBtn: document.getElementById('quickCompareBtn'),
 
-    // Tab 2: Equipo
+    // Tab 2: Equipo y Coberturas
+    teamModeMatrixBtn: document.getElementById('teamModeMatrixBtn'),
+    teamModeCompareBtn: document.getElementById('teamModeCompareBtn'),
+    teamMatrixView: document.getElementById('teamMatrixView'),
+    teamCompareView: document.getElementById('teamCompareView'),
     teamDatePicker: document.getElementById('teamDatePicker'),
     teamDailyHolidayBadge: document.getElementById('teamDailyHolidayBadge'),
     teamHolidayText: document.getElementById('teamHolidayText'),
@@ -128,6 +139,26 @@ document.addEventListener('DOMContentLoaded', () => {
     matrixMonthSelect: document.getElementById('matrixMonthSelect'),
     matrixThead: document.getElementById('matrixThead'),
     matrixTbody: document.getElementById('matrixTbody'),
+
+    // Mejora 3: Comparador de Cuadrantes
+    compareAvatar1: document.getElementById('compareAvatar1'),
+    compareWorker1Select: document.getElementById('compareWorker1Select'),
+    compareSwapWorkersBtn: document.getElementById('compareSwapWorkersBtn'),
+    compareAvatar2: document.getElementById('compareAvatar2'),
+    compareWorker2Select: document.getElementById('compareWorker2Select'),
+    compareQuickPills: document.getElementById('compareQuickPills'),
+    compareKpiFree: document.getElementById('compareKpiFree'),
+    compareKpiWeekend: document.getElementById('compareKpiWeekend'),
+    compareKpiShift: document.getElementById('compareKpiShift'),
+    compareKpiSwap: document.getElementById('compareKpiSwap'),
+    comparePrevMonthBtn: document.getElementById('comparePrevMonthBtn'),
+    compareMonthTitle: document.getElementById('compareMonthTitle'),
+    compareNextMonthBtn: document.getElementById('compareNextMonthBtn'),
+    compareCalendarGrid: document.getElementById('compareCalendarGrid'),
+    compareAgendaList: document.getElementById('compareAgendaList'),
+    compareAgendaSubtitle: document.getElementById('compareAgendaSubtitle'),
+    btnShareComparisonWhatsapp: document.getElementById('btnShareComparisonWhatsapp'),
+    btnShareWhatsappWorkerName: document.getElementById('btnShareWhatsappWorkerName'),
 
     // Tab 3: Permutas Inteligentes (Rediseño 4 Pasos)
     swapDateA: document.getElementById('swapDateA'),
@@ -276,6 +307,8 @@ document.addEventListener('DOMContentLoaded', () => {
     checkCustomExcelState();
     populateWorkerSelect();
     populateMonthSelects();
+    populateCompareWorkerSelects();
+    renderCompareQuickPills();
     setupNavigation();
     setupEventListeners();
     setupExcelImporter();
@@ -363,33 +396,37 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --- NAVEGACIÓN ENTRE PESTAÑAS ---
-  function setupNavigation() {
-    function switchTab(tabId) {
-      state.activeTab = tabId;
-      el.tabContents.forEach(content => {
-        content.classList.toggle('active', content.id === tabId);
-      });
-      el.navItems.forEach(item => {
-        item.classList.toggle('active', item.getAttribute('data-tab') === tabId);
-      });
-      el.dockBtns.forEach(btn => {
-        btn.classList.toggle('active', btn.getAttribute('data-tab') === tabId);
-      });
+  function switchTab(tabId) {
+    state.activeTab = tabId;
+    el.tabContents.forEach(content => {
+      content.classList.toggle('active', content.id === tabId);
+    });
+    el.navItems.forEach(item => {
+      item.classList.toggle('active', item.getAttribute('data-tab') === tabId);
+    });
+    el.dockBtns.forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-tab') === tabId);
+    });
 
-      if (tabId === 'tab-team') {
+    if (tabId === 'tab-team') {
+      if (state.teamMode === 'matrix') {
         renderTeamDaily();
         renderMatrix();
-      } else if (tabId === 'tab-swaps') {
-        if (state.swapsMode === 'assistant') {
-          updatePermutasWorkflow();
-        } else {
-          renderBankView();
-        }
-      } else if (tabId === 'tab-stats') {
-        renderStatistics();
+      } else {
+        renderCompareView();
       }
+    } else if (tabId === 'tab-swaps') {
+      if (state.swapsMode === 'assistant') {
+        updatePermutasWorkflow();
+      } else {
+        renderBankView();
+      }
+    } else if (tabId === 'tab-stats') {
+      renderStatistics();
     }
+  }
 
+  function setupNavigation() {
     el.navItems.forEach(item => {
       item.addEventListener('click', () => switchTab(item.getAttribute('data-tab')));
     });
@@ -404,9 +441,15 @@ document.addEventListener('DOMContentLoaded', () => {
     el.workerSelect.addEventListener('change', (e) => {
       state.currentWorker = e.target.value;
       localStorage.setItem('cuadrante_worker', state.currentWorker);
+      state.compareWorker1 = state.currentWorker;
+      if (state.compareWorker1 === state.compareWorker2) {
+        state.compareWorker2 = DATA.workers.find(w => w !== state.compareWorker1) || 'Alberto H';
+      }
       updateWorkerAvatar();
       loadWorkerNotes();
       populateWorkerSelect();
+      populateCompareWorkerSelects();
+      renderCompareQuickPills();
       updateAppView();
       showToast(`Trabajador activo: ${state.currentWorker}`);
     });
@@ -441,6 +484,17 @@ document.addEventListener('DOMContentLoaded', () => {
       showToast(`Descargando calendario de ${MONTH_NAMES[state.calendarMonth - 1]}...`);
     });
 
+    // Tab 1: Botón de acceso rápido al Comparador
+    if (el.quickCompareBtn) {
+      el.quickCompareBtn.addEventListener('click', () => {
+        switchTab('tab-team');
+        switchTeamMode('compare');
+        if (el.teamCompareView) {
+          el.teamCompareView.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    }
+
     // Exportar ICS pestaña herramientas
     el.btnDownloadIcs.addEventListener('click', () => {
       const period = el.exportPeriodSelect.value;
@@ -459,6 +513,88 @@ document.addEventListener('DOMContentLoaded', () => {
       state.matrixMonth = Number(e.target.value);
       renderMatrix();
     });
+
+    // Tab 2: Selector de Sub-Modo (Matriz vs Comparador)
+    if (el.teamModeMatrixBtn) {
+      el.teamModeMatrixBtn.addEventListener('click', () => switchTeamMode('matrix'));
+    }
+    if (el.teamModeCompareBtn) {
+      el.teamModeCompareBtn.addEventListener('click', () => switchTeamMode('compare'));
+    }
+
+    // Tab 2 (Comparador): Selectores de compañeros
+    if (el.compareWorker1Select) {
+      el.compareWorker1Select.addEventListener('change', (e) => {
+        state.compareWorker1 = e.target.value;
+        if (state.compareWorker1 === state.compareWorker2) {
+          const alt = DATA.workers.find(w => w !== state.compareWorker1) || 'Alberto H';
+          state.compareWorker2 = alt;
+          if (el.compareWorker2Select) el.compareWorker2Select.value = alt;
+        }
+        updateCompareAvatars();
+        renderCompareQuickPills();
+        renderCompareView();
+      });
+    }
+
+    if (el.compareWorker2Select) {
+      el.compareWorker2Select.addEventListener('change', (e) => {
+        state.compareWorker2 = e.target.value;
+        if (state.compareWorker1 === state.compareWorker2) {
+          const alt = DATA.workers.find(w => w !== state.compareWorker2) || 'Antonio J';
+          state.compareWorker1 = alt;
+          if (el.compareWorker1Select) el.compareWorker1Select.value = alt;
+        }
+        updateCompareAvatars();
+        renderCompareQuickPills();
+        renderCompareView();
+      });
+    }
+
+    // Tab 2 (Comparador): Botón Swap de compañeros
+    if (el.compareSwapWorkersBtn) {
+      el.compareSwapWorkersBtn.addEventListener('click', () => {
+        const temp = state.compareWorker1;
+        state.compareWorker1 = state.compareWorker2;
+        state.compareWorker2 = temp;
+        if (el.compareWorker1Select) el.compareWorker1Select.value = state.compareWorker1;
+        if (el.compareWorker2Select) el.compareWorker2Select.value = state.compareWorker2;
+        updateCompareAvatars();
+        renderCompareQuickPills();
+        renderCompareView();
+      });
+    }
+
+    // Tab 2 (Comparador): Navegación de meses
+    if (el.comparePrevMonthBtn) {
+      el.comparePrevMonthBtn.addEventListener('click', () => {
+        state.compareMonth = state.compareMonth > 1 ? state.compareMonth - 1 : 12;
+        renderCompareView();
+      });
+    }
+
+    if (el.compareNextMonthBtn) {
+      el.compareNextMonthBtn.addEventListener('click', () => {
+        state.compareMonth = state.compareMonth < 12 ? state.compareMonth + 1 : 1;
+        renderCompareView();
+      });
+    }
+
+    // Tab 2 (Comparador): Filtros de vista mensual
+    const compFilters = document.querySelectorAll('.compare-filter-pill');
+    compFilters.forEach(pill => {
+      pill.addEventListener('click', () => {
+        compFilters.forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        state.compareFilter = pill.getAttribute('data-filter') || 'all';
+        renderCompareCalendar();
+      });
+    });
+
+    // Tab 2 (Comparador): Compartir coincidencias por WhatsApp
+    if (el.btnShareComparisonWhatsapp) {
+      el.btnShareComparisonWhatsapp.addEventListener('click', shareComparisonViaWhatsapp);
+    }
 
     // Tab 3: Permutas Inteligentes (4 Pasos)
     if (el.swapDateA) {
@@ -651,6 +787,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderActiveSwapsBanner();
     renderTeamDaily();
     renderMatrix();
+    renderCompareView();
     renderStatistics();
     renderBankView();
     if (state.activeTab === 'tab-swaps') {
@@ -1039,6 +1176,408 @@ document.addEventListener('DOMContentLoaded', () => {
       tbodyHtml += '</tr>';
     });
     el.matrixTbody.innerHTML = tbodyHtml;
+  }
+
+  // ====================================================================
+  // MEJORA 3: COMPARADOR DE CUADRANTES ("¿CUÁNDO LIBRAMOS JUNTOS?")
+  // ====================================================================
+
+  function switchTeamMode(mode) {
+    state.teamMode = mode;
+    if (el.teamModeMatrixBtn) el.teamModeMatrixBtn.classList.toggle('active', mode === 'matrix');
+    if (el.teamModeCompareBtn) el.teamModeCompareBtn.classList.toggle('active', mode === 'compare');
+
+    if (el.teamMatrixView) el.teamMatrixView.style.display = mode === 'matrix' ? 'block' : 'none';
+    if (el.teamCompareView) el.teamCompareView.style.display = mode === 'compare' ? 'block' : 'none';
+
+    if (mode === 'matrix') {
+      renderTeamDaily();
+      renderMatrix();
+    } else {
+      renderCompareView();
+    }
+  }
+
+  function getWorkerInitials(name) {
+    if (!name) return '??';
+    const parts = name.trim().split(/\s+/);
+    if (parts.length >= 2) {
+      return (parts[0][0] + parts[1][0]).toUpperCase();
+    }
+    return name.slice(0, 2).toUpperCase();
+  }
+
+  function updateCompareAvatars() {
+    if (el.compareAvatar1) el.compareAvatar1.textContent = getWorkerInitials(state.compareWorker1);
+    if (el.compareAvatar2) el.compareAvatar2.textContent = getWorkerInitials(state.compareWorker2);
+    if (el.btnShareWhatsappWorkerName) el.btnShareWhatsappWorkerName.textContent = state.compareWorker2;
+  }
+
+  function populateCompareWorkerSelects() {
+    if (!el.compareWorker1Select || !el.compareWorker2Select) return;
+    el.compareWorker1Select.innerHTML = '';
+    el.compareWorker2Select.innerHTML = '';
+
+    DATA.workers.forEach(w => {
+      const opt1 = document.createElement('option');
+      opt1.value = w;
+      opt1.textContent = w;
+      if (w === state.compareWorker1) opt1.selected = true;
+      el.compareWorker1Select.appendChild(opt1);
+
+      const opt2 = document.createElement('option');
+      opt2.value = w;
+      opt2.textContent = w;
+      if (w === state.compareWorker2) opt2.selected = true;
+      el.compareWorker2Select.appendChild(opt2);
+    });
+
+    updateCompareAvatars();
+  }
+
+  function renderCompareQuickPills() {
+    if (!el.compareQuickPills) return;
+    el.compareQuickPills.innerHTML = '';
+
+    DATA.workers.forEach(w => {
+      if (w === state.compareWorker1) return;
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'compare-quick-pill' + (w === state.compareWorker2 ? ' active' : '');
+      btn.textContent = w;
+      btn.addEventListener('click', () => {
+        state.compareWorker2 = w;
+        if (el.compareWorker2Select) el.compareWorker2Select.value = w;
+        updateCompareAvatars();
+        renderCompareQuickPills();
+        renderCompareView();
+      });
+      el.compareQuickPills.appendChild(btn);
+    });
+  }
+
+  function calculateComparisonData(w1, w2) {
+    const result = {
+      sharedFreeDays: [],
+      sharedWeekends: [],
+      sharedWeekendDaysSet: new Set(),
+      sameShiftDays: [],
+      swapDays: [],
+      byDate: {}
+    };
+
+    const year = 2027;
+    const daysInYear = 365;
+
+    for (let i = 0; i < daysInYear; i++) {
+      const dt = new Date(year, 0, 1 + i);
+      const m = String(dt.getMonth() + 1).padStart(2, '0');
+      const d = String(dt.getDate()).padStart(2, '0');
+      const dateStr = `${year}-${m}-${d}`;
+
+      const s1 = getEffectiveShift(w1, dateStr);
+      const s2 = getEffectiveShift(w2, dateStr);
+
+      const b1 = window.CuadranteValidator.getBaseShift(s1);
+      const b2 = window.CuadranteValidator.getBaseShift(s2);
+
+      const isFree1 = (b1 === 'L');
+      const isFree2 = (b2 === 'L');
+      const bothFree = isFree1 && isFree2;
+      const sameShift = (!isFree1 && !isFree2 && b1 === b2);
+      const canSwap = (isFree1 !== isFree2);
+
+      if (bothFree) result.sharedFreeDays.push(dateStr);
+      if (sameShift) result.sameShiftDays.push({ date: dateStr, shift: s1, base: b1 });
+      if (canSwap) result.swapDays.push({ date: dateStr, s1, s2, w1Works: !isFree1, w2Works: !isFree2 });
+
+      result.byDate[dateStr] = {
+        dateStr,
+        s1,
+        s2,
+        b1,
+        b2,
+        isFree1,
+        isFree2,
+        bothFree,
+        sameShift,
+        canSwap,
+        isSharedWeekend: false
+      };
+    }
+
+    // Identificar fines de semana completos (Sábado y Domingo libres ambos)
+    for (let i = 0; i < daysInYear; i++) {
+      const dt = new Date(year, 0, 1 + i);
+      if (dt.getDay() === 6) { // Sábado
+        const m = String(dt.getMonth() + 1).padStart(2, '0');
+        const d = String(dt.getDate()).padStart(2, '0');
+        const satStr = `${year}-${m}-${d}`;
+
+        const sunDt = new Date(dt);
+        sunDt.setDate(dt.getDate() + 1);
+        if (sunDt.getFullYear() === year) {
+          const sm = String(sunDt.getMonth() + 1).padStart(2, '0');
+          const sd = String(sunDt.getDate()).padStart(2, '0');
+          const sunStr = `${year}-${sm}-${sd}`;
+
+          const satInfo = result.byDate[satStr];
+          const sunInfo = result.byDate[sunStr];
+
+          if (satInfo && sunInfo && satInfo.bothFree && sunInfo.bothFree) {
+            satInfo.isSharedWeekend = true;
+            sunInfo.isSharedWeekend = true;
+            result.sharedWeekendDaysSet.add(satStr);
+            result.sharedWeekendDaysSet.add(sunStr);
+            result.sharedWeekends.push({
+              sat: satStr,
+              sun: sunStr,
+              label: `${dt.getDate()} y ${sunDt.getDate()} de ${MONTH_NAMES[dt.getMonth()]}`
+            });
+          }
+        }
+      }
+    }
+
+    return result;
+  }
+
+  function renderCompareView() {
+    if (!el.teamCompareView) return;
+    const w1 = state.compareWorker1;
+    const w2 = state.compareWorker2;
+
+    updateCompareAvatars();
+
+    const data = calculateComparisonData(w1, w2);
+
+    if (el.compareKpiFree) el.compareKpiFree.textContent = data.sharedFreeDays.length;
+    if (el.compareKpiWeekend) el.compareKpiWeekend.textContent = data.sharedWeekends.length;
+    if (el.compareKpiShift) el.compareKpiShift.textContent = data.sameShiftDays.length;
+    if (el.compareKpiSwap) el.compareKpiSwap.textContent = data.swapDays.length;
+
+    renderCompareCalendar(data);
+    renderCompareAgenda(data);
+  }
+
+  function renderCompareCalendar(precalcData) {
+    if (!el.compareCalendarGrid) return;
+    const w1 = state.compareWorker1;
+    const w2 = state.compareWorker2;
+    const month = state.compareMonth;
+    const year = 2027;
+
+    if (el.compareMonthTitle) {
+      el.compareMonthTitle.textContent = `${MONTH_NAMES[month - 1]} ${year}`;
+    }
+
+    const data = precalcData || calculateComparisonData(w1, w2);
+    const lastDay = new Date(year, month, 0).getDate();
+
+    // Primer día del mes (1 = Lun, ..., 7 = Dom)
+    const firstDow = new Date(year, month - 1, 1).getDay();
+    const offset = (firstDow === 0 ? 7 : firstDow) - 1;
+
+    el.compareCalendarGrid.innerHTML = '';
+
+    for (let i = 0; i < offset; i++) {
+      const empty = document.createElement('div');
+      empty.className = 'compare-cell';
+      empty.style.opacity = '0.12';
+      empty.style.pointerEvents = 'none';
+      el.compareCalendarGrid.appendChild(empty);
+    }
+
+    const currentFilter = state.compareFilter;
+
+    for (let day = 1; day <= lastDay; day++) {
+      const dStr = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+      const info = data.byDate[dStr];
+      if (!info) continue;
+
+      let matchesFilter = true;
+      if (currentFilter === 'free') {
+        matchesFilter = info.bothFree;
+      } else if (currentFilter === 'weekend') {
+        matchesFilter = info.isSharedWeekend;
+      } else if (currentFilter === 'shift') {
+        matchesFilter = info.sameShift;
+      } else if (currentFilter === 'swap') {
+        matchesFilter = info.canSwap;
+      }
+
+      const cell = document.createElement('div');
+      let cellCls = 'compare-cell';
+      if (info.isSharedWeekend) {
+        cellCls += ' is-shared-free is-shared-weekend';
+      } else if (info.bothFree) {
+        cellCls += ' is-shared-free';
+      } else if (info.sameShift) {
+        cellCls += ' is-shared-shift';
+      }
+
+      cell.className = cellCls;
+      if (!matchesFilter) {
+        cell.style.opacity = '0.22';
+        cell.style.filter = 'grayscale(0.85)';
+      }
+
+      let tagHtml = '';
+      if (info.isSharedWeekend) {
+        tagHtml = '<span class="compare-cell-tag tag-weekend">☀️ Finde</span>';
+      } else if (info.bothFree) {
+        tagHtml = '<span class="compare-cell-tag tag-free">🟢 Libre</span>';
+      } else if (info.sameShift) {
+        tagHtml = `<span class="compare-cell-tag tag-shift">🔵 ${info.b1}</span>`;
+      } else if (info.canSwap) {
+        tagHtml = '<span class="compare-cell-tag" style="background:rgba(168,85,247,0.18); color:#c084fc;">🔀</span>';
+      }
+
+      function getPillStyle(shift, base) {
+        if (base === 'M') return 'background:var(--shift-m); color:#fff;';
+        if (base === 'T') return 'background:var(--shift-t); color:#fff;';
+        if (base === 'N') return 'background:var(--shift-n); color:#fff;';
+        if (shift === 'VAC') return 'background:var(--shift-vac); color:#fff;';
+        return 'background:var(--shift-free); color:#94a3b8;';
+      }
+
+      const pill1Style = getPillStyle(info.s1, info.b1);
+      const pill2Style = getPillStyle(info.s2, info.b2);
+
+      const short1 = info.b1 !== 'L' ? (info.s1.includes('.') ? `${info.b1}.` : info.b1) : (info.s1 === 'VAC' ? 'VAC' : 'L');
+      const short2 = info.b2 !== 'L' ? (info.s2.includes('.') ? `${info.b2}.` : info.b2) : (info.s2 === 'VAC' ? 'VAC' : 'L');
+
+      cell.innerHTML = `
+        <div class="compare-cell-header">
+          <span>${day}</span>
+          ${tagHtml}
+        </div>
+        <div class="compare-shifts-duo">
+          <div class="compare-shift-pill" style="${pill1Style}" title="${w1}: ${info.s1}">
+            ${short1}
+          </div>
+          <div class="compare-shift-pill" style="${pill2Style}" title="${w2}: ${info.s2}">
+            ${short2}
+          </div>
+        </div>
+      `;
+
+      cell.addEventListener('click', () => {
+        openDayDetailModal(dStr);
+      });
+
+      el.compareCalendarGrid.appendChild(cell);
+    }
+  }
+
+  function renderCompareAgenda(data) {
+    if (!el.compareAgendaList) return;
+    el.compareAgendaList.innerHTML = '';
+
+    const w1 = state.compareWorker1;
+    const w2 = state.compareWorker2;
+
+    const items = [];
+
+    // Fines de semana completos
+    data.sharedWeekends.slice(0, 4).forEach(wk => {
+      items.push({
+        icon: '☀️',
+        title: `Fin de Semana: ${wk.label}`,
+        subtitle: 'Sábado y Domingo libres ambos simultáneamente',
+        tag: 'Finde Libre',
+        tagCls: 'tag-weekend',
+        borderCol: '#f59e0b'
+      });
+    });
+
+    // Próximos días libres sueltos
+    const freeSingles = data.sharedFreeDays.filter(d => !data.sharedWeekendDaysSet.has(d)).slice(0, 4);
+    freeSingles.forEach(dStr => {
+      items.push({
+        icon: '🟢',
+        title: formatDateSpanish(dStr),
+        subtitle: `${w1} y ${w2} libran este día`,
+        tag: 'Día Libre',
+        tagCls: 'tag-free',
+        borderCol: '#10b981'
+      });
+    });
+
+    // Próximos mismos turnos
+    data.sameShiftDays.slice(0, 3).forEach(item => {
+      items.push({
+        icon: '🔵',
+        title: formatDateSpanish(item.date),
+        subtitle: `Coincidís trabajando en turno de ${item.base === 'M' ? 'Mañana' : (item.base === 'T' ? 'Tarde' : 'Noche')}`,
+        tag: `Mismo Turno (${item.base})`,
+        tagCls: 'tag-shift',
+        borderCol: '#38bdf8'
+      });
+    });
+
+    if (items.length === 0) {
+      el.compareAgendaList.innerHTML = `
+        <div style="grid-column:1/-1; text-align:center; padding:20px; color:var(--text-muted); font-size:0.9rem;">
+          No hay coincidencias registradas para esta selección.
+        </div>
+      `;
+      return;
+    }
+
+    items.forEach(it => {
+      const card = document.createElement('div');
+      card.className = 'compare-agenda-item';
+      card.style.borderLeftColor = it.borderCol;
+      card.innerHTML = `
+        <div>
+          <div style="font-weight:700; font-size:0.88rem; color:var(--text-primary); display:flex; align-items:center; gap:6px;">
+            <span>${it.icon}</span> ${it.title}
+          </div>
+          <div style="font-size:0.75rem; color:var(--text-muted); margin-top:3px;">
+            ${it.subtitle}
+          </div>
+        </div>
+        <span class="compare-cell-tag ${it.tagCls}">${it.tag}</span>
+      `;
+      el.compareAgendaList.appendChild(card);
+    });
+  }
+
+  function shareComparisonViaWhatsapp() {
+    const w1 = state.compareWorker1;
+    const w2 = state.compareWorker2;
+    const data = calculateComparisonData(w1, w2);
+
+    let msg = `👋 ¡Hola ${w2}!\n`;
+    msg += `He revisado nuestros cuadrantes de 2027 en la app de Andújar y aquí tienes el resumen de nuestras coincidencias:\n\n`;
+    msg += `🟢 *Días libres juntos:* ${data.sharedFreeDays.length} días en 2027\n`;
+    msg += `☀️ *Fines de semana completos libres juntos:* ${data.sharedWeekends.length} fines de semana\n`;
+    msg += `🔵 *Días que trabajamos en el mismo turno:* ${data.sameShiftDays.length} días\n`;
+    msg += `🔀 *Ocasiones para hacernos favores/permutas:* ${data.swapDays.length} días\n\n`;
+
+    if (data.sharedWeekends.length > 0) {
+      msg += `☀️ *Próximos fines de semana completos libres que compartimos:*\n`;
+      data.sharedWeekends.slice(0, 5).forEach(wk => {
+        msg += `• ${wk.label}\n`;
+      });
+      msg += `\n`;
+    }
+
+    const freeSingles = data.sharedFreeDays.filter(d => !data.sharedWeekendDaysSet.has(d)).slice(0, 4);
+    if (freeSingles.length > 0) {
+      msg += `🟢 *Próximos días libres juntos entre semana:*\n`;
+      freeSingles.forEach(dStr => {
+        msg += `• ${formatDateSpanish(dStr)}\n`;
+      });
+      msg += `\n`;
+    }
+
+    msg += `¡Podemos ir cuadrando planes familiares, escapadas o intercambios de turnos! 🚀\n`;
+    msg += `_Generado desde la app Cuadrante 2027 Andújar_`;
+
+    const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`;
+    window.open(url, '_blank');
   }
 
   // --- TAB 3: PERMUTAS INTELIGENTES (REDISEÑO EN 4 PASOS) ---

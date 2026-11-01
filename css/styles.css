@@ -2450,6 +2450,404 @@ button, select, input, textarea {
   border-color: rgba(56, 189, 248, 0.4);
 }
 
+/* ====================================================================
+   MEJORA 3: COMPARADOR DE CUADRANTES ENTRE COMPAÑEROS
+   ==================================================================== */
+
+.team-mode-nav {
+  display: flex;
+  gap: 10px;
+  background: var(--bg-surface);
+  padding: 6px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  margin-bottom: 20px;
+  max-width: 600px;
+}
+
+.team-mode-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.team-mode-btn:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.team-mode-btn.active {
+  background: var(--accent-gradient);
+  color: #fff;
+  box-shadow: 0 2px 10px rgba(56, 189, 248, 0.3);
+}
+
+/* Tarjeta Cabecera del Comparador */
+.compare-header-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 20px 24px;
+  margin-bottom: 20px;
+}
+
+.compare-workers-picker {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+.compare-worker-box {
+  flex: 1;
+  min-width: 220px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.compare-worker-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0284c7, #2563eb);
+  color: #fff;
+  font-weight: 800;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.compare-swap-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.compare-swap-btn:hover {
+  background: var(--accent-primary);
+  color: #fff;
+  border-color: var(--accent-primary);
+  transform: rotate(180deg);
+}
+
+.compare-quick-pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+  align-items: center;
+}
+
+.compare-quick-pill {
+  padding: 5px 12px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.compare-quick-pill:hover,
+.compare-quick-pill.active {
+  background: rgba(56, 189, 248, 0.18);
+  color: #38bdf8;
+  border-color: #38bdf8;
+}
+
+/* KPIs de Coincidencia */
+.compare-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.compare-kpi-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  transition: all var(--transition-fast);
+}
+
+.compare-kpi-card:hover {
+  border-color: rgba(56, 189, 248, 0.4);
+  transform: translateY(-2px);
+}
+
+.compare-kpi-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  flex-shrink: 0;
+}
+
+.compare-kpi-card.kpi-free .compare-kpi-icon {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+}
+
+.compare-kpi-card.kpi-weekend .compare-kpi-icon {
+  background: rgba(245, 158, 11, 0.15);
+  color: #f59e0b;
+}
+
+.compare-kpi-card.kpi-shift .compare-kpi-icon {
+  background: rgba(56, 189, 248, 0.15);
+  color: #38bdf8;
+}
+
+.compare-kpi-card.kpi-swap .compare-kpi-icon {
+  background: rgba(168, 85, 247, 0.15);
+  color: #a855f7;
+}
+
+.compare-kpi-num {
+  font-size: 1.4rem;
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--text-primary);
+}
+
+.compare-kpi-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* Celdas del Calendario Comparativo */
+.compare-calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+
+.compare-cell {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 6px;
+  min-height: 82px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  position: relative;
+}
+
+.compare-cell:hover {
+  border-color: var(--accent-primary);
+  transform: translateY(-1px);
+}
+
+.compare-cell.is-shared-free {
+  background: rgba(16, 185, 129, 0.08);
+  border-color: rgba(16, 185, 129, 0.4);
+}
+
+.compare-cell.is-shared-weekend {
+  border: 1.5px solid #f59e0b !important;
+  box-shadow: inset 0 0 8px rgba(245, 158, 11, 0.15);
+}
+
+.compare-cell.is-shared-shift {
+  background: rgba(56, 189, 248, 0.08);
+  border-color: rgba(56, 189, 248, 0.4);
+}
+
+.compare-cell-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.compare-cell-tag {
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+.compare-cell-tag.tag-free {
+  background: rgba(16, 185, 129, 0.2);
+  color: #10b981;
+}
+
+.compare-cell-tag.tag-weekend {
+  background: rgba(245, 158, 11, 0.2);
+  color: #f59e0b;
+}
+
+.compare-cell-tag.tag-shift {
+  background: rgba(56, 189, 248, 0.2);
+  color: #38bdf8;
+}
+
+.compare-shifts-duo {
+  display: flex;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.compare-shift-pill {
+  flex: 1;
+  text-align: center;
+  padding: 3px 2px;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.compare-agenda-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.compare-agenda-item {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-left: 3px solid var(--accent-primary);
+}
+
+.compare-badge-pill {
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  background: rgba(56, 189, 248, 0.2);
+  color: #38bdf8;
+  border-radius: 10px;
+  border: 1px solid rgba(56, 189, 248, 0.4);
+}
+
+.compare-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 20px 24px;
+  margin-bottom: 20px;
+}
+
+.compare-filter-bar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 14px 0 16px 0;
+}
+
+.compare-filter-pill {
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all var(--transition-fast);
+}
+
+.compare-filter-pill:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+}
+
+.compare-filter-pill.active {
+  background: rgba(56, 189, 248, 0.15);
+  color: #38bdf8;
+  border-color: #38bdf8;
+}
+
+.compare-agenda-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.btn-whatsapp-share {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: #25D366;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.88rem;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  box-shadow: 0 3px 12px rgba(37, 211, 102, 0.35);
+  transition: all var(--transition-fast);
+}
+
+.btn-whatsapp-share:hover {
+  background: #20bd5a;
+  transform: translateY(-1px);
+  box-shadow: 0 5px 16px rgba(37, 211, 102, 0.45);
+}
+
+.btn-whatsapp-share:active {
+  transform: translateY(0);
+}
+
 /* Reglas de Impresión A4 Nítida */
 @media print {
   body {

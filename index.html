@@ -242,15 +242,18 @@
         </div>
       </div>
 
-      <!-- Quick Action: Exportar Calendario -->
-      <div style="display:flex; justify-content:center; margin-top:16px;">
+      <!-- Quick Actions -->
+      <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:12px; margin-top:16px;">
         <button class="btn-primary" id="quickExportIcsBtn">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
             <polyline points="7 10 12 15 17 10"></polyline>
             <line x1="12" y1="15" x2="12" y2="3"></line>
           </svg>
-          Sincronizar mi Cuadrante con Google / Apple Calendar (.ics)
+          Sincronizar mi Cuadrante (.ics)
+        </button>
+        <button class="btn-secondary" id="quickCompareBtn" type="button" style="font-size:0.85rem; padding:10px 18px; display:inline-flex; align-items:center; gap:8px;">
+          <span>👥</span> Comparar con un compañero ("¿Cuándo libramos?")
         </button>
       </div>
 
@@ -261,100 +264,289 @@
          ==================================================================== -->
     <section id="tab-team" class="tab-content">
       
-      <!-- "¿Quién trabaja hoy?" Diaria -->
-      <div class="team-daily-card">
-        <div class="section-header">
-          <h3>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-              <circle cx="9" cy="7" r="4"></circle>
-              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-            </svg>
-            Dotación y Cobertura del Día
-          </h3>
-          <div class="hero-date-selector">
-            <label for="teamDatePicker">📅</label>
-            <input type="date" id="teamDatePicker" value="2027-01-01" min="2027-01-01" max="2027-12-31">
+      <!-- Selector de Sub-Vista: Matriz General vs Comparador Dual -->
+      <div class="team-mode-nav">
+        <button type="button" class="team-mode-btn active" id="teamModeMatrixBtn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="3" y1="9" x2="21" y2="9"></line>
+            <line x1="3" y1="15" x2="21" y2="15"></line>
+            <line x1="9" y1="3" x2="9" y2="21"></line>
+            <line x1="15" y1="3" x2="15" y2="21"></line>
+          </svg>
+          Cobertura y Matriz General
+        </button>
+        <button type="button" class="team-mode-btn" id="teamModeCompareBtn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+          Comparador ("¿Cuándo libramos?")
+          <span class="compare-badge-pill">Nuevo</span>
+        </button>
+      </div>
+
+      <!-- SUB-VISTA 1: MATRIZ Y COBERTURA DIARIA -->
+      <div id="teamMatrixView">
+        <!-- "¿Quién trabaja hoy?" Diaria -->
+        <div class="team-daily-card">
+          <div class="section-header">
+            <h3>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+              Dotación y Cobertura del Día
+            </h3>
+            <div class="hero-date-selector">
+              <label for="teamDatePicker">📅</label>
+              <input type="date" id="teamDatePicker" value="2027-01-01" min="2027-01-01" max="2027-12-31">
+            </div>
+          </div>
+
+          <div id="teamDailyHolidayBadge" style="display:none; margin-bottom:12px; font-size:0.85rem; color:var(--shift-fest); font-weight:600;">
+            🎉 <span id="teamHolidayText"></span>
+          </div>
+
+          <div class="shifts-breakdown-grid">
+            <!-- Mañana -->
+            <div class="shift-column-card">
+              <div class="shift-col-header">
+                <div class="shift-col-title" style="color:var(--shift-m);">
+                  <span>🌅 Mañana</span>
+                  <span style="font-size:0.75rem; color:var(--text-muted);">(07:00 - 15:00)</span>
+                </div>
+                <span class="legend-badge" id="mCountBadge" style="background:var(--shift-m-bg); color:var(--shift-m); padding:2px 8px; border-radius:10px; font-weight:700; font-size:0.8rem;">0</span>
+              </div>
+              <div class="worker-list-cards" id="teamListM"></div>
+            </div>
+
+            <!-- Tarde -->
+            <div class="shift-column-card">
+              <div class="shift-col-header">
+                <div class="shift-col-title" style="color:var(--shift-t);">
+                  <span>☀️ Tarde</span>
+                  <span style="font-size:0.75rem; color:var(--text-muted);">(15:00 - 23:00)</span>
+                </div>
+                <span class="legend-badge" id="tCountBadge" style="background:var(--shift-t-bg); color:var(--shift-t); padding:2px 8px; border-radius:10px; font-weight:700; font-size:0.8rem;">0</span>
+              </div>
+              <div class="worker-list-cards" id="teamListT"></div>
+            </div>
+
+            <!-- Noche -->
+            <div class="shift-column-card">
+              <div class="shift-col-header">
+                <div class="shift-col-title" style="color:var(--shift-n);">
+                  <span>🌙 Noche</span>
+                  <span style="font-size:0.75rem; color:var(--text-muted);">(23:00 - 07:00)</span>
+                </div>
+                <span class="legend-badge" id="nCountBadge" style="background:var(--shift-n-bg); color:var(--shift-n); padding:2px 8px; border-radius:10px; font-weight:700; font-size:0.8rem;">1</span>
+              </div>
+              <div class="worker-list-cards" id="teamListN"></div>
+            </div>
+          </div>
+
+          <!-- Descansos y Vacaciones -->
+          <div style="margin-top:16px; background:var(--bg-surface); border-radius:var(--radius-md); padding:12px; border:1px solid var(--border-color);">
+            <div style="font-size:0.8rem; font-weight:700; color:var(--text-secondary); margin-bottom:8px;">🏖️ Descanso / Vacaciones hoy:</div>
+            <div class="buddies-list" id="teamListFree"></div>
           </div>
         </div>
 
-        <div id="teamDailyHolidayBadge" style="display:none; margin-bottom:12px; font-size:0.85rem; color:var(--shift-fest); font-weight:600;">
-          🎉 <span id="teamHolidayText"></span>
-        </div>
-
-        <div class="shifts-breakdown-grid">
-          <!-- Mañana -->
-          <div class="shift-column-card">
-            <div class="shift-col-header">
-              <div class="shift-col-title" style="color:var(--shift-m);">
-                <span>🌅 Mañana</span>
-                <span style="font-size:0.75rem; color:var(--text-muted);">(07:00 - 15:00)</span>
-              </div>
-              <span class="legend-badge" id="mCountBadge" style="background:var(--shift-m-bg); color:var(--shift-m); padding:2px 8px; border-radius:10px; font-weight:700; font-size:0.8rem;">0</span>
+        <!-- Matriz General Completa del Cuadrante -->
+        <div class="matrix-container-card">
+          <div class="section-header">
+            <h3>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="3" y1="9" x2="21" y2="9"></line>
+                <line x1="3" y1="15" x2="21" y2="15"></line>
+                <line x1="9" y1="3" x2="9" y2="21"></line>
+                <line x1="15" y1="3" x2="15" y2="21"></line>
+              </svg>
+              Matriz Completa de la Plantilla (Visor Mensual)
+            </h3>
+            <div class="month-picker-group">
+              <select id="matrixMonthSelect" class="form-control" style="width:auto; font-weight:600;">
+                <!-- 12 meses -->
+              </select>
             </div>
-            <div class="worker-list-cards" id="teamListM"></div>
           </div>
+          <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:12px;">Visualización réplica del cuadrante oficial de Andújar. Desplaza horizontalmente para ver todos los días del mes.</p>
 
-          <!-- Tarde -->
-          <div class="shift-column-card">
-            <div class="shift-col-header">
-              <div class="shift-col-title" style="color:var(--shift-t);">
-                <span>☀️ Tarde</span>
-                <span style="font-size:0.75rem; color:var(--text-muted);">(15:00 - 23:00)</span>
-              </div>
-              <span class="legend-badge" id="tCountBadge" style="background:var(--shift-t-bg); color:var(--shift-t); padding:2px 8px; border-radius:10px; font-weight:700; font-size:0.8rem;">0</span>
-            </div>
-            <div class="worker-list-cards" id="teamListT"></div>
+          <div class="matrix-scroll-wrapper">
+            <table class="matrix-table" id="matrixTable">
+              <thead id="matrixThead"></thead>
+              <tbody id="matrixTbody"></tbody>
+            </table>
           </div>
-
-          <!-- Noche -->
-          <div class="shift-column-card">
-            <div class="shift-col-header">
-              <div class="shift-col-title" style="color:var(--shift-n);">
-                <span>🌙 Noche</span>
-                <span style="font-size:0.75rem; color:var(--text-muted);">(23:00 - 07:00)</span>
-              </div>
-              <span class="legend-badge" id="nCountBadge" style="background:var(--shift-n-bg); color:var(--shift-n); padding:2px 8px; border-radius:10px; font-weight:700; font-size:0.8rem;">1</span>
-            </div>
-            <div class="worker-list-cards" id="teamListN"></div>
-          </div>
-        </div>
-
-        <!-- Descansos y Vacaciones -->
-        <div style="margin-top:16px; background:var(--bg-surface); border-radius:var(--radius-md); padding:12px; border:1px solid var(--border-color);">
-          <div style="font-size:0.8rem; font-weight:700; color:var(--text-secondary); margin-bottom:8px;">🏖️ Descanso / Vacaciones hoy:</div>
-          <div class="buddies-list" id="teamListFree"></div>
         </div>
       </div>
 
-      <!-- Matriz General Completa del Cuadrante -->
-      <div class="matrix-container-card">
-        <div class="section-header">
-          <h3>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-              <line x1="3" y1="9" x2="21" y2="9"></line>
-              <line x1="3" y1="15" x2="21" y2="15"></line>
-              <line x1="9" y1="3" x2="9" y2="21"></line>
-              <line x1="15" y1="3" x2="15" y2="21"></line>
-            </svg>
-            Matriz Completa de la Plantilla (Visor Mensual)
-          </h3>
-          <div class="month-picker-group">
-            <select id="matrixMonthSelect" class="form-control" style="width:auto; font-weight:600;">
-              <!-- 12 meses -->
-            </select>
+      <!-- SUB-VISTA 2: COMPARADOR DE CUADRANTES ENTRE COMPAÑEROS -->
+      <div id="teamCompareView" style="display:none;">
+        
+        <!-- Cabecera de Selección de Compañeros -->
+        <div class="compare-header-card">
+          <div class="section-header" style="margin-bottom:8px;">
+            <h3>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+              Comparador de Cuadrantes ("¿Cuándo libramos juntos?")
+            </h3>
+          </div>
+          <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:14px;">
+            Selecciona dos trabajadores de Andújar para cruzar sus turnos en tiempo real: descubre qué días y fines de semana descansáis juntos, en qué turnos coincidís trabajando o qué días os podéis hacer favores.
+          </p>
+
+          <div class="compare-workers-picker">
+            <!-- Trabajador 1 -->
+            <div class="compare-worker-box">
+              <div class="compare-worker-avatar" id="compareAvatar1">AJ</div>
+              <div style="flex:1;">
+                <label for="compareWorker1Select" style="display:block; font-size:0.75rem; color:var(--text-muted); font-weight:600; margin-bottom:4px;">Primer Compañero</label>
+                <select id="compareWorker1Select" class="form-control" style="font-weight:700;">
+                  <!-- Se rellena con JS -->
+                </select>
+              </div>
+            </div>
+
+            <!-- Botón Swap -->
+            <button type="button" class="compare-swap-btn" id="compareSwapWorkersBtn" title="Intercambiar compañeros" aria-label="Intercambiar compañeros">
+              ⇄
+            </button>
+
+            <!-- Trabajador 2 -->
+            <div class="compare-worker-box">
+              <div class="compare-worker-avatar" id="compareAvatar2" style="background:linear-gradient(135deg, #10b981, #059669);">AH</div>
+              <div style="flex:1;">
+                <label for="compareWorker2Select" style="display:block; font-size:0.75rem; color:var(--text-muted); font-weight:600; margin-bottom:4px;">Segundo Compañero</label>
+                <select id="compareWorker2Select" class="form-control" style="font-weight:700;">
+                  <!-- Se rellena con JS -->
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pastillas Rápidas de Selección de Compañero -->
+          <div style="margin-top:14px;">
+            <div style="font-size:0.75rem; color:var(--text-muted); font-weight:600; margin-bottom:6px;">Comparar rápidamente con:</div>
+            <div class="compare-quick-pills" id="compareQuickPills">
+              <!-- Inyectado dinámicamente -->
+            </div>
           </div>
         </div>
-        <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:12px;">Visualización réplica del cuadrante oficial de Andújar. Desplaza horizontalmente para ver todos los días del mes.</p>
 
-        <div class="matrix-scroll-wrapper">
-          <table class="matrix-table" id="matrixTable">
-            <thead id="matrixThead"></thead>
-            <tbody id="matrixTbody"></tbody>
-          </table>
+        <!-- KPIs de Coincidencia Anual -->
+        <div class="compare-kpi-grid">
+          <div class="compare-kpi-card kpi-free">
+            <div class="compare-kpi-icon">🟢</div>
+            <div>
+              <div class="compare-kpi-num" id="compareKpiFree">0</div>
+              <div class="compare-kpi-label">Días Libres Juntos (Año 2027)</div>
+            </div>
+          </div>
+
+          <div class="compare-kpi-card kpi-weekend">
+            <div class="compare-kpi-icon">☀️</div>
+            <div>
+              <div class="compare-kpi-num" id="compareKpiWeekend">0</div>
+              <div class="compare-kpi-label">Fines de Semana Completos</div>
+            </div>
+          </div>
+
+          <div class="compare-kpi-card kpi-shift">
+            <div class="compare-kpi-icon">🔵</div>
+            <div>
+              <div class="compare-kpi-num" id="compareKpiShift">0</div>
+              <div class="compare-kpi-label">Mismo Turno de Trabajo</div>
+            </div>
+          </div>
+
+          <div class="compare-kpi-card kpi-swap">
+            <div class="compare-kpi-icon">🔀</div>
+            <div>
+              <div class="compare-kpi-num" id="compareKpiSwap">0</div>
+              <div class="compare-kpi-label">Días Permutables (Favor)</div>
+            </div>
+          </div>
         </div>
+
+        <!-- Calendario Mensual Dual -->
+        <div class="compare-card">
+          <div class="calendar-controls">
+            <div class="month-picker-group">
+              <button class="btn-icon" id="comparePrevMonthBtn" title="Mes anterior" aria-label="Mes anterior">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+              </button>
+              <div class="month-title" id="compareMonthTitle">Enero 2027</div>
+              <button class="btn-icon" id="compareNextMonthBtn" title="Mes siguiente" aria-label="Mes siguiente">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+              </button>
+            </div>
+
+            <div class="calendar-legend">
+              <div class="legend-item"><span style="color:#10b981; font-weight:700;">🟢</span> Libres Juntos</div>
+              <div class="legend-item"><span style="color:#f59e0b; font-weight:700;">☀️</span> Finde Libre</div>
+              <div class="legend-item"><span style="color:#38bdf8; font-weight:700;">🔵</span> Mismo Turno</div>
+              <div class="legend-item"><span style="color:#a855f7; font-weight:700;">🔀</span> Permutable</div>
+            </div>
+          </div>
+
+          <!-- Filtros de vista mensual -->
+          <div class="compare-filter-bar">
+            <span style="font-size:0.8rem; color:var(--text-muted); font-weight:600;">Filtrar días:</span>
+            <button type="button" class="compare-filter-pill active" data-filter="all">Todos los días</button>
+            <button type="button" class="compare-filter-pill" data-filter="free">🟢 Libres juntos</button>
+            <button type="button" class="compare-filter-pill" data-filter="weekend">☀️ Fines de semana libres</button>
+            <button type="button" class="compare-filter-pill" data-filter="shift">🔵 Mismo turno</button>
+            <button type="button" class="compare-filter-pill" data-filter="swap">🔀 Ocasiones permuta</button>
+          </div>
+
+          <div class="calendar-weekdays">
+            <div>Lun</div>
+            <div>Mar</div>
+            <div>Mié</div>
+            <div>Jue</div>
+            <div>Vie</div>
+            <div>Sáb</div>
+            <div>Dom</div>
+          </div>
+
+          <div class="compare-calendar-grid" id="compareCalendarGrid">
+            <!-- Celdas duales inyectadas dinámicamente -->
+          </div>
+        </div>
+
+        <!-- Agenda de Próximas Coincidencias y Compartir por WhatsApp -->
+        <div class="compare-card">
+          <div class="compare-agenda-header">
+            <div>
+              <h3 style="font-size:1.05rem; font-weight:700; color:var(--text-primary); margin-bottom:4px;">
+                📅 Próximas Fechas Clave Juntos
+              </h3>
+              <p style="font-size:0.8rem; color:var(--text-muted); margin:0;" id="compareAgendaSubtitle">
+                Fines de semana completos y días libres simultáneos más cercanos.
+              </p>
+            </div>
+            <button type="button" class="btn-whatsapp-share" id="btnShareComparisonWhatsapp">
+              <span>📲</span> Compartir por WhatsApp con <span id="btnShareWhatsappWorkerName">Compañero</span>
+            </button>
+          </div>
+
+          <div class="compare-agenda-list" id="compareAgendaList">
+            <!-- Items de agenda inyectados dinámicamente -->
+          </div>
+        </div>
+
       </div>
 
     </section>
