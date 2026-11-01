@@ -3439,9 +3439,9 @@ ${debt.notes ? `• *Notas:* ${debt.notes}\n` : ''}
 
     const slotNames = {
       1: { name: 'Turno 1', q1: '01 al 15 de Junio (15d)', q2: '01 al 15 de Agosto (15d)' },
-      2: { name: 'Turno 2', q1: '15 al 30 de Junio (16d)', q2: '15 al 30 de Agosto (16d)' },
+      2: { name: 'Turno 2', q1: '16 al 30 de Junio (15d)', q2: '16 al 30 de Agosto (15d)' },
       3: { name: 'Turno 3', q1: '01 al 15 de Julio (15d)', q2: '01 al 15 de Septiembre (15d)' },
-      4: { name: 'Turno 4', q1: '15 al 30 de Julio (16d)', q2: '15 al 30 de Septiembre (16d)' }
+      4: { name: 'Turno 4', q1: '16 al 30 de Julio (15d)', q2: '16 al 30 de Septiembre (15d)' }
     };
 
     if (w === 'Extra 1') {
@@ -3499,21 +3499,21 @@ ${debt.notes ? `• *Notas:* ${debt.notes}\n` : ''}
     const slotConfigs = {
       '2027': [
         { slotNum: 1, title: 'Turno 1', dates: '01-15 Jun & 01-15 Ago (15d)', pair: ['Antonio J', 'Miguel B'] },
-        { slotNum: 2, title: 'Turno 2', dates: '15-30 Jun & 15-30 Ago (16d)', pair: ['Paco C', 'Fran Espin'] },
+        { slotNum: 2, title: 'Turno 2', dates: '16-30 Jun & 16-30 Ago (15d)', pair: ['Paco C', 'Fran Espin'] },
         { slotNum: 3, title: 'Turno 3', dates: '01-15 Jul & 01-15 Sep (15d)', pair: ['A. Leon', 'Hilario'] },
-        { slotNum: 4, title: 'Turno 4', dates: '15-30 Jul & 15-30 Sep (16d)', pair: ['Santi M', 'Alberto H'] }
+        { slotNum: 4, title: 'Turno 4', dates: '16-30 Jul & 16-30 Sep (15d)', pair: ['Santi M', 'Alberto H'] }
       ],
       '2028': [
         { slotNum: 1, title: 'Turno 1', dates: '01-15 Jun & 01-15 Ago (15d)', pair: ['Santi M', 'Alberto H'] },
-        { slotNum: 2, title: 'Turno 2', dates: '15-30 Jun & 15-30 Ago (16d)', pair: ['Antonio J', 'Miguel B'] },
+        { slotNum: 2, title: 'Turno 2', dates: '16-30 Jun & 16-30 Ago (15d)', pair: ['Antonio J', 'Miguel B'] },
         { slotNum: 3, title: 'Turno 3', dates: '01-15 Jul & 01-15 Sep (15d)', pair: ['Paco C', 'Fran Espin'] },
-        { slotNum: 4, title: 'Turno 4', dates: '15-30 Jul & 15-30 Sep (16d)', pair: ['A. Leon', 'Hilario'] }
+        { slotNum: 4, title: 'Turno 4', dates: '16-30 Jul & 16-30 Sep (15d)', pair: ['A. Leon', 'Hilario'] }
       ],
       '2029': [
         { slotNum: 1, title: 'Turno 1', dates: '01-15 Jun & 01-15 Ago (15d)', pair: ['A. Leon', 'Hilario'] },
-        { slotNum: 2, title: 'Turno 2', dates: '15-30 Jun & 15-30 Ago (16d)', pair: ['Santi M', 'Alberto H'] },
+        { slotNum: 2, title: 'Turno 2', dates: '16-30 Jun & 16-30 Ago (15d)', pair: ['Santi M', 'Alberto H'] },
         { slotNum: 3, title: 'Turno 3', dates: '01-15 Jul & 01-15 Sep (15d)', pair: ['Antonio J', 'Miguel B'] },
-        { slotNum: 4, title: 'Turno 4', dates: '15-30 Jul & 15-30 Sep (16d)', pair: ['Paco C', 'Fran Espin'] }
+        { slotNum: 4, title: 'Turno 4', dates: '16-30 Jul & 16-30 Sep (15d)', pair: ['Paco C', 'Fran Espin'] }
       ]
     };
 

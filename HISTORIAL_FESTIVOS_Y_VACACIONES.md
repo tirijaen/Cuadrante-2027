@@ -82,16 +82,16 @@ Las vacaciones se dividen en 8 quincenas anuales (Junio a Septiembre) y se asign
 
 ### Bloques Quincenales:
 * **Turno 1**: 01 al 15 de Junio (15 días) y 01 al 15 de Agosto (15 días)
-* **Turno 2**: 15 al 30 de Junio (16 días) y 15 al 30 de Agosto (16 días)
+* **Turno 2**: 16 al 30 de Junio (15 días) y 16 al 30 de Agosto (15 días)
 * **Turno 3**: 01 al 15 de Julio (15 días) y 01 al 15 de Septiembre (15 días)
-* **Turno 4**: 15 al 30 de Julio (16 días) y 15 al 30 de Septiembre (16 días)
+* **Turno 4**: 16 al 30 de Julio (15 días) y 16 al 30 de Septiembre (15 días)
 
 > [!IMPORTANT]
-> **Duración exacta de las quincenas:** Las segundas quincenas son reglamentariamente de **16 días naturales** (del 15 al 30 de cada mes). Por ello, **no duran hasta el 31 de julio ni hasta el 31 de agosto** (el día 31 queda fuera del periodo quincenal).
+> **Duración exacta de las quincenas:** Todas las quincenas duran exactamente **15 días naturales** (del 1 al 15 y del 16 al 30). Por ello, **no duran hasta el 31 de julio ni hasta el 31 de agosto** (el día 31 queda fuera del periodo quincenal).
 
 ### Secuencia Histórica de Rotación y Proyección 2028:
 
-| Año | Turno 1 (01-15 Jun & 01-15 Ago) | Turno 2 (15-30 Jun & 15-30 Ago) | Turno 3 (01-15 Jul & 01-15 Sep) | Turno 4 (15-30 Jul & 15-30 Sep) |
+| Año | Turno 1 (01-15 Jun & 01-15 Ago) | Turno 2 (16-30 Jun & 16-30 Ago) | Turno 3 (01-15 Jul & 01-15 Sep) | Turno 4 (16-30 Jul & 16-30 Sep) |
 |:---:|:---:|:---:|:---:|:---:|
 | **2025** | AL - HG | MB - AH | AJ - MB | PC - FE |
 | **2026** | PC - FE | AL - HG | MB - AH | AJ - MB |

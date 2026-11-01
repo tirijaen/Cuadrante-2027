@@ -48,15 +48,15 @@ window.CUADRANTE_DATA = {
       "vacations": [
         {
           "month": 7,
-          "start": 15,
+          "start": 16,
           "end": 30,
-          "label": "1ª Quincena Julio (15-30)"
+          "label": "1ª Quincena Julio (16-30)"
         },
         {
           "month": 9,
-          "start": 15,
+          "start": 16,
           "end": 30,
-          "label": "2ª Quincena Septiembre (15-30)"
+          "label": "2ª Quincena Septiembre (16-30)"
         }
       ]
     },
@@ -71,15 +71,15 @@ window.CUADRANTE_DATA = {
       "vacations": [
         {
           "month": 7,
-          "start": 15,
+          "start": 16,
           "end": 30,
-          "label": "1ª Quincena Julio (15-30)"
+          "label": "1ª Quincena Julio (16-30)"
         },
         {
           "month": 9,
-          "start": 15,
+          "start": 16,
           "end": 30,
-          "label": "2ª Quincena Septiembre (15-30)"
+          "label": "2ª Quincena Septiembre (16-30)"
         }
       ]
     },
@@ -94,15 +94,15 @@ window.CUADRANTE_DATA = {
       "vacations": [
         {
           "month": 6,
-          "start": 15,
+          "start": 16,
           "end": 30,
-          "label": "1ª Quincena Junio (15-30)"
+          "label": "1ª Quincena Junio (16-30)"
         },
         {
           "month": 8,
-          "start": 15,
+          "start": 16,
           "end": 30,
-          "label": "2ª Quincena Agosto (15-30)"
+          "label": "2ª Quincena Agosto (16-30)"
         }
       ]
     },
@@ -140,15 +140,15 @@ window.CUADRANTE_DATA = {
       "vacations": [
         {
           "month": 6,
-          "start": 15,
+          "start": 16,
           "end": 30,
-          "label": "1ª Quincena Junio (15-30)"
+          "label": "1ª Quincena Junio (16-30)"
         },
         {
           "month": 8,
-          "start": 15,
+          "start": 16,
           "end": 30,
-          "label": "2ª Quincena Agosto (15-30)"
+          "label": "2ª Quincena Agosto (16-30)"
         }
       ]
     },

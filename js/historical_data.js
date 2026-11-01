@@ -677,13 +677,13 @@ window.HISTORICAL_DATA = {
   "vacaciones": {
     "headers": [
       "1-15 Junio",
-      "15-30 Junio",
+      "16-30 Junio",
       "1-15 Julio",
-      "15-30 Julio",
+      "16-30 Julio",
       "1-15 Agosto",
-      "15-30 Agosto",
+      "16-30 Agosto",
       "1-15 Septiembre",
-      "15-30 Septiembre"
+      "16-30 Septiembre"
     ],
     "history": {
       "2018": [

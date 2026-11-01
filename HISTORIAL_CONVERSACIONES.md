@@ -311,5 +311,17 @@ Vamos a corregir varios errores que he notado revisando la aplicación.
 4ª En la tabla equidad por Cada Festividad la últila columna que es el total no es necesaria.
 ```
 
----
+### 💬 Mensaje de Antonio (2026-11-01T16:47:07Z):
+```text
+Cometí un error al indicarte un parámetro, las quincenas son del 1 al 15 y del 16 al 30, todas duran 15 dias. Reparalo
+```
 
+**Resolución y Cambios Aplicados:**
+- Se corrigió la definición de quincenas vacacionales: todas las quincenas son exactamente de 15 días naturales (`01 al 15` y `16 al 30`).
+- Se actualizaron los rangos en `js/cuadrante_data.js` para Santi M, Alberto H, Fran Espin y Paco C fijando `start: 16, end: 30` (15 días).
+- Se actualizaron los turnos en `js/app.js` (`slotNames` y `slotConfigs` para 2027, 2028 y 2029) reflejando `16 al 30 de Junio/Julio/Agosto/Septiembre (15d)`.
+- Se corrigieron las cabeceras de tabla en `index.html` y `js/historical_data.js` a `16-30 Jul` y `16-30 Ago` (eliminando `16-31`).
+- Se actualizaron los documentos normativos `REGLAS_OFICIALES_CUADRANTE.md` y `HISTORIAL_FESTIVOS_Y_VACACIONES.md`.
+- Se incrementó la versión de caché PWA a `cuadrante-2027-v4.4`.
+
+---
