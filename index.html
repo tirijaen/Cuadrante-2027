@@ -116,6 +116,20 @@
       </svg>
       Permutas Inteligentes
     </div>
+    <div class="nav-item" data-tab="tab-holidays-vacations">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="5"></circle>
+        <line x1="12" y1="1" x2="12" y2="3"></line>
+        <line x1="12" y1="21" x2="12" y2="23"></line>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+        <line x1="1" y1="12" x2="3" y2="12"></line>
+        <line x1="21" y1="12" x2="23" y2="12"></line>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+      </svg>
+      Festivos & Vacaciones
+    </div>
     <div class="nav-item" data-tab="tab-stats">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <line x1="18" y1="20" x2="18" y2="10"></line>
@@ -855,7 +869,225 @@
     </section>
 
     <!-- ====================================================================
-         TAB 4: ESTADÍSTICAS DE JORNADA
+         TAB 4: FESTIVOS Y VACACIONES (HISTÓRICO 2011-2027 & PREVISIÓN 2028)
+         ==================================================================== -->
+    <section id="tab-holidays-vacations" class="tab-content">
+      
+      <!-- Toggle de Sub-vistas (Vacaciones vs Festivos) -->
+      <div class="team-subview-toggle" style="margin-bottom:20px;">
+        <button class="subview-btn active" id="btnSubViewVacations" type="button">
+          <span>🏖️</span> Vacaciones (2027 & Previsión 2028)
+        </button>
+        <button class="subview-btn" id="btnSubViewHolidays" type="button">
+          <span>🎉</span> Festivos & Equidad (2011 - 2027)
+        </button>
+      </div>
+
+      <!-- ================================================================
+           SUB-VISTA 1: VACACIONES
+           ================================================================ -->
+      <div id="subViewVacationsContainer">
+
+        <!-- Tarjeta Personal del Trabajador Activo -->
+        <div class="vac-personal-card">
+          <div class="vac-personal-top">
+            <div class="vac-personal-badge">
+              <span class="status-dot"></span>
+              <span id="vacCurrentWorkerName">Antonio J</span> · <span>Turno Personal de Vacaciones</span>
+            </div>
+            <div class="vac-partner-pill">
+              <span>Pareja Fija de Turno:</span>
+              <strong id="vacPartnerName" style="color:var(--accent-primary);">Miguel B</strong>
+            </div>
+          </div>
+
+          <div class="vac-personal-grid">
+            <!-- 2027 Oficial -->
+            <div class="vac-year-card is-2027">
+              <div class="vac-year-header">
+                <span class="vac-year-tag current">2027 OFICIAL</span>
+                <span class="vac-slot-badge" id="vac2027SlotName">Turno 1</span>
+              </div>
+              <div class="vac-dates-display" id="vac2027DatesText">
+                <div class="vac-date-row"><span>1ª Quincena:</span> <strong>01 al 15 de Junio</strong></div>
+                <div class="vac-date-row"><span>2ª Quincena:</span> <strong>01 al 15 de Agosto</strong></div>
+              </div>
+              <div class="vac-note-footer">Asignación activa en el cuadrante oficial</div>
+            </div>
+
+            <!-- Previsión 2028 Oficial -->
+            <div class="vac-year-card is-2028">
+              <div class="vac-year-header">
+                <span class="vac-year-tag next">🔮 PREVISIÓN 2028</span>
+                <span class="vac-slot-badge next" id="vac2028SlotName">Turno 2</span>
+              </div>
+              <div class="vac-dates-display" id="vac2028DatesText">
+                <div class="vac-date-row"><span>1ª Quincena:</span> <strong>16 al 30 de Junio</strong></div>
+                <div class="vac-date-row"><span>2ª Quincena:</span> <strong>16 al 31 de Agosto</strong></div>
+              </div>
+              <div class="vac-note-footer">Cálculo algorítmico según el ciclo rotativo de 4 años</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Visor Completo de la Plantilla por Quincenas -->
+        <div class="calculator-card" style="margin-top:20px;">
+          <div class="section-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+            <h3>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              Distribución por Parejas y Turnos Quincenales
+            </h3>
+            
+            <!-- Selector de Año para el Visor -->
+            <div class="vac-selector-pills" id="vacYearSelectorGroup">
+              <button class="vac-pill-btn active" data-vac-view="2027" type="button">2027 Oficial</button>
+              <button class="vac-pill-btn" data-vac-view="2028" type="button">2028 Previsión</button>
+              <button class="vac-pill-btn" data-vac-view="2029" type="button">2029 Previsión</button>
+              <button class="vac-pill-btn" data-vac-view="history" type="button">📚 Histórico (2018-2026)</button>
+            </div>
+          </div>
+
+          <!-- Cuadrícula de 4 Turnos Quincenales -->
+          <div id="vacationQuincenasCards" class="vac-quincenas-grid">
+            <!-- Inyectado dinámicamente -->
+          </div>
+
+          <!-- Tabla Histórica (oculta por defecto, visible cuando vac-view == 'history') -->
+          <div id="vacationHistoryTableWrapper" style="display:none; margin-top:16px;" class="matrix-scroll-wrapper">
+            <table class="matrix-table" id="vacationHistoryTable">
+              <thead>
+                <tr>
+                  <th>Año</th>
+                  <th>1-15 Jun</th>
+                  <th>16-30 Jun</th>
+                  <th>1-15 Jul</th>
+                  <th>16-31 Jul</th>
+                  <th>1-15 Ago</th>
+                  <th>16-31 Ago</th>
+                  <th>1-15 Sep</th>
+                  <th>16-30 Sep</th>
+                </tr>
+              </thead>
+              <tbody id="vacationHistoryTableBody"></tbody>
+            </table>
+          </div>
+
+          <!-- Explicación del Algoritmo de Rotación -->
+          <div class="vac-rules-box" style="margin-top:20px; background:var(--bg-surface); border-radius:var(--radius-md); padding:14px; border:1px solid var(--border-color);">
+            <div style="font-weight:700; font-size:0.85rem; margin-bottom:6px; color:var(--accent-primary);">
+              ℹ️ ¿Cómo funciona la rotación de vacaciones?
+            </div>
+            <p style="font-size:0.78rem; color:var(--text-secondary); margin:0; line-height:1.5;">
+              La plantilla rota en <strong>4 parejas estables</strong> a lo largo de <strong>4 turnos de dos quincenas</strong> separadas por 2 meses exactos. 
+              Cada año, cada pareja avanza automáticamente <strong>+1 turno quincenal</strong>, completando el ciclo completo en 4 años y garantizando que todos los trabajadores disfruten de los mejores meses (julio y agosto) con idéntica frecuencia.
+            </p>
+          </div>
+        </div>
+
+      </div> <!-- /#subViewVacationsContainer -->
+
+      <!-- ================================================================
+           SUB-VISTA 2: FESTIVOS & EQUIDAD
+           ================================================================ -->
+      <div id="subViewHolidaysContainer" style="display:none;">
+
+        <!-- Semáforo de Equidad Acumulada 2011-2027 -->
+        <div class="calculator-card">
+          <div class="section-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+            <h3>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+              </svg>
+              Equidad Acumulada de Festivos (2011 - 2027)
+            </h3>
+            <span class="badge-success" style="font-size:0.75rem; padding:4px 10px; border-radius:12px; background:rgba(16,185,129,0.15); color:#10b981; border:1px solid rgba(16,185,129,0.3); font-weight:700;">
+              ✓ Paridad Matemática: Máxima diferencia de solo 1 festivo
+            </span>
+          </div>
+          <p style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:16px;">
+            Cómputo acumulado de los 20 festivos anuales a lo largo de 17 años de registros oficiales (incluyendo el historial de predecesores de cada puesto):
+          </p>
+
+          <div class="holiday-equity-bars" id="holidayEquityBarsList">
+            <!-- Barras inyectadas dinámicamente -->
+          </div>
+
+          <div style="margin-top:16px; padding:12px 14px; border-radius:var(--radius-sm); background:rgba(56,189,248,0.08); border:1px solid rgba(56,189,248,0.25); font-size:0.8rem; color:#38bdf8; display:flex; align-items:center; gap:8px;">
+            <span>🎯</span>
+            <div><strong>Criterio Oficial para 2028:</strong> Alberto H (70), Fran Espín (70) y Paco C (70) tendrán prioridad para realizar 1 festivo adicional en 2028 y empatar a 71 con el resto de compañeros.</div>
+          </div>
+        </div>
+
+        <!-- Mis Fiestas Señaladas (Histórico del Usuario Activo) -->
+        <div class="calculator-card" style="margin-top:20px;">
+          <div class="section-header">
+            <h3>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+              </svg>
+              Mis Fiestas Señaladas (<span id="holidayMyWorkerTitle" style="color:var(--accent-primary);">Antonio J</span>)
+            </h3>
+          </div>
+          <div class="my-fest-special-grid" id="mySpecialFestList">
+            <!-- Tarjetas de Nochebuena, Nochevieja, Semana Santa, Romería -->
+          </div>
+        </div>
+
+        <!-- Buscador Cronológico de Cualquier Festivo (2011 - 2027) -->
+        <div class="calculator-card" style="margin-top:20px;">
+          <div class="section-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+            <h3>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              Buscador Cronológico por Festivo (2011 a 2027)
+            </h3>
+            
+            <div style="display:flex; align-items:center; gap:8px;">
+              <label for="selectHolidayCategory" style="font-size:0.8rem; color:var(--text-muted); font-weight:600;">Elegir fiesta:</label>
+              <select id="selectHolidayCategory" style="padding:6px 12px; font-size:0.82rem; border-radius:var(--radius-sm); background:var(--bg-surface); border:1px solid var(--border-color); color:var(--text-primary); cursor:pointer;">
+                <!-- Opciones inyectadas dinámicamente -->
+              </select>
+            </div>
+          </div>
+
+          <!-- Línea de Tiempo del Festivo Seleccionado -->
+          <div id="holidayTimelineContainer" style="margin-top:16px;">
+            <!-- Renderizado dinámicamente -->
+          </div>
+        </div>
+
+        <!-- Asignaciones Fijas Oficiales de 2027 -->
+        <div class="calculator-card" style="margin-top:20px;">
+          <div class="section-header">
+            <h3>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+              </svg>
+              Resumen de Asignaciones Fijas Oficiales 2027
+            </h3>
+            <span style="font-size:0.75rem; color:var(--text-muted);">
+              En festivos diurnos con 2 trabajadores, uno hace Mañana y otro Tarde indistintamente
+            </span>
+          </div>
+          <div class="fixed-holidays-2027-grid" id="fixedHolidays2027List">
+            <!-- Tarjetas de fechas fijas 2027 -->
+          </div>
+        </div>
+
+      </div> <!-- /#subViewHolidaysContainer -->
+
+    </section>
+
+    <!-- ====================================================================
+         TAB 5: ESTADÍSTICAS DE JORNADA
          ==================================================================== -->
     <section id="tab-stats" class="tab-content">
       
@@ -1171,6 +1403,20 @@
         <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
       </svg>
       <span>Permutas</span>
+    </button>
+    <button class="dock-btn" data-tab="tab-holidays-vacations">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="5"></circle>
+        <line x1="12" y1="1" x2="12" y2="3"></line>
+        <line x1="12" y1="21" x2="12" y2="23"></line>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+        <line x1="1" y1="12" x2="3" y2="12"></line>
+        <line x1="21" y1="12" x2="23" y2="12"></line>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+      </svg>
+      <span>Vacaciones</span>
     </button>
     <button class="dock-btn" data-tab="tab-stats">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1507,6 +1753,7 @@
   <!-- Application Scripts -->
   <script src="js/xlsx.full.min.js"></script>
   <script src="js/cuadrante_data.js"></script>
+  <script src="js/historical_data.js"></script>
   <script src="js/validator.js"></script>
   <script src="js/calendar_export.js"></script>
   <script src="js/app.js"></script>

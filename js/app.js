@@ -49,7 +49,11 @@ document.addEventListener('DOMContentLoaded', () => {
     compareWorker1: localStorage.getItem('cuadrante_worker') || 'Antonio J',
     compareWorker2: 'Alberto H',
     compareMonth: 1,
-    compareFilter: 'all' // 'all' | 'free' | 'weekend' | 'shift' | 'swap'
+    compareFilter: 'all', // 'all' | 'free' | 'weekend' | 'shift' | 'swap'
+    // Festivos & Vacaciones
+    holidaysVacationsMode: 'vacations', // 'vacations' | 'holidays'
+    vacationsViewYear: '2027', // '2027' | '2028' | '2029' | 'history'
+    selectedHolidayTimeline: 'NOCHES DEL 1 DE ENERO'
   };
 
   // Cargar notas del trabajador actual
@@ -298,7 +302,29 @@ document.addEventListener('DOMContentLoaded', () => {
     modalBtnVolanteSwap: document.getElementById('modalBtnVolanteSwap'),
 
     // Toast
-    toastContainer: document.getElementById('toastContainer')
+    toastContainer: document.getElementById('toastContainer'),
+
+    // Tab Festivos & Vacaciones
+    btnSubViewVacations: document.getElementById('btnSubViewVacations'),
+    btnSubViewHolidays: document.getElementById('btnSubViewHolidays'),
+    subViewVacationsContainer: document.getElementById('subViewVacationsContainer'),
+    subViewHolidaysContainer: document.getElementById('subViewHolidaysContainer'),
+    vacCurrentWorkerName: document.getElementById('vacCurrentWorkerName'),
+    vacPartnerName: document.getElementById('vacPartnerName'),
+    vac2027SlotName: document.getElementById('vac2027SlotName'),
+    vac2027DatesText: document.getElementById('vac2027DatesText'),
+    vac2028SlotName: document.getElementById('vac2028SlotName'),
+    vac2028DatesText: document.getElementById('vac2028DatesText'),
+    vacYearSelectorGroup: document.getElementById('vacYearSelectorGroup'),
+    vacationQuincenasCards: document.getElementById('vacationQuincenasCards'),
+    vacationHistoryTableWrapper: document.getElementById('vacationHistoryTableWrapper'),
+    vacationHistoryTableBody: document.getElementById('vacationHistoryTableBody'),
+    holidayEquityBarsList: document.getElementById('holidayEquityBarsList'),
+    holidayMyWorkerTitle: document.getElementById('holidayMyWorkerTitle'),
+    mySpecialFestList: document.getElementById('mySpecialFestList'),
+    selectHolidayCategory: document.getElementById('selectHolidayCategory'),
+    holidayTimelineContainer: document.getElementById('holidayTimelineContainer'),
+    fixedHolidays2027List: document.getElementById('fixedHolidays2027List')
   };
 
   // --- INICIALIZACIÓN ---
@@ -309,6 +335,7 @@ document.addEventListener('DOMContentLoaded', () => {
     populateMonthSelects();
     populateCompareWorkerSelects();
     renderCompareQuickPills();
+    populateHolidayCategories();
     setupNavigation();
     setupEventListeners();
     setupExcelImporter();
@@ -421,6 +448,8 @@ document.addEventListener('DOMContentLoaded', () => {
       } else {
         renderBankView();
       }
+    } else if (tabId === 'tab-holidays-vacations') {
+      renderHolidaysVacations();
     } else if (tabId === 'tab-stats') {
       renderStatistics();
     }
@@ -725,6 +754,45 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     el.modalSaveNoteBtn.addEventListener('click', saveModalNote);
+
+    // Tab Festivos & Vacaciones Event Listeners
+    if (el.btnSubViewVacations) {
+      el.btnSubViewVacations.addEventListener('click', () => {
+        state.holidaysVacationsMode = 'vacations';
+        el.btnSubViewVacations.classList.add('active');
+        el.btnSubViewHolidays.classList.remove('active');
+        renderHolidaysVacations();
+      });
+    }
+
+    if (el.btnSubViewHolidays) {
+      el.btnSubViewHolidays.addEventListener('click', () => {
+        state.holidaysVacationsMode = 'holidays';
+        el.btnSubViewHolidays.classList.add('active');
+        el.btnSubViewVacations.classList.remove('active');
+        renderHolidaysVacations();
+      });
+    }
+
+    if (el.vacYearSelectorGroup) {
+      el.vacYearSelectorGroup.addEventListener('click', (e) => {
+        const btn = e.target.closest('.vac-pill-btn');
+        if (!btn) return;
+        const view = btn.getAttribute('data-vac-view');
+        state.vacationsViewYear = view;
+        el.vacYearSelectorGroup.querySelectorAll('.vac-pill-btn').forEach(b => {
+          b.classList.toggle('active', b === btn);
+        });
+        renderVacationsSubView();
+      });
+    }
+
+    if (el.selectHolidayCategory) {
+      el.selectHolidayCategory.addEventListener('change', (e) => {
+        state.selectedHolidayTimeline = e.target.value;
+        renderHolidayTimeline(state.selectedHolidayTimeline);
+      });
+    }
   }
 
   // --- HELPERS DE TURNOS Y DATOS ---
@@ -790,6 +858,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderCompareView();
     renderStatistics();
     renderBankView();
+    renderHolidaysVacations();
     if (state.activeTab === 'tab-swaps') {
       if (state.swapsMode === 'assistant') {
         updatePermutasWorkflow();
@@ -3054,6 +3123,463 @@ ${debt.notes ? `• *Notas:* ${debt.notes}\n` : ''}
       toast.style.transition = '0.3s ease';
       setTimeout(() => toast.remove(), 300);
     }, 2800);
+  }
+
+  // ==========================================================================
+  // TAB: FESTIVOS & VACACIONES (HISTÓRICO 2011-2027 & PREVISIÓN 2028)
+  // ==========================================================================
+
+  function renderHolidaysVacations() {
+    if (!window.HISTORICAL_DATA) return;
+
+    if (state.holidaysVacationsMode === 'vacations') {
+      if (el.subViewVacationsContainer) el.subViewVacationsContainer.style.display = 'block';
+      if (el.subViewHolidaysContainer) el.subViewHolidaysContainer.style.display = 'none';
+      renderVacationsSubView();
+    } else {
+      if (el.subViewVacationsContainer) el.subViewVacationsContainer.style.display = 'none';
+      if (el.subViewHolidaysContainer) el.subViewHolidaysContainer.style.display = 'block';
+      renderHolidaysSubView();
+    }
+  }
+
+  function renderVacationsSubView() {
+    const hist = window.HISTORICAL_DATA;
+    if (!hist || !hist.vacaciones) return;
+
+    const w = state.currentWorker;
+    if (el.vacCurrentWorkerName) el.vacCurrentWorkerName.textContent = w;
+
+    // Parejas y turnos rotativos
+    const pairs = {
+      'Antonio J': { partner: 'Miguel B', slot2027: 1, slot2028: 2 },
+      'Miguel B': { partner: 'Antonio J', slot2027: 1, slot2028: 2 },
+      'Paco C': { partner: 'Fran Espin', slot2027: 2, slot2028: 3 },
+      'Fran Espin': { partner: 'Paco C', slot2027: 2, slot2028: 3 },
+      'A. Leon': { partner: 'Hilario', slot2027: 3, slot2028: 4 },
+      'Hilario': { partner: 'A. Leon', slot2027: 3, slot2028: 4 },
+      'Santi M': { partner: 'Alberto H', slot2027: 4, slot2028: 1 },
+      'Alberto H': { partner: 'Santi M', slot2027: 4, slot2028: 1 },
+      'Extra 1': { partner: 'Personal de Refuerzo', slot2027: 0, slot2028: 0 }
+    };
+
+    const userPairInfo = pairs[w] || { partner: 'N/A', slot2027: 1, slot2028: 2 };
+
+    if (el.vacPartnerName) {
+      el.vacPartnerName.textContent = userPairInfo.partner;
+    }
+
+    const slotNames = {
+      1: { name: 'Turno 1', q1: '01 al 15 de Junio', q2: '01 al 15 de Agosto' },
+      2: { name: 'Turno 2', q1: '16 al 30 de Junio', q2: '16 al 31 de Agosto' },
+      3: { name: 'Turno 3', q1: '01 al 15 de Julio', q2: '01 al 15 de Septiembre' },
+      4: { name: 'Turno 4', q1: '16 al 31 de Julio', q2: '16 al 30 de Septiembre' }
+    };
+
+    if (w === 'Extra 1') {
+      if (el.vac2027SlotName) el.vac2027SlotName.textContent = 'Refuerzo Estival';
+      if (el.vac2027DatesText) {
+        el.vac2027DatesText.innerHTML = `
+          <div class="vac-date-row"><span>Periodo:</span> <strong>Junio a Septiembre (4 meses)</strong></div>
+          <div class="vac-date-row"><span>Función:</span> <strong>Cobertura vacaciones de fijos</strong></div>
+        `;
+      }
+      if (el.vac2028SlotName) el.vac2028SlotName.textContent = 'Refuerzo Estival';
+      if (el.vac2028DatesText) {
+        el.vac2028DatesText.innerHTML = `
+          <div class="vac-date-row"><span>Periodo:</span> <strong>Junio a Septiembre</strong></div>
+          <div class="vac-date-row"><span>Función:</span> <strong>Contratación temporal de verano</strong></div>
+        `;
+      }
+    } else {
+      const s27 = slotNames[userPairInfo.slot2027];
+      const s28 = slotNames[userPairInfo.slot2028];
+
+      if (el.vac2027SlotName) el.vac2027SlotName.textContent = s27.name;
+      if (el.vac2027DatesText) {
+        el.vac2027DatesText.innerHTML = `
+          <div class="vac-date-row"><span>1ª Quincena:</span> <strong>${s27.q1}</strong></div>
+          <div class="vac-date-row"><span>2ª Quincena:</span> <strong>${s27.q2}</strong></div>
+        `;
+      }
+
+      if (el.vac2028SlotName) el.vac2028SlotName.textContent = s28.name;
+      if (el.vac2028DatesText) {
+        el.vac2028DatesText.innerHTML = `
+          <div class="vac-date-row"><span>1ª Quincena:</span> <strong>${s28.q1}</strong></div>
+          <div class="vac-date-row"><span>2ª Quincena:</span> <strong>${s28.q2}</strong></div>
+        `;
+      }
+    }
+
+    // Selector de vista
+    const view = state.vacationsViewYear;
+    if (view === 'history') {
+      if (el.vacationQuincenasCards) el.vacationQuincenasCards.style.display = 'none';
+      if (el.vacationHistoryTableWrapper) el.vacationHistoryTableWrapper.style.display = 'block';
+      renderVacationHistoryTable();
+    } else {
+      if (el.vacationQuincenasCards) el.vacationQuincenasCards.style.display = 'grid';
+      if (el.vacationHistoryTableWrapper) el.vacationHistoryTableWrapper.style.display = 'none';
+      renderVacationQuincenasCards(view);
+    }
+  }
+
+  function renderVacationQuincenasCards(viewYear) {
+    if (!el.vacationQuincenasCards) return;
+
+    const slotConfigs = {
+      '2027': [
+        { slotNum: 1, title: 'Turno 1', dates: '1-15 Jun & 1-15 Ago', pair: ['Antonio J', 'Miguel B'] },
+        { slotNum: 2, title: 'Turno 2', dates: '16-30 Jun & 16-31 Ago', pair: ['Paco C', 'Fran Espin'] },
+        { slotNum: 3, title: 'Turno 3', dates: '1-15 Jul & 1-15 Sep', pair: ['A. Leon', 'Hilario'] },
+        { slotNum: 4, title: 'Turno 4', dates: '16-31 Jul & 16-30 Sep', pair: ['Santi M', 'Alberto H'] }
+      ],
+      '2028': [
+        { slotNum: 1, title: 'Turno 1', dates: '1-15 Jun & 1-15 Ago', pair: ['Santi M', 'Alberto H'] },
+        { slotNum: 2, title: 'Turno 2', dates: '16-30 Jun & 16-31 Ago', pair: ['Antonio J', 'Miguel B'] },
+        { slotNum: 3, title: 'Turno 3', dates: '1-15 Jul & 1-15 Sep', pair: ['Paco C', 'Fran Espin'] },
+        { slotNum: 4, title: 'Turno 4', dates: '16-31 Jul & 16-30 Sep', pair: ['A. Leon', 'Hilario'] }
+      ],
+      '2029': [
+        { slotNum: 1, title: 'Turno 1', dates: '1-15 Jun & 1-15 Ago', pair: ['A. Leon', 'Hilario'] },
+        { slotNum: 2, title: 'Turno 2', dates: '16-30 Jun & 16-31 Ago', pair: ['Santi M', 'Alberto H'] },
+        { slotNum: 3, title: 'Turno 3', dates: '1-15 Jul & 1-15 Sep', pair: ['Antonio J', 'Miguel B'] },
+        { slotNum: 4, title: 'Turno 4', dates: '16-31 Jul & 16-30 Sep', pair: ['Paco C', 'Fran Espin'] }
+      ]
+    };
+
+    const slots = slotConfigs[viewYear] || slotConfigs['2027'];
+    const activeWorker = state.currentWorker;
+
+    el.vacationQuincenasCards.innerHTML = slots.map(s => {
+      const isUserSlot = s.pair.includes(activeWorker);
+      const w1Highlight = s.pair[0] === activeWorker ? 'highlight' : '';
+      const w2Highlight = s.pair[1] === activeWorker ? 'highlight' : '';
+
+      return `
+        <div class="vac-quincena-card ${isUserSlot ? 'is-active-user' : ''}">
+          <div class="vac-quincena-header">
+            <span class="vac-slot-title">${s.title}</span>
+            <span class="vac-dates-badge">${s.dates}</span>
+          </div>
+          <div class="vac-pair-display">
+            <div class="vac-worker-name ${w1Highlight}">
+              <span>👤</span> ${s.pair[0]}
+            </div>
+            <div class="vac-worker-name ${w2Highlight}">
+              <span>👤</span> ${s.pair[1]}
+            </div>
+          </div>
+          <div style="font-size:0.72rem; color:var(--text-muted); margin-top:auto;">
+            ${isUserSlot ? '⭐ <strong>Tu turno asignado</strong>' : 'Descanso simultáneo de la pareja'}
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function renderVacationHistoryTable() {
+    if (!el.vacationHistoryTableBody || !window.HISTORICAL_DATA) return;
+    const hist = window.HISTORICAL_DATA.vacaciones.history;
+    const years = Object.keys(hist).map(Number).sort((a, b) => b - a);
+
+    el.vacationHistoryTableBody.innerHTML = years.map(yr => {
+      const q = hist[yr];
+      return `
+        <tr>
+          <td><strong>${yr}</strong></td>
+          <td>${q[0] || '-'}</td>
+          <td>${q[1] || '-'}</td>
+          <td>${q[2] || '-'}</td>
+          <td>${q[3] || '-'}</td>
+          <td>${q[4] || '-'}</td>
+          <td>${q[5] || '-'}</td>
+          <td>${q[6] || '-'}</td>
+          <td>${q[7] || '-'}</td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  function renderHolidaysSubView() {
+    const hist = window.HISTORICAL_DATA;
+    if (!hist || !hist.festivos) return;
+
+    if (el.holidayMyWorkerTitle) {
+      el.holidayMyWorkerTitle.textContent = state.currentWorker;
+    }
+
+    // 1. Barras de equidad
+    renderHolidayEquityBars();
+
+    // 2. Mis Fiestas Señaladas
+    renderMySpecialHolidays();
+
+    // 3. Dropdown y Línea de Tiempo
+    if (el.selectHolidayCategory && !el.selectHolidayCategory.children.length) {
+      populateHolidayCategories();
+    }
+    renderHolidayTimeline(state.selectedHolidayTimeline);
+
+    // 4. Asignaciones fijas 2027
+    renderFixed2027Holidays();
+  }
+
+  function renderHolidayEquityBars() {
+    if (!el.holidayEquityBarsList || !window.HISTORICAL_DATA) return;
+    const totals = window.HISTORICAL_DATA.festivos.totals;
+
+    const workers = [
+      { name: 'Antonio J', full: 'Antonio Jesús Sánchez', code: 'AJ' },
+      { name: 'Santi M', full: 'Santiago Molina', code: 'SM' },
+      { name: 'Miguel B', full: 'Miguel Benítez', code: 'MB' },
+      { name: 'A. Leon', full: 'Antonio León', code: 'AL' },
+      { name: 'Alberto H', full: 'Alberto Higueras', code: 'AH' },
+      { name: 'Fran Espin', full: 'Francisco Espín', code: 'FE' },
+      { name: 'Paco C', full: 'Francisco Cantarero', code: 'PC' }
+    ];
+
+    const maxCount = 71;
+
+    el.holidayEquityBarsList.innerHTML = workers.map(w => {
+      const count = totals[w.code] || 70;
+      const pct = (count / maxCount) * 100;
+      const isMax = count === 71;
+      const isActive = w.name === state.currentWorker;
+
+      return `
+        <div class="holiday-equity-row" style="${isActive ? 'background:rgba(56,189,248,0.06); padding:6px 10px; border-radius:8px; border:1px solid rgba(56,189,248,0.2);' : ''}">
+          <div class="holiday-equity-meta">
+            <span class="holiday-equity-name" style="${isActive ? 'color:var(--accent-primary);' : ''}">
+              ${isActive ? '👉 ' : ''}${w.name} <span style="font-size:0.72rem; color:var(--text-muted); font-weight:normal;">(${w.full})</span>
+            </span>
+            <div class="holiday-equity-counts">
+              <strong>${count} festivos</strong>
+              ${isMax 
+                ? '<span style="font-size:0.7rem; background:rgba(16,185,129,0.18); color:#10b981; padding:2px 6px; border-radius:4px; font-weight:700;">Cumplido (71)</span>'
+                : '<span style="font-size:0.7rem; background:rgba(245,158,11,0.18); color:#f59e0b; padding:2px 6px; border-radius:4px; font-weight:700;">Prioridad 2028 (+1)</span>'
+              }
+            </div>
+          </div>
+          <div class="holiday-bar-track">
+            <div class="holiday-bar-fill ${isMax ? 'gold' : 'silver'}" style="width:${pct.toFixed(1)}%;"></div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function renderMySpecialHolidays() {
+    if (!el.mySpecialFestList || !window.HISTORICAL_DATA) return;
+    const w = state.currentWorker;
+
+    // Fiestas clave
+    const specialFestivals = [
+      {
+        id: 'nochebuena',
+        title: '🎄 Nochebuena (24 Dic)',
+        historyLast: {
+          'Antonio J': '2025',
+          'Santi M': '2021 (antiguo Marcos Brito)',
+          'Alberto H': '2027 (¡Este año te toca!)',
+          'Fran Espin': '2023',
+          'Miguel B': '2026 (antiguo AC)',
+          'Paco C': '2024',
+          'A. Leon': '2020',
+          'Hilario': 'Exento',
+          'Extra 1': 'Exento'
+        },
+        works2027: (w === 'Alberto H'),
+        text2027: (w === 'Alberto H' ? 'Turno de Noche (23:00 - 07:00)' : 'Descanso / Libre'),
+        forecast2028: 'A. León (Rotación anual)'
+      },
+      {
+        id: 'nochevieja',
+        title: '🍾 Nochevieja (31 Dic)',
+        historyLast: {
+          'Antonio J': '2020',
+          'Santi M': '2023 (antiguo Marcos Brito)',
+          'Alberto H': '2021 (antiguo DC)',
+          'Fran Espin': '2025',
+          'Miguel B': '2027 (¡Este año te toca!)',
+          'Paco C': '2026',
+          'A. Leon': '2024',
+          'Hilario': 'Exento',
+          'Extra 1': 'Exento'
+        },
+        works2027: (w === 'Miguel B'),
+        text2027: (w === 'Miguel B' ? 'Turno de Noche (23:00 - 07:00)' : 'Descanso / Libre'),
+        forecast2028: 'Antonio J (Rotación anual)'
+      },
+      {
+        id: 'semana_santa',
+        title: '⛪ Semana Santa',
+        historyLast: {
+          'Antonio J': '2027 (Jueves a Domingo Diurno con Santi M)',
+          'Santi M': '2027 (Jueves a Domingo Diurno con Antonio J)',
+          'Alberto H': '2026 (Diurno)',
+          'Fran Espin': '2024 (Diurno)',
+          'Miguel B': '2027 (Noches 25, 26 y 27 de Marzo)',
+          'Paco C': '2025 (Diurno)',
+          'A. Leon': '2025 (Diurno)',
+          'Hilario': 'Exento',
+          'Extra 1': 'Exento'
+        },
+        works2027: (w === 'Antonio J' || w === 'Santi M' || w === 'Miguel B'),
+        text2027: (w === 'Miguel B' ? 'Noches (25, 26 y 27 Mar)' : (w === 'Antonio J' || w === 'Santi M' ? 'Mañana/Tarde (25 al 28 Mar)' : 'Descanso')),
+        forecast2028: 'Rotación según festivos'
+      },
+      {
+        id: 'virgen_cabeza',
+        title: '👑 Romería Virgen de la Cabeza',
+        historyLast: {
+          'Antonio J': '2027 (23 al 26 Abr con Alberto H)',
+          'Santi M': '2026 (Diurno con A. León)',
+          'Alberto H': '2027 (23 al 26 Abr con Antonio J)',
+          'Fran Espin': '2024 (Diurno con A. León)',
+          'Miguel B': '2024 (Noche)',
+          'Paco C': '2025 (Noche)',
+          'A. Leon': '2027 (Noches 23, 24 y 25 Abr)',
+          'Hilario': 'Exento',
+          'Extra 1': 'Exento'
+        },
+        works2027: (w === 'Antonio J' || w === 'Alberto H' || w === 'A. Leon'),
+        text2027: (w === 'A. Leon' ? 'Noches (23, 24 y 25 Abr)' : (w === 'Antonio J' || w === 'Alberto H' ? 'Mañana/Tarde (23 al 26 Abr)' : 'Descanso')),
+        forecast2028: 'Rotación según festivos'
+      }
+    ];
+
+    el.mySpecialFestList.innerHTML = specialFestivals.map(fest => {
+      const isWorking = fest.works2027;
+      const last = fest.historyLast[w] || 'Sin registro';
+
+      return `
+        <div class="my-fest-card ${isWorking ? 'active-this-year' : ''}">
+          <div class="my-fest-title">
+            <span>${fest.title}</span>
+          </div>
+          <div class="my-fest-year-history">
+            <strong>Histórico:</strong> ${last}
+          </div>
+          <div style="font-size:0.75rem; color:var(--text-muted);">
+            <strong>En 2027:</strong> ${fest.text2027}
+          </div>
+          <span class="my-fest-status-pill ${isWorking ? 'working' : 'free'}">
+            ${isWorking ? '⚠️ En servicio 2027' : '🏖️ Descanso en 2027'}
+          </span>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function populateHolidayCategories() {
+    if (!el.selectHolidayCategory || !window.HISTORICAL_DATA) return;
+    const items = window.HISTORICAL_DATA.festivos.items;
+    el.selectHolidayCategory.innerHTML = items.map(item => {
+      const sel = item.name === state.selectedHolidayTimeline ? 'selected' : '';
+      return `<option value="${item.name}" ${sel}>${item.name}</option>`;
+    }).join('');
+  }
+
+  function renderHolidayTimeline(holidayName) {
+    if (!el.holidayTimelineContainer || !window.HISTORICAL_DATA) return;
+    const item = window.HISTORICAL_DATA.festivos.items.find(i => i.name === holidayName);
+    if (!item) {
+      el.holidayTimelineContainer.innerHTML = '<div style="color:var(--text-muted); font-size:0.8rem;">No se encontraron datos para esta fiesta.</div>';
+      return;
+    }
+
+    const years = window.HISTORICAL_DATA.festivos.years.slice().reverse(); // 2027 down to 2011
+
+    const codeExpander = {
+      'AJ': 'Antonio J',
+      'PS': 'Antonio J (predecesor PS)',
+      'SM': 'Santi M',
+      'PR': 'Santi M (predecesor PR)',
+      'MB': 'Miguel B / Marcos Brito',
+      'MG': 'Miguel B',
+      'AC': 'Miguel B (predecesor AC)',
+      'AH': 'Alberto H',
+      'DC': 'Alberto H (predecesor DC)',
+      'FE': 'Fran Espin',
+      'JM': 'Fran Espin (predecesor JM)',
+      'PC': 'Paco C',
+      'AL': 'A. Leon',
+      'FR': 'A. Leon (predecesor FR)',
+      'HG': 'Hilario',
+      'FH': 'FH (histórico)',
+      'X': 'No celebrado / Sin turno'
+    };
+
+    function expandWorkerCodes(rawCode) {
+      if (!rawCode || rawCode === 'None' || rawCode === '') return '<span style="color:var(--text-muted); font-style:italic;">Sin registro</span>';
+      if (rawCode === 'X') return '<span style="color:var(--text-muted);">-</span>';
+      
+      const parts = rawCode.split('-');
+      return parts.map(p => {
+        const clean = p.trim();
+        const expanded = codeExpander[clean] || clean;
+        const isCurrent = clean === 'AJ' && state.currentWorker === 'Antonio J' ||
+                          clean === 'SM' && state.currentWorker === 'Santi M' ||
+                          clean === 'AH' && state.currentWorker === 'Alberto H' ||
+                          clean === 'FE' && state.currentWorker === 'Fran Espin' ||
+                          (clean === 'MB' || clean === 'MG') && state.currentWorker === 'Miguel B' ||
+                          clean === 'PC' && state.currentWorker === 'Paco C' ||
+                          clean === 'AL' && state.currentWorker === 'A. Leon';
+        
+        return `<span style="${isCurrent ? 'color:var(--accent-primary); font-weight:800;' : ''}">${expanded}</span>`;
+      }).join(' <span style="color:var(--text-muted); font-weight:normal;">+</span> ');
+    }
+
+    el.holidayTimelineContainer.innerHTML = `
+      <div class="holiday-timeline-wrap">
+        ${years.map(yr => {
+          const raw = item.years[yr] || '';
+          const is2027 = yr === 2027;
+          return `
+            <div class="holiday-timeline-row ${is2027 ? 'is-current' : ''}">
+              <div class="holiday-timeline-year">
+                ${yr} ${is2027 ? '<span style="font-size:0.65rem; background:rgba(56,189,248,0.2); color:#38bdf8; padding:1px 5px; border-radius:4px;">ACTUAL</span>' : ''}
+              </div>
+              <div class="holiday-timeline-workers">
+                ${expandWorkerCodes(raw)}
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    `;
+  }
+
+  function renderFixed2027Holidays() {
+    if (!el.fixedHolidays2027List) return;
+
+    const fixed2027 = [
+      { name: '01 Enero (Año Nuevo)', workers: 'A. León & Alberto H (M y T) · Santi M (Noche)' },
+      { name: '06 Enero (Reyes)', workers: 'A. León & Alberto H (M y T)' },
+      { name: '28 Febrero / 01 Marzo', workers: 'Fran Espín & Paco C (M y T)' },
+      { name: 'Semana Santa (25-28 Mar)', workers: 'Antonio J & Santi M (M y T) · Miguel B (Noches 25, 26 y 27)' },
+      { name: 'Virgen de la Cabeza (23-26 Abr)', workers: 'Antonio J & Alberto H (M y T) · A. León (Noches 23, 24 y 25)' },
+      { name: '01 Mayo (Fiesta del Trabajo)', workers: 'Miguel B & Fran Espín (M y T)' },
+      { name: '16 Agosto (Festivo local)', workers: 'Santi M & Extra 1 (M y T)' },
+      { name: 'Feria de Septiembre (04-06 Sep)', workers: 'Antonio J (Feria) & Extra 1 · A. León (Noches)' },
+      { name: '12 Octubre (Fiesta Nacional)', workers: 'Miguel B & Paco C (M y T)' },
+      { name: '01 Noviembre (Todos los Santos)', workers: 'Antonio J & A. León (M y T)' },
+      { name: '06 y 08 Diciembre (Puente)', workers: 'Paco C & Santi M (M y T)' },
+      { name: '24 Diciembre (Nochebuena)', workers: 'Alberto H (Noche)' },
+      { name: '25 Diciembre (Navidad)', workers: 'Miguel B & Fran Espín (M y T)' },
+      { name: '31 Diciembre (Nochevieja)', workers: 'Miguel B (Noche)' }
+    ];
+
+    el.fixedHolidays2027List.innerHTML = fixed2027.map(f => {
+      return `
+        <div class="fixed-holiday-card">
+          <div class="title">📅 ${f.name}</div>
+          <div class="assigned">${f.workers}</div>
+        </div>
+      `;
+    }).join('');
   }
 
   // --- SERVICE WORKER & PWA INSTALL ---

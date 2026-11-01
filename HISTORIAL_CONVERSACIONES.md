@@ -281,5 +281,16 @@ La otra hoja es una relación de las vacaciones de los trabajadores , si te cuen
 Tambien te quiero aclarar que en las fechas que hay 2 trabajadores es por que uno hizo la tarde y otra la mañana indistintamente.
 ```
 
+### 💬 Mensaje de Antonio (2026-11-01T05:15:20Z):
+```text
+Quiero en añadamos en la app un apartado que se llame Festivos y vacaciones, en los que los trabajadores puedan consultar los datos que te he pasado de , tanto de los festivos trabajados por cada uno y su suma, como las vacaciones que han realizado y las del proximo año de 2028 para que las puedas preveer. Si tu sugieres alguna opción mas que podamos realizar con estos datos, estuy abierto a sugerencias.
+```
+
+### 💬 Mensaje de Antonio (2026-11-01T05:18:50Z):
+```text
+Buscador de Coincidencias:
+Selector rápido para consultar "¿Con quién libro o coincido en quincena este año o el próximo?". No lo veo lógico ni util porque siempre tienes tus vacaciones con la misma persona. Por lo demas todo correcto
+```
+
 ---
 

@@ -1,11 +1,12 @@
 // Service Worker para Cuadrante 2027 Andújar - PWA Offline Cache
-const CACHE_NAME = 'cuadrante-2027-v3.9';
+const CACHE_NAME = 'cuadrante-2027-v4.0';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './infografia.html',
   './css/styles.css',
   './js/cuadrante_data.js',
+  './js/historical_data.js',
   './js/validator.js',
   './js/calendar_export.js',
   './js/xlsx.full.min.js',

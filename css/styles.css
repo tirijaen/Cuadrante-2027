@@ -324,19 +324,21 @@ button, select, input, textarea {
   background: none;
   border: none;
   color: var(--text-muted);
-  font-size: 0.68rem;
+  font-size: 0.62rem;
   font-weight: 500;
-  gap: 3px;
-  padding: 6px 8px;
+  gap: 2px;
+  padding: 4px 2px;
   cursor: pointer;
   border-radius: var(--radius-sm);
   transition: var(--transition-fast);
-  min-width: 58px;
+  min-width: 0;
+  flex: 1;
+  text-align: center;
 }
 
 .dock-btn svg {
-  width: 20px;
-  height: 20px;
+  width: 19px;
+  height: 19px;
   stroke: currentColor;
 }
 
@@ -2996,6 +2998,482 @@ button, select, input, textarea {
     width: 100% !important;
     margin: 0 !important;
   }
+}
+
+/* ==========================================================================
+   TAB: FESTIVOS Y VACACIONES (HISTÓRICO & PREVISIÓN)
+   ========================================================================== */
+.vac-personal-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: 20px;
+  box-shadow: var(--shadow-md);
+  margin-bottom: 20px;
+}
+
+.vac-personal-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.vac-personal-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.vac-partner-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  padding: 6px 14px;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+}
+
+.vac-personal-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 680px) {
+  .vac-personal-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.vac-year-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: var(--transition-fast);
+}
+
+.vac-year-card.is-2027 {
+  border-color: rgba(16, 185, 129, 0.4);
+  background: linear-gradient(145deg, rgba(16, 185, 129, 0.08) 0%, var(--bg-surface) 100%);
+}
+
+.vac-year-card.is-2028 {
+  border-color: rgba(56, 189, 248, 0.45);
+  background: linear-gradient(145deg, rgba(56, 189, 248, 0.09) 0%, var(--bg-surface) 100%);
+}
+
+.vac-year-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.vac-year-tag {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  padding: 4px 10px;
+  border-radius: 8px;
+}
+
+.vac-year-tag.current {
+  background: rgba(16, 185, 129, 0.2);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.4);
+}
+
+.vac-year-tag.next {
+  background: rgba(56, 189, 248, 0.2);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.4);
+}
+
+.vac-slot-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-secondary);
+}
+
+.vac-dates-display {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.vac-date-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.84rem;
+  background: rgba(0, 0, 0, 0.15);
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.vac-date-row span {
+  color: var(--text-muted);
+}
+
+.vac-date-row strong {
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+.vac-note-footer {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-top: auto;
+}
+
+/* Selector de Pestañas de Años */
+.vac-selector-pills {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.vac-pill-btn {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  padding: 6px 12px;
+  border-radius: 9999px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.vac-pill-btn:hover {
+  color: var(--text-primary);
+  border-color: var(--border-focus);
+}
+
+.vac-pill-btn.active {
+  background: var(--accent-gradient);
+  color: #ffffff;
+  border-color: transparent;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+}
+
+/* Grid de Quincenas de Vacaciones */
+.vac-quincenas-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+@media (min-width: 640px) {
+  .vac-quincenas-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .vac-quincenas-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.vac-quincena-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition-fast);
+}
+
+.vac-quincena-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-focus);
+  box-shadow: var(--shadow-md);
+}
+
+.vac-quincena-card.is-active-user {
+  border-color: var(--accent-primary);
+  background: linear-gradient(145deg, rgba(56, 189, 248, 0.08) 0%, var(--bg-surface) 100%);
+}
+
+.vac-quincena-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.vac-slot-title {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 0.9rem;
+  color: var(--accent-primary);
+}
+
+.vac-dates-badge {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-secondary);
+}
+
+.vac-pair-display {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.vac-worker-name {
+  font-size: 0.84rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.vac-worker-name.highlight {
+  color: var(--accent-primary);
+}
+
+/* ==========================================================================
+   FESTIVOS & EQUIDAD STYLES
+   ========================================================================== */
+.holiday-equity-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.holiday-equity-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.holiday-equity-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.82rem;
+}
+
+.holiday-equity-name {
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.holiday-equity-counts {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+}
+
+.holiday-bar-track {
+  width: 100%;
+  height: 9px;
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.holiday-bar-fill {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.holiday-bar-fill.gold {
+  background: linear-gradient(90deg, #10b981 0%, #38bdf8 100%);
+}
+
+.holiday-bar-fill.silver {
+  background: linear-gradient(90deg, #6366f1 0%, #a855f7 100%);
+}
+
+/* Grid de Mis Fiestas Señaladas */
+.my-fest-special-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+@media (min-width: 600px) {
+  .my-fest-special-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 900px) {
+  .my-fest-special-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.my-fest-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+}
+
+.my-fest-card.active-this-year {
+  border-color: rgba(245, 158, 11, 0.5);
+  background: linear-gradient(145deg, rgba(245, 158, 11, 0.08) 0%, var(--bg-surface) 100%);
+}
+
+.my-fest-title {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.88rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.my-fest-year-history {
+  font-size: 0.76rem;
+  color: var(--text-secondary);
+}
+
+.my-fest-status-pill {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: auto;
+  width: fit-content;
+}
+
+.my-fest-status-pill.working {
+  background: rgba(245, 158, 11, 0.2);
+  color: #f59e0b;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+}
+
+.my-fest-status-pill.free {
+  background: rgba(16, 185, 129, 0.2);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.4);
+}
+
+/* Timeline Histórico de Festivos */
+.holiday-timeline-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 480px;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+.holiday-timeline-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 8px 14px;
+  font-size: 0.82rem;
+}
+
+.holiday-timeline-row.is-current {
+  border-color: var(--accent-primary);
+  background: rgba(56, 189, 248, 0.08);
+}
+
+.holiday-timeline-year {
+  font-weight: 800;
+  font-family: var(--font-heading);
+  color: var(--accent-primary);
+  min-width: 50px;
+}
+
+.holiday-timeline-workers {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* Grid de Asignaciones Fijas 2027 */
+.fixed-holidays-2027-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+@media (min-width: 640px) {
+  .fixed-holidays-2027-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .fixed-holidays-2027-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.fixed-holiday-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.fixed-holiday-card .title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.fixed-holiday-card .assigned {
+  font-size: 0.78rem;
+  color: var(--accent-primary);
+  font-weight: 600;
 }
 
 
