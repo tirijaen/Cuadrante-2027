@@ -179,6 +179,25 @@ document.addEventListener('DOMContentLoaded', () => {
     debtShiftReturn: document.getElementById('debtShiftReturn'),
     debtNotes: document.getElementById('debtNotes'),
 
+    // Mejora 2: WhatsApp y Volante Oficial RRHH
+    shareWhatsappBtn: document.getElementById('shareWhatsappBtn'),
+    generatePdfBtn: document.getElementById('generatePdfBtn'),
+    rrhhVolanteModal: document.getElementById('rrhhVolanteModal'),
+    btnPrintVolante: document.getElementById('btnPrintVolante'),
+    closeVolanteModalBtn: document.getElementById('closeVolanteModalBtn'),
+    vRefCode: document.getElementById('vRefCode'),
+    vEmissionDate: document.getElementById('vEmissionDate'),
+    vWorker1Name: document.getElementById('vWorker1Name'),
+    vWorker2Name: document.getElementById('vWorker2Name'),
+    vDateA: document.getElementById('vDateA'),
+    vShiftA: document.getElementById('vShiftA'),
+    vWorkerAssumesA: document.getElementById('vWorkerAssumesA'),
+    vDateB: document.getElementById('vDateB'),
+    vShiftB: document.getElementById('vShiftB'),
+    vWorkerAssumesB: document.getElementById('vWorkerAssumesB'),
+    vSigWorker1: document.getElementById('vSigWorker1'),
+    vSigWorker2: document.getElementById('vSigWorker2'),
+
     // Tab 4: Estadísticas
     statWorkedDays: document.getElementById('statWorkedDays'),
     statGoalText: document.getElementById('statGoalText'),
@@ -485,6 +504,25 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.classList.add('active');
         state.bankFilter = btn.getAttribute('data-bank-filter');
         renderBankView();
+      });
+    }
+
+    // Mejora 2: Compartir WhatsApp y Volante Oficial RRHH
+    if (el.shareWhatsappBtn) {
+      el.shareWhatsappBtn.addEventListener('click', shareCurrentPermutaViaWhatsapp);
+    }
+    if (el.generatePdfBtn) {
+      el.generatePdfBtn.addEventListener('click', () => openRrhhVolanteModal(null));
+    }
+    if (el.btnPrintVolante) {
+      el.btnPrintVolante.addEventListener('click', printRrhhVolante);
+    }
+    if (el.closeVolanteModalBtn) {
+      el.closeVolanteModalBtn.addEventListener('click', closeRrhhVolanteModal);
+    }
+    if (el.rrhhVolanteModal) {
+      el.rrhhVolanteModal.addEventListener('click', (e) => {
+        if (e.target === el.rrhhVolanteModal) closeRrhhVolanteModal();
       });
     }
 
@@ -1185,7 +1223,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (el.summaryDateB) el.summaryDateB.textContent = formatDateSpanish(dateB);
     if (el.summaryCoverWorkerA) el.summaryCoverWorkerA.textContent = `Tú cubres a ${workerB} (asumes turno ${origShiftB})`;
-    if (el.summaryWorkerBFree) el.summaryWorkerBFree.textContent = `${workerB} queda: 🏖️ LIBRE`;
+    if (el.summaryWorkerBFree) el.summaryWorkerBFree.textContent = `${workerB} queda: LIBRE`;
 
     // Validación oficial
     const res = window.CuadranteValidator.validateSwap({
@@ -1486,16 +1524,26 @@ document.addEventListener('DOMContentLoaded', () => {
         ` : ''}
 
         <div class="debt-card-actions">
+          <button class="btn-share-debt-whatsapp" data-id="${debt.id}" title="Compartir acuerdo por WhatsApp">📲 WhatsApp</button>
+          <button class="btn-print-debt-volante" data-id="${debt.id}" title="Generar Volante Oficial para RRHH">📄 Volante RRHH</button>
           ${debt.status === 'pending' ? `
-            <button class="btn-settle" data-id="${debt.id}">✓ Marcar como Saldado</button>
+            <button class="btn-settle" data-id="${debt.id}">✓ Saldar</button>
           ` : `
             <button class="btn-reopen" data-id="${debt.id}">↩️ Reabrir</button>
           `}
-          <button class="btn-delete-debt" data-id="${debt.id}" title="Eliminar registro">🗑️ Eliminar</button>
+          <button class="btn-delete-debt" data-id="${debt.id}" title="Eliminar registro">🗑️</button>
         </div>
       `;
 
       // Event listeners en la tarjeta
+      const shareWaBtn = card.querySelector('.btn-share-debt-whatsapp');
+      if (shareWaBtn) {
+        shareWaBtn.addEventListener('click', () => shareDebtViaWhatsapp(debt));
+      }
+      const printVolanteBtn = card.querySelector('.btn-print-debt-volante');
+      if (printVolanteBtn) {
+        printVolanteBtn.addEventListener('click', () => openRrhhVolanteModal(debt));
+      }
       const settleBtn = card.querySelector('.btn-settle');
       if (settleBtn) {
         settleBtn.addEventListener('click', () => toggleDebtStatus(debt.id, 'settled'));
@@ -1626,8 +1674,205 @@ document.addEventListener('DOMContentLoaded', () => {
     showToast('✅ Deuda de turno registrada en tu Bolsa');
   }
 
+  // ====================================================================
+  // MEJORA 2: COMPARTIR POR WHATSAPP Y VOLANTE OFICIAL RRHH
+  // ====================================================================
+
+  function getWorkerFullName(shortName) {
+    if (!shortName) return '';
+    const meta = (DATA.workersMeta || []).find(w => w.name === shortName);
+    if (meta && meta.fullName) return meta.fullName;
+    const map = {
+      'Antonio J': 'Antonio Jesús Sánchez',
+      'Santi M': 'Santiago Molina',
+      'Alberto H': 'Alberto Higueras',
+      'Fran Espin': 'Francisco Espín',
+      'Miguel B': 'Miguel Benitez',
+      'Paco C': 'Francisco Cantarero',
+      'A. Leon': 'Antonio León',
+      'Hilario': 'Hilario Gomez',
+      'Extra 1': 'Personal de Refuerzo'
+    };
+    return map[shortName] || shortName;
+  }
+
+  function formatDateSpanishWithYear(dateStr) {
+    if (!dateStr) return '';
+    const parts = dateStr.split('-');
+    if (parts.length !== 3) return dateStr;
+    const y = parts[0];
+    const m = parseInt(parts[1], 10);
+    const d = parseInt(parts[2], 10);
+    const dt = new Date(`${dateStr}T12:00:00`);
+    const WEEKDAYS = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+    return `${WEEKDAYS[dt.getDay()]}, ${d} de ${MONTH_NAMES[m - 1]} de ${y}`;
+  }
+
+  function formatShiftDesc(shiftCode) {
+    if (!shiftCode || shiftCode.trim() === '') return 'Descanso';
+    const base = window.CuadranteValidator.getBaseShift(shiftCode);
+    const isHoliday = shiftCode.includes('.');
+    let name = 'Mañana';
+    let hours = '07:00 a 15:00';
+    if (base === 'T') {
+      name = 'Tarde';
+      hours = '15:00 a 23:00';
+    } else if (base === 'N') {
+      name = 'Noche';
+      hours = '23:00 a 07:00';
+    }
+    return `${name}${isHoliday ? ' (Festivo)' : ''} [${hours}]`;
+  }
+
+  function shareCurrentPermutaViaWhatsapp() {
+    const workerA = state.currentWorker;
+    const workerB = state.selectedWorkerB;
+    const dateA = el.swapDateA ? el.swapDateA.value : null;
+    const dateB = state.selectedDateB;
+
+    if (!workerA || !workerB || !dateA || !dateB) {
+      showToast('⚠️ Completa primero los 4 pasos de la permuta.');
+      return;
+    }
+
+    const curShiftA = getEffectiveShift(workerA, dateA);
+    const origShiftB = getEffectiveShift(workerB, dateB);
+
+    const nameA = getWorkerFullName(workerA);
+    const nameB = getWorkerFullName(workerB);
+    const textDateA = formatDateSpanishWithYear(dateA);
+    const textDateB = formatDateSpanishWithYear(dateB);
+
+    const text = 
+`🤝 *ACUERDO DE PERMUTA · CUADRANTE 2027*
+📍 *Centro de Trabajo:* Andújar
+👥 *Acuerdo entre:* ${nameA} ⇄ ${nameB}
+
+📅 *1. DÍA DE LIBRANZA (Jornada A):*
+• *Fecha:* ${textDateA}
+• *Turno cedido:* ${formatShiftDesc(curShiftA)}
+• *Asume el servicio:* ${nameB}
+• *Situación de ${nameA}:* LIBRE / DESCANSO
+
+📅 *2. DÍA DE DEVOLUCIÓN (Jornada B):*
+• *Fecha:* ${textDateB}
+• *Turno devuelto:* ${formatShiftDesc(origShiftB)}
+• *Asume el servicio:* ${nameA}
+• *Situación de ${nameB}:* LIBRE / DESCANSO
+
+✅ *AUDITORÍA LABORAL:* Conforme con la normativa laboral y descansos.
+📋 _Generado desde la App Cuadrante 2027 Andújar_`;
+
+    const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+    window.open(url, '_blank');
+  }
+
+  function shareDebtViaWhatsapp(debt) {
+    if (!debt) return;
+    const workerA = debt.workerA;
+    const workerB = debt.workerB;
+    const nameA = getWorkerFullName(workerA);
+    const nameB = getWorkerFullName(workerB);
+
+    const textDateA = formatDateSpanishWithYear(debt.dateOriginal);
+    const textDateB = debt.dateReturn ? formatDateSpanishWithYear(debt.dateReturn) : 'Pendiente de acordar';
+
+    const text = 
+`🤝 *REGISTRO DE TURNO / PERMUTA · CUADRANTE 2027*
+📍 *Centro de Trabajo:* Andújar
+👥 *Trabajadores:* ${nameA} y ${nameB}
+
+📋 *Detalle del Servicio:*
+• *Turno:* ${formatShiftDesc(debt.shiftOriginal || 'M')}
+• *Fecha:* ${textDateA}
+• *Compromiso:* ${debt.theyOweMe ? `${nameB} tiene turno pendiente contigo` : `Tienes turno pendiente con ${nameB}`}
+• *Devolución acordada:* ${textDateB}${debt.shiftReturn ? ` (${formatShiftDesc(debt.shiftReturn)})` : ''}
+${debt.notes ? `• *Notas:* ${debt.notes}\n` : ''}
+📋 _Bolsa de Turnos · Cuadrante 2027 Andújar_`;
+
+    const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+    window.open(url, '_blank');
+  }
+
+  function openRrhhVolanteModal(data) {
+    let workerA, workerB, dateA, dateB, shiftA, shiftB;
+
+    if (data) {
+      workerA = data.workerA;
+      workerB = data.workerB;
+      dateA = data.dateOriginal;
+      shiftA = data.shiftOriginal || 'M';
+      dateB = data.dateReturn;
+      shiftB = data.shiftReturn || 'M';
+    } else {
+      workerA = state.currentWorker;
+      workerB = state.selectedWorkerB;
+      dateA = el.swapDateA ? el.swapDateA.value : null;
+      dateB = state.selectedDateB;
+
+      if (!workerA || !workerB || !dateA || !dateB) {
+        showToast('⚠️ Completa primero los 4 pasos de la permuta en el asistente.');
+        return;
+      }
+      shiftA = getEffectiveShift(workerA, dateA);
+      shiftB = getEffectiveShift(workerB, dateB);
+    }
+
+    const nameA = getWorkerFullName(workerA);
+    const nameB = getWorkerFullName(workerB);
+
+    // Código de referencia formal
+    const cleanDateA = (dateA || '').replace(/-/g, '').slice(2);
+    const randomCode = Math.floor(100 + Math.random() * 900);
+    if (el.vRefCode) el.vRefCode.textContent = `PERM-2027-${cleanDateA || '00'}-${randomCode}`;
+
+    // Fecha de emisión oficial
+    const now = new Date();
+    const dStr = String(now.getDate()).padStart(2, '0');
+    const mStr = String(now.getMonth() + 1).padStart(2, '0');
+    const yStr = now.getFullYear();
+    if (el.vEmissionDate) el.vEmissionDate.textContent = `${dStr}/${mStr}/${yStr}`;
+
+    // Nombres oficiales completos
+    if (el.vWorker1Name) el.vWorker1Name.textContent = nameA;
+    if (el.vWorker2Name) el.vWorker2Name.textContent = nameB;
+
+    // Jornada A
+    if (el.vDateA) el.vDateA.textContent = formatDateSpanishWithYear(dateA);
+    if (el.vShiftA) el.vShiftA.textContent = formatShiftDesc(shiftA);
+    if (el.vWorkerAssumesA) el.vWorkerAssumesA.textContent = nameB;
+
+    // Jornada B
+    if (el.vDateB) el.vDateB.textContent = dateB ? formatDateSpanishWithYear(dateB) : 'Pendiente de acordar por las partes';
+    if (el.vShiftB) el.vShiftB.textContent = dateB ? formatShiftDesc(shiftB) : 'A convenir con Jefatura / RRHH';
+    if (el.vWorkerAssumesB) el.vWorkerAssumesB.textContent = nameA;
+
+    // Firmas
+    if (el.vSigWorker1) el.vSigWorker1.textContent = `D. ${nameA}`;
+    if (el.vSigWorker2) el.vSigWorker2.textContent = `D. ${nameB}`;
+
+    if (el.rrhhVolanteModal) {
+      el.rrhhVolanteModal.style.display = 'flex';
+    }
+  }
+
+  function closeRrhhVolanteModal() {
+    if (el.rrhhVolanteModal) {
+      el.rrhhVolanteModal.style.display = 'none';
+    }
+  }
+
+  function printRrhhVolante() {
+    window.print();
+  }
+
   window.CuadranteApp = {
-    openManualDebtModal
+    openManualDebtModal,
+    openRrhhVolanteModal,
+    closeRrhhVolanteModal,
+    shareCurrentPermutaViaWhatsapp,
+    shareDebtViaWhatsapp,
+    getWorkerFullName
   };
 
 // --- TAB 4: ESTADÍSTICAS DE JORNADA ---

@@ -2059,6 +2059,40 @@ button, select, input, textarea {
   background: rgba(244, 63, 94, 0.1);
 }
 
+.btn-share-debt-whatsapp {
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  background: rgba(37, 211, 102, 0.15);
+  color: #25d366;
+  border: 1px solid rgba(37, 211, 102, 0.35);
+  transition: all var(--transition-fast);
+}
+
+.btn-share-debt-whatsapp:hover {
+  background: #25d366;
+  color: #fff;
+}
+
+.btn-print-debt-volante {
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  background: rgba(148, 163, 184, 0.15);
+  color: #cbd5e1;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  transition: all var(--transition-fast);
+}
+
+.btn-print-debt-volante:hover {
+  background: #475569;
+  color: #fff;
+}
+
 /* Modal Apuntar Deuda Manual */
 .debt-direction-toggle-group {
   display: grid;
@@ -2105,4 +2139,250 @@ button, select, input, textarea {
   font-size: 2.5rem;
   margin-bottom: 12px;
 }
+
+/* ====================================================================
+   MEJORA 2: VOLANTE OFICIAL PARA RRHH & @MEDIA PRINT
+   ==================================================================== */
+
+.volante-paper {
+  background: #ffffff;
+  color: #0f172a;
+  padding: 36px 40px;
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+  line-height: 1.45;
+  font-size: 0.88rem;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.volante-header {
+  border-bottom: 2px solid #0f172a;
+  padding-bottom: 14px;
+  margin-bottom: 18px;
+  text-align: center;
+}
+
+.volante-org-badge {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: #475569;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.volante-doc-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: 0.5px;
+  margin-bottom: 10px;
+}
+
+.volante-meta-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  color: #334155;
+  background: #f1f5f9;
+  padding: 6px 12px;
+  border-radius: 4px;
+  border: 1px solid #cbd5e1;
+}
+
+.volante-section {
+  margin-bottom: 18px;
+}
+
+.volante-section-title {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #0f172a;
+  border-bottom: 1px solid #94a3b8;
+  padding-bottom: 3px;
+  margin-bottom: 10px;
+  letter-spacing: 0.4px;
+}
+
+.volante-two-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.volante-col-box {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  padding: 10px 12px;
+}
+
+.volante-col-label {
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: #0369a1;
+  margin-bottom: 6px;
+}
+
+.volante-field {
+  font-size: 0.82rem;
+  color: #1e293b;
+  margin-bottom: 4px;
+}
+
+.volante-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+  border: 1px solid #94a3b8;
+}
+
+.volante-table th,
+.volante-table td {
+  border: 1px solid #cbd5e1;
+  padding: 7px 10px;
+  text-align: left;
+}
+
+.volante-table th {
+  background: #f1f5f9;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.volante-checks-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  padding: 8px 12px;
+}
+
+@media (min-width: 600px) {
+  .volante-checks-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.v-check-item {
+  font-size: 0.76rem;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.v-check-item span {
+  font-weight: 800;
+  color: #059669;
+}
+
+.volante-legal-text {
+  font-size: 0.74rem;
+  color: #475569;
+  line-height: 1.4;
+  text-align: justify;
+  font-style: italic;
+  margin-top: 4px;
+}
+
+.volante-signatures-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 10px;
+}
+
+.volante-sig-box {
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  padding: 12px;
+  background: #ffffff;
+  min-height: 85px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.sig-title {
+  font-size: 0.75rem;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.sig-name {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 4px 0 16px 0;
+}
+
+.sig-line {
+  font-size: 0.75rem;
+  color: #475569;
+  border-top: 1px dotted #94a3b8;
+  padding-top: 4px;
+}
+
+.resolution-box {
+  background: #f8fafc;
+  border: 1px solid #94a3b8;
+  border-radius: 4px;
+  padding: 12px 16px;
+  margin-top: 14px;
+}
+
+/* Reglas de Impresión A4 Nítida */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  /* Ocultar todos los elementos de la interfaz */
+  .app-header,
+  .main-nav,
+  .mobile-dock,
+  .app-container,
+  .toast-container,
+  .modal-overlay:not(#rrhhVolanteModal),
+  #rrhhVolanteModal .modal-header {
+    display: none !important;
+  }
+
+  #rrhhVolanteModal {
+    position: static !important;
+    display: block !important;
+    background: transparent !important;
+    padding: 0 !important;
+  }
+
+  #rrhhVolanteModal .modal-dialog {
+    max-width: 100% !important;
+    width: 100% !important;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  #rrhhVolanteModal .modal-body {
+    padding: 0 !important;
+    background: transparent !important;
+  }
+
+  .volante-paper {
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 0 !important;
+  }
+}
+
 

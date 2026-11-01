@@ -7,15 +7,15 @@ Este documento recopila la totalidad de las reglas, restricciones operativas, cr
 ## 1. Plantilla y Roles
 
 La plantilla consta de 9 trabajadores:
-1. **Antonio J** (Personal fijo, rotación completa: M, T, N, Festivos)
-2. **Santi M** (Personal fijo, rotación completa: M, T, N, Festivos)
-3. **Alberto H** (Personal fijo, rotación completa: M, T, N, Festivos)
-4. **Fran Espin** (Personal fijo, rotación completa: M, T, N, Festivos)
-5. **Miguel B** (Personal fijo, rotación completa: M, T, N, Festivos)
-6. **Paco C** (Personal fijo, rotación completa: M, T, N, Festivos)
-7. **A. Leon** (Personal fijo, rotación completa: M, T, N, Festivos)
-8. **Hilario** (Régimen singular: Solo Mañanas y Tardes de Lunes a Viernes)
-9. **Extra 1** (Personal eventual de verano: Junio a Septiembre)
+1. **Antonio Jesús Sánchez** (`Antonio J`) - Personal fijo, rotación completa (M, T, N, Festivos)
+2. **Santiago Molina** (`Santi M`) - Personal fijo, rotación completa (M, T, N, Festivos)
+3. **Alberto Higueras** (`Alberto H`) - Personal fijo, rotación completa (M, T, N, Festivos)
+4. **Francisco Espín** (`Fran Espin`) - Personal fijo, rotación completa (M, T, N, Festivos)
+5. **Miguel Benitez** (`Miguel B`) - Personal fijo, rotación completa (M, T, N, Festivos)
+6. **Francisco Cantarero** (`Paco C`) - Personal fijo, rotación completa (M, T, N, Festivos)
+7. **Antonio León** (`A. Leon`) - Personal fijo, rotación completa (M, T, N, Festivos)
+8. **Hilario Gomez** (`Hilario`) - Régimen singular: Solo Mañanas y Tardes de Lunes a Viernes
+9. **Extra 1** - Personal eventual de refuerzo de verano (Junio a Septiembre)
 
 ### Restricciones Individuales Específicas
 * **Hilario**:

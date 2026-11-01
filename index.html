@@ -403,7 +403,7 @@
           </div>
           <div style="text-align:right;">
             <div style="font-size:0.75rem; color:var(--text-muted);">Tu nuevo estado solicitado:</div>
-            <div style="font-weight:800; font-size:1.15rem; color:#10b981;">🏖️ LIBRE (Descanso)</div>
+            <div style="font-weight:800; font-size:1.15rem; color:#10b981;">LIBRE (Descanso)</div>
           </div>
         </div>
 
@@ -467,7 +467,7 @@
           <div class="agreement-day-box">
             <div style="font-size:0.75rem; color:var(--text-muted); font-weight:700; text-transform:uppercase;">Día 1: Solicitud de libranza</div>
             <div style="font-size:1rem; font-weight:700; margin:4px 0;" id="summaryDateA">Sábado, 6 de Febrero</div>
-            <div style="font-size:0.85rem; color:#10b981; font-weight:600;">🏖️ Tú quedas: LIBRE</div>
+            <div style="font-size:0.85rem; color:#10b981; font-weight:600;">Tú quedas: LIBRE</div>
             <div style="font-size:0.8rem; color:var(--text-secondary); margin-top:4px;" id="summaryCoverWorkerB">
               Te cubre: Alberto H (asume turno M.)
             </div>
@@ -527,6 +527,22 @@
               <polyline points="7 3 7 8 15 8"></polyline>
             </svg>
             Guardar en mi Bolsa de Turnos
+          </button>
+          <button class="btn-primary" id="shareWhatsappBtn" style="background: #25D366; border-color: #1eb954; color: #fff;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+            </svg>
+            Compartir por WhatsApp
+          </button>
+          <button class="btn-primary" id="generatePdfBtn" style="background: linear-gradient(135deg, #334155, #1e293b); border-color: #475569; color: #fff;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+            Volante para RRHH (PDF / Imprimir)
           </button>
           <button class="btn-secondary" id="resetSimulationBtn" style="display:none;">
             Restablecer Cuadrante Original
@@ -1052,6 +1068,146 @@
             </button>
           </div>
         </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Volante Oficial de Permuta para RRHH -->
+  <div class="modal-overlay" id="rrhhVolanteModal" style="display:none;">
+    <div class="modal-dialog" style="max-width:840px; width:95%; max-height:92vh; display:flex; flex-direction:column; padding:0; overflow:hidden;">
+      <div class="modal-header" style="flex-shrink:0; padding:16px 24px; border-bottom:1px solid var(--border-color); background:var(--bg-surface);">
+        <h3 style="font-size:1.15rem; font-weight:800; display:flex; align-items:center; gap:8px;">
+          <span>📄</span> Volante Oficial de Solicitud de Permuta (RRHH)
+        </h3>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <button class="btn-primary" id="btnPrintVolante" style="padding:7px 16px; font-size:0.8rem; background:linear-gradient(135deg, #0284c7, #2563eb);">
+            🖨️ Imprimir / Guardar PDF
+          </button>
+          <button class="modal-close-btn" id="closeVolanteModalBtn" aria-label="Cerrar modal">&times;</button>
+        </div>
+      </div>
+      
+      <div class="modal-body" style="overflow-y:auto; padding:24px; flex-grow:1; background:#0f172a;">
+        
+        <!-- Hoja formal de papel A4 imprimible -->
+        <div class="volante-paper" id="volantePaperPrintArea">
+          <div class="volante-header">
+            <div class="volante-org-badge">SERVICIO DE SEGURIDAD Y EMERGENCIAS · ANDÚJAR</div>
+            <h2 class="volante-doc-title">COMUNICACIÓN Y SOLICITUD FORMAL DE PERMUTA DE TURNOS</h2>
+            <div class="volante-meta-row">
+              <span><strong>Ref. Solicitud:</strong> <span id="vRefCode">PERM-2027-001</span></span>
+              <span><strong>Centro de Trabajo:</strong> Andújar (Cuadrante 2027)</span>
+              <span><strong>Fecha Solicitud:</strong> <span id="vEmissionDate">01/02/2027</span></span>
+            </div>
+          </div>
+
+          <!-- 1. Empleados Interesados -->
+          <div class="volante-section">
+            <div class="volante-section-title">1. DATOS DE LOS EMPLEADOS INTERESADOS</div>
+            <div class="volante-two-cols">
+              <div class="volante-col-box">
+                <div class="volante-col-label">EMPLEADO 1 (SOLICITANTE / CEDE SERVICIO):</div>
+                <div class="volante-field"><strong>Nombre y Apellidos:</strong> <span id="vWorker1Name">Antonio Jesús Sánchez</span></div>
+                <div class="volante-field"><strong>DNI / NIF:</strong> [ ________________________ ]</div>
+                <div class="volante-field"><strong>Categoría / Puesto:</strong> Personal Operativo Fijo</div>
+              </div>
+              <div class="volante-col-box">
+                <div class="volante-col-label">EMPLEADO 2 (SUSTITUTO / ASUME SERVICIO):</div>
+                <div class="volante-field"><strong>Nombre y Apellidos:</strong> <span id="vWorker2Name">Alberto Higueras</span></div>
+                <div class="volante-field"><strong>DNI / NIF:</strong> [ ________________________ ]</div>
+                <div class="volante-field"><strong>Categoría / Puesto:</strong> Personal Operativo Fijo</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Jornadas y Turnos a Intercambiar -->
+          <div class="volante-section">
+            <div class="volante-section-title">2. DETALLE DE LAS JORNADAS Y TURNOS A PERMUTAR</div>
+            <table class="volante-table">
+              <thead>
+                <tr>
+                  <th>Concepto</th>
+                  <th>Fecha</th>
+                  <th>Turno Oficial</th>
+                  <th>Trabajador que Asume</th>
+                  <th>Situación de la Otra Parte</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Jornada A (Cesión)</strong></td>
+                  <td id="vDateA">Sábado, 06/02/2027</td>
+                  <td id="vShiftA">Mañana (07:00 a 15:00)</td>
+                  <td id="vWorkerAssumesA">Alberto Higueras</td>
+                  <td><strong>LIBRE / DESCANSO</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>Jornada B (Devolución)</strong></td>
+                  <td id="vDateB">Sábado, 27/02/2027</td>
+                  <td id="vShiftB">Mañana (07:00 a 15:00)</td>
+                  <td id="vWorkerAssumesB">Antonio Jesús Sánchez</td>
+                  <td><strong>LIBRE / DESCANSO</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- 3. Auditoría de Normativa Laboral -->
+          <div class="volante-section">
+            <div class="volante-section-title">3. AUDITORÍA OFICIAL DE NORMATIVA LABORAL Y DESCANSOS</div>
+            <div class="volante-checks-grid" id="vChecksGrid">
+              <div class="v-check-item"><span>[X]</span> Descanso mínimo legal obligatorio (≥ 8h entre jornadas): CUMPLIDO</div>
+              <div class="v-check-item"><span>[X]</span> Descanso ergonómico recomendado (12h entre turnos): CUMPLIDO</div>
+              <div class="v-check-item"><span>[X]</span> Cobertura mínima de servicio de plantilla en Andújar: GARANTIZADA</div>
+              <div class="v-check-item"><span>[X]</span> Límite de jornadas consecutivas (máximo 5 días seguidos): CUMPLIDO</div>
+              <div class="v-check-item"><span>[X]</span> Régimen singular y restricciones operativas respetadas</div>
+            </div>
+          </div>
+
+          <!-- 4. Declaración Responsable -->
+          <div class="volante-section">
+            <div class="volante-section-title">4. DECLARACIÓN RESPONSABLE DE COMÚN ACUERDO</div>
+            <p class="volante-legal-text">
+              Los trabajadores abajo firmantes declaran que la presente permuta se realiza de común y mutuo acuerdo, con carácter voluntario, asumiendo íntegramente las obligaciones del servicio en las fechas acordadas sin menoscabo de la cobertura obligatoria ni del normal funcionamiento del centro de trabajo.
+            </p>
+          </div>
+
+          <!-- 5. Firmas de los Trabajadores -->
+          <div class="volante-section">
+            <div class="volante-section-title">5. CONFORMIDAD Y FIRMAS DE LOS EMPLEADOS</div>
+            <div class="volante-signatures-grid">
+              <div class="volante-sig-box">
+                <div class="sig-title">El Empleado 1 (Solicitante)</div>
+                <div class="sig-name" id="vSigWorker1">D. Antonio Jesús Sánchez</div>
+                <div class="sig-line">Fdo.:</div>
+              </div>
+              <div class="volante-sig-box">
+                <div class="sig-title">El Empleado 2 (Sustituto)</div>
+                <div class="sig-name" id="vSigWorker2">D. Alberto Higueras</div>
+                <div class="sig-line">Fdo.:</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 6. Resolución de Jefatura / RRHH -->
+          <div class="volante-section resolution-box">
+            <div class="volante-section-title">6. RESOLUCIÓN DE LA JEFATURA DE SERVICIO / RECURSOS HUMANOS</div>
+            <div style="display:flex; gap:24px; margin:8px 0; font-weight:700;">
+              <label><span style="border:1px solid #000; padding:1px 6px; margin-right:4px;">&nbsp;</span> AUTORIZADA la permuta solicitada</label>
+              <label><span style="border:1px solid #000; padding:1px 6px; margin-right:4px;">&nbsp;</span> DENEGADA</label>
+            </div>
+            <div style="font-size:0.8rem; margin-top:6px; color:#475569;">
+              En Andújar, a _____ de ________________________ de 2027.
+            </div>
+            <div style="margin-top:24px; display:flex; justify-content:space-between; align-items:flex-end;">
+              <div style="font-size:0.8rem; font-weight:700;">Vº Bº JEFATURA DE SERVICIO / RRHH</div>
+              <div style="border-top:1px solid #000; width:220px; text-align:center; font-size:0.75rem; padding-top:4px;">
+                Firma y Sello Oficial
+              </div>
+            </div>
+          </div>
+
+        </div> <!-- /#volantePaperPrintArea -->
       </div>
     </div>
   </div>

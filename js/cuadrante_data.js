@@ -17,6 +17,7 @@ window.CUADRANTE_DATA = {
     {
       "id": "antonio_j",
       "name": "Antonio J",
+      "fullName": "Antonio Jesús Sánchez",
       "role": "Rotación Completa",
       "type": "regular",
       "badge": "Personal Fijo",
@@ -39,6 +40,7 @@ window.CUADRANTE_DATA = {
     {
       "id": "santi_m",
       "name": "Santi M",
+      "fullName": "Santiago Molina",
       "role": "Rotación Completa",
       "type": "regular",
       "badge": "Personal Fijo",
@@ -61,6 +63,7 @@ window.CUADRANTE_DATA = {
     {
       "id": "alberto_h",
       "name": "Alberto H",
+      "fullName": "Alberto Higueras",
       "role": "Rotación Completa",
       "type": "regular",
       "badge": "Personal Fijo",
@@ -83,6 +86,7 @@ window.CUADRANTE_DATA = {
     {
       "id": "fran_espin",
       "name": "Fran Espin",
+      "fullName": "Francisco Espín",
       "role": "Rotación Completa",
       "type": "regular",
       "badge": "Personal Fijo",
@@ -105,6 +109,7 @@ window.CUADRANTE_DATA = {
     {
       "id": "miguel_b",
       "name": "Miguel B",
+      "fullName": "Miguel Benitez",
       "role": "Rotación Completa",
       "type": "regular",
       "badge": "Personal Fijo",
@@ -127,6 +132,7 @@ window.CUADRANTE_DATA = {
     {
       "id": "paco_c",
       "name": "Paco C",
+      "fullName": "Francisco Cantarero",
       "role": "Rotación Completa",
       "type": "regular",
       "badge": "Personal Fijo",
@@ -149,6 +155,7 @@ window.CUADRANTE_DATA = {
     {
       "id": "a_leon",
       "name": "A. Leon",
+      "fullName": "Antonio León",
       "role": "Rotación Completa",
       "type": "regular",
       "badge": "Personal Fijo",
@@ -171,6 +178,7 @@ window.CUADRANTE_DATA = {
     {
       "id": "hilario",
       "name": "Hilario",
+      "fullName": "Hilario Gomez",
       "role": "Turnos M/T Lunes-Viernes",
       "type": "hilario",
       "badge": "Régimen Singular (Sin Noches / Sin Fines de Semana)",
@@ -193,6 +201,7 @@ window.CUADRANTE_DATA = {
     {
       "id": "extra_1",
       "name": "Extra 1",
+      "fullName": "Personal de Refuerzo (Extra 1)",
       "role": "Refuerzo de Verano (Jun-Sep)",
       "type": "extra",
       "badge": "Eventual Verano (84 días)",
