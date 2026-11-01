@@ -324,4 +324,19 @@ Cometí un error al indicarte un parámetro, las quincenas son del 1 al 15 y del
 - Se actualizaron los documentos normativos `REGLAS_OFICIALES_CUADRANTE.md` y `HISTORIAL_FESTIVOS_Y_VACACIONES.md`.
 - Se incrementó la versión de caché PWA a `cuadrante-2027-v4.4`.
 
+### 💬 Mensaje de Antonio (2026-11-01T17:36:05Z):
+```text
+Vamos a actualizar la infografía y manual con todo lo que hemos implementado tras su generación
+```
+
+**Resolución y Cambios Aplicados:**
+- Se actualizó [infografia.html](file:///home/antonio/proyectos/Cuadrante%202027/infografia.html) en sus 4 pestañas oficiales:
+  1. **Tab 1 (El Cuadrante 2027):** Añadidas las tarjetas de *Vacaciones: Quincenas de 15 Días Exactos* (1-15 y 16-30 sin incluir días 31) y *Equidad Histórica Consolidada (2011-2027)* con 17 años de datos y control de las 20 fiestas oficiales individuales.
+  2. **Tab 2 (La Aplicación Web):** Ampliado de 6 a **8 módulos especializados**, integrando el *Módulo Oficial de Festivos y Vacaciones* y el *Visor Completo de Equipo y Coberturas*. Actualizados el Asistente de Permutas (con *Cambio de Turno Directo* si ambos trabajan) y la Bolsa de Turnos (con el nuevo botón *Apuntar Turno Manual*). Actualizada la tabla comparativa con el papel tradicional.
+  3. **Tab 3 (Cómo Instalar la App):** Añadida la guía de instalación para Ordenador (PC o Mac en Chrome/Edge).
+  4. **Tab 4 (Manual de Usuario):** Ampliado a una **Guía Oficial en 10 Pasos** cubriendo todo el flujo operativo de la app.
+- Se creó el documento formal [MANUAL_DE_USUARIO.md](file:///home/antonio/proyectos/Cuadrante%202027/MANUAL_DE_USUARIO.md) con explicaciones exhaustivas, tablas de primeros pasos y preguntas frecuentes (FAQ).
+- Se incrementó la versión de caché PWA en [sw.js](file:///home/antonio/proyectos/Cuadrante%202027/sw.js) a `cuadrante-2027-v4.5`.
+- Se verificaron visualmente las 4 pestañas en el navegador mediante subagente de captura.
+
 ---
