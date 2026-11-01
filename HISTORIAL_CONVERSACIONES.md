@@ -292,5 +292,10 @@ Buscador de Coincidencias:
 Selector rápido para consultar "¿Con quién libro o coincido en quincena este año o el próximo?". No lo veo lógico ni util porque siempre tienes tus vacaciones con la misma persona. Por lo demas todo correcto
 ```
 
+### 💬 Mensaje de Antonio (2026-11-01T05:38:03Z):
+```text
+Vamos a implemenar en las pemutas inteligentes la opción del cambios de turno si el trabajador esta trabajando tambien. Es decir , si yo estoy trabajando de mañanas y por ejemplo otro trabajador de tardes o noches, ahora mismo ese trabajador sale como no disponible, vamos a dar la opción de cambiar y al ejecutar ese cambio cumplioms las reglas, y actuaremos al igual que los otros cambios con 100% conforme, warning o No disponible si no hay opción
+```
+
 ---
 

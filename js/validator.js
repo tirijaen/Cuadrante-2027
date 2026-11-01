@@ -305,19 +305,88 @@ window.CuadranteValidator = (function () {
       const curShiftB = DATA.matrix_dot[wBIdx][dAIdx];
       const baseB = getBaseShift(curShiftB);
 
+      // CASO 1: wB trabaja también ese día
       if (baseB !== 'L') {
-        results.push({
-          worker: wB,
-          status: 'working',
-          badge: 'Ya trabaja hoy',
-          reason: `Ya tiene turno asignado (${curShiftB}) en esta fecha.`,
-          warnings: [],
-          errors: []
-        });
+        // Si tienen el mismo turno base (ej. M con M, T con T o N con N)
+        if (baseB === baseA) {
+          results.push({
+            worker: wB,
+            status: 'same_shift',
+            isShiftSwap: true,
+            canSwapShift: false,
+            badge: 'Mismo turno',
+            currentShiftB: curShiftB,
+            targetShiftForA: curShiftB,
+            targetShiftForB: shiftA,
+            reason: `Ya tiene tu mismo turno (${curShiftB}) en esta fecha.`,
+            warnings: [],
+            errors: []
+          });
+          return;
+        }
+
+        // Turnos distintos: Evaluar CAMBIO DE TURNO directo en la misma jornada (M ⇄ T, M ⇄ N, T ⇄ N)
+        const overridesA = { [dateA]: curShiftB };
+        const overridesB = { [dateA]: shiftA };
+
+        const resA = validateWorkerSchedule(workerA, overridesA);
+        const resB = validateWorkerSchedule(wB, overridesB);
+
+        const allErrors = [
+          ...resA.errors.map(e => ({ ...e, worker: workerA })),
+          ...resB.errors.map(e => ({ ...e, worker: wB }))
+        ];
+
+        const allWarnings = [
+          ...resA.warnings.map(w => ({ ...w, worker: workerA })),
+          ...resB.warnings.map(w => ({ ...w, worker: wB }))
+        ];
+
+        if (allErrors.length > 0) {
+          results.push({
+            worker: wB,
+            status: 'blocked',
+            isShiftSwap: true,
+            canSwapShift: false,
+            badge: 'No disponible',
+            currentShiftB: curShiftB,
+            targetShiftForA: curShiftB,
+            targetShiftForB: shiftA,
+            reason: allErrors.map(e => `${e.worker}: ${e.desc}`).join(' | '),
+            warnings: [],
+            errors: allErrors
+          });
+        } else if (allWarnings.length > 0) {
+          results.push({
+            worker: wB,
+            status: 'warning',
+            isShiftSwap: true,
+            canSwapShift: true,
+            badge: 'Cambio con Warning',
+            currentShiftB: curShiftB,
+            targetShiftForA: curShiftB,
+            targetShiftForB: shiftA,
+            warnings: allWarnings.map(w => `${w.worker}: ${w.desc}`),
+            errors: []
+          });
+        } else {
+          results.push({
+            worker: wB,
+            status: 'clean',
+            isShiftSwap: true,
+            canSwapShift: true,
+            badge: '100% Conforme',
+            currentShiftB: curShiftB,
+            targetShiftForA: curShiftB,
+            targetShiftForB: shiftA,
+            warnings: [],
+            errors: []
+          });
+        }
         return;
       }
 
-      // Probar a que Worker B tome el turno de Worker A en dateA
+      // CASO 2: wB está libre (L) -> COBERTURA DE DESCANSO
       const overridesB = { [dateA]: shiftA };
       const resB = validateWorkerSchedule(wB, overridesB);
 
@@ -325,7 +394,12 @@ window.CuadranteValidator = (function () {
         results.push({
           worker: wB,
           status: 'blocked',
+          isShiftSwap: false,
+          canSwapShift: false,
           badge: 'No disponible',
+          currentShiftB: 'L',
+          targetShiftForA: ' ',
+          targetShiftForB: shiftA,
           reason: resB.errors.map(e => e.desc).join(' | '),
           warnings: [],
           errors: resB.errors
@@ -334,7 +408,12 @@ window.CuadranteValidator = (function () {
         results.push({
           worker: wB,
           status: 'warning',
+          isShiftSwap: false,
+          canSwapShift: true,
           badge: 'Disponible con Warning',
+          currentShiftB: 'L',
+          targetShiftForA: ' ',
+          targetShiftForB: shiftA,
           warnings: resB.warnings.map(w => w.desc),
           errors: []
         });
@@ -342,16 +421,21 @@ window.CuadranteValidator = (function () {
         results.push({
           worker: wB,
           status: 'clean',
+          isShiftSwap: false,
+          canSwapShift: true,
           badge: '100% Conforme',
+          currentShiftB: 'L',
+          targetShiftForA: ' ',
+          targetShiftForB: shiftA,
           warnings: [],
           errors: []
         });
       }
     });
 
-    // Ordenar: primero los limpios (clean), luego los con warning, luego los no disponibles
-    const order = { 'clean': 1, 'warning': 2, 'working': 3, 'blocked': 4 };
-    results.sort((a, b) => order[a.status] - order[b.status]);
+    // Ordenar: primero limpios (clean), luego advertencias (warning), luego mismo turno, luego bloqueados
+    const order = { 'clean': 1, 'warning': 2, 'same_shift': 3, 'blocked': 4 };
+    results.sort((a, b) => (order[a.status] || 99) - (order[b.status] || 99));
 
     return results;
   }

@@ -36,8 +36,10 @@ document.addEventListener('DOMContentLoaded', () => {
     theme: localStorage.getItem('cuadrante_theme') || 'dark',
     simulatedOverrides: {}, // { [workerName]: { [dateStr]: shiftStr } }
     notes: {}, // { [dateStr]: noteText }
-    selectedWorkerB: null, // Compañero que cubre en Paso 2
-    selectedDateB: null, // Día acordado de devolución en Paso 3
+    selectedWorkerB: null, // Compañero que cubre en Paso 2 o con quien se cambia turno
+    isShiftSwap: false, // true si es intercambio de turno directo en la misma jornada
+    selectedWorkerBShift: null, // Turno original del compañero en cambio directo
+    selectedDateB: null, // Día acordado de devolución en Paso 3 (o misma fecha en cambio directo)
     returnFilter: 'all', // 'all' | 'clean' | 'warning' | 'month' | 'weekend'
     modalDate: null,
     swapsMode: 'assistant', // 'assistant' | 'bank'
@@ -1061,7 +1063,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const otherFullName = getWorkerFullName(otherWorker);
 
       let explanation = '';
-      if (activeSwap.workerA === state.currentWorker) {
+      if (activeSwap.type === 'shift_exchange' || activeSwap.dateA === activeSwap.dateB) {
+        const isWorkerA = (activeSwap.workerA === state.currentWorker);
+        const myNewShift = isWorkerA ? (activeSwap.newShiftA || activeSwap.origShiftB) : (activeSwap.newShiftB || activeSwap.origShiftA);
+        const myOrigShift = isWorkerA ? activeSwap.origShiftA : activeSwap.origShiftB;
+        explanation = `Cambio de turno directo con <strong>${otherFullName}</strong>. Intercambiáis turnos en esta jornada: realizas <strong>${formatShiftDesc(myNewShift)}</strong> en lugar de tu turno oficial (<strong>${formatShiftDesc(myOrigShift)}</strong>). Compensación simultánea (saldo 0).`;
+      } else if (activeSwap.workerA === state.currentWorker) {
         if (dateStr === activeSwap.dateA) {
           explanation = `Permuta activa con <strong>${otherFullName}</strong>. Solicitaste estar <strong>LIBRE</strong> en esta jornada (tu turno oficial en cuadrante era <strong>${formatShiftDesc(activeSwap.origShiftA)}</strong>). ${otherWorker} asume el servicio por ti.`;
         } else {
@@ -1741,21 +1748,37 @@ document.addEventListener('DOMContentLoaded', () => {
       let detailHtml = '';
 
       if (cand.status === 'clean') {
-        badgeHtml = `<span class="candidate-badge-pill">✓ 100% Conforme</span>`;
-        detailHtml = `<div style="font-size:0.78rem; color:var(--text-secondary);">Está de descanso este día. Puede cubrirte sin vulnerar descansos de 12h ni superar 5 días.</div>`;
-        actionBtnHtml = `<button class="btn-primary" style="padding:6px 12px; font-size:0.8rem; width:100%; justify-content:center;">${isSelected ? '✓ Seleccionado' : 'Elegir compañero'}</button>`;
+        if (cand.isShiftSwap) {
+          badgeHtml = `<span class="candidate-badge-pill" style="background:rgba(16,185,129,0.2); color:#10b981;">✓ 100% Conforme (Cambio de Turno)</span>`;
+          detailHtml = `<div style="font-size:0.78rem; color:var(--text-secondary);">Trabaja de <strong>${formatShiftDesc(cand.currentShiftB)}</strong>. Intercambio directo: tú realizas su turno (${cand.currentShiftB}) y él tu turno (${curShiftA}). 100% conforme a descansos y reglas.</div>`;
+          actionBtnHtml = `<button class="btn-primary" style="padding:6px 12px; font-size:0.8rem; width:100%; justify-content:center;">${isSelected ? '✓ Seleccionado para Cambio' : '🔄 Cambiar turnos (' + curShiftA + ' ⇄ ' + cand.currentShiftB + ')'}</button>`;
+        } else {
+          badgeHtml = `<span class="candidate-badge-pill">✓ 100% Conforme (Te cubre)</span>`;
+          detailHtml = `<div style="font-size:0.78rem; color:var(--text-secondary);">Está de descanso este día. Puede cubrirte sin vulnerar descansos de 12h ni superar 5 días.</div>`;
+          actionBtnHtml = `<button class="btn-primary" style="padding:6px 12px; font-size:0.8rem; width:100%; justify-content:center;">${isSelected ? '✓ Seleccionado' : 'Elegir para cubrirte'}</button>`;
+        }
       } else if (cand.status === 'warning') {
-        badgeHtml = `<span class="candidate-badge-pill">⚠️ Con Warning</span>`;
-        const warnItems = cand.warnings.map(w => `<div>• ${w}</div>`).join('');
-        detailHtml = `
-          <div style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:4px;">Disponible si se obvia la regla ergonómica:</div>
-          <div class="candidate-warnings-list">${warnItems}</div>
-        `;
-        actionBtnHtml = `<button class="btn-secondary" style="padding:6px 12px; font-size:0.8rem; width:100%; justify-content:center; color:#f59e0b; border-color:#f59e0b;">${isSelected ? '✓ Seleccionado con Warning' : 'Elegir con Warning'}</button>`;
-      } else if (cand.status === 'working') {
-        badgeHtml = `<span class="candidate-badge-pill">Ya trabaja</span>`;
+        if (cand.isShiftSwap) {
+          badgeHtml = `<span class="candidate-badge-pill" style="background:rgba(245,158,11,0.2); color:#f59e0b;">⚠️ Cambio con Warning</span>`;
+          const warnItems = cand.warnings.map(w => `<div>• ${w}</div>`).join('');
+          detailHtml = `
+            <div style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:4px;">Trabaja de <strong>${formatShiftDesc(cand.currentShiftB)}</strong>. Cambio directo viable obviando la regla ergonómica:</div>
+            <div class="candidate-warnings-list">${warnItems}</div>
+          `;
+          actionBtnHtml = `<button class="btn-secondary" style="padding:6px 12px; font-size:0.8rem; width:100%; justify-content:center; color:#f59e0b; border-color:#f59e0b;">${isSelected ? '✓ Seleccionado con Warning' : '🔄 Cambiar con Warning'}</button>`;
+        } else {
+          badgeHtml = `<span class="candidate-badge-pill">⚠️ Cobertura con Warning</span>`;
+          const warnItems = cand.warnings.map(w => `<div>• ${w}</div>`).join('');
+          detailHtml = `
+            <div style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:4px;">Disponible si se obvia la regla ergonómica:</div>
+            <div class="candidate-warnings-list">${warnItems}</div>
+          `;
+          actionBtnHtml = `<button class="btn-secondary" style="padding:6px 12px; font-size:0.8rem; width:100%; justify-content:center; color:#f59e0b; border-color:#f59e0b;">${isSelected ? '✓ Seleccionado con Warning' : 'Elegir con Warning'}</button>`;
+        }
+      } else if (cand.status === 'same_shift') {
+        badgeHtml = `<span class="candidate-badge-pill" style="background:rgba(148,163,184,0.15); color:var(--text-muted);">Mismo turno</span>`;
         detailHtml = `<div style="font-size:0.75rem; color:var(--text-muted);">${cand.reason}</div>`;
-        actionBtnHtml = `<span style="font-size:0.75rem; color:var(--text-muted); text-align:center;">No disponible</span>`;
+        actionBtnHtml = `<span style="font-size:0.75rem; color:var(--text-muted); text-align:center;">No disponible (mismo turno)</span>`;
       } else {
         badgeHtml = `<span class="candidate-badge-pill" style="background:rgba(244,63,94,0.18); color:#f43f5e;">No disponible</span>`;
         detailHtml = `<div style="font-size:0.75rem; color:var(--text-muted);">${cand.reason}</div>`;
@@ -1782,7 +1805,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (cand.status === 'clean' || cand.status === 'warning') {
         card.addEventListener('click', () => {
-          selectCoverCandidate(cand.worker);
+          selectCoverCandidate(cand);
         });
       }
 
@@ -1790,9 +1813,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  function selectCoverCandidate(workerB) {
+  function selectCoverCandidate(candOrWorker) {
+    const workerB = (typeof candOrWorker === 'string') ? candOrWorker : candOrWorker.worker;
+    const isShiftSwap = (typeof candOrWorker === 'object') ? Boolean(candOrWorker.isShiftSwap) : false;
+    const shiftB = (typeof candOrWorker === 'object') ? candOrWorker.currentShiftB : null;
+
     state.selectedWorkerB = workerB;
-    state.selectedDateB = null; // Reset devolución al cambiar de compañero
+    state.isShiftSwap = isShiftSwap;
+    state.selectedWorkerBShift = shiftB;
 
     // Resaltar en interfaz
     document.querySelectorAll('.candidate-worker-card').forEach(c => c.classList.remove('is-selected'));
@@ -1803,14 +1831,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (el.step3WorkerBName) el.step3WorkerBName.textContent = workerB;
     if (el.step3WorkerBNameSub) el.step3WorkerBNameSub.textContent = workerB;
-    if (el.step3Card) {
-      el.step3Card.style.display = 'block';
-      el.step3Card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
-    if (el.step4AgreementCard) el.step4AgreementCard.style.display = 'none';
 
-    renderReturnDays();
-    showToast(`Compañero para cubrirte: ${workerB}`);
+    if (isShiftSwap) {
+      state.selectedDateB = el.swapDateA.value; // Misma fecha: compensación simultánea
+      if (el.step3Card) {
+        el.step3Card.style.display = 'block';
+        el.step3Card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+      renderReturnDays();
+      if (el.step4AgreementCard) {
+        el.step4AgreementCard.style.display = 'block';
+      }
+      renderAgreementSummary();
+      showToast(`🔄 Seleccionado cambio de turno directo con ${workerB}`);
+    } else {
+      state.selectedDateB = null; // Reset devolución al cambiar de compañero
+      if (el.step3Card) {
+        el.step3Card.style.display = 'block';
+        el.step3Card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+      if (el.step4AgreementCard) el.step4AgreementCard.style.display = 'none';
+
+      renderReturnDays();
+      showToast(`Compañero para cubrirte: ${workerB}`);
+    }
   }
 
   function renderReturnDays() {
@@ -1823,6 +1867,45 @@ document.addEventListener('DOMContentLoaded', () => {
       if (el.step3Card) el.step3Card.style.display = 'none';
       return;
     }
+
+    if (state.isShiftSwap) {
+      const curShiftA = getOfficialShift(workerA, dateA);
+      const shiftB = state.selectedWorkerBShift || getOfficialShift(workerB, dateA);
+
+      if (el.returnFilterPills) el.returnFilterPills.style.display = 'none';
+
+      el.returnDaysGrid.innerHTML = `
+        <div style="grid-column: 1 / -1; background:rgba(59,130,246,0.06); border:1px solid rgba(59,130,246,0.22); border-radius:12px; padding:18px;">
+          <div style="display:flex; align-items:center; gap:8px; font-weight:700; color:var(--accent-primary); font-size:1rem; margin-bottom:8px;">
+            <span style="font-size:1.2rem;">🔄</span> Compensación Simultánea: Cambio de Turno en la Misma Jornada
+          </div>
+          <p style="font-size:0.85rem; color:var(--text-secondary); margin:0 0 12px 0; line-height:1.5;">
+            Ambos prestáis servicio el <strong>${formatDateSpanish(dateA)}</strong>. Al realizar un intercambio directo de vuestros turnos (<strong>${curShiftA} ⇄ ${shiftB}</strong>), 
+            <strong>la compensación queda saldada de forma inmediata</strong> (saldo 0 jornadas). No queda ninguna jornada pendiente de devolver.
+          </p>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:10px; margin-bottom:12px;">
+            <div style="background:var(--bg-card); border:1px solid var(--border-color); border-radius:8px; padding:10px 14px;">
+              <div style="font-size:0.75rem; color:var(--text-muted); font-weight:600;">TU NUEVA ASIGNACIÓN (${workerA})</div>
+              <div style="font-size:0.95rem; font-weight:700; color:var(--accent-primary); margin-top:4px;">
+                Turno ${shiftB} <span style="font-size:0.8rem; font-weight:500; color:var(--text-secondary);">(${formatShiftDesc(shiftB)})</span>
+              </div>
+            </div>
+            <div style="background:var(--bg-card); border:1px solid var(--border-color); border-radius:8px; padding:10px 14px;">
+              <div style="font-size:0.75rem; color:var(--text-muted); font-weight:600;">NUEVA ASIGNACIÓN DE ${workerB}</div>
+              <div style="font-size:0.95rem; font-weight:700; color:var(--accent-primary); margin-top:4px;">
+                Turno ${curShiftA} <span style="font-size:0.8rem; font-weight:500; color:var(--text-secondary);">(${formatShiftDesc(curShiftA)})</span>
+              </div>
+            </div>
+          </div>
+          <div style="font-size:0.82rem; color:#10b981; font-weight:600; display:flex; align-items:center; gap:6px;">
+            <span>✓</span> Saldo de permuta: 0 días pendientes. Revisa el análisis laboral en el Paso 4 a continuación.
+          </div>
+        </div>
+      `;
+      return;
+    }
+
+    if (el.returnFilterPills) el.returnFilterPills.style.display = 'flex';
 
     const viableDays = window.CuadranteValidator.findReturnDays(workerA, dateA, workerB);
 
@@ -1940,76 +2023,150 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    const curShiftA = getEffectiveShift(workerA, dateA);
-    const origShiftB = getEffectiveShift(workerB, dateB);
+    const isShiftSwap = Boolean(state.isShiftSwap || (dateA === dateB));
+    const curShiftA = getOfficialShift(workerA, dateA);
+    const origShiftB = isShiftSwap 
+      ? (state.selectedWorkerBShift || getOfficialShift(workerB, dateA))
+      : getOfficialShift(workerB, dateB);
 
-    if (el.summaryDateA) el.summaryDateA.textContent = formatDateSpanish(dateA);
-    if (el.summaryCoverWorkerB) el.summaryCoverWorkerB.textContent = `Te cubre: ${workerB} (asume turno ${curShiftA})`;
+    if (isShiftSwap) {
+      if (el.summaryDateA) el.summaryDateA.textContent = formatDateSpanish(dateA);
+      if (el.summaryCoverWorkerB) el.summaryCoverWorkerB.textContent = `${workerB} asume tu turno oficial: ${curShiftA} (${formatShiftDesc(curShiftA)})`;
 
-    if (el.summaryDateB) el.summaryDateB.textContent = formatDateSpanish(dateB);
-    if (el.summaryCoverWorkerA) el.summaryCoverWorkerA.textContent = `Tú cubres a ${workerB} (asumes turno ${origShiftB})`;
-    if (el.summaryWorkerBFree) el.summaryWorkerBFree.textContent = `${workerB} queda: LIBRE`;
+      if (el.summaryDateB) el.summaryDateB.textContent = formatDateSpanish(dateA);
+      if (el.summaryCoverWorkerA) el.summaryCoverWorkerA.textContent = `Tú asumes el turno oficial de ${workerB}: ${origShiftB} (${formatShiftDesc(origShiftB)})`;
+      if (el.summaryWorkerBFree) el.summaryWorkerBFree.textContent = `Intercambio de turno simultáneo en la misma fecha (saldo 0)`;
 
-    // Validación oficial
-    const res = window.CuadranteValidator.validateSwap({
-      workerA, dateA, newShiftA: ' ',
-      workerB, dateB, newShiftB: ' '
-    });
-
-    if (el.agreementValidationBox) {
-      el.agreementValidationBox.className = 'validation-results-panel ' + (res.valid ? (res.hasWarnings ? 'has-warning' : 'valid') : 'invalid');
-    }
-
-    if (el.agreementResultBadge) {
-      if (res.valid) {
-        if (res.hasWarnings) {
-          el.agreementResultBadge.textContent = 'Permuta Viable con Advertencia';
-          el.agreementResultBadge.style.background = '#f59e0b';
-          el.agreementResultBadge.style.color = '#fff';
-        } else {
-          el.agreementResultBadge.textContent = 'Permuta 100% Conforme';
-          el.agreementResultBadge.style.background = '#10b981';
-          el.agreementResultBadge.style.color = '#fff';
-        }
-      } else {
-        el.agreementResultBadge.textContent = 'Permuta No Disponible';
-        el.agreementResultBadge.style.background = '#f43f5e';
-        el.agreementResultBadge.style.color = '#fff';
-      }
-    }
-
-    if (el.agreementChecklist) {
-      el.agreementChecklist.innerHTML = '';
-      res.checks.forEach(chk => {
-        const item = document.createElement('div');
-        item.className = 'check-item ' + (chk.ok ? 'ok' : (chk.isWarning ? 'warning' : 'fail'));
-        let icon = '✅';
-        if (!chk.ok) icon = chk.isWarning ? '⚠️' : '❌';
-        item.innerHTML = `<span>${icon}</span> ${chk.name}`;
-        el.agreementChecklist.appendChild(item);
+      // Validación oficial para cambio directo de turno
+      const res = window.CuadranteValidator.validateSwap({
+        workerA, dateA, newShiftA: origShiftB,
+        workerB, dateB: dateA, newShiftB: curShiftA
       });
-    }
 
-    if (el.agreementWarningsList) {
-      if (res.warnings.length > 0) {
-        el.agreementWarningsList.style.display = 'block';
-        if (el.agreementWarningsPills) {
-          el.agreementWarningsPills.innerHTML = '';
-          res.warnings.forEach(warn => {
-            const pill = document.createElement('div');
-            pill.className = 'warning-pill';
-            pill.innerHTML = `<strong>${warn.worker || ''} (${warn.date}):</strong> ${warn.desc}`;
-            el.agreementWarningsPills.appendChild(pill);
-          });
-        }
-      } else {
-        el.agreementWarningsList.style.display = 'none';
+      if (el.agreementValidationBox) {
+        el.agreementValidationBox.className = 'validation-results-panel ' + (res.valid ? (res.hasWarnings ? 'has-warning' : 'valid') : 'invalid');
       }
-    }
 
-    if (el.applySimulationBtn) {
-      el.applySimulationBtn.disabled = !res.valid;
-      el.applySimulationBtn.style.opacity = res.valid ? '1' : '0.5';
+      if (el.agreementResultBadge) {
+        if (res.valid) {
+          if (res.hasWarnings) {
+            el.agreementResultBadge.textContent = 'Cambio Viable con Advertencia';
+            el.agreementResultBadge.style.background = '#f59e0b';
+            el.agreementResultBadge.style.color = '#fff';
+          } else {
+            el.agreementResultBadge.textContent = 'Cambio 100% Conforme';
+            el.agreementResultBadge.style.background = '#10b981';
+            el.agreementResultBadge.style.color = '#fff';
+          }
+        } else {
+          el.agreementResultBadge.textContent = 'Cambio No Disponible';
+          el.agreementResultBadge.style.background = '#f43f5e';
+          el.agreementResultBadge.style.color = '#fff';
+        }
+      }
+
+      if (el.agreementChecklist) {
+        el.agreementChecklist.innerHTML = '';
+        res.checks.forEach(chk => {
+          const item = document.createElement('div');
+          item.className = 'check-item ' + (chk.ok ? 'ok' : (chk.isWarning ? 'warning' : 'fail'));
+          let icon = '✅';
+          if (!chk.ok) icon = chk.isWarning ? '⚠️' : '❌';
+          item.innerHTML = `<span>${icon}</span> ${chk.name}`;
+          el.agreementChecklist.appendChild(item);
+        });
+      }
+
+      if (el.agreementWarningsList) {
+        if (res.warnings.length > 0) {
+          el.agreementWarningsList.style.display = 'block';
+          if (el.agreementWarningsPills) {
+            el.agreementWarningsPills.innerHTML = '';
+            res.warnings.forEach(warn => {
+              const pill = document.createElement('div');
+              pill.className = 'warning-pill';
+              pill.innerHTML = `<strong>${warn.worker || ''} (${warn.date}):</strong> ${warn.desc}`;
+              el.agreementWarningsPills.appendChild(pill);
+            });
+          }
+        } else {
+          el.agreementWarningsList.style.display = 'none';
+        }
+      }
+
+      if (el.applySimulationBtn) {
+        el.applySimulationBtn.disabled = !res.valid;
+        el.applySimulationBtn.style.opacity = res.valid ? '1' : '0.5';
+      }
+    } else {
+      if (el.summaryDateA) el.summaryDateA.textContent = formatDateSpanish(dateA);
+      if (el.summaryCoverWorkerB) el.summaryCoverWorkerB.textContent = `Te cubre: ${workerB} (asume turno ${curShiftA})`;
+
+      if (el.summaryDateB) el.summaryDateB.textContent = formatDateSpanish(dateB);
+      if (el.summaryCoverWorkerA) el.summaryCoverWorkerA.textContent = `Tú cubres a ${workerB} (asumes turno ${origShiftB})`;
+      if (el.summaryWorkerBFree) el.summaryWorkerBFree.textContent = `${workerB} queda: LIBRE`;
+
+      // Validación oficial para cobertura con devolución
+      const res = window.CuadranteValidator.validateSwap({
+        workerA, dateA, newShiftA: ' ',
+        workerB, dateB, newShiftB: ' '
+      });
+
+      if (el.agreementValidationBox) {
+        el.agreementValidationBox.className = 'validation-results-panel ' + (res.valid ? (res.hasWarnings ? 'has-warning' : 'valid') : 'invalid');
+      }
+
+      if (el.agreementResultBadge) {
+        if (res.valid) {
+          if (res.hasWarnings) {
+            el.agreementResultBadge.textContent = 'Permuta Viable con Advertencia';
+            el.agreementResultBadge.style.background = '#f59e0b';
+            el.agreementResultBadge.style.color = '#fff';
+          } else {
+            el.agreementResultBadge.textContent = 'Permuta 100% Conforme';
+            el.agreementResultBadge.style.background = '#10b981';
+            el.agreementResultBadge.style.color = '#fff';
+          }
+        } else {
+          el.agreementResultBadge.textContent = 'Permuta No Disponible';
+          el.agreementResultBadge.style.background = '#f43f5e';
+          el.agreementResultBadge.style.color = '#fff';
+        }
+      }
+
+      if (el.agreementChecklist) {
+        el.agreementChecklist.innerHTML = '';
+        res.checks.forEach(chk => {
+          const item = document.createElement('div');
+          item.className = 'check-item ' + (chk.ok ? 'ok' : (chk.isWarning ? 'warning' : 'fail'));
+          let icon = '✅';
+          if (!chk.ok) icon = chk.isWarning ? '⚠️' : '❌';
+          item.innerHTML = `<span>${icon}</span> ${chk.name}`;
+          el.agreementChecklist.appendChild(item);
+        });
+      }
+
+      if (el.agreementWarningsList) {
+        if (res.warnings.length > 0) {
+          el.agreementWarningsList.style.display = 'block';
+          if (el.agreementWarningsPills) {
+            el.agreementWarningsPills.innerHTML = '';
+            res.warnings.forEach(warn => {
+              const pill = document.createElement('div');
+              pill.className = 'warning-pill';
+              pill.innerHTML = `<strong>${warn.worker || ''} (${warn.date}):</strong> ${warn.desc}`;
+              el.agreementWarningsPills.appendChild(pill);
+            });
+          }
+        } else {
+          el.agreementWarningsList.style.display = 'none';
+        }
+      }
+
+      if (el.applySimulationBtn) {
+        el.applySimulationBtn.disabled = !res.valid;
+        el.applySimulationBtn.style.opacity = res.valid ? '1' : '0.5';
+      }
     }
   }
 
@@ -2021,20 +2178,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!workerA || !workerB || !dateA || !dateB) return;
 
+    const isShiftSwap = Boolean(state.isShiftSwap || (dateA === dateB));
     const curShiftA = getOfficialShift(workerA, dateA);
-    const origShiftB = getOfficialShift(workerB, dateB);
+    const origShiftB = isShiftSwap 
+      ? (state.selectedWorkerBShift || getOfficialShift(workerB, dateA))
+      : getOfficialShift(workerB, dateB);
 
     const newSwap = {
       id: 'swap_' + Date.now(),
       createdAt: new Date().toISOString(),
+      type: isShiftSwap ? 'shift_exchange' : 'day_cover',
       workerA,
       workerB,
       dateA,
       origShiftA: curShiftA,
-      newShiftA: 'LIBRE',
+      newShiftA: isShiftSwap ? origShiftB : 'LIBRE',
       dateB,
       origShiftB,
-      newShiftB: 'LIBRE',
+      newShiftB: isShiftSwap ? curShiftA : 'LIBRE',
       status: 'active'
     };
 
@@ -2051,14 +2212,16 @@ document.addEventListener('DOMContentLoaded', () => {
       createdAt: new Date().toISOString(),
       workerA: workerA,
       workerB: workerB,
-      direction: 'me_debe',
+      direction: isShiftSwap ? 'compensado' : 'me_debe',
       dateOriginal: dateA,
       shiftOriginal: curShiftA,
       dateReturn: dateB,
       shiftReturn: origShiftB,
-      notes: `Permuta aplicada en cuadrante con ${workerB}`,
-      status: 'pending',
-      settledDate: null,
+      notes: isShiftSwap 
+        ? `Cambio directo de turno en cuadrante: ${curShiftA} ⇄ ${origShiftB} con ${workerB}`
+        : `Permuta aplicada en cuadrante con ${workerB}`,
+      status: isShiftSwap ? 'settled' : 'pending',
+      settledDate: isShiftSwap ? new Date().toISOString() : null,
       appliedToCalendar: true,
       swapId: newSwap.id
     };
@@ -2068,7 +2231,9 @@ document.addEventListener('DOMContentLoaded', () => {
     rebuildOverridesFromSwaps();
     updateAppView();
 
-    showToast(`✓ Permuta guardada permanentemente en tu calendario con ${workerB}`);
+    showToast(isShiftSwap 
+      ? `✓ Cambio de turno guardado en tu calendario con ${workerB}` 
+      : `✓ Permuta guardada permanentemente en tu calendario con ${workerB}`);
   }
 
   function resetSimulation() {
@@ -2356,27 +2521,32 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    const curShiftA = getEffectiveShift(workerA, dateA);
-    const origShiftB = dateB ? getEffectiveShift(workerB, dateB) : null;
+    const isShiftSwap = Boolean(state.isShiftSwap || (dateA === dateB));
+    const curShiftA = getOfficialShift(workerA, dateA);
+    const origShiftB = isShiftSwap 
+      ? (state.selectedWorkerBShift || getOfficialShift(workerB, dateA))
+      : (dateB ? getOfficialShift(workerB, dateB) : null);
 
     const newDebt = {
       id: 'debt_' + Date.now(),
       createdAt: new Date().toISOString(),
       workerA: workerA,
       workerB: workerB,
-      direction: 'le_debo', // workerB cubre a workerA en dateA -> workerA le debe
+      direction: isShiftSwap ? 'compensado' : 'le_debo',
       dateOriginal: dateA,
       shiftOriginal: curShiftA,
       dateReturn: dateB || null,
       shiftReturn: origShiftB || null,
-      notes: dateB ? `Permuta completa: te cubre el ${dateA} y devuelves el ${dateB}` : `Te cubre el ${dateA} (pendiente de devolución)`,
-      status: 'pending',
-      settledDate: null
+      notes: isShiftSwap 
+        ? `Cambio directo de turno en la misma jornada: ${curShiftA} ⇄ ${origShiftB} con ${workerB}`
+        : (dateB ? `Permuta completa: te cubre el ${dateA} y devuelves el ${dateB}` : `Te cubre el ${dateA} (pendiente de devolución)`),
+      status: isShiftSwap ? 'settled' : 'pending',
+      settledDate: isShiftSwap ? new Date().toISOString() : null
     };
 
     const debts = [newDebt, ...state.debts];
     saveDebts(debts);
-    showToast(`🤝 Acuerdo con ${workerB} guardado en tu Bolsa`);
+    showToast(isShiftSwap ? `🤝 Cambio de turno con ${workerB} registrado en tu Bolsa` : `🤝 Acuerdo con ${workerB} guardado en tu Bolsa`);
     switchSwapsMode('bank');
   }
 
@@ -2497,17 +2667,36 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    const curShiftA = getEffectiveShift(workerA, dateA);
-    const origShiftB = getEffectiveShift(workerB, dateB);
+    const isShiftSwap = Boolean(state.isShiftSwap || (dateA === dateB));
+    const curShiftA = getOfficialShift(workerA, dateA);
+    const origShiftB = isShiftSwap 
+      ? (state.selectedWorkerBShift || getOfficialShift(workerB, dateA))
+      : getOfficialShift(workerB, dateB);
 
     const nameA = getWorkerFullName(workerA);
     const nameB = getWorkerFullName(workerB);
     const textDateA = formatDateSpanishWithYear(dateA);
     const textDateB = formatDateSpanishWithYear(dateB);
 
-    const text = 
+    let text = '';
+    if (isShiftSwap) {
+      text = 
+`🤝 *ACUERDO DE CAMBIO DE TURNO DIRECTO · CUADRANTE 2027*
+📍 *Centro de Trabajo:* HAG de Andújar
+👥 *Acuerdo entre:* ${nameA} ⇄ ${nameB}
+
+📅 *JORNADA DE INTERCAMBIO:*
+• *Fecha:* ${textDateA}
+• *${nameA}:* Pasa a turno *${formatShiftDesc(origShiftB)}* (oficial en cuadrante: ${formatShiftDesc(curShiftA)})
+• *${nameB}:* Pasa a turno *${formatShiftDesc(curShiftA)}* (oficial en cuadrante: ${formatShiftDesc(origShiftB)})
+
+⚖️ *AUDITORÍA LABORAL:* Conforme con la normativa laboral y descansos del HAG de Andújar.
+📋 *Saldo de compensación:* Compensado simultáneamente en la misma jornada (saldo 0 días).
+📋 _Generado desde la App Cuadrante 2027 Andújar_`;
+    } else {
+      text = 
 `🤝 *ACUERDO DE PERMUTA · CUADRANTE 2027*
-📍 *Centro de Trabajo:* Andújar
+📍 *Centro de Trabajo:* HAG de Andújar
 👥 *Acuerdo entre:* ${nameA} ⇄ ${nameB}
 
 📅 *1. DÍA DE LIBRANZA (Jornada A):*
@@ -2524,6 +2713,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 ✅ *AUDITORÍA LABORAL:* Conforme con la normativa laboral y descansos.
 📋 _Generado desde la App Cuadrante 2027 Andújar_`;
+    }
 
     const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
     window.open(url, '_blank');
@@ -2536,12 +2726,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const nameA = getWorkerFullName(workerA);
     const nameB = getWorkerFullName(workerB);
 
+    const isShiftSwap = (debt.dateOriginal === debt.dateReturn) || (debt.direction === 'compensado');
     const textDateA = formatDateSpanishWithYear(debt.dateOriginal);
     const textDateB = debt.dateReturn ? formatDateSpanishWithYear(debt.dateReturn) : 'Pendiente de acordar';
 
-    const text = 
+    let text = '';
+    if (isShiftSwap) {
+      text = 
+`🤝 *REGISTRO DE CAMBIO DE TURNO DIRECTO · CUADRANTE 2027*
+📍 *Centro de Trabajo:* HAG de Andújar
+👥 *Trabajadores:* ${nameA} y ${nameB}
+
+📅 *Fecha:* ${textDateA}
+• *Intercambio pactado:* ${formatShiftDesc(debt.shiftOriginal || 'M')} ⇄ ${formatShiftDesc(debt.shiftReturn || 'T')}
+${debt.notes ? `• *Detalle:* ${debt.notes}\n` : ''}• *Estado:* Compensado simultáneamente (saldo 0)
+📋 _Bolsa de Turnos · Cuadrante 2027 Andújar_`;
+    } else {
+      text = 
 `🤝 *REGISTRO DE TURNO / PERMUTA · CUADRANTE 2027*
-📍 *Centro de Trabajo:* Andújar
+📍 *Centro de Trabajo:* HAG de Andújar
 👥 *Trabajadores:* ${nameA} y ${nameB}
 
 📋 *Detalle del Servicio:*
@@ -2551,6 +2754,7 @@ document.addEventListener('DOMContentLoaded', () => {
 • *Devolución acordada:* ${textDateB}${debt.shiftReturn ? ` (${formatShiftDesc(debt.shiftReturn)})` : ''}
 ${debt.notes ? `• *Notas:* ${debt.notes}\n` : ''}
 📋 _Bolsa de Turnos · Cuadrante 2027 Andújar_`;
+    }
 
     const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
     window.open(url, '_blank');
@@ -2576,8 +2780,11 @@ ${debt.notes ? `• *Notas:* ${debt.notes}\n` : ''}
         showToast('⚠️ Completa primero los 4 pasos de la permuta en el asistente.');
         return;
       }
-      shiftA = getEffectiveShift(workerA, dateA);
-      shiftB = getEffectiveShift(workerB, dateB);
+      const isShiftSwap = Boolean(state.isShiftSwap || (dateA === dateB));
+      shiftA = getOfficialShift(workerA, dateA);
+      shiftB = isShiftSwap 
+        ? (state.selectedWorkerBShift || getOfficialShift(workerB, dateA))
+        : getOfficialShift(workerB, dateB);
     }
 
     const nameA = getWorkerFullName(workerA);
@@ -2639,13 +2846,19 @@ ${debt.notes ? `• *Notas:* ${debt.notes}\n` : ''}
       if (!state.simulatedOverrides[swap.workerA]) state.simulatedOverrides[swap.workerA] = {};
       if (!state.simulatedOverrides[swap.workerB]) state.simulatedOverrides[swap.workerB] = {};
 
-      // workerA libra en dateA, trabaja origShiftB en dateB
-      state.simulatedOverrides[swap.workerA][swap.dateA] = ' ';
-      state.simulatedOverrides[swap.workerA][swap.dateB] = swap.origShiftB;
+      if (swap.type === 'shift_exchange' || swap.dateA === swap.dateB) {
+        // Intercambio de turno directo el mismo día
+        state.simulatedOverrides[swap.workerA][swap.dateA] = swap.newShiftA || swap.origShiftB;
+        state.simulatedOverrides[swap.workerB][swap.dateA] = swap.newShiftB || swap.origShiftA;
+      } else {
+        // workerA libra en dateA, trabaja origShiftB en dateB
+        state.simulatedOverrides[swap.workerA][swap.dateA] = ' ';
+        state.simulatedOverrides[swap.workerA][swap.dateB] = swap.origShiftB;
 
-      // workerB trabaja origShiftA en dateA, libra en dateB
-      state.simulatedOverrides[swap.workerB][swap.dateA] = swap.origShiftA;
-      state.simulatedOverrides[swap.workerB][swap.dateB] = ' ';
+        // workerB trabaja origShiftA en dateA, libra en dateB
+        state.simulatedOverrides[swap.workerB][swap.dateA] = swap.origShiftA;
+        state.simulatedOverrides[swap.workerB][swap.dateB] = ' ';
+      }
     });
     localStorage.setItem('cuadrante_applied_swaps', JSON.stringify(state.appliedSwaps));
     localStorage.setItem('cuadrante_simulated_overrides', JSON.stringify(state.simulatedOverrides));
@@ -2720,26 +2933,30 @@ ${debt.notes ? `• *Notas:* ${debt.notes}\n` : ''}
     workerSwaps.forEach(swap => {
       const otherWorker = swap.workerA === state.currentWorker ? swap.workerB : swap.workerA;
       const otherFullName = getWorkerFullName(otherWorker);
+      const isShiftSwap = (swap.type === 'shift_exchange') || (swap.dateA === swap.dateB);
       const textDateA = formatDateSpanishWithYear(swap.dateA);
       const textDateB = formatDateSpanishWithYear(swap.dateB);
 
-      const card = document.createElement('div');
-      card.className = 'swap-active-item-card';
-      card.innerHTML = `
-        <div class="swap-active-header">
-          <div style="display:flex; align-items:center; gap:8px;">
-            <span style="font-size:1.2rem;">🔀</span>
-            <div>
-              <div style="font-weight:800; font-size:0.95rem; color:var(--text-primary);">${otherFullName}</div>
-              <div style="font-size:0.75rem; color:var(--text-secondary);">Acuerdo de permuta mutua</div>
-            </div>
-          </div>
-          <span style="background:rgba(56,189,248,0.2); color:#38bdf8; font-size:0.72rem; font-weight:700; padding:2px 8px; border-radius:4px; border:1px solid rgba(56,189,248,0.4);">
-            Activa en Calendario
-          </span>
-        </div>
+      let detailsHtml = '';
+      if (isShiftSwap) {
+        const isWorkerA = (swap.workerA === state.currentWorker);
+        const myNewShift = isWorkerA ? (swap.newShiftA || swap.origShiftB) : (swap.newShiftB || swap.origShiftA);
+        const myOrigShift = isWorkerA ? swap.origShiftA : swap.origShiftB;
+        const otherNewShift = isWorkerA ? (swap.newShiftB || swap.origShiftA) : (swap.newShiftA || swap.origShiftB);
+        const otherOrigShift = isWorkerA ? swap.origShiftB : swap.origShiftA;
 
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; background:rgba(0,0,0,0.2); padding:10px; border-radius:var(--radius-sm); font-size:0.8rem;">
+        detailsHtml = `
+          <div style="grid-column: 1 / -1; background:rgba(0,0,0,0.2); padding:10px; border-radius:var(--radius-sm); font-size:0.8rem;">
+            <div style="font-size:0.7rem; color:var(--text-muted); font-weight:700; text-transform:uppercase;">Intercambio Directo (${textDateA}):</div>
+            <div style="color:var(--text-primary); margin-top:3px; line-height:1.4;">
+              Tú realizas: <strong>${formatShiftDesc(myNewShift)}</strong> (oficial: ${myOrigShift})<br>
+              ${otherWorker} realiza: <strong>${formatShiftDesc(otherNewShift)}</strong> (oficial: ${otherOrigShift})
+            </div>
+            <div style="font-size:0.72rem; color:#10b981; margin-top:4px; font-weight:600;">✓ Compensación simultánea en la misma jornada (saldo 0)</div>
+          </div>
+        `;
+      } else {
+        detailsHtml = `
           <div>
             <div style="font-size:0.7rem; color:var(--text-muted); font-weight:700; text-transform:uppercase;">Jornada A (Cesión):</div>
             <div style="font-weight:700; margin:2px 0;">${textDateA}</div>
@@ -2750,6 +2967,27 @@ ${debt.notes ? `• *Notas:* ${debt.notes}\n` : ''}
             <div style="font-weight:700; margin:2px 0;">${textDateB}</div>
             <div style="color:#38bdf8;">${swap.workerA === state.currentWorker ? `Tú cubres turno (${otherWorker} libra)` : `Tú libras (${swap.workerA} te cubre)`}</div>
           </div>
+        `;
+      }
+
+      const card = document.createElement('div');
+      card.className = 'swap-active-item-card';
+      card.innerHTML = `
+        <div class="swap-active-header">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:1.2rem;">🔀</span>
+            <div>
+              <div style="font-weight:800; font-size:0.95rem; color:var(--text-primary);">${otherFullName}</div>
+              <div style="font-size:0.75rem; color:var(--text-secondary);">${isShiftSwap ? 'Cambio directo de turno' : 'Acuerdo de permuta mutua'}</div>
+            </div>
+          </div>
+          <span style="background:rgba(56,189,248,0.2); color:#38bdf8; font-size:0.72rem; font-weight:700; padding:2px 8px; border-radius:4px; border:1px solid rgba(56,189,248,0.4);">
+            Activa en Calendario
+          </span>
+        </div>
+
+        <div style="display:grid; grid-template-columns:${isShiftSwap ? '1fr' : '1fr 1fr'}; gap:10px; background:rgba(0,0,0,0.2); padding:10px; border-radius:var(--radius-sm); font-size:0.8rem;">
+          ${detailsHtml}
         </div>
 
         <div style="display:flex; justify-content:flex-end; gap:8px; flex-wrap:wrap; margin-top:4px;">

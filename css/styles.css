@@ -1282,6 +1282,7 @@ button, select, input, textarea {
   border-left: 4px solid #f59e0b;
 }
 
+.candidate-worker-card.status-same_shift,
 .candidate-worker-card.status-working,
 .candidate-worker-card.status-blocked {
   opacity: 0.6;
@@ -1289,6 +1290,7 @@ button, select, input, textarea {
   cursor: not-allowed;
 }
 
+.candidate-worker-card.status-same_shift:hover,
 .candidate-worker-card.status-working:hover,
 .candidate-worker-card.status-blocked:hover {
   transform: none;
