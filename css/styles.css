@@ -671,22 +671,38 @@ button, select, input, textarea {
 }
 
 /* Month View & Grid */
+/* Month View & Grid */
 .calendar-card {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-xl);
-  padding: 18px;
+  padding: 12px 6px;
   box-shadow: var(--shadow-sm);
   margin-bottom: 24px;
+  overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (min-width: 480px) {
+  .calendar-card {
+    padding: 16px 12px;
+  }
+}
+
+@media (min-width: 768px) {
+  .calendar-card {
+    padding: 20px;
+  }
 }
 
 .calendar-controls {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 10px;
 }
 
 .month-picker-group {
@@ -706,42 +722,61 @@ button, select, input, textarea {
 .calendar-legend {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
-  font-size: 0.75rem;
+  gap: 10px;
+  font-size: 0.72rem;
 }
 
 .legend-item {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   color: var(--text-secondary);
 }
 
 .legend-badge {
-  width: 14px;
-  height: 14px;
-  border-radius: 4px;
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  flex-shrink: 0;
 }
 
 .calendar-weekdays {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 4px;
   text-align: center;
-  font-size: 0.75rem;
+  font-size: 0.68rem;
   font-weight: 700;
   color: var(--text-muted);
-  padding-bottom: 8px;
+  padding-bottom: 6px;
   border-bottom: 1px solid var(--border-color);
-  margin-bottom: 8px;
+  margin-bottom: 6px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .calendar-grid {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 6px;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 4px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (min-width: 480px) {
+  .calendar-weekdays {
+    gap: 6px;
+    font-size: 0.75rem;
+  }
+  .calendar-grid {
+    gap: 6px;
+  }
 }
 
 @media (min-width: 768px) {
+  .calendar-weekdays {
+    gap: 8px;
+  }
   .calendar-grid {
     gap: 8px;
   }
@@ -749,22 +784,33 @@ button, select, input, textarea {
 
 .calendar-cell {
   aspect-ratio: 1 / 1;
-  min-height: 54px;
+  min-width: 0;
+  min-height: 0;
+  width: 100%;
+  box-sizing: border-box;
   background: var(--bg-surface);
   border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  padding: 4px;
+  border-radius: var(--radius-sm);
+  padding: 3px 2px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   cursor: pointer;
   position: relative;
   transition: var(--transition-fast);
+  overflow: hidden;
+}
+
+@media (min-width: 480px) {
+  .calendar-cell {
+    border-radius: var(--radius-md);
+    padding: 4px;
+  }
 }
 
 @media (min-width: 768px) {
   .calendar-cell {
-    min-height: 70px;
+    min-height: 64px;
     padding: 6px;
   }
 }
@@ -829,18 +875,28 @@ button, select, input, textarea {
 /* Turnos y Badges */
 .cell-shift-badge {
   font-family: var(--font-heading);
-  font-size: 0.85rem;
+  font-size: 0.72rem;
   font-weight: 800;
   text-align: center;
-  padding: 3px 6px;
+  padding: 2px 2px;
   border-radius: var(--radius-sm);
   margin-top: 2px;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 24px;
+  min-height: 18px;
+  width: 100%;
+  box-sizing: border-box;
   box-shadow: var(--shadow-sm);
   transition: var(--transition-fast);
+}
+
+@media (min-width: 480px) {
+  .cell-shift-badge {
+    font-size: 0.82rem;
+    padding: 3px 4px;
+    min-height: 22px;
+  }
 }
 
 @media (min-width: 768px) {
@@ -936,6 +992,7 @@ button, select, input, textarea {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 8px;
   margin-bottom: 12px;
   padding-bottom: 8px;
   border-bottom: 1px solid var(--border-color);
@@ -943,11 +1000,55 @@ button, select, input, textarea {
 
 .shift-col-title {
   display: flex;
-  align-items: center;
-  gap: 8px;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px;
   font-family: var(--font-heading);
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 0.95rem;
+}
+
+.shift-time-range {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.shift-count-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.75rem;
+  line-height: 1;
+  white-space: nowrap;
+  flex-shrink: 0;
+  width: auto !important;
+  height: auto !important;
+  min-width: fit-content;
+  box-shadow: var(--shadow-sm);
+}
+
+.shift-count-pill.shift-count-m {
+  background: var(--shift-m-bg);
+  color: var(--shift-m);
+  border: 1px solid var(--shift-m-border);
+}
+
+.shift-count-pill.shift-count-t {
+  background: var(--shift-t-bg);
+  color: var(--shift-t);
+  border: 1px solid var(--shift-t-border);
+}
+
+.shift-count-pill.shift-count-n {
+  background: var(--shift-n-bg);
+  color: var(--shift-n);
+  border: 1px solid var(--shift-n-border);
 }
 
 .worker-list-cards {
