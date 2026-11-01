@@ -1,0 +1,137 @@
+import json, datetime
+
+with open("cuadrante_2027_v3.json", "r", encoding="utf-8") as f:
+    data = json.load(f)
+
+workers = data["workers"]
+dates = [datetime.datetime.strptime(d, "%Y-%m-%d").date() for d in data["dates"]]
+matrix_plain = data["matrix"]
+matrix_dot = data["matrix_dot"]
+w_map = {name: i for i, name in enumerate(workers)}
+
+holidays = {
+    datetime.date(2027, 1, 1), datetime.date(2027, 1, 6), datetime.date(2027, 3, 1),
+    datetime.date(2027, 3, 25), datetime.date(2027, 3, 26), datetime.date(2027, 4, 23),
+    datetime.date(2027, 4, 26), datetime.date(2027, 5, 1), datetime.date(2027, 8, 16),
+    datetime.date(2027, 9, 6), datetime.date(2027, 10, 12), datetime.date(2027, 11, 1),
+    datetime.date(2027, 12, 6), datetime.date(2027, 12, 8), datetime.date(2027, 12, 25),
+}
+
+errors = []
+
+# 1. 220 days for regular workers and Hilario, 80-85 for Extra 1
+for w_i, w_name in enumerate(workers):
+    days = sum(1 for s in matrix_plain[w_i] if s.strip() != "")
+    if w_name == "Extra 1":
+        if not (80 <= days <= 85):
+            errors.append(f"Extra 1 tiene {days} días (debe estar entre 80 y 85)")
+    else:
+        if days != 220:
+            errors.append(f"{w_name} tiene {days} días (debe ser exactamente 220)")
+
+# 2. Hilario: no N, no fines de semana, no festivos
+h_idx = w_map["Hilario"]
+for d_idx, dt in enumerate(dates):
+    s = matrix_plain[h_idx][d_idx].strip()
+    if s == "N": errors.append(f"Hilario trabaja de noche el {dt}")
+    if dt.weekday() in (5, 6) or dt in holidays:
+        if s != "": errors.append(f"Hilario trabaja en fin de semana o festivo el {dt}")
+
+# 3. Extra 1: no trabaja fuera de verano, no noches ni findes en junio 1-14
+e_idx = w_map["Extra 1"]
+for d_idx, dt in enumerate(dates):
+    s = matrix_plain[e_idx][d_idx].strip()
+    if dt.month not in (6, 7, 8, 9) and s != "":
+        errors.append(f"Extra 1 trabaja fuera de verano el {dt}")
+    if dt.month == 6 and 1 <= dt.day <= 14:
+        if s == "N": errors.append(f"Extra 1 trabaja de noche en periodo de aprendizaje el {dt}")
+        if (dt.weekday() in (5, 6) or dt in holidays) and s != "":
+            errors.append(f"Extra 1 trabaja en fin de semana o festivo en periodo de aprendizaje el {dt}")
+
+# 4. Vacaciones y víspera
+vacations = [
+    ("Antonio J", [(6, 1, 15), (8, 1, 15)]),
+    ("Miguel B",  [(6, 1, 15), (8, 1, 15)]),
+    ("Paco C",    [(6, 16, 30), (8, 16, 31)]),
+    ("Fran Espin",[(6, 16, 30), (8, 16, 31)]),
+    ("A. Leon",   [(7, 1, 15), (9, 1, 15)]),
+    ("Hilario",   [(7, 1, 15), (9, 1, 15)]),
+    ("Santi M",   [(7, 16, 31), (9, 16, 30)]),
+    ("Alberto H", [(7, 16, 31), (9, 16, 30)]),
+]
+for w_name, periods in vacations:
+    w_i = w_map[w_name]
+    for (m, s_d, e_d) in periods:
+        for d_idx, dt in enumerate(dates):
+            if dt.month == m and s_d <= dt.day <= e_d:
+                if matrix_plain[w_i][d_idx].strip() != "":
+                    errors.append(f"{w_name} trabaja durante sus vacaciones el {dt}")
+        v_start = datetime.date(2027, m, s_d)
+        db = v_start - datetime.timedelta(days=1)
+        if db >= dates[0]:
+            db_idx = (db - dates[0]).days
+            if matrix_plain[w_i][db_idx].strip() == "N":
+                errors.append(f"{w_name} hace noche la víspera de vacaciones ({db})")
+
+# 5. Descanso entre turnos (12h)
+for w_i, w_name in enumerate(workers):
+    for d_idx in range(len(dates) - 1):
+        s1 = matrix_plain[w_i][d_idx].strip()
+        s2 = matrix_plain[w_i][d_idx + 1].strip()
+        if s1 == "T" and s2 == "M":
+            errors.append(f"{w_name} hace Tarde seguido de Mañana el {dates[d_idx]} y {dates[d_idx+1]}")
+        if s1 == "N" and s2 in ("M", "T"):
+            errors.append(f"{w_name} hace Noche seguido de {s2} el {dates[d_idx]} y {dates[d_idx+1]}")
+
+# 6. EXACTAMENTE 2 DÍAS DE DESCANSO TRAS NOCHES
+for w_i, w_name in enumerate(workers):
+    if w_name == "Hilario": continue
+    shifts = [s.strip() for s in matrix_plain[w_i]]
+    for d_idx in range(len(dates) - 2):
+        if shifts[d_idx] == "N" and shifts[d_idx + 1] != "N":
+            if shifts[d_idx + 1] != "":
+                errors.append(f"{w_name} no descansa el día 1 tras salir de noche el {dates[d_idx+1]}")
+            if shifts[d_idx + 2] != "":
+                errors.append(f"{w_name} no descansa el día 2 tras salir de noche el {dates[d_idx+2]}")
+
+# 7. Máximo 5 días consecutivos trabajados
+for w_i, w_name in enumerate(workers):
+    consec = 0
+    for d_idx, s in enumerate(matrix_plain[w_i]):
+        if s.strip() != "":
+            consec += 1
+            if consec > 5:
+                errors.append(f"{w_name} trabaja más de 5 días seguidos (alcanza {consec} días el {dates[d_idx]})")
+        else:
+            consec = 0
+
+# 8. Fines de semana sin partir (V_N to D_T)
+weekends = []
+for d_idx, dt in enumerate(dates[:-2]):
+    if dt.weekday() == 4: weekends.append((d_idx, d_idx + 1, d_idx + 2))
+
+broken_weekends = 0
+for w_i, w_name in enumerate(workers):
+    for fri, sat, sun in weekends:
+        cnt = 0
+        if matrix_plain[w_i][fri] == "N": cnt += 1
+        if matrix_plain[w_i][sat] in ("M", "T", "N"): cnt += 1
+        if matrix_plain[w_i][sun] in ("M", "T"): cnt += 1
+        if cnt == 1:
+            broken_weekends += 1
+            errors.append(f"{w_name} tiene fin de semana partido en {dates[fri]}..{dates[sun]}")
+
+# 9. Coberturas diarias: exactamente 1N todos los días
+for d_idx, dt in enumerate(dates):
+    n_cnt = sum(1 for w_i in range(len(workers)) if matrix_plain[w_i][d_idx].strip() == "N")
+    if n_cnt != 1:
+        errors.append(f"El día {dt} tiene {n_cnt} noches (debe tener exactamente 1)")
+
+print("=== FINAL COMPREHENSIVE AUDIT REPORT ===")
+print(f"Total de errores detectados: {len(errors)}")
+print(f"Total fines de semana partidos: {broken_weekends}")
+if len(errors) == 0:
+    print("TODO EL CUADRANTE CUMPLE EL 100% DE LAS RESTRICCIONES DE FORMA IMPECABLE!")
+else:
+    for e in errors[:10]:
+        print(" -", e)
