@@ -25,10 +25,12 @@ La plantilla consta de 9 trabajadores:
   * Sus 220 jornadas anuales se reparten de forma equitativa exclusivamente entre Mañanas y Tardes (~110-120 M, ~100-110 T).
 * **Extra 1**:
   * Contratado exclusivamente durante los 4 meses de verano: **Junio, Julio, Agosto y Septiembre** (para refuerzo y cobertura de vacaciones). En el resto de meses no trabaja (0 días).
-  * Realiza aproximadamente 84 días anuales (21 días/mes en meses de verano).
-  * **Periodo de Aprendizaje (1 al 14 de Junio)**: Durante sus dos primeras semanas no tiene autonomía para estar solo en turno. Por tanto:
+  * Realiza entre 80 y 88 días anuales, pudiendo trabajar **hasta 22 días al mes** en los meses estivales.
+  * **Jornadas Consecutivas**: Puede trabajar **hasta 6 días seguidos** (a diferencia del personal fijo cuyo tope es 5). Si trabaja 6 días seguidos, debe disponer preferiblemente de **dos días consecutivos de descanso posterior**.
+  * **Periodo de Aprendizaje (1 al 14 de Junio)**: Durante sus dos primeras semanas no tiene autonomía para estar solo en turno:
     * No puede realizar turnos de Noche (N) durante esas 2 semanas.
     * No puede trabajar en fines de semana o festivos durante esas 2 semanas (ya que en esos días solo hay 1 trabajador por turno).
+  * **Noches de Feria de Andújar**: Es el **candidato preferente** para realizar las noches de la Feria de Andújar (noches del 4, 5 y 6 de septiembre, complementado con la noche del viernes 3 de septiembre por coherencia y descanso de fin de semana).
 
 ---
 
@@ -39,14 +41,14 @@ La plantilla consta de 9 trabajadores:
 * **Tarde (T)**: 15:00 a 23:00
 * **Noche (N)**: 23:00 a 07:00
 
-### Coberturas Diarias Mínimas
+### Coberturas Diarias Mínimas y Absorción de Días Sobrantes
 1. **Lunes a Viernes Ordinarios (Octubre a Mayo)**:
    * **Mañana (M)**: 3 trabajadores
-   * **Tarde (T)**: 2 trabajadores (ampliable a 3 para cuadrar días anuales)
+   * **Tarde (T)**: 2 trabajadores (**ampliable a 3 turnos de tarde** para utilizar el sobrante de días trabajados y cuadrar perfectamente el cuadrante y las 220 jornadas anuales).
    * **Noche (N)**: 1 trabajador
 2. **Lunes a Viernes en Verano (Junio, Julio, Agosto y Septiembre)**:
    * **Lunes y Martes**: 3 Mañanas, 2-3 Tardes, 1 Noche.
-   * **Miércoles, Jueves y Viernes**: Habitualmente 2 Mañanas (ampliable a 3 si es necesario para completar jornadas) y 2-3 Tardes.
+   * **Miércoles, Jueves y Viernes**: Habitualmente 2 Mañanas (ampliable a 3 si es necesario) y 2 a 3 Tardes para absorber jornadas sobrantes.
    * **Noche (N)**: 1 trabajador diario.
 3. **Sábados, Domingos y Días Festivos**:
    * **Mañana (M)**: Exactamente 1 trabajador
@@ -200,7 +202,8 @@ Las vacaciones se distribuyen en dos quincenas de 15 días naturales cada una (d
 * **16 de Agosto (Festivo local/trasladado)**:
   * Mañana y Tarde: Santi M y Extra 1.
 * **04, 05 y 06 de Septiembre (Feria de Andújar)**:
-  * Mañana y Tarde: Antonio J y Extra 1.
+  * **Noches de Feria**: **Extra 1** es el candidato preferente para realizar las noches de feria (noches del 4, 5 y 6 de septiembre, complementadas con el viernes 3 de septiembre).
+  * **Mañanas y Tardes de Feria**: Antonio J cubre uno de los turnos diurnos (M o T) y la plantilla regular cubre el otro turno diurno.
 * **12 de Octubre (Fiesta Nacional)**:
   * Mañana y Tarde: Miguel B y Paco C.
 * **01 de Noviembre (Todos los Santos)**:
@@ -209,12 +212,14 @@ Las vacaciones se distribuyen en dos quincenas de 15 días naturales cada una (d
   * Mañana y Tarde: Paco C y Santi M.
 * **24 de Diciembre (Nochebuena)**:
   * Noche: Alberto H.
+  * Regla específica Antonio J: Cuando le toque trabajar para cuadrar el cuadrante los días 24 y 31 de diciembre, **siempre lo hará en turno de Mañana (M)**, nunca de tarde.
 * **25 de Diciembre (Navidad)**:
   * Mañana y Tarde: Miguel B y Fran Espín.
 * **31 de Diciembre (Nochevieja)**:
-  * Noche: Antonio J (en sustitución de Miguel B, según cómputo histórico de festivos y tiempo sin realizarla).
+  * Noche: Antonio J (en sustitución de Miguel B, según cómputo histórico de festivos y tiempo sin realizarla. Esta asignación rompe la regla de mañana exclusiva al estar expresamente fijada su noche).
 
 ### 9.1. Eventos Personales y Descansos Blindados
+* **02 de Mayo**: Antonio Jesús Sánchez libre por evento personal (no puede tener turno ese día). En la víspera (**01 de Mayo**) no puede realizar turno de noche.
 * **29 de Mayo**: Francisco Espín libre por evento personal. En la víspera (**28 de Mayo**) no realiza turno de noche.
 * **31 de Octubre**: Miguel Benítez libre por evento personal. En la víspera (**30 de Octubre**) no realiza turno de noche.
 

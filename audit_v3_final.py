@@ -19,12 +19,12 @@ holidays = {
 
 errors = []
 
-# 1. 220 days for regular workers and Hilario, 80-85 for Extra 1
+# 1. 220 days for regular workers and Hilario, 80-88 for Extra 1
 for w_i, w_name in enumerate(workers):
     days = sum(1 for s in matrix_plain[w_i] if s.strip() != "")
     if w_name == "Extra 1":
-        if not (80 <= days <= 85):
-            errors.append(f"Extra 1 tiene {days} días (debe estar entre 80 y 85)")
+        if not (80 <= days <= 88):
+            errors.append(f"Extra 1 tiene {days} días (debe estar entre 80 y 88)")
     else:
         if days != 220:
             errors.append(f"{w_name} tiene {days} días (debe ser exactamente 220)")
@@ -37,7 +37,7 @@ for d_idx, dt in enumerate(dates):
     if dt.weekday() in (5, 6) or dt in holidays:
         if s != "": errors.append(f"Hilario trabaja en fin de semana o festivo el {dt}")
 
-# 3. Extra 1: no trabaja fuera de verano, no noches ni findes en junio 1-14
+# 3. Extra 1: no trabaja fuera de verano, no noches ni findes en junio 1-14, hasta 22 días/mes
 e_idx = w_map["Extra 1"]
 for d_idx, dt in enumerate(dates):
     s = matrix_plain[e_idx][d_idx].strip()
@@ -47,6 +47,11 @@ for d_idx, dt in enumerate(dates):
         if s == "N": errors.append(f"Extra 1 trabaja de noche en periodo de aprendizaje el {dt}")
         if (dt.weekday() in (5, 6) or dt in holidays) and s != "":
             errors.append(f"Extra 1 trabaja en fin de semana o festivo en periodo de aprendizaje el {dt}")
+
+for m in [6, 7, 8, 9]:
+    m_days = sum(1 for d_idx, dt in enumerate(dates) if dt.month == m and matrix_plain[e_idx][d_idx].strip() != "")
+    if m_days > 22:
+        errors.append(f"Extra 1 supera 22 días en mes {m}: tiene {m_days} días")
 
 # 4. Vacaciones y víspera
 vacations = [
@@ -94,14 +99,20 @@ for w_i, w_name in enumerate(workers):
             if shifts[d_idx + 2] != "":
                 errors.append(f"{w_name} no descansa el día 2 tras salir de noche el {dates[d_idx+2]}")
 
-# 7. Máximo 5 días consecutivos trabajados
+# 7. Máximo de días consecutivos trabajados: 5 para titulares/Hilario, 6 para Extra 1 (con 2 descansos tras 6 días)
 for w_i, w_name in enumerate(workers):
     consec = 0
+    max_allowed = 6 if w_name == "Extra 1" else 5
     for d_idx, s in enumerate(matrix_plain[w_i]):
         if s.strip() != "":
             consec += 1
-            if consec > 5:
-                errors.append(f"{w_name} trabaja más de 5 días seguidos (alcanza {consec} días el {dates[d_idx]})")
+            if consec > max_allowed:
+                errors.append(f"{w_name} trabaja más de {max_allowed} días seguidos (alcanza {consec} días el {dates[d_idx]})")
+            if w_name == "Extra 1" and consec == 6:
+                if d_idx + 1 < len(dates) and matrix_plain[w_i][d_idx + 1].strip() != "":
+                    errors.append(f"Extra 1 no descansa el día 1 tras 6 días consecutivos el {dates[d_idx+1]}")
+                if d_idx + 2 < len(dates) and matrix_plain[w_i][d_idx + 2].strip() != "":
+                    errors.append(f"Extra 1 no descansa el día 2 tras 6 días consecutivos el {dates[d_idx+2]}")
         else:
             consec = 0
 
@@ -127,11 +138,60 @@ for d_idx, dt in enumerate(dates):
     if n_cnt != 1:
         errors.append(f"El día {dt} tiene {n_cnt} noches (debe tener exactamente 1)")
 
+# 10. REGLAS ESPECÍFICAS DE USUARIO
+# Antonio J evento 2 de mayo y sin noche 1 de mayo
+d_02may = (datetime.date(2027, 5, 2) - dates[0]).days
+d_01may = (datetime.date(2027, 5, 1) - dates[0]).days
+if matrix_plain[w_map["Antonio J"]][d_02may].strip() != "":
+    errors.append("Antonio J no está libre el 2 de mayo")
+if matrix_plain[w_map["Antonio J"]][d_01may].strip() == "N":
+    errors.append("Antonio J hace turno de noche el 1 de mayo")
+
+# Antonio J el 24 de diciembre solo mañana (si trabaja)
+d_24dec = (datetime.date(2027, 12, 24) - dates[0]).days
+if matrix_plain[w_map["Antonio J"]][d_24dec].strip() in ("T", "N"):
+    errors.append(f"Antonio J trabaja {matrix_plain[w_map['Antonio J']][d_24dec]} el 24 de diciembre (solo puede Mañana)")
+
+# Antonio J el 31 de diciembre noche
+d_31dec = (datetime.date(2027, 12, 31) - dates[0]).days
+if matrix_plain[w_map["Antonio J"]][d_31dec].strip() != "N":
+    errors.append("Antonio J no hace noche el 31 de diciembre")
+
+# Extra 1 noches de Feria (3, 4, 5, 6 de septiembre)
+for ds in (3, 4, 5, 6):
+    d_sep = (datetime.date(2027, 9, ds) - dates[0]).days
+    if matrix_plain[w_map["Extra 1"]][d_sep].strip() != "N":
+        errors.append(f"Extra 1 no hace noche de feria el {ds} de septiembre")
+
+# Fran Espin evento 29 mayo
+d_29may = (datetime.date(2027, 5, 29) - dates[0]).days
+d_28may = (datetime.date(2027, 5, 28) - dates[0]).days
+if matrix_plain[w_map["Fran Espin"]][d_29may].strip() != "":
+    errors.append("Fran Espin no está libre el 29 de mayo")
+if matrix_plain[w_map["Fran Espin"]][d_28may].strip() == "N":
+    errors.append("Fran Espin hace noche el 28 de mayo")
+
+# Miguel B evento 31 octubre
+d_31oct = (datetime.date(2027, 10, 31) - dates[0]).days
+d_30oct = (datetime.date(2027, 10, 30) - dates[0]).days
+if matrix_plain[w_map["Miguel B"]][d_31oct].strip() != "":
+    errors.append("Miguel B no está libre el 31 de octubre")
+if matrix_plain[w_map["Miguel B"]][d_30oct].strip() == "N":
+    errors.append("Miguel B hace noche el 30 de octubre")
+
+# 1 Noviembre Antonio J y A. Leon en diurno
+d_01nov = (datetime.date(2027, 11, 1) - dates[0]).days
+if matrix_plain[w_map["Antonio J"]][d_01nov].strip() not in ("M", "T"):
+    errors.append("Antonio J no está en diurno el 1 de noviembre")
+if matrix_plain[w_map["A. Leon"]][d_01nov].strip() not in ("M", "T"):
+    errors.append("A. Leon no está en diurno el 1 de noviembre")
+
 print("=== FINAL COMPREHENSIVE AUDIT REPORT ===")
 print(f"Total de errores detectados: {len(errors)}")
 print(f"Total fines de semana partidos: {broken_weekends}")
 if len(errors) == 0:
-    print("TODO EL CUADRANTE CUMPLE EL 100% DE LAS RESTRICCIONES DE FORMA IMPECABLE!")
+    print("¡TODO EL CUADRANTE CUMPLE EL 100% DE LAS RESTRICCIONES DE FORMA IMPECABLE (0 ERRORES)!")
 else:
     for e in errors[:10]:
         print(" -", e)
+

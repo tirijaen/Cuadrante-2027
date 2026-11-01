@@ -375,3 +375,41 @@ Si necesistas alguna alclaración en algun problemas de ajustes, o algo mas espe
    - Actualizados archivos históricos: `HISTORIAL_FESTIVOS_Y_VACACIONES.md` y `js/historical_data.js` (reflejando a Antonio J con 3 Nocheviejas y 72 festivos totales, y Miguel B con 3 Nocheviejas y 70 festivos totales).
    - Actualizada tabla Markdown en `all_tables_v3.md`.
    - Incrementada la versión de caché del Service Worker a `cuadrante-2027-v4.6` en `sw.js`.
+
+---
+
+## Sesión 5 (2 Nov): Flexibilidad Extra 1 (22d/mes, 6d consecutivos, Noches Feria), Restricciones Antonio J (2 Mayo, 24 Dic Mañana) y Absorción de Sobrantes en Tardes
+
+### 💬 Mensaje de Antonio (2026-11-02T00:23:19Z):
+```text
+Para que te sea mas facíl realizar el cuadrante el extra podrá trabajar 22 días al mes y tambien podra trabajar hasta 6 días seguidos, pero intentando que si trabaja 6 días seguidos tenga dos de descanso despues. Ademas siempre será candidato preferente para realizar las noches de feria, que este 2027 las componen las noches del 4 5 y 6 de septiembre.
+Antonio J tiene un evento el 2 de Mayo por lo que no puede tener turno ese día ni turno de noche el día anterior. Ademas cuando le toque trabajar para cuadrar el cuadrante los días 24 y 31 de diciembre siempre lo hará de mañana, esta regla solo se romperá cuando indique el trabajará el 31 de diciembre de noche.
+Utiliza el sobrante de días trabajados (cuando pones 3 turnos de tardes en vez de 2) para poder solucionar mejor el cuadrante.
+```
+
+**Resolución y Cambios Aplicados:**
+1. **Actualización del Compendio Normativo (`REGLAS_OFICIALES_CUADRANTE.md`):**
+   - **Sección 1 y 4 (Extra 1):** Flexibilidad mensual hasta **22 días/mes** en verano (80 a 88 días totales); límite ampliado a **hasta 6 días consecutivos trabajados** con garantía de **2 días de descanso posteriores** tras encadenar 6 jornadas; asignado como **candidato preferente para las noches de Feria** (3, 4, 5 y 6 de septiembre).
+   - **Sección 2 (Coberturas y Tardes):** Coberturas de tarde ampliables a **3 turnos de tarde** en laborables para absorber los días sobrantes y alcanzar los 220 días exactos con mayor ergonomía.
+   - **Sección 9 y 9.1 (Asignaciones y Eventos de Antonio J):**
+     - **02 de Mayo**: Antonio J libre por evento personal (día libre completo); en la víspera (1 de mayo) no realiza turno de noche.
+     - **24 de Diciembre**: Antonio J solo puede trabajar en turno de **Mañana (M)**, nunca de tarde ni noche.
+     - **31 de Diciembre**: Nochevieja asignada a Antonio J en turno de Noche (regla fijada que rompe la preferencia de mañana).
+     - **Feria de Andújar (4, 5 y 6 de Septiembre)**: Extra 1 asume las noches de feria; Antonio J cubre uno de los turnos diurnos (M o T) y la plantilla regular cubre el otro turno diurno.
+2. **Reoptimización Matemática Completa con CP-SAT Solver (`solve_v4_official.py`):**
+   - Implementado un bucle de reintento determinista por semilla que sincroniza Stage 1 y Stage 2.
+   - **Stage 1 (Noches):** Resuelto en 1.99s. Asignadas las noches de Feria a Extra 1 (3, 4, 5, 6 Sep); Antonio J exento de noche el 1 y 2 de mayo; Antonio J Nochevieja el 31 de diciembre.
+   - **Stage 2 (Diurnos, Festivos, 220 Días, Descansos):** Resuelto en 32.15s en el intento 4, alcanzando el óptimo global sin violaciones.
+3. **Métricas de Auditoría (`audit_v3_final.py`): 0 Errores, 0 Violaciones:**
+   - **Días Anuales:** Exactamente **220 días** para los 7 titulares y para Hilario (80 días para Extra 1).
+   - **Fines de Semana:** **0 fines de semana partidos** en todo el año (Viernes Noche a Domingo Tarde).
+   - **Equidad Festivos:** 46 o 47 festivos por titular regular (diferencia $\le 1$, máxima equidad teórica).
+   - **Equidad Noches:** 48 a 50 noches por titular regular (diferencia $\le 2$).
+   - **Equidad Diurna:** Mañanas entre 95 y 100 ($\Delta \le 5$); Tardes entre 70 y 75 ($\Delta \le 5$). Hilario con 111 M y 109 T.
+   - **Descansos Obligatorios:** 100% cumplimiento de 12h entre turnos y exactamente 2 días libres tras salir de noches. Límite de 5 días seguidos para fijos y máximo 6 días con 2 descansos posteriores para Extra 1.
+4. **Entregables Oficiales Actualizados:**
+   - `Cuadrante_2027_Andujar_V3.xlsx` y `Cuadrante_2027_Andujar.xlsx` generados y formateados con fórmulas Excel automáticas.
+   - `cuadrante_2027_v3.json`, `cuadrante_2027.json`, `js/cuadrante_data.js`.
+   - `all_tables_v3.md` regenerado con el cuadrante actualizado.
+   - `sw.js` incrementado a `cuadrante-2027-v4.7`.
+
