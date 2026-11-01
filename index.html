@@ -341,10 +341,36 @@
     </section>
 
     <!-- ====================================================================
-         TAB 3: PERMUTAS INTELIGENTES (REDISEÑO EN 4 PASOS)
+         TAB 3: PERMUTAS INTELIGENTES Y BOLSA DE TURNOS
          ==================================================================== -->
     <section id="tab-swaps" class="tab-content">
       
+      <!-- Selector de Modo: Asistente de Permutas vs Bolsa de Turnos -->
+      <div class="swaps-mode-nav">
+        <button type="button" class="swaps-mode-btn active" id="modeAssistantBtn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="17 1 21 5 17 9"></polyline>
+            <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+            <polyline points="7 23 3 19 7 15"></polyline>
+            <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+          </svg>
+          Asistente de Permutas
+        </button>
+        <button type="button" class="swaps-mode-btn" id="modeBankBtn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <line x1="19" y1="8" x2="19" y2="14"></line>
+            <line x1="22" y1="11" x2="16" y2="11"></line>
+          </svg>
+          Bolsa de Turnos (Deudas)
+          <span class="bank-count-pill" id="bankPendingCountPill" style="display:none;">0</span>
+        </button>
+      </div>
+
+      <!-- VISTA 1: ASISTENTE DE PERMUTAS (4 PASOS) -->
+      <div id="swapsAssistantView">
+
       <!-- Paso 1: Elegir el día que trabajas para ponértelo de libre -->
       <div class="permuta-step-card active-step" id="step1Card">
         <div class="step-header-wrapper">
@@ -494,6 +520,14 @@
             </svg>
             Simular y Aplicar en mi Cuadrante
           </button>
+          <button class="btn-primary" id="saveToBankBtn" style="background: linear-gradient(135deg, #10b981, #059669); border-color: #10b981;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+              <polyline points="17 21 17 13 7 13 7 21"></polyline>
+              <polyline points="7 3 7 8 15 8"></polyline>
+            </svg>
+            Guardar en mi Bolsa de Turnos
+          </button>
           <button class="btn-secondary" id="resetSimulationBtn" style="display:none;">
             Restablecer Cuadrante Original
           </button>
@@ -506,6 +540,82 @@
           ⚠️ Tienes permutas simuladas activas en tu sesión. Los cambios se reflejan en tu calendario personal y estadísticas.
         </div>
       </div>
+      </div> <!-- /#swapsAssistantView -->
+
+      <!-- VISTA 2: BOLSA DE TURNOS (HISTORIAL DE DEUDAS Y COMPROMISOS) -->
+      <div id="swapsBankView" style="display:none;">
+        
+        <!-- Tarjeta de Cabecera y Resumen de la Bolsa -->
+        <div class="bank-header-card">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:16px;">
+            <div>
+              <div class="bank-header-title">
+                <span style="font-size:1.4rem;">🤝</span>
+                <h3>Bolsa de Turnos & Registro de Deudas</h3>
+              </div>
+              <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:4px;">
+                Control de turnos que te deben y que debes a tus compañeros. Todos los acuerdos se almacenan de forma privada en tu dispositivo.
+              </p>
+            </div>
+            <button class="btn-primary" id="openManualDebtModalBtn" style="padding:9px 18px; font-size:0.85rem; background:linear-gradient(135deg, #0284c7, #2563eb);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              Apuntar Turno Manual
+            </button>
+          </div>
+
+          <!-- Métricas de Balance KPI -->
+          <div class="bank-kpi-grid">
+            <div class="bank-kpi-card kpi-receive">
+              <div class="kpi-icon-pill">🟢</div>
+              <div>
+                <div class="kpi-num" id="bankKpiReceiveCount">0</div>
+                <div class="kpi-label">Me deben a mí</div>
+              </div>
+            </div>
+            <div class="bank-kpi-card kpi-give">
+              <div class="kpi-icon-pill">🟠</div>
+              <div>
+                <div class="kpi-num" id="bankKpiGiveCount">0</div>
+                <div class="kpi-label">Debo a compañeros</div>
+              </div>
+            </div>
+            <div class="bank-kpi-card kpi-balance">
+              <div class="kpi-icon-pill">⚖️</div>
+              <div>
+                <div class="kpi-num" id="bankKpiBalance">Al día</div>
+                <div class="kpi-label">Balance neto de turnos</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Barra de Filtros de la Bolsa -->
+        <div class="bank-filters-bar">
+          <div class="recom-filter-pills" id="bankFilterPills">
+            <button class="recom-filter-btn active" data-bank-filter="pending">
+              ⏳ Pendientes (<span id="filterCountPending">0</span>)
+            </button>
+            <button class="recom-filter-btn" data-bank-filter="settled">
+              ✓ Saldados (<span id="filterCountSettled">0</span>)
+            </button>
+            <button class="recom-filter-btn" data-bank-filter="all">
+              Todos (<span id="filterCountAll">0</span>)
+            </button>
+          </div>
+          <div style="font-size:0.75rem; color:var(--text-muted); font-weight:600;">
+            Mostrando para: <span id="bankCurrentWorkerDisplay" style="color:var(--accent-primary);">Antonio J</span>
+          </div>
+        </div>
+
+        <!-- Listado de Acuerdos / Deudas -->
+        <div id="bankDebtsList" class="bank-debts-list">
+          <!-- Tarjetas renderizadas dinámicamente -->
+        </div>
+
+      </div> <!-- /#swapsBankView -->
 
     </section>
 
@@ -853,6 +963,95 @@
 
       <div style="display:flex; justify-content:flex-end; gap:8px;">
         <button class="btn-primary" id="modalSaveNoteBtn">Guardar Nota</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Apuntar Deuda Manual en la Bolsa -->
+  <div class="modal-overlay" id="manualDebtModal" style="display:none;">
+    <div class="modal-dialog" style="max-width:540px;">
+      <div class="modal-header">
+        <h3 style="font-size:1.15rem; font-weight:800; display:flex; align-items:center; gap:8px;">
+          <span>➕</span> Registrar Deuda de Turno
+        </h3>
+        <button class="modal-close-btn" id="closeManualDebtModalBtn" aria-label="Cerrar modal">&times;</button>
+      </div>
+      <div class="modal-body" style="padding-top:12px;">
+        <form id="manualDebtForm">
+          <div class="form-group">
+            <label for="debtOtherWorker">Compañero implicado:</label>
+            <select id="debtOtherWorker" class="form-control" style="font-weight:600;" required></select>
+          </div>
+          
+          <div class="form-group">
+            <label style="margin-bottom:6px; display:block;">Sentido del compromiso:</label>
+            <div class="debt-direction-toggle-group">
+              <label class="debt-direction-option">
+                <input type="radio" name="debtDirection" value="me_debe" checked>
+                <div class="direction-option-box green">
+                  <div style="font-weight:700; font-size:0.9rem;">🟢 Me debe a mí</div>
+                  <div style="font-size:0.75rem; color:var(--text-secondary);">Yo le cubrí un turno a él/ella</div>
+                </div>
+              </label>
+              <label class="debt-direction-option">
+                <input type="radio" name="debtDirection" value="le_debo">
+                <div class="direction-option-box orange">
+                  <div style="font-weight:700; font-size:0.9rem;">🟠 Le debo yo</div>
+                  <div style="font-size:0.75rem; color:var(--text-secondary);">Me cubrió un turno a mí</div>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+            <div class="form-group">
+              <label for="debtDateOriginal">Fecha del turno original:</label>
+              <input type="date" id="debtDateOriginal" class="form-control" value="2027-01-15" min="2027-01-01" max="2027-12-31" required>
+            </div>
+            <div class="form-group">
+              <label for="debtShiftOriginal">Turno cubierto / debido:</label>
+              <select id="debtShiftOriginal" class="form-control" required>
+                <option value="M">Mañana (07:00 - 15:00)</option>
+                <option value="T">Tarde (15:00 - 23:00)</option>
+                <option value="N">Noche (23:00 - 07:00)</option>
+                <option value="M.">Mañana Festivo (M.)</option>
+                <option value="T.">Tarde Festivo (T.)</option>
+                <option value="N.">Noche Festivo (N.)</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+            <div class="form-group">
+              <label for="debtDateReturn">Fecha devolución (opcional):</label>
+              <input type="date" id="debtDateReturn" class="form-control" min="2027-01-01" max="2027-12-31">
+            </div>
+            <div class="form-group">
+              <label for="debtShiftReturn">Turno devolución (opcional):</label>
+              <select id="debtShiftReturn" class="form-control">
+                <option value="">(Pendiente de acordar)</option>
+                <option value="M">Mañana (M)</option>
+                <option value="T">Tarde (T)</option>
+                <option value="N">Noche (N)</option>
+                <option value="M.">Mañana Festivo (M.)</option>
+                <option value="T.">Tarde Festivo (T.)</option>
+                <option value="N.">Noche Festivo (N.)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="debtNotes">Notas / Motivo (opcional):</label>
+            <input type="text" id="debtNotes" class="form-control" placeholder="Ej: Cambio por cita médica, asuntos propios...">
+          </div>
+
+          <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
+            <button type="button" class="btn-secondary" id="cancelManualDebtBtn">Cancelar</button>
+            <button type="submit" class="btn-primary" style="background:linear-gradient(135deg, #0284c7, #2563eb);">
+              Guardar en mi Bolsa
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   </div>

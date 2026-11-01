@@ -39,7 +39,10 @@ document.addEventListener('DOMContentLoaded', () => {
     selectedWorkerB: null, // Compañero que cubre en Paso 2
     selectedDateB: null, // Día acordado de devolución en Paso 3
     returnFilter: 'all', // 'all' | 'clean' | 'warning' | 'month' | 'weekend'
-    modalDate: null
+    modalDate: null,
+    swapsMode: 'assistant', // 'assistant' | 'bank'
+    bankFilter: 'pending', // 'pending' | 'settled' | 'all'
+    debts: []
   };
 
   // Cargar notas del trabajador actual
@@ -52,6 +55,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
   loadWorkerNotes();
+
+  // Cargar bolsa de deudas y compromisos
+  function loadDebts() {
+    try {
+      const raw = localStorage.getItem('cuadrante_turn_debts');
+      state.debts = raw ? JSON.parse(raw) : [];
+    } catch (e) {
+      console.error('Error cargando deudas:', e);
+      state.debts = [];
+    }
+  }
+  loadDebts();
 
   // --- ELEMENTOS DEL DOM ---
   const el = {
@@ -132,9 +147,37 @@ document.addEventListener('DOMContentLoaded', () => {
     agreementWarningsList: document.getElementById('agreementWarningsList'),
     agreementWarningsPills: document.getElementById('agreementWarningsPills'),
     applySimulationBtn: document.getElementById('applySimulationBtn'),
+    saveToBankBtn: document.getElementById('saveToBankBtn'),
     resetSimulationBtn: document.getElementById('resetSimulationBtn'),
     restartSwapBtn: document.getElementById('restartSwapBtn'),
     activeSimulationsNotice: document.getElementById('activeSimulationsNotice'),
+
+    // Bolsa de Turnos & Historial de Deudas
+    modeAssistantBtn: document.getElementById('modeAssistantBtn'),
+    modeBankBtn: document.getElementById('modeBankBtn'),
+    swapsAssistantView: document.getElementById('swapsAssistantView'),
+    swapsBankView: document.getElementById('swapsBankView'),
+    bankPendingCountPill: document.getElementById('bankPendingCountPill'),
+    openManualDebtModalBtn: document.getElementById('openManualDebtModalBtn'),
+    bankKpiReceiveCount: document.getElementById('bankKpiReceiveCount'),
+    bankKpiGiveCount: document.getElementById('bankKpiGiveCount'),
+    bankKpiBalance: document.getElementById('bankKpiBalance'),
+    bankFilterPills: document.getElementById('bankFilterPills'),
+    filterCountPending: document.getElementById('filterCountPending'),
+    filterCountSettled: document.getElementById('filterCountSettled'),
+    filterCountAll: document.getElementById('filterCountAll'),
+    bankCurrentWorkerDisplay: document.getElementById('bankCurrentWorkerDisplay'),
+    bankDebtsList: document.getElementById('bankDebtsList'),
+    manualDebtModal: document.getElementById('manualDebtModal'),
+    closeManualDebtModalBtn: document.getElementById('closeManualDebtModalBtn'),
+    cancelManualDebtBtn: document.getElementById('cancelManualDebtBtn'),
+    manualDebtForm: document.getElementById('manualDebtForm'),
+    debtOtherWorker: document.getElementById('debtOtherWorker'),
+    debtDateOriginal: document.getElementById('debtDateOriginal'),
+    debtShiftOriginal: document.getElementById('debtShiftOriginal'),
+    debtDateReturn: document.getElementById('debtDateReturn'),
+    debtShiftReturn: document.getElementById('debtShiftReturn'),
+    debtNotes: document.getElementById('debtNotes'),
 
     // Tab 4: Estadísticas
     statWorkedDays: document.getElementById('statWorkedDays'),
@@ -286,7 +329,11 @@ document.addEventListener('DOMContentLoaded', () => {
         renderTeamDaily();
         renderMatrix();
       } else if (tabId === 'tab-swaps') {
-        updatePermutasWorkflow();
+        if (state.swapsMode === 'assistant') {
+          updatePermutasWorkflow();
+        } else {
+          renderBankView();
+        }
       } else if (tabId === 'tab-stats') {
         renderStatistics();
       }
@@ -403,6 +450,44 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
+    // Bolsa de Turnos & Historial de Deudas
+    if (el.modeAssistantBtn) {
+      el.modeAssistantBtn.addEventListener('click', () => switchSwapsMode('assistant'));
+    }
+    if (el.modeBankBtn) {
+      el.modeBankBtn.addEventListener('click', () => switchSwapsMode('bank'));
+    }
+    if (el.saveToBankBtn) {
+      el.saveToBankBtn.addEventListener('click', saveCurrentPermutaToBank);
+    }
+    if (el.openManualDebtModalBtn) {
+      el.openManualDebtModalBtn.addEventListener('click', openManualDebtModal);
+    }
+    if (el.closeManualDebtModalBtn) {
+      el.closeManualDebtModalBtn.addEventListener('click', closeManualDebtModal);
+    }
+    if (el.cancelManualDebtBtn) {
+      el.cancelManualDebtBtn.addEventListener('click', closeManualDebtModal);
+    }
+    if (el.manualDebtModal) {
+      el.manualDebtModal.addEventListener('click', (e) => {
+        if (e.target === el.manualDebtModal) closeManualDebtModal();
+      });
+    }
+    if (el.manualDebtForm) {
+      el.manualDebtForm.addEventListener('submit', handleManualDebtSubmit);
+    }
+    if (el.bankFilterPills) {
+      el.bankFilterPills.addEventListener('click', (e) => {
+        const btn = e.target.closest('.recom-filter-btn');
+        if (!btn) return;
+        el.bankFilterPills.querySelectorAll('.recom-filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        state.bankFilter = btn.getAttribute('data-bank-filter');
+        renderBankView();
+      });
+    }
+
     // Modal de Día
     el.modalCloseBtn.addEventListener('click', closeModal);
     el.dayDetailModal.addEventListener('click', (e) => {
@@ -461,8 +546,13 @@ document.addEventListener('DOMContentLoaded', () => {
     renderTeamDaily();
     renderMatrix();
     renderStatistics();
+    renderBankView();
     if (state.activeTab === 'tab-swaps') {
-      updatePermutasWorkflow();
+      if (state.swapsMode === 'assistant') {
+        updatePermutasWorkflow();
+      } else {
+        renderBankView();
+      }
     }
   }
 
@@ -1197,6 +1287,348 @@ document.addEventListener('DOMContentLoaded', () => {
     updateAppView();
     showToast('Cuadrante oficial restablecido');
   }
+
+  // ====================================================================
+  // MEJORA 1: BOLSA DE TURNOS & HISTORIAL DE DEUDAS
+  // ====================================================================
+
+  function saveDebts(debts) {
+    state.debts = debts;
+    localStorage.setItem('cuadrante_turn_debts', JSON.stringify(debts));
+    renderBankView();
+  }
+
+  function switchSwapsMode(mode) {
+    state.swapsMode = mode;
+    if (el.modeAssistantBtn) el.modeAssistantBtn.classList.toggle('active', mode === 'assistant');
+    if (el.modeBankBtn) el.modeBankBtn.classList.toggle('active', mode === 'bank');
+    
+    if (el.swapsAssistantView) el.swapsAssistantView.style.display = (mode === 'assistant') ? 'block' : 'none';
+    if (el.swapsBankView) el.swapsBankView.style.display = (mode === 'bank') ? 'block' : 'none';
+
+    if (mode === 'bank') {
+      renderBankView();
+    } else {
+      updatePermutasWorkflow();
+    }
+  }
+
+  function getWorkerDebts(workerName) {
+    return state.debts.map(d => {
+      let isRelevant = false;
+      let otherWorker = '';
+      let theyOweMe = false;
+
+      if (d.workerA === workerName) {
+        isRelevant = true;
+        otherWorker = d.workerB;
+        theyOweMe = (d.direction === 'me_debe');
+      } else if (d.workerB === workerName) {
+        isRelevant = true;
+        otherWorker = d.workerA;
+        theyOweMe = (d.direction === 'le_debo');
+      }
+
+      if (!isRelevant) return null;
+
+      return {
+        ...d,
+        otherWorker,
+        theyOweMe
+      };
+    }).filter(Boolean);
+  }
+
+  function renderBankView() {
+    if (!el.swapsBankView) return;
+
+    if (el.bankCurrentWorkerDisplay) {
+      el.bankCurrentWorkerDisplay.textContent = state.currentWorker;
+    }
+
+    const workerDebts = getWorkerDebts(state.currentWorker);
+    const pendingDebts = workerDebts.filter(d => d.status === 'pending');
+    const settledDebts = workerDebts.filter(d => d.status === 'settled');
+
+    const receivePending = pendingDebts.filter(d => d.theyOweMe).length;
+    const givePending = pendingDebts.filter(d => !d.theyOweMe).length;
+    const balance = receivePending - givePending;
+
+    // Actualizar KPIs
+    if (el.bankKpiReceiveCount) el.bankKpiReceiveCount.textContent = `${receivePending} ${receivePending === 1 ? 'turno' : 'turnos'}`;
+    if (el.bankKpiGiveCount) el.bankKpiGiveCount.textContent = `${givePending} ${givePending === 1 ? 'turno' : 'turnos'}`;
+    
+    if (el.bankKpiBalance) {
+      if (balance > 0) {
+        el.bankKpiBalance.textContent = `+${balance} a favor`;
+        el.bankKpiBalance.style.color = '#10b981';
+      } else if (balance < 0) {
+        el.bankKpiBalance.textContent = `${balance} en contra`;
+        el.bankKpiBalance.style.color = '#f59e0b';
+      } else {
+        el.bankKpiBalance.textContent = 'Al día (0)';
+        el.bankKpiBalance.style.color = '#38bdf8';
+      }
+    }
+
+    // Contadores en filtros y pastilla
+    if (el.filterCountPending) el.filterCountPending.textContent = pendingDebts.length;
+    if (el.filterCountSettled) el.filterCountSettled.textContent = settledDebts.length;
+    if (el.filterCountAll) el.filterCountAll.textContent = workerDebts.length;
+
+    if (el.bankPendingCountPill) {
+      if (pendingDebts.length > 0) {
+        el.bankPendingCountPill.style.display = 'inline-block';
+        el.bankPendingCountPill.textContent = pendingDebts.length;
+      } else {
+        el.bankPendingCountPill.style.display = 'none';
+      }
+    }
+
+    // Filtrar lista
+    let filtered = workerDebts;
+    if (state.bankFilter === 'pending') {
+      filtered = pendingDebts;
+    } else if (state.bankFilter === 'settled') {
+      filtered = settledDebts;
+    }
+
+    // Renderizar lista
+    if (!el.bankDebtsList) return;
+    el.bankDebtsList.innerHTML = '';
+
+    if (filtered.length === 0) {
+      let emptyMsg = 'No tienes turnos registrados en la Bolsa.';
+      if (state.bankFilter === 'pending') {
+        emptyMsg = `¡Enhorabuena! No tienes ningún turno pendiente de cobro ni de devolución con tus compañeros.`;
+      } else if (state.bankFilter === 'settled') {
+        emptyMsg = 'Aún no tienes turnos marcados como saldados.';
+      }
+
+      el.bankDebtsList.innerHTML = `
+        <div class="bank-empty-state">
+          <div class="empty-icon">🤝</div>
+          <div style="font-weight:700; font-size:1.05rem; color:var(--text-primary); margin-bottom:4px;">
+            ${state.bankFilter === 'pending' ? 'Todo al día' : 'Bolsa vacía'}
+          </div>
+          <div style="font-size:0.85rem; max-width:400px; margin:0 auto 16px auto;">
+            ${emptyMsg}
+          </div>
+          <button class="btn-primary" id="btnEmptyStateAdd" style="font-size:0.8rem; padding:7px 16px;">
+            ➕ Apuntar un turno ahora
+          </button>
+        </div>
+      `;
+      const btnEmpty = el.bankDebtsList.querySelector('#btnEmptyStateAdd');
+      if (btnEmpty) btnEmpty.addEventListener('click', openManualDebtModal);
+      return;
+    }
+
+    filtered.forEach(debt => {
+      const card = document.createElement('div');
+      card.className = `debt-item-card ${debt.theyOweMe ? 'type-receive' : 'type-give'} ${debt.status === 'settled' ? 'status-settled' : ''}`;
+
+      const otherInitials = debt.otherWorker.split(' ').map(p => p[0]).join('').substring(0, 2).toUpperCase();
+      const origInfo = getShiftDisplayInfo(debt.shiftOriginal || 'M');
+
+      let badgeHtml = '';
+      if (debt.status === 'settled') {
+        badgeHtml = `<span class="debt-badge-pill gray">✓ Saldado</span>`;
+      } else if (debt.theyOweMe) {
+        badgeHtml = `<span class="debt-badge-pill green">🟢 Te debe 1 turno</span>`;
+      } else {
+        badgeHtml = `<span class="debt-badge-pill orange">🟠 Le debes 1 turno</span>`;
+      }
+
+      card.innerHTML = `
+        <div class="debt-card-header">
+          <div class="debt-worker-info">
+            <div class="debt-avatar">${otherInitials}</div>
+            <div>
+              <div style="font-weight:700; font-size:1rem; color:var(--text-primary);">${debt.otherWorker}</div>
+              <div style="font-size:0.75rem; color:var(--text-secondary);">
+                ${debt.theyOweMe ? 'Tiene un compromiso pendiente contigo' : 'Tienes un compromiso pendiente con él/ella'}
+              </div>
+            </div>
+          </div>
+          <div>${badgeHtml}</div>
+        </div>
+
+        <div class="debt-details-flow">
+          <div class="debt-flow-col">
+            <div class="debt-flow-label">Turno Implicado:</div>
+            <div class="debt-flow-val">
+              <span class="timeline-shift-pill shift-${window.CuadranteValidator.getBaseShift(debt.shiftOriginal || 'M')}" style="padding:2px 8px; font-size:0.75rem;">
+                ${debt.shiftOriginal || 'M'} (${origInfo.name})
+              </span>
+              <span>${formatDateSpanish(debt.dateOriginal)}</span>
+            </div>
+          </div>
+          <div class="debt-flow-col">
+            <div class="debt-flow-label">Devolución / Compensación:</div>
+            <div class="debt-flow-val">
+              ${debt.dateReturn ? `
+                <span class="timeline-shift-pill shift-${window.CuadranteValidator.getBaseShift(debt.shiftReturn || 'M')}" style="padding:2px 8px; font-size:0.75rem;">
+                  ${debt.shiftReturn || 'M'}
+                </span>
+                <span>${formatDateSpanish(debt.dateReturn)}</span>
+              ` : `
+                <span style="color:var(--text-muted); font-size:0.85rem; font-style:italic;">⏳ Pendiente de acordar fecha</span>
+              `}
+            </div>
+          </div>
+        </div>
+
+        ${debt.notes ? `
+          <div style="font-size:0.8rem; color:var(--text-secondary); background:rgba(255,255,255,0.03); padding:8px 12px; border-radius:var(--radius-sm); border:1px solid var(--border-color);">
+            💬 <em>"${debt.notes}"</em>
+          </div>
+        ` : ''}
+
+        <div class="debt-card-actions">
+          ${debt.status === 'pending' ? `
+            <button class="btn-settle" data-id="${debt.id}">✓ Marcar como Saldado</button>
+          ` : `
+            <button class="btn-reopen" data-id="${debt.id}">↩️ Reabrir</button>
+          `}
+          <button class="btn-delete-debt" data-id="${debt.id}" title="Eliminar registro">🗑️ Eliminar</button>
+        </div>
+      `;
+
+      // Event listeners en la tarjeta
+      const settleBtn = card.querySelector('.btn-settle');
+      if (settleBtn) {
+        settleBtn.addEventListener('click', () => toggleDebtStatus(debt.id, 'settled'));
+      }
+      const reopenBtn = card.querySelector('.btn-reopen');
+      if (reopenBtn) {
+        reopenBtn.addEventListener('click', () => toggleDebtStatus(debt.id, 'pending'));
+      }
+      const deleteBtn = card.querySelector('.btn-delete-debt');
+      if (deleteBtn) {
+        deleteBtn.addEventListener('click', () => deleteDebt(debt.id));
+      }
+
+      el.bankDebtsList.appendChild(card);
+    });
+  }
+
+  function toggleDebtStatus(id, newStatus) {
+    const debts = state.debts.map(d => {
+      if (d.id === id) {
+        return {
+          ...d,
+          status: newStatus,
+          settledDate: (newStatus === 'settled') ? new Date().toISOString() : null
+        };
+      }
+      return d;
+    });
+    saveDebts(debts);
+    showToast(newStatus === 'settled' ? '✓ Turno marcado como saldado' : '↩️ Compromiso reabierto como pendiente');
+  }
+
+  function deleteDebt(id) {
+    if (!confirm('¿Deseas eliminar este registro de tu Bolsa de Turnos?')) return;
+    const debts = state.debts.filter(d => d.id !== id);
+    saveDebts(debts);
+    showToast('🗑️ Registro eliminado de la Bolsa');
+  }
+
+  function saveCurrentPermutaToBank() {
+    const workerA = state.currentWorker;
+    const dateA = el.swapDateA.value;
+    const workerB = state.selectedWorkerB;
+    const dateB = state.selectedDateB;
+
+    if (!workerA || !workerB || !dateA) {
+      showToast('⚠️ No hay ningún acuerdo seleccionado para guardar.');
+      return;
+    }
+
+    const curShiftA = getEffectiveShift(workerA, dateA);
+    const origShiftB = dateB ? getEffectiveShift(workerB, dateB) : null;
+
+    const newDebt = {
+      id: 'debt_' + Date.now(),
+      createdAt: new Date().toISOString(),
+      workerA: workerA,
+      workerB: workerB,
+      direction: 'le_debo', // workerB cubre a workerA en dateA -> workerA le debe
+      dateOriginal: dateA,
+      shiftOriginal: curShiftA,
+      dateReturn: dateB || null,
+      shiftReturn: origShiftB || null,
+      notes: dateB ? `Permuta completa: te cubre el ${dateA} y devuelves el ${dateB}` : `Te cubre el ${dateA} (pendiente de devolución)`,
+      status: 'pending',
+      settledDate: null
+    };
+
+    const debts = [newDebt, ...state.debts];
+    saveDebts(debts);
+    showToast(`🤝 Acuerdo con ${workerB} guardado en tu Bolsa`);
+    switchSwapsMode('bank');
+  }
+
+  function openManualDebtModal() {
+    if (!el.manualDebtModal) return;
+    
+    // Poblar selector de compañeros
+    if (el.debtOtherWorker) {
+      el.debtOtherWorker.innerHTML = '';
+      DATA.workers.forEach(w => {
+        if (w !== state.currentWorker) {
+          const opt = document.createElement('option');
+          opt.value = w;
+          opt.textContent = w;
+          el.debtOtherWorker.appendChild(opt);
+        }
+      });
+    }
+
+    if (el.debtDateOriginal) el.debtDateOriginal.value = '2027-02-01';
+    if (el.debtDateReturn) el.debtDateReturn.value = '';
+    if (el.debtNotes) el.debtNotes.value = '';
+
+    el.manualDebtModal.style.display = 'flex';
+  }
+
+  function closeManualDebtModal() {
+    if (el.manualDebtModal) el.manualDebtModal.style.display = 'none';
+  }
+
+  function handleManualDebtSubmit(e) {
+    e.preventDefault();
+    const otherWorker = el.debtOtherWorker.value;
+    if (!otherWorker) return;
+
+    const directionEl = document.querySelector('input[name="debtDirection"]:checked');
+    const direction = directionEl ? directionEl.value : 'me_debe';
+
+    const newDebt = {
+      id: 'debt_' + Date.now(),
+      createdAt: new Date().toISOString(),
+      workerA: state.currentWorker,
+      workerB: otherWorker,
+      direction: direction,
+      dateOriginal: el.debtDateOriginal.value,
+      shiftOriginal: el.debtShiftOriginal.value,
+      dateReturn: el.debtDateReturn.value || null,
+      shiftReturn: el.debtShiftReturn.value || null,
+      notes: el.debtNotes.value.trim(),
+      status: 'pending',
+      settledDate: null
+    };
+
+    const debts = [newDebt, ...state.debts];
+    saveDebts(debts);
+    closeManualDebtModal();
+    showToast('✅ Deuda de turno registrada en tu Bolsa');
+  }
+
+  window.CuadranteApp = {
+    openManualDebtModal
+  };
 
 // --- TAB 4: ESTADÍSTICAS DE JORNADA ---
   function renderStatistics() {
