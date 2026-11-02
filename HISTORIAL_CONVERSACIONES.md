@@ -780,4 +780,49 @@ Si has cometido un error te propongo una solución. Añade a Hilario y Miguel de
    - `cuadrante_2027_v3.json`, `cuadrante_2027.json` y `js/cuadrante_data.js` actualizados.
    - `js/validator.js` y `sw.js` (caché v10.0) actualizados.
 
+---
+
+## 📅 Sesión 14 - Equilibrado Total de Festivos Anuales y Fines de Semana (Columna "Festivos" de la App)
+
+### 💬 Mensaje de Antonio:
+```text
+Me refiero valor de la foto donde pone festivos, que es la suma anual entre festivos y fines de semana de cada trabajador. Entiendo que lo sigues comprobando, pero la app dice que no están equilibrados
+```
+
+### 🤖 Diagnóstico y Causa de la Disparidad:
+1. **Identificación del Cómputo de la App**:
+   - La tabla **"Equidad y Paridad Anual de la Plantilla"** de la aplicación web (`renderEquityTable()` en `js/app.js`) contabiliza en la columna **"Festivos"** todos los turnos que llevan punto (`M.`, `T.`, `N.`), es decir, la suma total de **fines de semana festivos y festivos oficiales de calendario**.
+   - En la versión previa, el optimizador CP-SAT solo restringía los 14 festivos oficiales de calendario (entre 4 y 5 anuales, acumulado 69–70). Al no existir restricción formal sobre el total de turnos con punto en fin de semana, se generó la disparidad visible en la captura: **Santi M (36) frente a Paco C (56)** (diferencia de 20 turnos festivos).
+
+2. **Resolución Matemática en CP-SAT (`solve_v5_equidad.py`)**:
+   - Se formuló la restricción lineal exacta para los 7 trabajadores regulares:
+     $$\text{Total Festivos}_w = \sum_{d \in \text{Días Festivos/Findes}} (M_{w,d} + T_{w,d}) + \sum_{d} N_{w,d}^{\text{festivo}}$$
+   - Se añadió la condición de paridad estricta anual ($\max - \min \le 1$):
+     $$\max(\text{Total Festivos}) - \min(\text{Total Festivos}) \le 1$$
+   - Se ajustó la cobertura del 23 de abril para asegurar exactamente 3 Mañanas y 2 Tardes.
+
+3. **Resultado Matemático de la Auditoría (`audit_v3_final.py` - 0 Errores)**:
+   - **Columna Festivos (Suma anual de fines de semana y festivos oficiales)**:
+     * **Antonio J**: 48
+     * **Santi M**: 48
+     * **Alberto H**: 48
+     * **Fran Espin**: 48
+     * **Miguel B**: 48
+     * **Paco C**: 48
+     * **A. Leon**: 47
+     * **Diferencia entre los 7 titulares = exactamente 1 día** ($\max - \min \le 1$, paridad absoluta).
+   - **Mañanas Anuales**: 88 a 93 ($\Delta = 5 \le 5$).
+   - **Tardes Anuales**: 78 a 83 ($\Delta = 5 \le 5$).
+   - **Noches Anuales**: 49 exactas para los 7 titulares ($\Delta = 0$).
+   - **Jornadas Totales**: 220 días exactos para los 7 titulares e Hilario; 81 días para Extra 1.
+   - **Fines de Semana Partidos**: **0** en todo el año.
+   - **Límites Mensuales**: Máximo 21 días en meses regulares (nunca 22).
+
+4. **Entregables Sincronizados**:
+   - `Cuadrante_2027_Andujar_V3.xlsx` y `Cuadrante_2027_Andujar.xlsx` regenerados con la solución equilibrada.
+   - `cuadrante_2027.json`, `cuadrante_2027_v3.json` y `js/cuadrante_data.js` actualizados.
+   - `audit_v3_final.py` actualizado con verificación formal de paridad en festivos anuales (`diff_fest <= 1`).
+   - `sw.js` actualizado a la versión de caché `cuadrante-2027-v12.0`.
+
+
 

@@ -187,6 +187,12 @@ m2.Add(x[w_map['Hilario'], d_idx(2027, 4, 23), 1] == 1)
 m2.Add(x[w_map['Miguel B'], d_idx(2027, 4, 23), 1] == 1)
 m2.Add(x[w_map['Fran Espin'], d_idx(2027, 4, 23), 2] == 1)
 m2.Add(x[w_map['Santi M'], d_idx(2027, 4, 23), 2] == 1)
+for w in range(n_workers):
+    if workers[w] not in ['Alberto H', 'Hilario', 'Miguel B']:
+        m2.Add(x[w, d_idx(2027, 4, 23), 1] == 0)
+    if workers[w] not in ['Fran Espin', 'Santi M']:
+        m2.Add(x[w, d_idx(2027, 4, 23), 2] == 0)
+
 # Antonio León ya tiene fixed_n == 1 el 23 de abril
 
 # Compensación en tardes complementarias para mantener cupo exacto de 220 días:
@@ -327,8 +333,9 @@ m2.Add(x[w_map['Miguel B'], d_idx(2027, 10, 31), 0] == 1)
 m2.Add(x[w_map['Antonio J'], d_idx(2027, 12, 24), 2] == 0)
 
 # Criterios de Equidad Anual (Sección 7 de las Reglas Oficiales):
-# Diferencia máxima de 5 mañanas y 5 tardes entre los 7 trabajadores regulares:
 regular_indices = [w_map[w] for w in ['Antonio J', 'Santi M', 'Alberto H', 'Fran Espin', 'Miguel B', 'Paco C', 'A. Leon']]
+
+# 1. Mañanas (max - min <= 5)
 min_m_var = m2.NewIntVar(80, 100, 'min_m')
 max_m_var = m2.NewIntVar(80, 100, 'max_m')
 for wi in regular_indices:
@@ -336,6 +343,34 @@ for wi in regular_indices:
     m2.Add(m_count_w >= min_m_var)
     m2.Add(m_count_w <= max_m_var)
 m2.Add(max_m_var - min_m_var <= 5)
+
+# 2. Festivos totales (turnos con punto '.' en app: fines de semana + festivos oficiales)
+fest_terms_by_w = {wi: [] for wi in regular_indices}
+for d, dt in enumerate(dates):
+    wd = dt.weekday()
+    is_fest = (wd in [5, 6]) or (dt in holidays)
+    is_friday_night = (wd == 4)
+    is_sunday_night = (wd == 6)
+    for wi in regular_indices:
+        if is_fest:
+            fest_terms_by_w[wi].append(x[wi, d, 1] + x[wi, d, 2])
+        if fixed_n[wi, d] == 1:
+            if is_friday_night or (is_fest and not is_sunday_night):
+                fest_terms_by_w[wi].append(1)
+
+min_fest_var = m2.NewIntVar(40, 60, 'min_fest')
+max_fest_var = m2.NewIntVar(40, 60, 'max_fest')
+for wi in regular_indices:
+    tot_fest_w = sum(fest_terms_by_w[wi])
+    m2.Add(tot_fest_w >= min_fest_var)
+    m2.Add(tot_fest_w <= max_fest_var)
+# Exigir diferencia maxima de 2 dias (e intentar <= 1 si es posible):
+
+m2.Add(min_fest_var >= 47)
+m2.Add(max_fest_var <= 48)
+m2.Add(max_fest_var - min_fest_var <= 1)
+
+
 
 # Maximizar estabilidad preservando el cuadrante existente salvo las modificaciones solicitadas
 obj_terms = []

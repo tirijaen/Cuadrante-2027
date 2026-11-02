@@ -223,10 +223,12 @@ reg_workers = ["Antonio J", "Santi M", "Alberto H", "Fran Espin", "Miguel B", "P
 m_counts = [sum(1 for s in matrix_plain[w_map[w]] if s.strip() == "M") for w in reg_workers]
 t_counts = [sum(1 for s in matrix_plain[w_map[w]] if s.strip() == "T") for w in reg_workers]
 n_counts = [sum(1 for s in matrix_plain[w_map[w]] if s.strip() == "N") for w in reg_workers]
+fest_counts = [sum(1 for s in matrix_dot[w_map[w]] if "." in s) for w in reg_workers]
 
 diff_m = max(m_counts) - min(m_counts)
 diff_t = max(t_counts) - min(t_counts)
 diff_n = max(n_counts) - min(n_counts)
+diff_fest = max(fest_counts) - min(fest_counts)
 
 if diff_m > 5:
     errors.append(f"Paridad anual de Mañanas rota: diferencia={diff_m} (máximo permitido 5)")
@@ -234,6 +236,8 @@ if diff_t > 5:
     errors.append(f"Paridad anual de Tardes rota: diferencia={diff_t} (máximo permitido 5)")
 if diff_n > 3:
     errors.append(f"Paridad anual de Noches rota: diferencia={diff_n} (máximo permitido 3)")
+if diff_fest > 1:
+    errors.append(f"Paridad anual de Festivos rota: diferencia={diff_fest} (máximo permitido 1)")
 
 print("=== FINAL COMPREHENSIVE AUDIT REPORT ===")
 print(f"Total de errores detectados: {len(errors)}")
