@@ -594,6 +594,55 @@ Si claro
 - `sw.js` incrementado a `cuadrante-2027-v6.0`.
 - `REGLAS_OFICIALES_CUADRANTE.md` y `HISTORIAL_FESTIVOS_Y_VACACIONES.md` actualizados.
 
+---
 
+### 💬 Mensaje de Antonio (2026-11-02T02:44:06Z):
+```text
+en el ultimo cuadrante creado te has saltado una regla  de límite estricto con los trabajadores, nunca 22 días trabajados en un mes.
+Analiza el último cuadrante a ver si has roto mas reglas y genera uno nuevo con todo lo que ya hemos hablado anteriormente
+```
 
+### 🤖 Diagnóstico Exhaustivo y Solución Definitiva (Sesión 10 - 2026-11-02):
 
+**1. Diagnóstico de Reglas en el Cuadrante Anterior:**
+- **Regla quebrantada identificada:** Se verificó que en el cuadrante anterior varios trabajadores titulares tenían **22 e incluso 23 días trabajados** en meses ordinarios (ej. Alberto H y A. León con 22 en enero; A. León con 23 en mayo; Santi M con 22 en junio). Esto se debió a que el modelo CP-SAT anterior optimizaba la jornada total anual (220 días) pero no tenía acotados de forma rígida los días mensuales de los titulares.
+- **Resto de reglas operativas auditadas:**
+  * Máximo días consecutivos: 100% CUMPLIDO ($\le 5$ días en regulares/Hilario, $\le 6$ en Extra 1).
+  * Descanso mínimo 12h entre turnos: 100% CUMPLIDO (0 infracciones).
+  * Descanso obligatorio de 2 días (48h-56h) tras noches: 100% CUMPLIDO (0 infracciones).
+  * Fines de semana partidos: 100% CUMPLIDO (**0 fines de semana partidos** en todo el año).
+  * Ergonomía de noches: 100% CUMPLIDO ($\le 7$ noches/mes).
+  * Eventos personales blindados: 100% CUMPLIDO (Antonio J 2 mayo libre y 24 dic mañana; Fran Espín 29 mayo; Miguel B 31 octubre).
+  * Integridad de turnos en festivos de varios días: 100% CUMPLIDO (un único trabajador por turno a lo largo de toda la fiesta).
+
+**2. Formulación y Resolución del Nuevo Cuadrante con Límite Estricto:**
+- Se implementó en el solver `solve_v5_equidad.py` la restricción dura de jornadas mensuales:
+  * **Trabajadores titulares e Hilario en meses ordinarios:** Entre **18 y 21 días** trabajados al mes (**NUNCA 22 DÍAS**, límite superior estricto = 21).
+  * **Trabajadores en meses con quincena de vacaciones:** Entre **9 y 12 días** trabajados al mes.
+  * **Extra 1 en verano (junio a septiembre):** Entre **18 y 22 días** trabajados al mes.
+- El modelo CP-SAT resolvió en 2 fases con éxito absoluto, verificando que **ningún trabajador regular alcanza 22 días en ningún mes**.
+
+**3. Asignaciones Definitivas en Festivos Oficiales:**
+- **01 Enero:** Alberto H (M) & Paco C (T) · Santi M (N)
+- **06 Enero:** Alberto H (M) & Santi M (T)
+- **28 Febrero / 01 Marzo:** Paco C (M) & Fran Espín (T)
+- **Semana Santa (25–28 Mar):** Antonio J (M) & Paco C (T) íntegros · Miguel B (N 25–27)
+- **Virgen de la Cabeza (23–26 Abr):** Alberto H (M) & Fran Espín (T) íntegros · A. León (N 23–25)
+- **01 Mayo:** Paco C (M) & A. León (T)
+- **16 Agosto:** Santi M (M) & Miguel B (T)
+- **Feria de Andújar (04–06 Sep):** Miguel B (M) & Antonio J (T) íntegros · Extra 1 (N 03–06 Sep) (Alberto H descansa por equidad histórica)
+- **12 Octubre:** Fran Espín (M) & A. León (T)
+- **01 Noviembre:** Antonio J (M) & A. León (T)
+- **06 Diciembre:** Fran Espín (M) & Paco C (T)
+- **08 Diciembre:** A. León (M) & Fran Espín (T)
+- **24 Diciembre (Nochebuena):** Alberto H (N)
+- **25 Diciembre (Navidad):** Miguel B (M) & Antonio J (T)
+- **31 Diciembre (Nochevieja):** Antonio J (N)
+
+**4. Sincronización Completa de Archivos:**
+- `Cuadrante 2026 para Agente.xlsx` actualizado (Columna R de hoja `FESTIVOS`).
+- `Cuadrante_2027_Andujar_V3.xlsx` y `Cuadrante_2027_Andujar.xlsx` exportados.
+- `cuadrante_2027.json`, `cuadrante_2027_v3.json` y `js/cuadrante_data.js` regenerados.
+- `js/historical_data.js` sincronizado (equidad 68 a 71 festivos acumulados).
+- `js/app.js` y `sw.js` (versión v7.0) actualizados.
+- `audit_v3_final.py` ejecutado con **0 errores y 0 fines de semana partidos**.

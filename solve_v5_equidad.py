@@ -386,19 +386,36 @@ for attempt in range(1, max_attempts + 1):
     m2.Add(sum(1 - x[w_map['Extra 1'], d, 0] for d in range(total_days)) >= 80)
     m2.Add(sum(1 - x[w_map['Extra 1'], d, 0] for d in range(total_days)) <= 88)
 
-    # Máximo 22 días al mes en verano para Extra 1
+    # REGLA ESTRICTA MENSUAL: NUNCA 22 DÍAS EN UN MES PARA REGULARES E HILARIO
+    # Rango en meses normales: 18 a 21 días (NUNCA 22)
+    # Rango en meses con vacaciones: 9 a 12 días
+    # Extra 1 en verano: 18 a 22 días
+    vac_months_dict = {
+        'Antonio J': [6, 8], 'Miguel B': [6, 8], 'Paco C': [6, 8], 'Fran Espin': [6, 8],
+        'A. Leon': [7, 9], 'Hilario': [7, 9], 'Santi M': [7, 9], 'Alberto H': [7, 9]
+    }
     monthly_days = {m: [d for d, dt in enumerate(dates) if dt.month == m] for m in range(1, 13)}
     for w in range(n_workers):
         w_name = workers[w]
+        is_extra = (w_name == 'Extra 1')
         for m in range(1, 13):
             m_idxs = monthly_days[m]
             worked_in_m = sum(1 - x[w, d, 0] for d in m_idxs)
-            if w_name == 'Extra 1':
+            if is_extra:
                 if m in [6, 7, 8, 9]:
                     m2.Add(worked_in_m >= 18)
                     m2.Add(worked_in_m <= 22)
                 else:
                     m2.Add(worked_in_m == 0)
+            else:
+                has_vac = m in vac_months_dict.get(w_name, [])
+                if has_vac:
+                    m2.Add(worked_in_m >= 9)
+                    m2.Add(worked_in_m <= 12)
+                else:
+                    # Límite estricto: NUNCA 22 días! Rango 18 a 21 días
+                    m2.Add(worked_in_m >= 18)
+                    m2.Add(worked_in_m <= 21)
 
     # Equidad festivos anuales (diferencia <= 1)
     min_f = m2.NewIntVar(40, 52, 'min_f')

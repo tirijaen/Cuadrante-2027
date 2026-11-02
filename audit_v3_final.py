@@ -48,10 +48,29 @@ for d_idx, dt in enumerate(dates):
         if (dt.weekday() in (5, 6) or dt in holidays) and s != "":
             errors.append(f"Extra 1 trabaja en fin de semana o festivo en periodo de aprendizaje el {dt}")
 
-for m in [6, 7, 8, 9]:
-    m_days = sum(1 for d_idx, dt in enumerate(dates) if dt.month == m and matrix_plain[e_idx][d_idx].strip() != "")
-    if m_days > 22:
-        errors.append(f"Extra 1 supera 22 días en mes {m}: tiene {m_days} días")
+# 3.1 Límites estrictos de días trabajados al mes: NUNCA 22 días para regulares e Hilario
+vac_months_map = {
+    "Antonio J": [6, 8], "Miguel B": [6, 8], "Paco C": [6, 8], "Fran Espin": [6, 8],
+    "A. Leon": [7, 9], "Hilario": [7, 9], "Santi M": [7, 9], "Alberto H": [7, 9]
+}
+for w_i, w_name in enumerate(workers):
+    if w_name == "Extra 1":
+        for m in [6, 7, 8, 9]:
+            m_days = sum(1 for d_idx, dt in enumerate(dates) if dt.month == m and matrix_plain[w_i][d_idx].strip() != "")
+            if m_days > 22 or m_days < 18:
+                errors.append(f"Extra 1 tiene {m_days} días en mes {m} (debe estar entre 18 y 22)")
+    else:
+        v_months = vac_months_map.get(w_name, [])
+        for m in range(1, 13):
+            m_days = sum(1 for d_idx, dt in enumerate(dates) if dt.month == m and matrix_plain[w_i][d_idx].strip() != "")
+            if m in v_months:
+                if not (9 <= m_days <= 12):
+                    errors.append(f"{w_name} tiene {m_days} días en mes {m} de vacaciones (debe estar entre 9 y 12)")
+            else:
+                if m_days >= 22:
+                    errors.append(f"VIOLACIÓN LÍMITE ESTRICTO: {w_name} tiene {m_days} días en mes {m} (NUNCA 22 días)")
+                if m_days < 18 or m_days > 21:
+                    errors.append(f"{w_name} tiene {m_days} días en mes {m} (debe estar entre 18 y 21)")
 
 # 4. Vacaciones y víspera
 vacations = [

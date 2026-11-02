@@ -50,7 +50,7 @@ window.HISTORICAL_DATA = {
           "PC": 2,
           "AL": 2
         },
-        "totalTimes": 15
+        "totalTimes": 17
       },
       {
         "name": "1 DE ENERO",
@@ -82,7 +82,7 @@ window.HISTORICAL_DATA = {
           "PC": 5,
           "AL": 3
         },
-        "totalTimes": 31
+        "totalTimes": 17
       },
       {
         "name": "6 DE ENERO",
@@ -114,7 +114,7 @@ window.HISTORICAL_DATA = {
           "PC": 6,
           "AL": 3
         },
-        "totalTimes": 31
+        "totalTimes": 17
       },
       {
         "name": "28 DE FEBRERO",
@@ -146,7 +146,7 @@ window.HISTORICAL_DATA = {
           "PC": 5,
           "AL": 5
         },
-        "totalTimes": 31
+        "totalTimes": 17
       },
       {
         "name": "SEMANA SANTA",
@@ -167,18 +167,18 @@ window.HISTORICAL_DATA = {
           "2024": "AC-FE",
           "2025": "PC-AL",
           "2026": "AC-AH",
-          "2027": "FE-PC"
+          "2027": "AJ-PC"
         },
         "counts": {
-          "AJ": 4,
+          "AJ": 5,
           "SM": 4,
           "AH": 6,
-          "FE": 5,
+          "FE": 4,
           "MB": 4,
           "PC": 5,
           "AL": 4
         },
-        "totalTimes": 32
+        "totalTimes": 17
       },
       {
         "name": "NOCHES SEMANA SANTA",
@@ -210,7 +210,7 @@ window.HISTORICAL_DATA = {
           "PC": 2,
           "AL": 2
         },
-        "totalTimes": 16
+        "totalTimes": 17
       },
       {
         "name": "VIRGEN DE LA CABEZA",
@@ -231,18 +231,18 @@ window.HISTORICAL_DATA = {
           "2024": "FE-AL",
           "2025": "AH-AC",
           "2026": "AL-SM",
-          "2027": "AH-AJ"
+          "2027": "AH-FE"
         },
         "counts": {
-          "AJ": 5,
+          "AJ": 4,
           "SM": 5,
           "AH": 4,
-          "FE": 4,
+          "FE": 5,
           "MB": 5,
           "PC": 4,
           "AL": 5
         },
-        "totalTimes": 32
+        "totalTimes": 17
       },
       {
         "name": "NOCHES VIRGEN DE LA CABEZA",
@@ -274,7 +274,7 @@ window.HISTORICAL_DATA = {
           "PC": 2,
           "AL": 3
         },
-        "totalTimes": 18
+        "totalTimes": 17
       },
       {
         "name": "1 DE MAYO",
@@ -306,7 +306,7 @@ window.HISTORICAL_DATA = {
           "PC": 5,
           "AL": 5
         },
-        "totalTimes": 32
+        "totalTimes": 17
       },
       {
         "name": "15 DE AGOSTO ",
@@ -327,18 +327,18 @@ window.HISTORICAL_DATA = {
           "2024": "AC-AJ",
           "2025": "AH-AC",
           "2026": "AL",
-          "2027": "MG"
+          "2027": "MG-SM"
         },
         "counts": {
           "AJ": 3,
-          "SM": 3,
+          "SM": 4,
           "AH": 3,
           "FE": 3,
           "MB": 4,
           "PC": 4,
           "AL": 6
         },
-        "totalTimes": 26
+        "totalTimes": 16
       },
       {
         "name": "NOCHES DE FERIA",
@@ -370,7 +370,7 @@ window.HISTORICAL_DATA = {
           "PC": 2,
           "AL": 0
         },
-        "totalTimes": 11
+        "totalTimes": 13
       },
       {
         "name": "FERIA",
@@ -402,7 +402,7 @@ window.HISTORICAL_DATA = {
           "PC": 3,
           "AL": 4
         },
-        "totalTimes": 25
+        "totalTimes": 16
       },
       {
         "name": "12 DE OCTUBRE",
@@ -423,18 +423,18 @@ window.HISTORICAL_DATA = {
           "2024": "AC-MB",
           "2025": "FE-PC",
           "2026": "AH-AJ",
-          "2027": "AL-SM"
+          "2027": "AL-FE"
         },
         "counts": {
           "AJ": 5,
-          "SM": 5,
+          "SM": 4,
           "AH": 5,
-          "FE": 4,
+          "FE": 5,
           "MB": 4,
           "PC": 4,
           "AL": 5
         },
-        "totalTimes": 32
+        "totalTimes": 17
       },
       {
         "name": "1 DE NOVIEMBRE",
@@ -466,7 +466,7 @@ window.HISTORICAL_DATA = {
           "PC": 5,
           "AL": 4
         },
-        "totalTimes": 30
+        "totalTimes": 17
       },
       {
         "name": "6 DICIEMBRE-CONSTITUCION",
@@ -487,18 +487,18 @@ window.HISTORICAL_DATA = {
           "2024": "FE-AC",
           "2025": "AJ-MB",
           "2026": "AH-FE",
-          "2027": "AJ-SM"
+          "2027": "FE-PC"
         },
         "counts": {
-          "AJ": 5,
-          "SM": 5,
+          "AJ": 4,
+          "SM": 4,
           "AH": 4,
-          "FE": 4,
+          "FE": 5,
           "MB": 5,
-          "PC": 3,
+          "PC": 4,
           "AL": 5
         },
-        "totalTimes": 31
+        "totalTimes": 17
       },
       {
         "name": "8 DICIEMBRE-INMACULADA",
@@ -519,18 +519,18 @@ window.HISTORICAL_DATA = {
           "2024": "AJ-AC",
           "2025": "AJ-FE",
           "2026": "AH-FE",
-          "2027": "FE-SM"
+          "2027": "AL-FE"
         },
         "counts": {
           "AJ": 4,
-          "SM": 5,
+          "SM": 4,
           "AH": 5,
           "FE": 6,
           "MB": 4,
           "PC": 3,
-          "AL": 4
+          "AL": 5
         },
-        "totalTimes": 31
+        "totalTimes": 17
       },
       {
         "name": "NOCHEBUENA",
@@ -562,7 +562,7 @@ window.HISTORICAL_DATA = {
           "PC": 2,
           "AL": 2
         },
-        "totalTimes": 15
+        "totalTimes": 17
       },
       {
         "name": "25 DICIEMBRE-NAVIDAD",
@@ -583,18 +583,18 @@ window.HISTORICAL_DATA = {
           "2024": "AH-AJ",
           "2025": "PC-MB",
           "2026": "MB-AL",
-          "2027": "MG-PC"
+          "2027": "AJ-MG"
         },
         "counts": {
-          "AJ": 4,
+          "AJ": 5,
           "SM": 5,
           "AH": 4,
           "FE": 4,
           "MB": 4,
-          "PC": 5,
+          "PC": 4,
           "AL": 5
         },
-        "totalTimes": 31
+        "totalTimes": 17
       },
       {
         "name": "NOCHE 31 DIEMBRE NOCHE",
@@ -626,17 +626,17 @@ window.HISTORICAL_DATA = {
           "PC": 2,
           "AL": 2
         },
-        "totalTimes": 16
+        "totalTimes": 17
       }
     ],
     "totals": {
       "AJ": 71,
-      "SM": 70,
+      "SM": 68,
       "AH": 70,
-      "FE": 68,
+      "FE": 70,
       "MB": 69,
       "PC": 69,
-      "AL": 69
+      "AL": 70
     }
   }
 };
