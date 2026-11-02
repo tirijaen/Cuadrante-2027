@@ -312,38 +312,6 @@ window.HISTORICAL_DATA = {
         "totalTimes": 32
       },
       {
-        "name": "15 DE MAYO SAN EUFRASIO",
-        "years": {
-          "2011": "X",
-          "2012": "X",
-          "2013": "X",
-          "2014": "X",
-          "2015": "X",
-          "2016": "X",
-          "2017": "AC-PC",
-          "2018": "PR-JM",
-          "2019": "X",
-          "2020": "X",
-          "2021": "X",
-          "2022": "PC-JM",
-          "2023": "AJ-AL",
-          "2024": "X",
-          "2025": "X",
-          "2026": "",
-          "2027": ""
-        },
-        "counts": {
-          "AJ": 1,
-          "SM": 1,
-          "AH": 0,
-          "FE": 2,
-          "MB": 1,
-          "PC": 2,
-          "AL": 1
-        },
-        "totalTimes": 8
-      },
-      {
         "name": "15 DE AGOSTO",
         "years": {
           "2011": "X",
@@ -665,13 +633,13 @@ window.HISTORICAL_DATA = {
       }
     ],
     "totals": {
-      "AJ": 72,
-      "SM": 71,
+      "AJ": 71,
+      "SM": 70,
       "AH": 70,
-      "FE": 70,
-      "MB": 70,
-      "PC": 70,
-      "AL": 70
+      "FE": 68,
+      "MB": 69,
+      "PC": 68,
+      "AL": 69
     }
   },
   "vacaciones": {

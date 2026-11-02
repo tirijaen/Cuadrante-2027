@@ -58,7 +58,6 @@ La equidad acumulada tras 17 años de registros es matemáticamente perfecta (m�
 | **VIRGEN DE LA CABEZA** | PR-DC | JM-AC | AL-PC | AJ -MB | FE-AL | AH-AC | AL-SM | AJ-AH |
 | **NOCHES VIRGEN DE LA CABEZA** | AJ | AL | AJ | FE | MB | PC | AH | AL |
 | **1 DE MAYO** | JM-AC | AC-PR | AL-PS | AJ-MB | AC-AH | FE-PC | PC-SM | MG-FE |
-| **15 DE MAYO SAN EUFRASIO** | X | X | PC-JM | AJ-AL | X | X |  |  |
 | **15 DE AGOSTO ** | PC-AL | DC | AL | FE-PC | AC-AJ | AH-AC | AL | SM |
 | **NOCHES DE FERIA** | X | PC | AC | AJ | MB | AH | AJ | EX1 |
 | **FERIA** | DC-AC | JM | AL-PC | AL | AC-AL | AL-MB | FE | AJ |
@@ -119,7 +118,6 @@ Las vacaciones se dividen en 8 quincenas anuales (Junio a Septiembre) y se asign
 | **VIRGEN DE LA CABEZA (Romería)** | 5 | 5 | 4 | 4 | 5 | 4 | 5 | AJ, SM, MB, AL (5) descansan; AH, FE, PC (4) prioridad |
 | **NOCHES VIRGEN DE LA CABEZA** | 4 | 2 | 2 | 2 | 3 | 2 | 3 | AJ (4) y MB, AL (3) descansan; SM, AH, FE, PC (2) en turno |
 | **1 DE MAYO (Trabajo)** | 5 | 5 | 4 | 5 | 5 | 4 | 4 | AJ, SM, FE, MB (5) descansan; AH, PC, AL (4) prioridad |
-| **15 DE MAYO (San Eufrasio)** | 1 | 1 | 0 | 2 | 1 | 2 | 1 | FE, PC (2) descansan; AH (0) máxima prioridad |
 | **15 DE AGOSTO (Asunción)** | 3 | 4 | 3 | 3 | 3 | 4 | 6 | AL (6) máxima libranza; AJ, AH, FE, MB (3) prioridad |
 | **NOCHES DE FERIA** | 3 | 1 | 1 | 2 | 2 | 2 | 0 | AL (0) máxima prioridad de turno; AJ (3) descansa; SM, AH (1) en turno |
 | **FERIA (Día)** | 3 | 3 | 4 | 4 | 3 | 3 | 4 | AH, FE, AL (4) descansan; AJ, SM, MB, PC (3) prioridad |
@@ -130,4 +128,4 @@ Las vacaciones se dividen en 8 quincenas anuales (Junio a Septiembre) y se asign
 | **NOCHEBUENA** | 2 | 2 | 3 | 2 | 2 | 2 | 2 | AH (3) descansa; AJ, SM, FE, MB, PC, AL (2) en turno |
 | **25 DICIEMBRE (Navidad)** | 4 | 5 | 4 | 5 | 4 | 4 | 5 | SM, FE, AL (5) descansan; AJ, AH, MB, PC (4) prioridad |
 | **NOCHE 31 DICIEMBRE (Nochevieja)** | 3 | 2 | 2 | 2 | 3 | 2 | 2 | AJ, MB (3) descansan; resto de plantilla (2) en turno |
-| **TOTALES ACUMULADOS** | **72** | **71** | **70** | **70** | **70** | **70** | **70** | **Equidad global: 70 - 72** |
+| **TOTALES ACUMULADOS** | **71** | **70** | **70** | **68** | **69** | **68** | **69** | **Equidad global histórica: 68 - 71** |

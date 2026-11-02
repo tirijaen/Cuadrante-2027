@@ -440,3 +440,46 @@ El apartado mis fechas señaladas tampoco se actualiza pues todavia pone que ten
 4. **PWA y Caché Offline (`sw.js`):**
    - Incrementada la versión de caché a `cuadrante-2027-v4.8` para forzar la actualización automática tanto en el móvil como en el PC de escritorio.
 
+---
+
+## Sesión 7 (2 Nov): Reajuste Dinámico de Festivos por Equidad Pura (2011-2027) y Eliminación de San Eufrasio
+
+### 💬 Mensaje de Antonio:
+```text
+Vamos a realizar una nueva proposición de cuadrante más justo, en los anteriores cuadrantes .
+Anteriormente yo te pasé un archivo llamado cuadrante 2026 para agente para que tomaras contexto de los datos, lo he modificado sin poner los datos todavia del 2027.
+Igualmente Manualmente te pase en las reglas oficiales este texto [...]
+el cual yo hice estudiando las posibles fechas, quiero que lo obvies, y propongas tu en el cuadrante los turnos que consideres oportunos para esos festivos teniendo en cuenta :
+Ir respetando en la medida de lo posible la equidad en TOTAL ACUMULADO (2011-2027)
+y tambien  la equidad en el nº de veces que cada trabajador ha realizado ese festivo en el tramo de 2011 a 2027. 
+Si te encentras en la situación de que varios trabajadores son aptos para hacer esa fecha del festivo, primara entonces el que más años lleve sin hacerla.
+Así creo que tendras mas margen al tener varias opciones de personas que hagan los festivos para realizar el cuadrante.
+Luego en la app debe aparecen correctamente los datos actualizados para que cualquier trabajador al consultar la tabla de festivos y equidad la pueda consultar.
+Comentar que puedes eleminar de los datos y las restricciones el 15 de Mayo San eufrasio, al no ser ya fiesta local.
+```
+
+**Resolución y Cambios Aplicados:**
+1. **Supresión Definitiva de San Eufrasio (15 de Mayo):**
+   - Eliminada la fila de San Eufrasio en `Cuadrante 2026 para Agente.xlsx` (ajustando las fórmulas de sumatorio `=SUM(S2:S20)`).
+   - Eliminada de `js/historical_data.js` (quedando 19 festivos activos en vez de 20).
+   - Eliminada de `HISTORIAL_FESTIVOS_Y_VACACIONES.md` tanto de la tabla cronológica como de la matriz de equidad por festividad.
+   - Eliminada de las restricciones del modelo de optimización.
+2. **Modelo de Asignación por Equidad Dinámica (`solve_v5_equidad.py`):**
+   - **Regla 1 (Mínimo de veces)**: Prioridad a los trabajadores con menor número de veces realizadas en cada fiesta concreta durante el periodo 2011-2026.
+   - **Regla 2 (Desempate temporal)**: En caso de empate en el mínimo histórico, tiene prioridad quien más años lleve sin realizarla.
+   - **Regla 3 (Equidad global 2011-2027)**: Todos los trabajadores terminan con **68 a 71 festivos totales acumulados** en 17 años (máxima justicia distributiva histórica: $\Delta \le 3$). En el año 2027, la diferencia entre titulares es de solo 1 festivo (46 o 47 festivos).
+   - **Regla 4 (Margen de opciones)**: Asignación por grupos de candidatos aptos que otorga flexibilidad al solver para cuadrar los 220 días, descansos obligatorios y fines de semana intactos.
+3. **Métricas del Cuadrante Oficial 2027 (0 Errores en Auditoría):**
+   - **Días Anuales:** Exactamente **220 días** para los 7 titulares y para Hilario; 81 días para Extra 1.
+   - **Fines de Semana:** **0 fines de semana partidos**.
+   - **Descansos Obligatorios:** 100% cumplimiento de 12h y exactamente 2 días libres tras salir de noches.
+   - **Eventos Personales:** Antonio J libre el 2 de mayo (sin noche el 1 de mayo); Fran Espín libre el 29 de mayo (sin noche el 28 de mayo); Miguel Benítez libre el 31 de octubre (sin noche el 30 de octubre); Antonio J mañana exclusiva el 24 de diciembre y noche en Nochevieja (31 de diciembre).
+4. **Actualización de Entregables y Web App:**
+   - `REGLAS_OFICIALES_CUADRANTE.md` (Sección 9 actualizada con el sistema dinámico y cuadro de candidatos).
+   - `HISTORIAL_FESTIVOS_Y_VACACIONES.md` (matriz de festivos y equidad actualizada a 68-71 festivos).
+   - `Cuadrante 2026 para Agente.xlsx` (limpio y sin San Eufrasio).
+   - `Cuadrante_2027_Andujar.xlsx` y `Cuadrante_2027_Andujar_V3.xlsx` regenerados.
+   - `cuadrante_2027.json` y `js/cuadrante_data.js` sincronizados.
+   - `sw.js` actualizado a `cuadrante-2027-v5.0`.
+
+

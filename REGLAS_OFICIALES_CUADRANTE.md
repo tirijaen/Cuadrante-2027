@@ -180,43 +180,50 @@ Las vacaciones se distribuyen en dos quincenas de 15 días naturales cada una (d
 
 ---
 
-## 9. Asignaciones Fijas e Inamovibles
+## 9. Asignaciones Dinámicas por Criterio de Equidad Histórica Pura (2011 - 2027)
 
-> Las asignaciones fijas anuales provienen del archivo histórico oficial `Cuadrante 2026 para Agente.xlsx` (Hoja `FESTIVOS`). En las fechas donde se asignan 2 trabajadores, uno cubre la Mañana (M) y el otro la Tarde (T) indistintamente. En dicho registro, **Miguel Benítez** aparece identificado como **`MG`** para distinguirlo del histórico Marcos Brito (`MB`).
+> **Criterios Rectores de Asignación**:
+> 1. **Equidad en Cómputo Total Acumulado (2011-2027)**: Equilibrar los festivos globales de toda la plantilla para que todos los trabajadores se mantengan en una banda estrechísima entre **68 y 71 festivos totales** a lo largo de 17 años (máxima justicia distributiva histórica: diferencia máxima de 3 festivos en casi dos décadas).
+> 2. **Equidad Específica por Festivo**: Asignar prioritariamente a los trabajadores que hayan realizado **menos veces esa festividad concreta** en el histórico 2011-2026.
+> 3. **Criterio de Desempate Temporal**: En caso de empate en el mínimo acumulado, tiene prioridad de turno **el trabajador que más años lleve sin realizar esa festividad**.
+> 4. **Supresión de San Eufrasio (15 de Mayo)**: Eliminada de las restricciones y cómputos al haber dejado de ser festivo local oficial.
+> 5. **Margen de Candidatos Aptos**: Para facilitar la ergonomía del cuadrante (0 fines de semana partidos, descansos obligatorios de 12h y 2 días libres tras noches), se define el orden de candidatos óptimos por festividad.
+
+### 9.1. Cuadro de Asignaciones Óptimas y Candidatos Prioritarios
 
 * **01 de Enero (Año Nuevo)**:
-  * Mañana y Tarde: A. León y Alberto H (indiferente quién hace M y quién T).
-  * Noche: Santi M.
+  * **Noche**: **Santi M** (Prioridad absoluta: solo 1 vez en todo el histórico, realizada en 2019).
+  * **Mañana y Tarde**: **A. León** (mínimo histórico: 3 veces) y **Paco C** (4 veces, no la hace desde 2022) o **Alberto H** (4 veces).
 * **06 de Enero (Reyes)**:
-  * Mañana y Tarde: A. León y Alberto H.
+  * **Mañana y Tarde**: **A. León** (mínimo histórico: 3 veces) y **Alberto H** (4 veces, no la hace desde 2022) o **Antonio J** (4 veces, desde 2022).
 * **01 de Marzo (Puente Día de Andalucía)**:
-  * Mañana y Tarde: Fran Espín y Paco C.
+  * **Mañana y Tarde**: **Santi M** y **Fran Espín** (ambos empatados en 4 veces y ambos sin realizarla desde 2021). Alternativa: Paco C.
 * **25, 26, 27 y 28 de Marzo (Semana Santa - Jueves a Domingo)**:
-  * Mañana y Tarde: Antonio J y Santi M.
-  * Noches del 25, 26 y 27 de Marzo: Miguel B.
+  * **Noches (25, 26 y 27 de Marzo)**: **Miguel B** (Prioridad: 2 veces, no la realiza desde 2020 vía AC). Alternativa: Fran Espín.
+  * **Mañana y Tarde**: **Antonio J** (4 veces, última 2023) y **Santi M** (4 veces, última 2022). Alternativa: Fran Espín.
 * **23, 24, 25 y 26 de Abril (Romería Virgen de la Cabeza)**:
-  * Mañana y Tarde: Antonio J y Alberto H.
-  * Noches del 23, 24 y 25 de Abril: A. León.
+  * **Noches (23, 24 y 25 de Abril)**: **A. León** (Prioridad: 2 veces, no la realiza desde 2021). Alternativa: Fran Espín.
+  * **Mañana y Tarde**: **Alberto H** (mínimo histórico: 3 veces) y **Paco C** (4 veces, última 2022) o **Antonio J** (4 veces).
 * **01 de Mayo (Fiesta del Trabajo)**:
-  * Mañana y Tarde: Miguel B y Fran Espín.
+  * **Mañana y Tarde**: **A. León** (4 veces, última 2022) y **Alberto H** / **Miguel B** (4 veces, última 2024).
 * **16 de Agosto (Festivo local/trasladado)**:
-  * Mañana y Tarde: Santi M y Extra 1.
+  * **Mañana y Tarde**: **Santi M** (mínimo histórico: 3 veces, última 2019) y **Extra 1** (o Miguel B).
 * **04, 05 y 06 de Septiembre (Feria de Andújar)**:
   * **Noches de Feria**: **Extra 1** es el candidato preferente para realizar las noches de feria (noches del 4, 5 y 6 de septiembre, complementadas con el viernes 3 de septiembre).
-  * **Mañanas y Tardes de Feria**: Antonio J cubre uno de los turnos diurnos (M o T) y la plantilla regular cubre el otro turno diurno.
+  * **Mañanas y Tardes de Feria**: **Antonio J** (mínimo histórico: solo 2 veces, ¡no la realiza desde 2017!) junto a **Paco C** (3 veces, última 2022) o plantilla regular disponible. A. León e Hilario descansan por quincena de vacaciones (1-15 Sep).
 * **12 de Octubre (Fiesta Nacional)**:
-  * Mañana y Tarde: Miguel B y Paco C.
+  * **Mañana y Tarde**: **Miguel B** y **Paco C** (ambos con 4 veces) o **A. León** (4 veces, última 2021).
 * **01 de Noviembre (Todos los Santos)**:
-  * Mañana y Tarde: Antonio J y A. León (cubriendo uno la M y el otro la T).
+  * **Mañana y Tarde**: **Antonio J** y **A. León** (los dos únicos trabajadores de toda la plantilla con solo 3 veces realizadas).
 * **06 y 08 de Diciembre (Constitución e Inmaculada)**:
-  * Mañana y Tarde: Paco C y Santi M.
+  * **Mañana y Tarde**: **Paco C** (mínimo histórico: 3 veces en ambas fiestas, no las realiza desde 2020) acompañado de **Santi M** (4 veces) o **Fran Espín** (4 veces).
 * **24 de Diciembre (Nochebuena)**:
-  * Noche: Alberto H.
+  * **Noche**: **Alberto H** (2 veces, última 2022) o **A. León** (2 veces, última 2020).
   * Regla específica Antonio J: Cuando le toque trabajar para cuadrar el cuadrante los días 24 y 31 de diciembre, **siempre lo hará en turno de Mañana (M)**, nunca de tarde.
 * **25 de Diciembre (Navidad)**:
-  * Mañana y Tarde: Miguel B y Fran Espín.
+  * **Mañana y Tarde**: **Miguel B** (mínimo histórico: 3 veces, última 2023) y **Fran Espín** (4 veces, última 2022).
 * **31 de Diciembre (Nochevieja)**:
-  * Noche: Antonio J (en sustitución de Miguel B, según cómputo histórico de festivos y tiempo sin realizarla. Esta asignación rompe la regla de mañana exclusiva al estar expresamente fijada su noche).
+  * **Noche**: **Antonio J** (Prioridad absoluta: 2 veces realizadas, ¡no la realiza desde 2020, 7 años transcurridos!). Esta asignación rompe la regla de mañana exclusiva al estar fijada su noche por equidad histórica.
 
 ### 9.1. Eventos Personales y Descansos Blindados
 * **02 de Mayo**: Antonio Jesús Sánchez libre por evento personal (no puede tener turno ese día). En la víspera (**01 de Mayo**) no puede realizar turno de noche.
