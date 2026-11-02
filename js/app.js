@@ -3412,9 +3412,6 @@ ${debt.notes ? `• *Notas:* ${debt.notes}\n` : ''}
   }
 
   function renderVacationsSubView() {
-    const hist = window.HISTORICAL_DATA;
-    if (!hist || !hist.vacaciones) return;
-
     const w = state.currentWorker;
     if (el.vacCurrentWorkerName) el.vacCurrentWorkerName.textContent = w;
 
@@ -3481,7 +3478,18 @@ ${debt.notes ? `• *Notas:* ${debt.notes}\n` : ''}
     }
 
     // Selector de vista
-    const view = state.vacationsViewYear;
+    const view = state.vacationsViewYear || '2027';
+    const titleTextMap = {
+      '2027': 'Distribución por Parejas y Turnos Quincenales (2027 Oficial)',
+      '2028': 'Distribución por Parejas y Turnos Quincenales (🔮 Previsión 2028)',
+      '2029': 'Distribución por Parejas y Turnos Quincenales (🔮 Previsión 2029)',
+      'history': 'Histórico Oficial de Turnos de Vacaciones (2018 - 2026)'
+    };
+    const titleEl = document.getElementById('vacQuincenasTitleText');
+    if (titleEl && titleTextMap[view]) {
+      titleEl.textContent = titleTextMap[view];
+    }
+
     if (view === 'history') {
       if (el.vacationQuincenasCards) el.vacationQuincenasCards.style.display = 'none';
       if (el.vacationHistoryTableWrapper) el.vacationHistoryTableWrapper.style.display = 'block';

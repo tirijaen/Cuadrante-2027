@@ -638,5 +638,20 @@ window.HISTORICAL_DATA = {
       "PC": 69,
       "AL": 70
     }
+  },
+  "vacaciones": {
+    "headers": ["1-15 Jun", "16-30 Jun", "1-15 Jul", "16-30 Jul", "1-15 Ago", "16-30 Ago", "1-15 Sep", "16-30 Sep"],
+    "history": {
+      "2018": ["PC - AL", "AJ-JM", "MB-DC", "AJ-AC", "FE-PC", "AL-HG", "MB-AC", "AC-HG"],
+      "2019": ["AC-HG", "PC-JM", "AL-HG", "MB-DC", "AJ-AC", "FE-PC", "AJ-AL", "MB-CD"],
+      "2020": ["MB-DC", "AC-HG", "FE-PC", "AL-HG", "MB-DC", "AJ-AC", "PC-FE", "AJ-AL"],
+      "2021": ["AJ-AL", "MB-DC", "AJ-AC", "FE-PC", "AL-HG", "MB-DC", "AC-HG", "PC-FE"],
+      "2022": ["-", "-", "MB-DC", "AJ-AC", "FE-PC", "AL-HG", "-", "-"],
+      "2023": ["PC-FE", "AJ-AC", "AL-HG", "MB-DC", "AJ-AC", "FE-PC", "MB-DC", "AL-HG"],
+      "2024": ["AL-HG", "AJ-AC", "PC-FE", "AL-HG", "MB-AH", "AJ-AC", "PC-FE", "MB-AH"],
+      "2025": ["AL-HG", "MB-DC", "AJ-AC", "PC-FE", "AL-HG", "MB-AH", "AJ-AC", "PC-FE"],
+      "2026": ["PC-FE", "AL-HG", "MB-AH", "AJ-AC", "PC-FE", "AL-HG", "MB-AH", "AJ-AC"],
+      "2027": ["AJ-MB", "PC-FE", "AL-HG", "SM-AH", "AJ-MB", "PC-FE", "AL-HG", "SM-AH"]
+    }
   }
 };

@@ -3032,6 +3032,55 @@ button, select, input, textarea {
 /* ==========================================================================
    TAB: FESTIVOS Y VACACIONES (HISTÓRICO & PREVISIÓN)
    ========================================================================== */
+/* Toggle de Sub-vistas (Vacaciones vs Festivos & Equidad) */
+.team-subview-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  padding: 6px;
+  border-radius: var(--radius-xl);
+  margin-bottom: 24px;
+  max-width: 100%;
+  box-shadow: var(--shadow-sm);
+  flex-wrap: wrap;
+}
+
+.subview-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid transparent;
+  padding: 10px 22px;
+  border-radius: var(--radius-lg);
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+  font-family: inherit;
+}
+
+.subview-btn span {
+  font-size: 1.15rem;
+}
+
+.subview-btn:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.subview-btn.active {
+  background: var(--accent-gradient);
+  color: #ffffff;
+  border-color: rgba(56, 189, 248, 0.4);
+  box-shadow: 0 4px 14px rgba(14, 165, 233, 0.35);
+  font-weight: 700;
+}
+
 .vac-personal-card {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
@@ -3178,32 +3227,38 @@ button, select, input, textarea {
 .vac-selector-pills {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   flex-wrap: wrap;
 }
 
 .vac-pill-btn {
   background: var(--bg-surface);
   border: 1px solid var(--border-color);
-  color: var(--text-muted);
-  padding: 6px 12px;
+  color: var(--text-secondary);
+  padding: 8px 16px;
   border-radius: 9999px;
-  font-size: 0.76rem;
+  font-size: 0.82rem;
   font-weight: 600;
   cursor: pointer;
-  transition: var(--transition-fast);
+  transition: all var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: inherit;
 }
 
 .vac-pill-btn:hover {
   color: var(--text-primary);
   border-color: var(--border-focus);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .vac-pill-btn.active {
   background: var(--accent-gradient);
   color: #ffffff;
   border-color: transparent;
-  box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.35);
+  font-weight: 700;
 }
 
 /* Grid de Quincenas de Vacaciones */
