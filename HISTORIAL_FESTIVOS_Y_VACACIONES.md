@@ -32,16 +32,16 @@ La equidad acumulada tras 17 años de registros es matemáticamente perfecta (en
 
 | Trabajador | Festivos Acumulados (2011 - 2027) | Objetivo para 2028 |
 |---|:---:|---|
-| **Antonio Jesús Sánchez** (`AJ`) | **70** | Equilibrio histórico consolidado |
-| **Santiago Molina** (`SM`) | **69** | Equilibrio histórico consolidado |
-| **Alberto Higueras** (`AH`) | **71** | Equilibrio histórico consolidado |
+| **Antonio Jesús Sánchez** (`AJ`) | **71** | Equilibrio histórico consolidado |
+| **Santiago Molina** (`SM`) | **70** | Equilibrio histórico consolidado |
+| **Alberto Higueras** (`AH`) | **70** | Equilibrio histórico consolidado |
 | **Francisco Espín** (`FE`) | **68** | **Prioridad festivos 2028 (+1)** |
-| **Miguel Benítez** (`MB`) | **68** | **Prioridad festivos 2028 (+1)** |
-| **Francisco Cantarero** (`PC`) | **71** | Equilibrio histórico consolidado |
+| **Miguel Benítez** (`MB`) | **69** | Equilibrio histórico consolidado |
+| **Francisco Cantarero** (`PC`) | **69** | Equilibrio histórico consolidado |
 | **Antonio León** (`AL`) | **69** | Equilibrio histórico consolidado |
 
 > [!TIP]
-> En el diseño del **Cuadrante 2028**, los trabajadores con 68 festivos (**Francisco Espín y Miguel Benítez**) tendrán prioridad natural para asumir festivos adicionales y equilibrar con el resto del equipo.
+> En el diseño del **Cuadrante 2028**, el trabajador con 68 festivos (**Francisco Espín**) tendrá prioridad natural para asumir festivos adicionales y equilibrar con el resto del equipo.
 
 ---
 
@@ -51,22 +51,22 @@ La equidad acumulada tras 17 años de registros es matemáticamente perfecta (en
 |---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 | **NOCHES DEL 1 DE ENERO** | PS | AL | PS | DC | FE | AC | PC | SM |
 | **1 DE ENERO** | JM-AL | DC-PR | JM-PC | MB-FE | AL-AC | AJ-AH | AJ-AC | AH-PC |
-| **6 DE ENERO** | PR-JM | PC-AJ | DC-AJ | PC-FE | AC-MB | MB-AL | FE-AC | FE-AL |
-| **28 DE FEBRERO** | AL-DC | JM-PR | PC-AC | DC-AL | AJ-AH | AL-PC | AJ-AC | SM-PC |
-| **SEMANA SANTA** | PR-DC | AL-PC | MB-DC | AJ-FE | AC-FE | PC-AL | AC-AH | SM-PC |
+| **6 DE ENERO** | PR-JM | PC-AJ | DC-AJ | PC-FE | AC-MB | MB-AL | FE-AC | AH-SM |
+| **28 DE FEBRERO** | AL-DC | JM-PR | PC-AC | DC-AL | AJ-AH | AL-PC | AJ-AC | FE-PC |
+| **SEMANA SANTA** | PR-DC | AL-PC | MB-DC | AJ-FE | AC-FE | PC-AL | AC-AH | FE-PC |
 | **NOCHES SEMANA SANTA** | AC | PR | JM-PC | DC | AL | AJ | MB | MG |
-| **VIRGEN DE LA CABEZA** | PR-DC | JM-AC | AL-PC | AJ -MB | FE-AL | AH-AC | AL-SM | AH-PC |
+| **VIRGEN DE LA CABEZA** | PR-DC | JM-AC | AL-PC | AJ -MB | FE-AL | AH-AC | AL-SM | AH-AJ |
 | **NOCHES VIRGEN DE LA CABEZA** | AJ | AL | AJ | FE | MB | PC | AH | AL |
-| **1 DE MAYO** | JM-AC | AC-PR | AL-PS | AJ-MB | AC-AH | FE-PC | PC-SM | AL-AH |
+| **1 DE MAYO** | JM-AC | AC-PR | AL-PS | AJ-MB | AC-AH | FE-PC | PC-SM | AL-PC |
 | **15 DE AGOSTO ** | PC-AL | DC | AL | FE-PC | AC-AJ | AH-AC | AL | MG |
 | **NOCHES DE FERIA** | X | PC | AC | AJ | MB | AH | AJ | EX1 |
-| **FERIA** | DC-AC | JM | AL-PC | AL | AC-AL | AL-MB | FE | AH-AJ |
-| **12 DE OCTUBRE** | PC-JM | AL-AJ | DC-AJ | PC-MB | AC-MB | FE-PC | AH-AJ | PC-MG |
-| **1 DE NOVIEMBRE** | AL-JM | AC-AJ | AC-PC | AL-DC | FE-MB | PC-MB | FE-AH | AL-AJ |
-| **6 DICIEMBRE-CONSTITUCION** | AL-PC | JM-AC | AC-AJ | DC-MB | FE-AC | AJ-MB | AH-FE | FE-PC |
-| **8 DICIEMBRE-INMACULADA** | PC-DC | AL-AC | AL-MB | DC-MB | AJ-AC | AJ-FE | AH-FE | SM-PC |
+| **FERIA** | DC-AC | JM | AL-PC | AL | AC-AL | AL-MB | FE | AJ-MG |
+| **12 DE OCTUBRE** | PC-JM | AL-AJ | DC-AJ | PC-MB | AC-MB | FE-PC | AH-AJ | AL-SM |
+| **1 DE NOVIEMBRE** | AL-JM | AC-AJ | AC-PC | AL-DC | FE-MB | PC-MB | FE-AH | AJ-AL |
+| **6 DICIEMBRE-CONSTITUCION** | AL-PC | JM-AC | AC-AJ | DC-MB | FE-AC | AJ-MB | AH-FE | AJ-SM |
+| **8 DICIEMBRE-INMACULADA** | PC-DC | AL-AC | AL-MB | DC-MB | AJ-AC | AJ-FE | AH-FE | FE-SM |
 | **NOCHEBUENA** | AL | MB | DC | FE | PC | AJ | AC | AH |
-| **25 DICIEMBRE-NAVIDAD** | PC-AJ | AL-DC | FE-MB | AC-AJ | AH-AJ | PC-MB | MB-AL | AJ-FE |
+| **25 DICIEMBRE-NAVIDAD** | PC-AJ | AL-DC | FE-MB | AC-AJ | AH-AJ | PC-MB | MB-AL | MG-PC |
 | **NOCHE 31 DIEMBRE NOCHE** | AJ | DC | AC | MB | AL | FE | PC | AJ |
 
 ---
@@ -107,25 +107,25 @@ Las vacaciones se dividen en 8 quincenas anuales (Junio a Septiembre) y se asign
 > **Rango de referencia Excel:** Columnas `S2:Y21` / `AB2:AH21`.  
 > En el servicio no solo se vigila la equidad del cómputo total de festivos anuales (71 vs 70), sino también **la justicia distributiva en cada festividad específica**. De este modo, nadie repite desproporcionadamente una fiesta señalada (Nochebuena, Nochevieja, Romería, Semana Santa, etc.) mientras otro no la realiza.
 
-| Festividad Oficial | AJ | SM | AH | FE | MB | PC | AL | Criterio de Equidad para 2028 |
+| Festividad Oficial | AJ | SM | AH | FE | MB | PC | AL | Criterio de Equidad 2027 / 2028 |
 |---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|---|
-| **NOCHES DEL 1 DE ENERO** | 3 | 2 | 2 | 2 | 2 | 2 | 2 | AJ máxima (3) libra; resto (2) en turno |
-| **1 DE ENERO** | 4 | 5 | 5 | 5 | 4 | 5 | 3 | AL mínima (3) en turno; PC (5) y AH (5) en turno |
-| **6 DE ENERO (Reyes)** | 4 | 4 | 4 | 5 | 4 | 6 | 4 | PC (6) máxima libranza; FE (5) y AL (4) en turno |
-| **28 DE FEBRERO (Día de Andalucía)** | 4 | 5 | 4 | 4 | 4 | 5 | 5 | AL (5) descansa; SM (5) y PC (5) en turno |
-| **SEMANA SANTA** | 4 | 5 | 6 | 4 | 4 | 5 | 4 | AH (6) máxima libranza; SM (5) y PC (5) íntegros |
-| **NOCHES SEMANA SANTA** | 2 | 3 | 2 | 2 | 3 | 2 | 2 | SM, MB (3) descansan; MB (3) noches completas |
-| **VIRGEN DE LA CABEZA (Romería)** | 4 | 5 | 4 | 4 | 5 | 5 | 5 | AH (4) y PC (5) diurno íntegro de 4 días |
-| **NOCHES VIRGEN DE LA CABEZA** | 4 | 2 | 2 | 2 | 3 | 2 | 3 | AL (3) noches completas (23, 24 y 25 Abr) |
-| **1 DE MAYO (Trabajo)** | 5 | 5 | 5 | 4 | 4 | 4 | 5 | AL (5) y AH (5) en turno; FE, MB, PC (4) prioridad |
-| **15 DE AGOSTO (Asunción)** | 3 | 3 | 3 | 3 | 4 | 4 | 6 | AL (6) máxima libranza; MB (4) y Extra 1 en turno |
-| **NOCHES DE FERIA** | 3 | 1 | 1 | 2 | 2 | 2 | 0 | Extra 1 (candidato preferente 03 al 06 Sep) |
-| **FERIA (Día)** | 3 | 3 | 5 | 4 | 3 | 3 | 4 | Alberto H (M) y Antonio J (T) íntegros 4-6 Sep |
-| **12 DE OCTUBRE (Hispanidad)** | 5 | 4 | 5 | 4 | 5 | 5 | 4 | PC (5) y MB (5) en turno diurno |
-| **1 DE NOVIEMBRE (Todos los Santos)** | 4 | 4 | 5 | 4 | 4 | 5 | 4 | AL (4) y AJ (4) los únicos con 3 en histórico |
-| **6 DICIEMBRE (Constitución)** | 4 | 4 | 4 | 5 | 5 | 4 | 5 | FE (5) y PC (4) en turno diurno |
-| **8 DICIEMBRE (Inmaculada)** | 4 | 5 | 5 | 5 | 4 | 4 | 4 | SM (5) y PC (4) en turno diurno |
+| **NOCHES DEL 1 DE ENERO** | 3 | 2 | 2 | 2 | 2 | 2 | 2 | Santi M (Noche) (tenía solo 1, mínimo de todos) |
+| **1 DE ENERO** | 4 | 5 | 5 | 5 | 4 | 5 | 3 | Alberto H (M) y Paco C (T) en turno |
+| **6 DE ENERO (Reyes)** | 4 | 5 | 5 | 4 | 4 | 6 | 3 | Santi M (M) y Alberto H (T); FE descansa |
+| **28 DE FEBRERO (Día de Andalucía)** | 4 | 4 | 4 | 5 | 4 | 5 | 5 | Fran Espín (M) y Paco C (T); AL descansa |
+| **SEMANA SANTA** | 4 | 4 | 6 | 5 | 4 | 5 | 4 | Fran Espín (M) y Paco C (T) íntegros 25-28 Mar |
+| **NOCHES SEMANA SANTA** | 2 | 3 | 2 | 2 | 3 | 2 | 2 | Miguel B (3) noches completas 25, 26 y 27 Mar |
+| **VIRGEN DE LA CABEZA (Romería)** | 5 | 5 | 4 | 4 | 5 | 4 | 5 | Alberto H (M, tenía 3) y Antonio J (T) íntegros 23-26 Abr |
+| **NOCHES VIRGEN DE LA CABEZA** | 4 | 2 | 2 | 2 | 3 | 2 | 3 | A. León (3) noches completas 23, 24 y 25 Abr |
+| **1 DE MAYO (Trabajo)** | 5 | 5 | 4 | 4 | 4 | 5 | 5 | A. León (M) y Paco C (T); AJ y SM descansan |
+| **15 DE AGOSTO (Asunción)** | 3 | 3 | 3 | 3 | 4 | 4 | 6 | Miguel B (M) y Extra 1 (T) en turno |
+| **NOCHES DE FERIA** | 3 | 1 | 1 | 2 | 2 | 2 | 0 | Extra 1 (noches completas 03 al 06 Sep) |
+| **FERIA (Día)** | 3 | 3 | 4 | 4 | 4 | 3 | 4 | Antonio J (M) y Miguel B (T) íntegros 4-6 Sep (Alberto H descansó) |
+| **12 DE OCTUBRE (Hispanidad)** | 5 | 5 | 5 | 4 | 4 | 4 | 5 | A. León (M) y Santi M (T); AJ y AH descansan |
+| **1 DE NOVIEMBRE (Todos los Santos)** | 4 | 4 | 5 | 4 | 4 | 5 | 4 | Antonio J (M) y A. León (T) (ambos tenían 3) |
+| **6 DICIEMBRE (Constitución)** | 5 | 5 | 4 | 4 | 5 | 3 | 5 | Antonio J (T) y Santi M (M); FE descansa |
+| **8 DICIEMBRE (Inmaculada)** | 4 | 5 | 5 | 6 | 4 | 3 | 4 | Fran Espín (M) y Santi M (T); AH descansa |
 | **NOCHEBUENA** | 2 | 2 | 3 | 2 | 2 | 2 | 2 | Alberto H (3) turno de noche completo |
-| **25 DICIEMBRE (Navidad)** | 5 | 5 | 4 | 5 | 3 | 4 | 5 | AJ (5) y FE (5) en turno diurno |
+| **25 DICIEMBRE (Navidad)** | 4 | 5 | 4 | 4 | 4 | 5 | 5 | Miguel B (T, sube de 3 a 4) y Paco C (M) |
 | **NOCHE 31 DICIEMBRE (Nochevieja)** | 3 | 2 | 2 | 2 | 3 | 2 | 2 | Antonio J (3) turno de noche exclusivo |
-| **TOTALES ACUMULADOS** | **70** | **69** | **71** | **68** | **68** | **71** | **69** | **Equidad global histórica: 68 - 71** |
+| **TOTALES ACUMULADOS** | **71** | **70** | **70** | **68** | **69** | **69** | **69** | **Equidad global histórica: 68 - 71** |

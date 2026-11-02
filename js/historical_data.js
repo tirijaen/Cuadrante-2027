@@ -103,16 +103,16 @@ window.HISTORICAL_DATA = {
           "2024": "AC-MB",
           "2025": "MB-AL",
           "2026": "FE-AC",
-          "2027": "FE-AL"
+          "2027": "AH-SM"
         },
         "counts": {
           "AJ": 4,
-          "SM": 4,
-          "AH": 4,
-          "FE": 5,
+          "SM": 5,
+          "AH": 5,
+          "FE": 4,
           "MB": 4,
           "PC": 6,
-          "AL": 4
+          "AL": 3
         },
         "totalTimes": 31
       },
@@ -135,13 +135,13 @@ window.HISTORICAL_DATA = {
           "2024": "AJ-AH",
           "2025": "AL-PC",
           "2026": "AJ-AC",
-          "2027": "SM-PC"
+          "2027": "FE-PC"
         },
         "counts": {
           "AJ": 4,
-          "SM": 5,
+          "SM": 4,
           "AH": 4,
-          "FE": 4,
+          "FE": 5,
           "MB": 4,
           "PC": 5,
           "AL": 5
@@ -167,13 +167,13 @@ window.HISTORICAL_DATA = {
           "2024": "AC-FE",
           "2025": "PC-AL",
           "2026": "AC-AH",
-          "2027": "SM-PC"
+          "2027": "FE-PC"
         },
         "counts": {
           "AJ": 4,
-          "SM": 5,
+          "SM": 4,
           "AH": 6,
-          "FE": 4,
+          "FE": 5,
           "MB": 4,
           "PC": 5,
           "AL": 4
@@ -231,15 +231,15 @@ window.HISTORICAL_DATA = {
           "2024": "FE-AL",
           "2025": "AH-AC",
           "2026": "AL-SM",
-          "2027": "AH-PC"
+          "2027": "AH-AJ"
         },
         "counts": {
-          "AJ": 4,
+          "AJ": 5,
           "SM": 5,
           "AH": 4,
           "FE": 4,
           "MB": 5,
-          "PC": 5,
+          "PC": 4,
           "AL": 5
         },
         "totalTimes": 32
@@ -295,21 +295,21 @@ window.HISTORICAL_DATA = {
           "2024": "AC-AH",
           "2025": "FE-PC",
           "2026": "PC-SM",
-          "2027": "AL-AH"
+          "2027": "AL-PC"
         },
         "counts": {
           "AJ": 5,
           "SM": 5,
-          "AH": 5,
+          "AH": 4,
           "FE": 4,
           "MB": 4,
-          "PC": 4,
+          "PC": 5,
           "AL": 5
         },
         "totalTimes": 32
       },
       {
-        "name": "15 DE AGOSTO",
+        "name": "15 DE AGOSTO ",
         "years": {
           "2011": "X",
           "2012": "FH-PC",
@@ -370,7 +370,7 @@ window.HISTORICAL_DATA = {
           "PC": 2,
           "AL": 0
         },
-        "totalTimes": 12
+        "totalTimes": 11
       },
       {
         "name": "FERIA",
@@ -391,18 +391,18 @@ window.HISTORICAL_DATA = {
           "2024": "AC-AL",
           "2025": "AL-MB",
           "2026": "FE",
-          "2027": "AH-AJ"
+          "2027": "AJ-MG"
         },
         "counts": {
           "AJ": 3,
           "SM": 3,
-          "AH": 5,
+          "AH": 4,
           "FE": 4,
-          "MB": 3,
+          "MB": 4,
           "PC": 3,
           "AL": 4
         },
-        "totalTimes": 24
+        "totalTimes": 25
       },
       {
         "name": "12 DE OCTUBRE",
@@ -423,16 +423,16 @@ window.HISTORICAL_DATA = {
           "2024": "AC-MB",
           "2025": "FE-PC",
           "2026": "AH-AJ",
-          "2027": "PC-MG"
+          "2027": "AL-SM"
         },
         "counts": {
           "AJ": 5,
-          "SM": 4,
+          "SM": 5,
           "AH": 5,
           "FE": 4,
-          "MB": 5,
-          "PC": 5,
-          "AL": 4
+          "MB": 4,
+          "PC": 4,
+          "AL": 5
         },
         "totalTimes": 32
       },
@@ -455,7 +455,7 @@ window.HISTORICAL_DATA = {
           "2024": "FE-MB",
           "2025": "PC-MB",
           "2026": "FE-AH",
-          "2027": "AL-AJ"
+          "2027": "AJ-AL"
         },
         "counts": {
           "AJ": 4,
@@ -487,15 +487,15 @@ window.HISTORICAL_DATA = {
           "2024": "FE-AC",
           "2025": "AJ-MB",
           "2026": "AH-FE",
-          "2027": "FE-PC"
+          "2027": "AJ-SM"
         },
         "counts": {
-          "AJ": 4,
-          "SM": 4,
+          "AJ": 5,
+          "SM": 5,
           "AH": 4,
-          "FE": 5,
+          "FE": 4,
           "MB": 5,
-          "PC": 4,
+          "PC": 3,
           "AL": 5
         },
         "totalTimes": 31
@@ -519,15 +519,15 @@ window.HISTORICAL_DATA = {
           "2024": "AJ-AC",
           "2025": "AJ-FE",
           "2026": "AH-FE",
-          "2027": "SM-PC"
+          "2027": "FE-SM"
         },
         "counts": {
           "AJ": 4,
           "SM": 5,
           "AH": 5,
-          "FE": 5,
+          "FE": 6,
           "MB": 4,
-          "PC": 4,
+          "PC": 3,
           "AL": 4
         },
         "totalTimes": 31
@@ -583,15 +583,15 @@ window.HISTORICAL_DATA = {
           "2024": "AH-AJ",
           "2025": "PC-MB",
           "2026": "MB-AL",
-          "2027": "AJ-FE"
+          "2027": "MG-PC"
         },
         "counts": {
-          "AJ": 5,
+          "AJ": 4,
           "SM": 5,
           "AH": 4,
-          "FE": 5,
-          "MB": 3,
-          "PC": 4,
+          "FE": 4,
+          "MB": 4,
+          "PC": 5,
           "AL": 5
         },
         "totalTimes": 31
@@ -630,185 +630,13 @@ window.HISTORICAL_DATA = {
       }
     ],
     "totals": {
-      "AJ": 70,
-      "SM": 69,
-      "AH": 71,
+      "AJ": 71,
+      "SM": 70,
+      "AH": 70,
       "FE": 68,
-      "MB": 68,
-      "PC": 71,
+      "MB": 69,
+      "PC": 69,
       "AL": 69
     }
-  },
-  "vacaciones": {
-    "headers": [
-      "1-15 Junio",
-      "16-30 Junio",
-      "1-15 Julio",
-      "16-30 Julio",
-      "1-15 Agosto",
-      "16-30 Agosto",
-      "1-15 Septiembre",
-      "16-30 Septiembre"
-    ],
-    "history": {
-      "2018": [
-        "PC - AL",
-        "AJ-JM",
-        "MB-DC",
-        "AJ-AC",
-        "FE-PC",
-        "AL-HG",
-        "MB-AC",
-        "AC-HG"
-      ],
-      "2019": [
-        "AC-HG",
-        "PC-JM",
-        "AL-HG",
-        "MB-DC",
-        "AJ-AC",
-        "FE-PC",
-        "AJ-AL",
-        "MB-CD"
-      ],
-      "2020": [
-        "MB-DC",
-        "AC-HG",
-        "FE-PC",
-        "AL-HG",
-        "MB-DC",
-        "AJ-AC",
-        "PC-FE",
-        "AJ-AL"
-      ],
-      "2021": [
-        "AJ-AL",
-        "MB-DC",
-        "AJ-AC",
-        "FE-PC",
-        "AL-HG",
-        "MB-DC",
-        "AC-HG",
-        "PC-FE"
-      ],
-      "2022": [
-        "",
-        "",
-        "MB-DC",
-        "AJ-AC",
-        "FE-PC",
-        "AL-HG",
-        "",
-        ""
-      ],
-      "2023": [
-        "PC-FE",
-        "AJ-AC",
-        "AL-HG",
-        "MB-DC",
-        "AJ-AC",
-        "FE-PC",
-        "MB-DC",
-        "AL-HG"
-      ],
-      "2024": [
-        "AL-HG",
-        "AJ-AC",
-        "PC-FE",
-        "AL-HG",
-        "MB-AH",
-        "AJ-AC",
-        "PC-FE",
-        "MB-AH"
-      ],
-      "2025": [
-        "AL-HG",
-        "MB-DC",
-        "AJ-AC",
-        "PC-FE",
-        "AL-HG",
-        "MB-AH",
-        "AJ-AC",
-        "PC-FE"
-      ],
-      "2026": [
-        "PC-FE",
-        "AL-HG",
-        "MB-AH",
-        "AJ-AC",
-        "PC-FE",
-        "AL-HG",
-        "MB-AH",
-        "AJ-AC"
-      ],
-      "2027": [
-        "AJ-AC",
-        "PC-FE",
-        "AL-HG",
-        "MB-DC",
-        "AJ-AC",
-        "PC-FE",
-        "AL-HG",
-        "MB-AH"
-      ]
-    },
-    "projected_2028": [
-      "SM - AH",
-      "AJ - MB",
-      "PC - FE",
-      "AL - HG",
-      "SM - AH",
-      "AJ - MB",
-      "PC - FE",
-      "AL - HG"
-    ],
-    "projected_2029": [
-      "AL - HG",
-      "SM - AH",
-      "AJ - MB",
-      "PC - FE",
-      "AL - HG",
-      "SM - AH",
-      "AJ - MB",
-      "PC - FE"
-    ],
-    "pairs": [
-      {
-        "id": "pair_aj_mb",
-        "names": [
-          "Antonio J",
-          "Miguel B"
-        ],
-        "codes": "AJ - MB",
-        "legacy": "AJ - AC"
-      },
-      {
-        "id": "pair_pc_fe",
-        "names": [
-          "Paco C",
-          "Fran Espin"
-        ],
-        "codes": "PC - FE",
-        "legacy": "PC - FE"
-      },
-      {
-        "id": "pair_al_hg",
-        "names": [
-          "A. Leon",
-          "Hilario"
-        ],
-        "codes": "AL - HG",
-        "legacy": "AL - HG"
-      },
-      {
-        "id": "pair_sm_ah",
-        "names": [
-          "Santi M",
-          "Alberto H"
-        ],
-        "codes": "SM - AH",
-        "legacy": "MB - DC / MB - AH"
-      }
-    ]
   }
 };

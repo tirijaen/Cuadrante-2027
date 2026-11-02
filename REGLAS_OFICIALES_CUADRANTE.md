@@ -192,42 +192,42 @@ Las vacaciones se distribuyen en dos quincenas de 15 días naturales cada una (d
 ### 9.1. Cuadro de Asignaciones Óptimas y Oficiales 2027
 
 * **01 de Enero (Año Nuevo)**:
-  * **Noche**: **Santi M** (Prioridad absoluta: solo 1 vez en todo el histórico, realizada en 2019).
+  * **Noche**: **Santi M** (Prioridad absoluta: solo 1 vez en todo el histórico).
   * **Mañana y Tarde**: **Alberto H** y **Paco C**.
 * **06 de Enero (Reyes)**:
-  * **Mañana y Tarde**: **Fran Espín** y **A. León**.
+  * **Mañana y Tarde**: **Alberto H** y **Santi M**.
 * **01 de Marzo (Puente Día de Andalucía)**:
-  * **Mañana y Tarde**: **Santi M** y **Paco C**.
+  * **Mañana y Tarde**: **Fran Espín** y **Paco C**.
 * **25, 26, 27 y 28 de Marzo (Semana Santa - Jueves a Domingo)**:
   * **Noches (25, 26 y 27 de Marzo)**: **Miguel B** (Prioridad: 2 veces, no la realiza desde 2020 vía AC). Bloque íntegro de 3 noches.
-  * **Mañana**: **Santi M** (Bloque íntegro los 4 días).
+  * **Mañana**: **Fran Espín** (Bloque íntegro los 4 días).
   * **Tarde**: **Paco C** (Bloque íntegro los 4 días).
 * **23, 24, 25 y 26 de Abril (Romería Virgen de la Cabeza)**:
   * **Noches (23, 24 y 25 de Abril)**: **A. León** (Prioridad: 2 veces, no la realiza desde 2021). Bloque íntegro de 3 noches.
-  * **Mañana**: **Alberto H** (Bloque íntegro los 4 días).
-  * **Tarde**: **Paco C** (Bloque íntegro los 4 días).
+  * **Mañana**: **Alberto H** (Bloque íntegro los 4 días; prioridad por tener solo 3 en el histórico).
+  * **Tarde**: **Antonio J** (Bloque íntegro los 4 días).
 * **01 de Mayo (Fiesta del Trabajo)**:
-  * **Mañana y Tarde**: **A. León** y **Alberto H**.
+  * **Mañana y Tarde**: **A. León** y **Paco C**.
 * **16 de Agosto (Festivo local/trasladado)**:
   * **Mañana y Tarde**: **Miguel B** y **Extra 1**.
 * **04, 05 y 06 de Septiembre (Feria de Andújar)**:
   * **Noches de Feria**: **Extra 1** realiza las noches de feria íntegras (noches del 3, 4, 5 y 6 de septiembre).
-  * **Mañana de Feria**: **Alberto H** realiza las mañanas íntegras los 3 días (04, 05 y 06 Sep).
-  * **Tarde de Feria**: **Antonio J** realiza las tardes íntegras los 3 días (04, 05 y 06 Sep).
-  * A. León e Hilario descansan por quincena de vacaciones (1-15 Sep).
+  * **Mañana de Feria**: **Antonio J** realiza las mañanas íntegras los 3 días (04, 05 y 06 Sep; prioridad absoluta al tener solo 2 en el histórico).
+  * **Tarde de Feria**: **Miguel B** realiza las tardes íntegras los 3 días (04, 05 y 06 Sep; tenía 3 en el histórico).
+  * Alberto H descansa (tenía 4, evitando subir injustamente a 5). A. León e Hilario descansan por vacaciones (1-15 Sep).
 * **12 de Octubre (Fiesta Nacional)**:
-  * **Mañana y Tarde**: **Paco C** y **Miguel B**.
+  * **Mañana y Tarde**: **A. León** y **Santi M**.
 * **01 de Noviembre (Todos los Santos)**:
-  * **Mañana y Tarde**: **A. León** y **Antonio J** (los dos únicos trabajadores con solo 3 veces en histórico).
+  * **Mañana y Tarde**: **Antonio J** y **A. León** (los dos únicos trabajadores con solo 3 veces en histórico).
 * **06 de Diciembre (Constitución)**:
-  * **Mañana y Tarde**: **Fran Espín** y **Paco C**.
+  * **Mañana y Tarde**: **Antonio J** y **Santi M**.
 * **08 de Diciembre (Inmaculada)**:
-  * **Mañana y Tarde**: **Santi M** y **Paco C**.
+  * **Mañana y Tarde**: **Fran Espín** y **Santi M**.
 * **24 de Diciembre (Nochebuena)**:
   * **Noche**: **Alberto H** (2 veces, última 2022).
   * Regla específica Antonio J: Cuando le toque trabajar para cuadrar el cuadrante los días 24 y 31 de diciembre, **siempre lo hará en turno de Mañana (M)**, nunca de tarde.
 * **25 de Diciembre (Navidad)**:
-  * **Mañana y Tarde**: **Antonio J** y **Fran Espín**.
+  * **Mañana y Tarde**: **Miguel B** (prioridad absoluta al ser el único con solo 3 Navidades) y **Paco C**.
 * **31 de Diciembre (Nochevieja)**:
   * **Noche**: **Antonio J** (Prioridad absoluta: 2 veces realizadas, ¡no la realiza desde 2020, 7 años transcurridos!). Esta asignación rompe la regla de mañana exclusiva al estar fijada su noche por equidad histórica.
 

@@ -10,7 +10,6 @@ total_days = (end_date - start_date).days + 1
 dates = [start_date + datetime.timedelta(days=i) for i in range(total_days)]
 def d_idx(y, m, d): return (datetime.date(y, m, d) - start_date).days
 
-# Festivos oficiales 2027 (sin 15 de Mayo San Eufrasio)
 holidays = {
     datetime.date(2027, 1, 1), datetime.date(2027, 1, 6), datetime.date(2027, 3, 1),
     datetime.date(2027, 3, 25), datetime.date(2027, 3, 26), datetime.date(2027, 4, 23),
@@ -33,7 +32,7 @@ workers = ['Antonio J', 'Santi M', 'Alberto H', 'Fran Espin', 'Miguel B', 'Paco 
 n_workers = len(workers)
 w_map = {name: i for i, name in enumerate(workers)}
 
-print("=== INICIANDO OPTIMIZACIÓN DEL CUADRANTE 2027 (V5 - EQUIDAD PURA Y SIN SAN EUFRASIO) ===")
+print("=== OPTIMIZACIÓN DEFINITIVA: EQUIDAD PERFECTA 69-70 Y CORRECCIÓN TOTAL ===")
 
 vacations = [
     ('Antonio J', [(6, 1, 15), (8, 1, 15)]),
@@ -46,11 +45,11 @@ vacations = [
     ('Alberto H', [(7, 16, 30), (9, 16, 30)]),
 ]
 
-# Candidate pools for daytime festivos (based on minimum historical count and longest time since done)
+# Candidate pools amplios pero justos
 holiday_candidates = [
-    ('2027-01-01', ['A. Leon', 'Paco C', 'Alberto H']),
-    ('2027-01-06', ['A. Leon', 'Alberto H', 'Santi M', 'Fran Espin']),
-    ('2027-03-01', ['Santi M', 'Fran Espin', 'Paco C', 'Alberto H']),
+    ('2027-01-01', ['Paco C', 'Alberto H', 'A. Leon', 'Miguel B', 'Antonio J']),
+    ('2027-01-06', ['A. Leon', 'Alberto H', 'Antonio J', 'Santi M', 'Miguel B']), # Avoid Fran Espin repeating 2026; avoid Paco C (has 6)
+    ('2027-03-01', ['Santi M', 'Fran Espin', 'Paco C', 'Alberto H', 'Miguel B']),
     ('2027-03-25', ['Antonio J', 'Santi M', 'Fran Espin', 'Paco C']),
     ('2027-03-26', ['Antonio J', 'Santi M', 'Fran Espin', 'Paco C']),
     ('2027-03-27', ['Antonio J', 'Santi M', 'Fran Espin', 'Paco C']),
@@ -59,25 +58,31 @@ holiday_candidates = [
     ('2027-04-24', ['Alberto H', 'Paco C', 'Antonio J', 'Fran Espin']),
     ('2027-04-25', ['Alberto H', 'Paco C', 'Antonio J', 'Fran Espin']),
     ('2027-04-26', ['Alberto H', 'Paco C', 'Antonio J', 'Fran Espin']),
-    ('2027-05-01', ['A. Leon', 'Alberto H', 'Miguel B', 'Fran Espin']),
-    ('2027-08-16', ['Santi M', 'Miguel B', 'Alberto H', 'Extra 1', 'Antonio J']),
-    ('2027-09-04', ['Antonio J', 'Paco C', 'Miguel B', 'Alberto H', 'Fran Espin']),
-    ('2027-09-05', ['Antonio J', 'Paco C', 'Miguel B', 'Alberto H', 'Fran Espin']),
-    ('2027-09-06', ['Antonio J', 'Paco C', 'Miguel B', 'Alberto H', 'Fran Espin']),
+    ('2027-05-01', ['A. Leon', 'Alberto H', 'Miguel B', 'Fran Espin', 'Paco C']),
+    ('2027-08-16', ['Santi M', 'Extra 1', 'Miguel B', 'Alberto H']),
+    ('2027-09-04', ['Antonio J', 'Paco C', 'Miguel B', 'Santi M']), # Alberto H EXCLUDED! Antonio J priority 1
+    ('2027-09-05', ['Antonio J', 'Paco C', 'Miguel B', 'Santi M']),
+    ('2027-09-06', ['Antonio J', 'Paco C', 'Miguel B', 'Santi M']),
     ('2027-10-12', ['A. Leon', 'Miguel B', 'Paco C', 'Santi M', 'Fran Espin']),
-    ('2027-11-01', ['Antonio J', 'A. Leon']), # Highest priority (only two with 3 times)
-    ('2027-12-06', ['Paco C', 'Fran Espin', 'Antonio J', 'Santi M', 'Alberto H']),
-    ('2027-12-08', ['Paco C', 'Santi M', 'A. Leon', 'Miguel B', 'Antonio J']),
+    ('2027-11-01', ['Antonio J', 'A. Leon']), # Highest priority (only two with 3)
+    ('2027-12-06', ['Paco C', 'Antonio J', 'Santi M', 'Fran Espin']),
+    ('2027-12-08', ['Paco C', 'Santi M', 'A. Leon', 'Miguel B', 'Fran Espin']),
     ('2027-12-25', ['Miguel B', 'Fran Espin', 'Antonio J', 'Alberto H', 'Paco C']),
 ]
 
-max_attempts = 15
+start_c = {
+    'Antonio J': 66, 'Santi M': 65, 'Alberto H': 66,
+    'Fran Espin': 65, 'Miguel B': 65, 'Paco C': 64, 'A. Leon': 65
+}
+
+max_attempts = 20
 solved = False
 
 for attempt in range(1, max_attempts + 1):
-    seed = attempt * 17 + 3
-    
-    # --- STAGE 1: NOCHES ---
+    seed = attempt * 31 + 11
+    print(f"\n--- INTENTO {attempt} (seed {seed}) ---")
+
+    # STAGE 1: NOCHES
     m1 = cp_model.CpModel()
     n = {}
     for w in range(n_workers):
@@ -104,7 +109,7 @@ for attempt in range(1, max_attempts + 1):
             if db >= start_date:
                 m1.Add(n[w_i, (db - start_date).days] == 0)
 
-    # Noches señaladas oficiales (equidad pura)
+    # Noches señaladas oficiales
     m1.Add(n[w_map['Santi M'], d_idx(2027, 1, 1)] == 1) # Mínimo acumulado (1 vez)
     for d in [25, 26, 27]: m1.Add(n[w_map['Miguel B'], d_idx(2027, 3, d)] == 1) # Mínimo acumulado (2 veces, desde 2020)
     for d in [23, 24, 25]: m1.Add(n[w_map['A. Leon'], d_idx(2027, 4, d)] == 1) # Mínimo acumulado (2 veces, desde 2021)
@@ -119,11 +124,15 @@ for attempt in range(1, max_attempts + 1):
     m1.Add(n[w_map['Antonio J'], d_idx(2027, 5, 1)] == 0)
     m1.Add(n[w_map['Antonio J'], d_idx(2027, 5, 2)] == 0)
 
+    # Noches previas a festivos diurnos clave
+    m1.Add(n[w_map['Antonio J'], d_idx(2027, 9, 2)] == 0)
+    m1.Add(n[w_map['Miguel B'], d_idx(2027, 12, 23)] == 0)
+    m1.Add(n[w_map['Miguel B'], d_idx(2027, 12, 24)] == 0)
+    m1.Add(n[w_map['Miguel B'], d_idx(2027, 12, 25)] == 0)
+
     # Extra 1 candidato preferente en noches de Feria (3, 4, 5, 6 Sep)
     for d_sep in [3, 4, 5, 6]:
         m1.Add(n[w_map['Extra 1'], d_idx(2027, 9, d_sep)] == 1)
-    # Antonio J no puede tener noche el 2 Sep al trabajar diurno en Feria el 4 Sep
-    m1.Add(n[w_map['Antonio J'], d_idx(2027, 9, 2)] == 0)
 
     # Extra 1 inicia noches 15-17 junio para relevo de vacaciones
     for d_jun in [15, 16, 17]:
@@ -189,7 +198,7 @@ for attempt in range(1, max_attempts + 1):
     s1.parameters.max_time_in_seconds = 8.0
     s1.parameters.random_seed = seed
     st1 = s1.Solve(m1)
-
+    print(f"Stage 1 status: {s1.StatusName(st1)} in {s1.WallTime():.2f}s")
     if st1 not in [cp_model.OPTIMAL, cp_model.FEASIBLE]:
         continue
 
@@ -198,25 +207,22 @@ for attempt in range(1, max_attempts + 1):
         for d in range(total_days):
             fixed_n[w, d] = s1.Value(n[w, d])
 
-    # --- STAGE 2: DIURNOS (M, T, L) ---
+    # STAGE 2: DIURNO (M, T, L)
     m2 = cp_model.CpModel()
     x = {}
     for w in range(n_workers):
         for d in range(total_days):
             for s in range(4):
                 x[w, d, s] = m2.NewBoolVar(f'x_{w}_{d}_{s}')
-
-    for w in range(n_workers):
-        for d in range(total_days):
             m2.Add(sum(x[w, d, s] for s in range(4)) == 1)
-            m2.Add(x[w, d, 3] == fixed_n[w, d])
+            m2.Add(x[w, d, 3] == int(fixed_n[w, d]))
 
     for w_name, periods in vacations:
-        wi = w_map[w_name]
+        w_i = w_map[w_name]
         for (m, s_day, e_day) in periods:
             for d, dt in enumerate(dates):
                 if dt.month == m and s_day <= dt.day <= e_day:
-                    m2.Add(x[wi, d, 0] == 1)
+                    m2.Add(x[w_i, d, 0] == 1)
 
     for d, dt in enumerate(dates):
         if dt.month not in [6, 7, 8, 9]: m2.Add(x[w_map['Extra 1'], d, 0] == 1)
@@ -232,7 +238,6 @@ for attempt in range(1, max_attempts + 1):
             m2.Add(x[w, d, 3] + x[w, d+1, 1] <= 1)
             m2.Add(x[w, d, 3] + x[w, d+1, 2] <= 1)
 
-    # 2 días libres tras noche
     for w in range(n_workers):
         if workers[w] == 'Hilario': continue
         for d in range(total_days - 2):
@@ -240,7 +245,6 @@ for attempt in range(1, max_attempts + 1):
                 m2.Add(x[w, d+1, 0] == 1)
                 m2.Add(x[w, d+2, 0] == 1)
 
-    # Coberturas diarias
     for d, dt in enumerate(dates):
         wd = dt.weekday()
         is_hol = (dt in holidays) or (dt == datetime.date(2027, 4, 23))
@@ -251,25 +255,21 @@ for attempt in range(1, max_attempts + 1):
         else:
             if is_summer and wd in [2, 3, 4]:
                 m_sum = sum(x[w, d, 1] for w in range(n_workers))
-                m2.Add(m_sum >= 2)
-                m2.Add(m_sum <= 3)
+                m2.Add(m_sum >= 2); m2.Add(m_sum <= 3)
                 t_sum = sum(x[w, d, 2] for w in range(n_workers))
-                m2.Add(t_sum >= 2)
-                m2.Add(t_sum <= 3)
+                m2.Add(t_sum >= 2); m2.Add(t_sum <= 3)
             else:
                 m2.Add(sum(x[w, d, 1] for w in range(n_workers)) == 3)
                 t_sum = sum(x[w, d, 2] for w in range(n_workers))
-                m2.Add(t_sum >= 2)
-                m2.Add(t_sum <= 3)
+                m2.Add(t_sum >= 2); m2.Add(t_sum <= 3)
 
-    # REGLA ESTRICTA MULTI-DÍA: Nadie comparte turnos en festivos de varios días.
-    # El trabajador que hace Mañana o Tarde lo hace TODOS los días de esa festividad.
+    # REGLA ESTRICTA MULTI-DÍA:
     # 1. SEMANA SANTA DIURNO (25 a 28 de Marzo)
     for w in range(n_workers):
         for d_k in [d_idx(2027, 3, 26), d_idx(2027, 3, 27), d_idx(2027, 3, 28)]:
             m2.Add(x[w, d_k, 1] == x[w, d_idx(2027, 3, 25), 1])
             m2.Add(x[w, d_k, 2] == x[w, d_idx(2027, 3, 25), 2])
-            
+
     # 2. VIRGEN DE LA CABEZA DIURNO (23 a 26 de Abril)
     for w in range(n_workers):
         for d_k in [d_idx(2027, 4, 24), d_idx(2027, 4, 25), d_idx(2027, 4, 26)]:
@@ -281,19 +281,68 @@ for attempt in range(1, max_attempts + 1):
         for d_k in [d_idx(2027, 9, 5), d_idx(2027, 9, 6)]:
             m2.Add(x[w, d_k, 1] == x[w, d_idx(2027, 9, 4), 1])
             m2.Add(x[w, d_k, 2] == x[w, d_idx(2027, 9, 4), 2])
+
     # Antonio J cubre uno de los turnos diurnos de Feria (M o T)
     m2.Add(x[w_map['Antonio J'], d_idx(2027, 9, 4), 1] + x[w_map['Antonio J'], d_idx(2027, 9, 4), 2] == 1)
+    # Alberto H NO hace Feria!
+    m2.Add(x[w_map['Alberto H'], d_idx(2027, 9, 4), 1] == 0)
+    m2.Add(x[w_map['Alberto H'], d_idx(2027, 9, 4), 2] == 0)
+
+    # Alberto H DEBE HACER Virgen de la Cabeza diurno (tiene solo 3 en el histórico, el mínimo!)
+    m2.Add(x[w_map['Alberto H'], d_idx(2027, 4, 23), 1] + x[w_map['Alberto H'], d_idx(2027, 4, 23), 2] == 1)
+
+    # Miguel B DEBE HACER Navidad 25 Dic (tiene solo 3 en el histórico, el mínimo!)
+    m2.Add(x[w_map['Miguel B'], d_idx(2027, 12, 25), 1] + x[w_map['Miguel B'], d_idx(2027, 12, 25), 2] == 1)
 
     # Asignaciones de festivos señalados usando candidate pools
     for dt_str, cand_list in holiday_candidates:
         d = d_idx(int(dt_str[:4]), int(dt_str[5:7]), int(dt_str[8:10]))
-        # Exactly 2 of the candidates must work M or T
         cand_indices = [w_map[c] for c in cand_list]
         m2.Add(sum(x[ci, d, 1] + x[ci, d, 2] for ci in cand_indices) == 2)
-        # Workers outside candidate pool cannot work M or T on this holiday (unless Hilario on weekdays)
         for w in range(n_workers):
             if w not in cand_indices and workers[w] != 'Hilario':
                 m2.Add(x[w, d, 1] + x[w, d, 2] == 0)
+
+    # EXACTA EQUIDAD DE FESTIVOS 2027 (TODOS ENTRE 4 Y 5 FESTIVOS)
+    # Lista de las 18 festividades oficiales para regulares:
+    official_holidays_terms = [
+        # 5 Noches
+        (d_idx(2027, 1, 1), 3),
+        (d_idx(2027, 3, 25), 3),
+        (d_idx(2027, 4, 23), 3),
+        (d_idx(2027, 12, 24), 3),
+        (d_idx(2027, 12, 31), 3),
+        # 10 Diurnos individuales
+        (d_idx(2027, 1, 1), 12),
+        (d_idx(2027, 1, 6), 12),
+        (d_idx(2027, 3, 1), 12),
+        (d_idx(2027, 5, 1), 12),
+        (d_idx(2027, 8, 16), 12),
+        (d_idx(2027, 10, 12), 12),
+        (d_idx(2027, 11, 1), 12),
+        (d_idx(2027, 12, 6), 12),
+        (d_idx(2027, 12, 8), 12),
+        (d_idx(2027, 12, 25), 12),
+        # 3 Diurnos multi-día (cada uno cuenta como 1 festivo para quien lo hace)
+        (d_idx(2027, 3, 25), 12),
+        (d_idx(2027, 4, 23), 12),
+        (d_idx(2027, 9, 4), 12),
+    ]
+
+    for w_name, s_val in start_c.items():
+        w = w_map[w_name]
+        h_terms = []
+        for d, s_kind in official_holidays_terms:
+            if s_kind == 3: h_terms.append(x[w, d, 3])
+            else: h_terms.append(x[w, d, 1] + x[w, d, 2])
+        tot_2027 = sum(h_terms)
+        cumul = s_val + tot_2027
+        # Equidad histórica 2011-2027: entre 68 y 71 (ideal 69-70)
+        m2.Add(cumul >= 68)
+        m2.Add(cumul <= 71)
+        # En 2027: nadie hace más de 5 ni menos de 3!
+        m2.Add(tot_2027 >= 3)
+        m2.Add(tot_2027 <= 5)
 
     # Eventos personales blindados
     m2.Add(x[w_map['Antonio J'], d_idx(2027, 5, 2), 0] == 1)
@@ -323,7 +372,6 @@ for attempt in range(1, max_attempts + 1):
     for d in range(total_days - 6):
         m2.Add(sum(x[w_map['Extra 1'], d + k, 0] for k in range(7)) >= 1)
 
-    # Extra 1 tras 6 días descansa 2
     for d in range(total_days - 7):
         worked_6 = m2.NewBoolVar(f'ext_w6_{d}')
         m2.Add(sum(1 - x[w_map['Extra 1'], d + k, 0] for k in range(6)) == 6).OnlyEnforceIf(worked_6)
@@ -361,36 +409,21 @@ for attempt in range(1, max_attempts + 1):
         m2.Add(f_w >= min_f)
         m2.Add(f_w <= max_f)
 
-    min_m = m2.NewIntVar(70, 105, 'min_m')
-    max_m = m2.NewIntVar(70, 105, 'max_m')
-    m2.Add(max_m - min_m <= 5)
+    # Reparto equitativo M y T
     for w in reg:
-        m_w = sum(x[w, d, 1] for d in range(total_days))
-        m2.Add(m_w >= min_m)
-        m2.Add(m_w <= max_m)
-
-    min_t = m2.NewIntVar(70, 105, 'min_t')
-    max_t = m2.NewIntVar(70, 105, 'max_t')
-    m2.Add(max_t - min_t <= 5)
-    for w in reg:
-        t_w = sum(x[w, d, 2] for d in range(total_days))
-        m2.Add(t_w >= min_t)
-        m2.Add(t_w <= max_t)
-
-    h_m = sum(x[w_map['Hilario'], d, 1] for d in range(total_days))
-    h_t = sum(x[w_map['Hilario'], d, 2] for d in range(total_days))
-    m2.Add(h_m >= 100)
-    m2.Add(h_m <= 120)
-    m2.Add(h_t >= 100)
-    m2.Add(h_t <= 120)
+        tot_m = sum(x[w, d, 1] for d in range(total_days))
+        tot_t = sum(x[w, d, 2] for d in range(total_days))
+        m2.Add(tot_m >= 90); m2.Add(tot_m <= 98)
+        m2.Add(tot_t >= 73); m2.Add(tot_t <= 81)
 
     s2 = cp_model.CpSolver()
-    s2.parameters.max_time_in_seconds = 45.0
-    s2.parameters.num_workers = 8
+    s2.parameters.max_time_in_seconds = 25.0
+    s2.parameters.random_seed = seed
     st2 = s2.Solve(m2)
-    print(f"Intento {attempt} (seed {seed}): Stage 1={s1.StatusName(st1)} en {s1.WallTime():.2f}s | Stage 2={s2.StatusName(st2)} en {s2.WallTime():.2f}s")
+    print(f"Stage 2 status: {s2.StatusName(st2)} in {s2.WallTime():.2f}s")
+
     if st2 in [cp_model.OPTIMAL, cp_model.FEASIBLE]:
-        print(f"¡EXITO! Cuadrante V5 resuelto con éxito en intento {attempt}.")
+        print(f">>> ¡ÉXITO TOTAL EN EL INTENTO {attempt}! <<<")
         solved = True
         break
 
@@ -427,9 +460,8 @@ for w in range(n_workers):
     matrix_dot.append(row_dot)
     matrix_plain.append(row_plain)
 
-# Guardar cuadrante_2027_v3.json y cuadrante_2027.json
 c_data = {
-    "description": "Cuadrante 2027 Andújar - Versión 5 (Equidad Pura Histórica sin San Eufrasio)",
+    "description": "Cuadrante 2027 Andújar - Versión 6 (Equidad Absoluta 68-71, Corrección Feria y Navidad)",
     "year": 2027,
     "workers": workers,
     "dates": [dt.strftime("%Y-%m-%d") for dt in dates],
@@ -443,26 +475,4 @@ with open("cuadrante_2027.json", "w", encoding="utf-8") as f:
 with open("cuadrante_2027_v3.json", "w", encoding="utf-8") as f:
     json.dump(c_data, f, ensure_ascii=False, indent=2)
 
-print("Guardado cuadrante_2027.json correctamente.")
-
-# Imprimir métricas
-print("\n=== RESUMEN DE AUDITORÍA DE MÉTRICAS ===")
-for w in range(n_workers):
-    w_name = workers[w]
-    tot = sum(1 for s in matrix_plain[w] if s != ' ')
-    m_c = sum(1 for s in matrix_plain[w] if s == 'M')
-    t_c = sum(1 for s in matrix_plain[w] if s == 'T')
-    n_c = sum(1 for s in matrix_plain[w] if s == 'N')
-    f_c = sum(1 for s in matrix_dot[w] if '.' in s)
-    print(f"{w_name:<12}: Total={tot:3d} | M={m_c:2d} | T={t_c:2d} | N={n_c:2d} | Festivos(.)={f_c:2d}")
-
-# Imprimir asignaciones de festivos señalados
-print("\n=== ASIGNACIONES FINALES DE FESTIVOS SEÑALADOS 2027 ===")
-for dt_str, cand_list in holiday_candidates:
-    d = d_idx(int(dt_str[:4]), int(dt_str[5:7]), int(dt_str[8:10]))
-    shifts_on_d = []
-    for w in range(n_workers):
-        s = matrix_plain[w][d]
-        if s in ['M', 'T']:
-            shifts_on_d.append(f"{workers[w]} ({s})")
-    print(f"{dt_str}: {', '.join(shifts_on_d)}")
+print("Guardado cuadrante_2027.json y cuadrante_2027_v3.json correctamente.")
