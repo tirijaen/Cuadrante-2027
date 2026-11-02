@@ -48,8 +48,8 @@ vacations = [
 
 # Candidate pools for daytime festivos (based on minimum historical count and longest time since done)
 holiday_candidates = [
-    ('2027-01-01', ['A. Leon', 'Paco C', 'Alberto H', 'Antonio J']),
-    ('2027-01-06', ['A. Leon', 'Alberto H', 'Antonio J', 'Santi M']),
+    ('2027-01-01', ['A. Leon', 'Paco C', 'Alberto H']),
+    ('2027-01-06', ['A. Leon', 'Alberto H', 'Santi M', 'Fran Espin']),
     ('2027-03-01', ['Santi M', 'Fran Espin', 'Paco C', 'Alberto H']),
     ('2027-03-25', ['Antonio J', 'Santi M', 'Fran Espin', 'Paco C']),
     ('2027-03-26', ['Antonio J', 'Santi M', 'Fran Espin', 'Paco C']),
@@ -122,6 +122,8 @@ for attempt in range(1, max_attempts + 1):
     # Extra 1 candidato preferente en noches de Feria (3, 4, 5, 6 Sep)
     for d_sep in [3, 4, 5, 6]:
         m1.Add(n[w_map['Extra 1'], d_idx(2027, 9, d_sep)] == 1)
+    # Antonio J no puede tener noche el 2 Sep al trabajar diurno en Feria el 4 Sep
+    m1.Add(n[w_map['Antonio J'], d_idx(2027, 9, 2)] == 0)
 
     # Extra 1 inicia noches 15-17 junio para relevo de vacaciones
     for d_jun in [15, 16, 17]:
@@ -259,6 +261,28 @@ for attempt in range(1, max_attempts + 1):
                 t_sum = sum(x[w, d, 2] for w in range(n_workers))
                 m2.Add(t_sum >= 2)
                 m2.Add(t_sum <= 3)
+
+    # REGLA ESTRICTA MULTI-DÍA: Nadie comparte turnos en festivos de varios días.
+    # El trabajador que hace Mañana o Tarde lo hace TODOS los días de esa festividad.
+    # 1. SEMANA SANTA DIURNO (25 a 28 de Marzo)
+    for w in range(n_workers):
+        for d_k in [d_idx(2027, 3, 26), d_idx(2027, 3, 27), d_idx(2027, 3, 28)]:
+            m2.Add(x[w, d_k, 1] == x[w, d_idx(2027, 3, 25), 1])
+            m2.Add(x[w, d_k, 2] == x[w, d_idx(2027, 3, 25), 2])
+            
+    # 2. VIRGEN DE LA CABEZA DIURNO (23 a 26 de Abril)
+    for w in range(n_workers):
+        for d_k in [d_idx(2027, 4, 24), d_idx(2027, 4, 25), d_idx(2027, 4, 26)]:
+            m2.Add(x[w, d_k, 1] == x[w, d_idx(2027, 4, 23), 1])
+            m2.Add(x[w, d_k, 2] == x[w, d_idx(2027, 4, 23), 2])
+
+    # 3. FERIA DE ANDÚJAR DIURNO (4, 5 y 6 de Septiembre)
+    for w in range(n_workers):
+        for d_k in [d_idx(2027, 9, 5), d_idx(2027, 9, 6)]:
+            m2.Add(x[w, d_k, 1] == x[w, d_idx(2027, 9, 4), 1])
+            m2.Add(x[w, d_k, 2] == x[w, d_idx(2027, 9, 4), 2])
+    # Antonio J cubre uno de los turnos diurnos de Feria (M o T)
+    m2.Add(x[w_map['Antonio J'], d_idx(2027, 9, 4), 1] + x[w_map['Antonio J'], d_idx(2027, 9, 4), 2] == 1)
 
     # Asignaciones de festivos señalados usando candidate pools
     for dt_str, cand_list in holiday_candidates:

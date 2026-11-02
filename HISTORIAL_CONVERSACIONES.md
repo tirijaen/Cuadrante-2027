@@ -482,4 +482,52 @@ Comentar que puedes eleminar de los datos y las restricciones el 15 de Mayo San 
    - `cuadrante_2027.json` y `js/cuadrante_data.js` sincronizados.
    - `sw.js` actualizado a `cuadrante-2027-v5.0`.
 
+---
+
+## Sesión 8 (2 Nov): Prohibición de Turnos Compartidos en Festivos Multi-Día e Imputación Inequívoca 100%
+
+### 💬 Mensaje de Antonio:
+```text
+Veo que has tenido un error al utilizar a Fran Espin  y Miguel para hacer el turno de tarde de los Festivos Fería, sin embaro no le cuenta a ninguno que la han hecho en 2027. Par evitar problemas no utilices varias personas para hacer los festivos de varios días. Así evitaremos al problema de a cual le marcamos que ha realizado ese festivo. Comprueba ademas que no hayas dejado a mas trabajadores con el mismo problema, es decir que haya realiizado el festivo de 2027 y no se lo cuentes.
+Rediseña el cuadrante para corregir ese error.
+```
+
+**Resolución y Cambios Aplicados:**
+1. **Regla Estricta de Turno Íntegro en Festivos de Varios Días**:
+   - Se blindó la formulación matemática en CP-SAT para que en **todas las festividades compuestas por varios días** (Semana Santa, Virgen de la Cabeza y Feria de Andújar):
+     * El turno de **Mañana (M)** lo realice **exactamente un único trabajador** a lo largo de todos los días de la fiesta.
+     * El turno de **Tarde (T)** lo realice **exactamente un único trabajador** a lo largo de todos los días de la fiesta.
+     * El turno de **Noche (N)** lo realice **un único trabajador** (o Extra 1 en Feria).
+   - Se comprobó exhaustivamente toda la matriz anual de turnos garantizando que **no existe ningún otro festivo compartido o no computado**. Todos los trabajadores que trabajan en un festivo son titulares exclusivos de ese turno y se les acredita de forma 100% inequívoca en su cómputo histórico.
+2. **Reasignación Oficial 2027**:
+   - **Feria de Andújar (04, 05 y 06 Sep)**:
+     * Mañanas (M): **Alberto H** (los 3 días íntegros).
+     * Tardes (T): **Antonio J** (los 3 días íntegros).
+     * Noches (N): **Extra 1** (los 4 días íntegros del 3 al 6 Sep).
+     * Ambos titulares (**Alberto H y Antonio J**) reciben su cómputo oficial de Feria en 2027.
+   - **Semana Santa (25 al 28 Mar)**:
+     * Mañanas (M): **Santi M** (los 4 días íntegros).
+     * Tardes (T): **Paco C** (los 4 días íntegros).
+     * Noches (N): **Miguel B** (las 3 noches íntegras 25, 26 y 27 Mar).
+   - **Romería Virgen de la Cabeza (23 al 26 Abr)**:
+     * Mañanas (M): **Alberto H** (los 4 días íntegros).
+     * Tardes (T): **Paco C** (los 4 días íntegros).
+     * Noches (N): **A. León** (las 3 noches íntegras 23, 24 y 25 Abr).
+3. **Métricas del Cuadrante (0 Errores en Auditoría Oficial)**:
+   - **Días Anuales:** Exactamente **220 días** para todos los titulares y para Hilario (81 días Extra 1).
+   - **Noches Anuales:** Exactamente **49 noches** para todos y cada uno de los 7 titulares ($\Delta = 0$).
+   - **Festivos Anuales 2027:** **45 o 46 festivos** por titular ($\Delta = 1$).
+   - **Mañanas y Tardes Anuales:** Mañanas 92 a 96 ($\Delta \le 4$), Tardes 75 a 79 ($\Delta \le 4$).
+   - **Fines de Semana:** **0 fines de semana partidos** (definición Viernes Noche a Domingo Tarde).
+   - **Descansos Obligatorios:** 100% de cumplimiento de 12h y exactamente 2 días libres tras salir de noches.
+   - **Cómputo Histórico Consolidado (2011-2027):** Entre 68 y 71 festivos totales en 17 años (máxima equidad a largo plazo).
+4. **Sincronización Total de Entregables**:
+   - `Cuadrante 2026 para Agente.xlsx`: Columna R (2027) actualizada con las parejas exactas (`AH-AJ` en Feria, `SM-PC` en SS, etc.) y fórmulas `=COUNTIF` y `=SUM` recalculadas.
+   - `Cuadrante_2027_Andujar.xlsx` y `Cuadrante_2027_Andujar_V3.xlsx` regenerados.
+   - `cuadrante_2027.json`, `cuadrante_2027_v3.json` y `js/cuadrante_data.js` sincronizados.
+   - `js/historical_data.js` y `js/app.js` (tarjetas "Mis Fechas Señaladas" y "Resumen Oficial 2027") actualizadas.
+   - `REGLAS_OFICIALES_CUADRANTE.md` y `HISTORIAL_FESTIVOS_Y_VACACIONES.md` actualizados.
+   - `sw.js` incrementado a `cuadrante-2027-v5.1`.
+
+
 

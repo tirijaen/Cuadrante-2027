@@ -1,6 +1,3 @@
-/**
- * historical_data.js - Datos Históricos de Festivos y Vacaciones (2011-2027+) Cuadrante HAG de Andújar
- */
 window.HISTORICAL_DATA = {
   "festivos": {
     "years": [
@@ -74,7 +71,7 @@ window.HISTORICAL_DATA = {
           "2024": "AL-AC",
           "2025": "AJ-AH",
           "2026": "AJ-AC",
-          "2027": "AL-AH"
+          "2027": "AH-PC"
         },
         "counts": {
           "AJ": 4,
@@ -82,8 +79,8 @@ window.HISTORICAL_DATA = {
           "AH": 5,
           "FE": 5,
           "MB": 4,
-          "PC": 4,
-          "AL": 4
+          "PC": 5,
+          "AL": 3
         },
         "totalTimes": 31
       },
@@ -106,13 +103,13 @@ window.HISTORICAL_DATA = {
           "2024": "AC-MB",
           "2025": "MB-AL",
           "2026": "FE-AC",
-          "2027": "AL-AH"
+          "2027": "FE-AL"
         },
         "counts": {
           "AJ": 4,
           "SM": 4,
-          "AH": 5,
-          "FE": 4,
+          "AH": 4,
+          "FE": 5,
           "MB": 4,
           "PC": 6,
           "AL": 4
@@ -138,13 +135,13 @@ window.HISTORICAL_DATA = {
           "2024": "AJ-AH",
           "2025": "AL-PC",
           "2026": "AJ-AC",
-          "2027": "FE-PC"
+          "2027": "SM-PC"
         },
         "counts": {
           "AJ": 4,
-          "SM": 4,
+          "SM": 5,
           "AH": 4,
-          "FE": 5,
+          "FE": 4,
           "MB": 4,
           "PC": 5,
           "AL": 5
@@ -170,15 +167,15 @@ window.HISTORICAL_DATA = {
           "2024": "AC-FE",
           "2025": "PC-AL",
           "2026": "AC-AH",
-          "2027": "AJ-SM"
+          "2027": "SM-PC"
         },
         "counts": {
-          "AJ": 5,
+          "AJ": 4,
           "SM": 5,
           "AH": 6,
           "FE": 4,
           "MB": 4,
-          "PC": 4,
+          "PC": 5,
           "AL": 4
         },
         "totalTimes": 32
@@ -234,15 +231,15 @@ window.HISTORICAL_DATA = {
           "2024": "FE-AL",
           "2025": "AH-AC",
           "2026": "AL-SM",
-          "2027": "AJ-AH"
+          "2027": "AH-PC"
         },
         "counts": {
-          "AJ": 5,
+          "AJ": 4,
           "SM": 5,
           "AH": 4,
           "FE": 4,
           "MB": 5,
-          "PC": 4,
+          "PC": 5,
           "AL": 5
         },
         "totalTimes": 32
@@ -298,16 +295,16 @@ window.HISTORICAL_DATA = {
           "2024": "AC-AH",
           "2025": "FE-PC",
           "2026": "PC-SM",
-          "2027": "MG-FE"
+          "2027": "AL-AH"
         },
         "counts": {
           "AJ": 5,
           "SM": 5,
-          "AH": 4,
-          "FE": 5,
-          "MB": 5,
+          "AH": 5,
+          "FE": 4,
+          "MB": 4,
           "PC": 4,
-          "AL": 4
+          "AL": 5
         },
         "totalTimes": 32
       },
@@ -330,14 +327,14 @@ window.HISTORICAL_DATA = {
           "2024": "AC-AJ",
           "2025": "AH-AC",
           "2026": "AL",
-          "2027": "SM"
+          "2027": "MG"
         },
         "counts": {
           "AJ": 3,
-          "SM": 4,
+          "SM": 3,
           "AH": 3,
           "FE": 3,
-          "MB": 3,
+          "MB": 4,
           "PC": 4,
           "AL": 6
         },
@@ -394,12 +391,12 @@ window.HISTORICAL_DATA = {
           "2024": "AC-AL",
           "2025": "AL-MB",
           "2026": "FE",
-          "2027": "AJ"
+          "2027": "AH-AJ"
         },
         "counts": {
           "AJ": 3,
           "SM": 3,
-          "AH": 4,
+          "AH": 5,
           "FE": 4,
           "MB": 3,
           "PC": 3,
@@ -426,7 +423,7 @@ window.HISTORICAL_DATA = {
           "2024": "AC-MB",
           "2025": "FE-PC",
           "2026": "AH-AJ",
-          "2027": "MG-PC"
+          "2027": "PC-MG"
         },
         "counts": {
           "AJ": 5,
@@ -458,7 +455,7 @@ window.HISTORICAL_DATA = {
           "2024": "FE-MB",
           "2025": "PC-MB",
           "2026": "FE-AH",
-          "2027": "AJ-AL"
+          "2027": "AL-AJ"
         },
         "counts": {
           "AJ": 4,
@@ -490,13 +487,13 @@ window.HISTORICAL_DATA = {
           "2024": "FE-AC",
           "2025": "AJ-MB",
           "2026": "AH-FE",
-          "2027": "PC-SM"
+          "2027": "FE-PC"
         },
         "counts": {
           "AJ": 4,
-          "SM": 5,
+          "SM": 4,
           "AH": 4,
-          "FE": 4,
+          "FE": 5,
           "MB": 5,
           "PC": 4,
           "AL": 5
@@ -522,7 +519,7 @@ window.HISTORICAL_DATA = {
           "2024": "AJ-AC",
           "2025": "AJ-FE",
           "2026": "AH-FE",
-          "2027": "PC-SM"
+          "2027": "SM-PC"
         },
         "counts": {
           "AJ": 4,
@@ -586,14 +583,14 @@ window.HISTORICAL_DATA = {
           "2024": "AH-AJ",
           "2025": "PC-MB",
           "2026": "MB-AL",
-          "2027": "MG-FE"
+          "2027": "AJ-FE"
         },
         "counts": {
-          "AJ": 4,
+          "AJ": 5,
           "SM": 5,
           "AH": 4,
           "FE": 5,
-          "MB": 4,
+          "MB": 3,
           "PC": 4,
           "AL": 5
         },
@@ -633,12 +630,12 @@ window.HISTORICAL_DATA = {
       }
     ],
     "totals": {
-      "AJ": 71,
-      "SM": 70,
-      "AH": 70,
+      "AJ": 70,
+      "SM": 69,
+      "AH": 71,
       "FE": 68,
-      "MB": 69,
-      "PC": 68,
+      "MB": 68,
+      "PC": 71,
       "AL": 69
     }
   },

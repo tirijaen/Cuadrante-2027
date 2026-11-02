@@ -186,42 +186,48 @@ Las vacaciones se distribuyen en dos quincenas de 15 días naturales cada una (d
 > 1. **Equidad en Cómputo Total Acumulado (2011-2027)**: Equilibrar los festivos globales de toda la plantilla para que todos los trabajadores se mantengan en una banda estrechísima entre **68 y 71 festivos totales** a lo largo de 17 años (máxima justicia distributiva histórica: diferencia máxima de 3 festivos en casi dos décadas).
 > 2. **Equidad Específica por Festivo**: Asignar prioritariamente a los trabajadores que hayan realizado **menos veces esa festividad concreta** en el histórico 2011-2026.
 > 3. **Criterio de Desempate Temporal**: En caso de empate en el mínimo acumulado, tiene prioridad de turno **el trabajador que más años lleve sin realizar esa festividad**.
-> 4. **Supresión de San Eufrasio (15 de Mayo)**: Eliminada de las restricciones y cómputos al haber dejado de ser festivo local oficial.
-> 5. **Margen de Candidatos Aptos**: Para facilitar la ergonomía del cuadrante (0 fines de semana partidos, descansos obligatorios de 12h y 2 días libres tras noches), se define el orden de candidatos óptimos por festividad.
+> 4. **Regla de Integridad en Festivos Multi-Día**: Queda terminantemente prohibido utilizar varias personas para alternar el turno de mañana o tarde en una misma festividad de varios días (Semana Santa, Romería y Feria). **El trabajador que asume la mañana o la tarde de un festivo de varios días lo realiza íntegramente todos los días del bloque festivo**, computándosele de forma inequívoca el festivo en su registro histórico anual.
+> 5. **Supresión de San Eufrasio (15 de Mayo)**: Eliminada de las restricciones y cómputos al haber dejado de ser festivo local oficial.
 
-### 9.1. Cuadro de Asignaciones Óptimas y Candidatos Prioritarios
+### 9.1. Cuadro de Asignaciones Óptimas y Oficiales 2027
 
 * **01 de Enero (Año Nuevo)**:
   * **Noche**: **Santi M** (Prioridad absoluta: solo 1 vez en todo el histórico, realizada en 2019).
-  * **Mañana y Tarde**: **A. León** (mínimo histórico: 3 veces) y **Paco C** (4 veces, no la hace desde 2022) o **Alberto H** (4 veces).
+  * **Mañana y Tarde**: **Alberto H** y **Paco C**.
 * **06 de Enero (Reyes)**:
-  * **Mañana y Tarde**: **A. León** (mínimo histórico: 3 veces) y **Alberto H** (4 veces, no la hace desde 2022) o **Antonio J** (4 veces, desde 2022).
+  * **Mañana y Tarde**: **Fran Espín** y **A. León**.
 * **01 de Marzo (Puente Día de Andalucía)**:
-  * **Mañana y Tarde**: **Santi M** y **Fran Espín** (ambos empatados en 4 veces y ambos sin realizarla desde 2021). Alternativa: Paco C.
+  * **Mañana y Tarde**: **Santi M** y **Paco C**.
 * **25, 26, 27 y 28 de Marzo (Semana Santa - Jueves a Domingo)**:
-  * **Noches (25, 26 y 27 de Marzo)**: **Miguel B** (Prioridad: 2 veces, no la realiza desde 2020 vía AC). Alternativa: Fran Espín.
-  * **Mañana y Tarde**: **Antonio J** (4 veces, última 2023) y **Santi M** (4 veces, última 2022). Alternativa: Fran Espín.
+  * **Noches (25, 26 y 27 de Marzo)**: **Miguel B** (Prioridad: 2 veces, no la realiza desde 2020 vía AC). Bloque íntegro de 3 noches.
+  * **Mañana**: **Santi M** (Bloque íntegro los 4 días).
+  * **Tarde**: **Paco C** (Bloque íntegro los 4 días).
 * **23, 24, 25 y 26 de Abril (Romería Virgen de la Cabeza)**:
-  * **Noches (23, 24 y 25 de Abril)**: **A. León** (Prioridad: 2 veces, no la realiza desde 2021). Alternativa: Fran Espín.
-  * **Mañana y Tarde**: **Alberto H** (mínimo histórico: 3 veces) y **Paco C** (4 veces, última 2022) o **Antonio J** (4 veces).
+  * **Noches (23, 24 y 25 de Abril)**: **A. León** (Prioridad: 2 veces, no la realiza desde 2021). Bloque íntegro de 3 noches.
+  * **Mañana**: **Alberto H** (Bloque íntegro los 4 días).
+  * **Tarde**: **Paco C** (Bloque íntegro los 4 días).
 * **01 de Mayo (Fiesta del Trabajo)**:
-  * **Mañana y Tarde**: **A. León** (4 veces, última 2022) y **Alberto H** / **Miguel B** (4 veces, última 2024).
+  * **Mañana y Tarde**: **A. León** y **Alberto H**.
 * **16 de Agosto (Festivo local/trasladado)**:
-  * **Mañana y Tarde**: **Santi M** (mínimo histórico: 3 veces, última 2019) y **Extra 1** (o Miguel B).
+  * **Mañana y Tarde**: **Miguel B** y **Extra 1**.
 * **04, 05 y 06 de Septiembre (Feria de Andújar)**:
-  * **Noches de Feria**: **Extra 1** es el candidato preferente para realizar las noches de feria (noches del 4, 5 y 6 de septiembre, complementadas con el viernes 3 de septiembre).
-  * **Mañanas y Tardes de Feria**: **Antonio J** (mínimo histórico: solo 2 veces, ¡no la realiza desde 2017!) junto a **Paco C** (3 veces, última 2022) o plantilla regular disponible. A. León e Hilario descansan por quincena de vacaciones (1-15 Sep).
+  * **Noches de Feria**: **Extra 1** realiza las noches de feria íntegras (noches del 3, 4, 5 y 6 de septiembre).
+  * **Mañana de Feria**: **Alberto H** realiza las mañanas íntegras los 3 días (04, 05 y 06 Sep).
+  * **Tarde de Feria**: **Antonio J** realiza las tardes íntegras los 3 días (04, 05 y 06 Sep).
+  * A. León e Hilario descansan por quincena de vacaciones (1-15 Sep).
 * **12 de Octubre (Fiesta Nacional)**:
-  * **Mañana y Tarde**: **Miguel B** y **Paco C** (ambos con 4 veces) o **A. León** (4 veces, última 2021).
+  * **Mañana y Tarde**: **Paco C** y **Miguel B**.
 * **01 de Noviembre (Todos los Santos)**:
-  * **Mañana y Tarde**: **Antonio J** y **A. León** (los dos únicos trabajadores de toda la plantilla con solo 3 veces realizadas).
-* **06 y 08 de Diciembre (Constitución e Inmaculada)**:
-  * **Mañana y Tarde**: **Paco C** (mínimo histórico: 3 veces en ambas fiestas, no las realiza desde 2020) acompañado de **Santi M** (4 veces) o **Fran Espín** (4 veces).
+  * **Mañana y Tarde**: **A. León** y **Antonio J** (los dos únicos trabajadores con solo 3 veces en histórico).
+* **06 de Diciembre (Constitución)**:
+  * **Mañana y Tarde**: **Fran Espín** y **Paco C**.
+* **08 de Diciembre (Inmaculada)**:
+  * **Mañana y Tarde**: **Santi M** y **Paco C**.
 * **24 de Diciembre (Nochebuena)**:
-  * **Noche**: **Alberto H** (2 veces, última 2022) o **A. León** (2 veces, última 2020).
+  * **Noche**: **Alberto H** (2 veces, última 2022).
   * Regla específica Antonio J: Cuando le toque trabajar para cuadrar el cuadrante los días 24 y 31 de diciembre, **siempre lo hará en turno de Mañana (M)**, nunca de tarde.
 * **25 de Diciembre (Navidad)**:
-  * **Mañana y Tarde**: **Miguel B** (mínimo histórico: 3 veces, última 2023) y **Fran Espín** (4 veces, última 2022).
+  * **Mañana y Tarde**: **Antonio J** y **Fran Espín**.
 * **31 de Diciembre (Nochevieja)**:
   * **Noche**: **Antonio J** (Prioridad absoluta: 2 veces realizadas, ¡no la realiza desde 2020, 7 años transcurridos!). Esta asignación rompe la regla de mañana exclusiva al estar fijada su noche por equidad histórica.
 

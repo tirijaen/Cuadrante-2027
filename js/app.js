@@ -3893,54 +3893,54 @@ ${debt.notes ? `• *Notas:* ${debt.notes}\n` : ''}
         id: 'semana_santa',
         title: '⛪ Semana Santa',
         historyLast: {
-          'Antonio J': '2027 (Jueves a Domingo Diurno con Santi M)',
-          'Santi M': '2027 (Jueves a Domingo Diurno con Antonio J)',
+          'Antonio J': '2023 (Diurno)',
+          'Santi M': '2027 (Jueves a Domingo Diurno con Paco C)',
           'Alberto H': '2026 (Diurno)',
           'Fran Espin': '2024 (Diurno)',
           'Miguel B': '2027 (Noches 25, 26 y 27 de Marzo)',
-          'Paco C': '2025 (Diurno)',
+          'Paco C': '2027 (Jueves a Domingo Diurno con Santi M)',
           'A. Leon': '2025 (Diurno)',
           'Hilario': 'Exento',
           'Extra 1': 'Exento'
         },
-        works2027: (w === 'Antonio J' || w === 'Santi M' || w === 'Miguel B'),
-        text2027: (w === 'Miguel B' ? 'Noches (25, 26 y 27 Mar)' : (w === 'Antonio J' || w === 'Santi M' ? 'Mañana/Tarde (25 al 28 Mar)' : 'Descanso')),
+        works2027: (w === 'Paco C' || w === 'Santi M' || w === 'Miguel B'),
+        text2027: (w === 'Miguel B' ? 'Noches (25, 26 y 27 Mar)' : (w === 'Paco C' || w === 'Santi M' ? 'Mañana/Tarde íntegros (25 al 28 Mar)' : 'Descanso')),
         forecast2028: 'Rotación según festivos'
       },
       {
         id: 'virgen_cabeza',
         title: '👑 Romería Virgen de la Cabeza',
         historyLast: {
-          'Antonio J': '2027 (23 al 26 Abr con Alberto H)',
+          'Antonio J': '2025 (Diurno)',
           'Santi M': '2026 (Diurno con A. León)',
-          'Alberto H': '2027 (23 al 26 Abr con Antonio J)',
+          'Alberto H': '2027 (23 al 26 Abr Diurno con Paco C)',
           'Fran Espin': '2024 (Diurno con A. León)',
           'Miguel B': '2024 (Noche)',
-          'Paco C': '2025 (Noche)',
+          'Paco C': '2027 (23 al 26 Abr Diurno con Alberto H)',
           'A. Leon': '2027 (Noches 23, 24 y 25 Abr)',
           'Hilario': 'Exento',
           'Extra 1': 'Exento'
         },
-        works2027: (w === 'Antonio J' || w === 'Alberto H' || w === 'A. Leon'),
-        text2027: (w === 'A. Leon' ? 'Noches (23, 24 y 25 Abr)' : (w === 'Antonio J' || w === 'Alberto H' ? 'Mañana/Tarde (23 al 26 Abr)' : 'Descanso')),
+        works2027: (w === 'Paco C' || w === 'Alberto H' || w === 'A. Leon'),
+        text2027: (w === 'A. Leon' ? 'Noches (23, 24 y 25 Abr)' : (w === 'Alberto H' || w === 'Paco C' ? 'Mañana/Tarde íntegros (23 al 26 Abr)' : 'Descanso')),
         forecast2028: 'Rotación según festivos'
       },
       {
         id: 'feria_septiembre',
         title: '🎡 Feria y Noches de Feria (3 - 6 Sep)',
         historyLast: {
-          'Antonio J': '2027 (Diurno 4, 5 y 6 Sep)',
+          'Antonio J': '2027 (Diurno 4, 5 y 6 Sep con Alberto H)',
           'Santi M': '2024 (antiguo Marcos Brito)',
-          'Alberto H': '2027 (Diurno 4 y 5 Sep)',
-          'Fran Espin': '2027 (Diurno 6 Sep)',
-          'Miguel B': '2022 (antiguo AC)',
-          'Paco C': '2021',
-          'A. Leon': '2025',
+          'Alberto H': '2027 (Diurno 4, 5 y 6 Sep con Antonio J)',
+          'Fran Espin': '2026',
+          'Miguel B': '2025',
+          'Paco C': '2022',
+          'A. Leon': 'Vacaciones 1-15 Sep',
           'Hilario': 'Exento',
           'Extra 1': '2027 (Noches 3, 4, 5 y 6 Sep)'
         },
-        works2027: (w === 'Extra 1' || w === 'Antonio J' || w === 'Alberto H' || w === 'Fran Espin'),
-        text2027: (w === 'Extra 1' ? 'Turno de Noche (03, 04, 05 y 06 Sep)' : (w === 'Antonio J' ? 'Mañana/Tarde (04, 05 y 06 Sep) · Noches libres' : (w === 'Alberto H' ? 'Tarde (04 y 05 Sep) · Noches libres' : (w === 'Fran Espin' ? 'Mañana (06 Sep) · Noches libres' : 'Descanso / Libre completo en Feria')))),
+        works2027: (w === 'Extra 1' || w === 'Antonio J' || w === 'Alberto H'),
+        text2027: (w === 'Extra 1' ? 'Turno de Noche (03, 04, 05 y 06 Sep)' : (w === 'Antonio J' || w === 'Alberto H' ? 'Mañana/Tarde íntegros (04, 05 y 06 Sep) · Noches libres' : 'Descanso / Libre completo en Feria')),
         forecast2028: 'Rotación según festivos'
       }
     ];
@@ -4119,19 +4119,19 @@ ${debt.notes ? `• *Notas:* ${debt.notes}\n` : ''}
     if (!el.fixedHolidays2027List) return;
 
     const fixed2027 = [
-      { name: '01 Enero (Año Nuevo)', workers: 'A. León & Alberto H (M y T) · Santi M (Noche)' },
-      { name: '06 Enero (Reyes)', workers: 'A. León & Alberto H (M y T)' },
-      { name: '28 Febrero / 01 Marzo', workers: 'Fran Espín & Paco C (M y T)' },
-      { name: 'Semana Santa (25-28 Mar)', workers: 'Antonio J & Santi M (M y T) · Miguel B (Noches 25, 26 y 27)' },
-      { name: 'Virgen de la Cabeza (23-26 Abr)', workers: 'Antonio J & Alberto H (M y T) · A. León (Noches 23, 24 y 25)' },
-      { name: '01 Mayo (Fiesta del Trabajo)', workers: 'Miguel B & Fran Espín (M y T)' },
-      { name: '16 Agosto (Festivo local)', workers: 'Santi M & Extra 1 (M y T)' },
-      { name: 'Feria de Septiembre (04-06 Sep)', workers: 'Antonio J & Alberto H / Fran Espín (M y T) · Extra 1 (Noches 03 al 06)' },
-      { name: '12 Octubre (Fiesta Nacional)', workers: 'Miguel B & Paco C (M y T)' },
-      { name: '01 Noviembre (Todos los Santos)', workers: 'Antonio J & A. León (M y T)' },
-      { name: '06 y 08 Diciembre (Puente)', workers: 'Paco C & Santi M (M y T)' },
+      { name: '01 Enero (Año Nuevo)', workers: 'Alberto H & Paco C (M y T) · Santi M (Noche)' },
+      { name: '06 Enero (Reyes)', workers: 'Fran Espín & A. León (M y T)' },
+      { name: '28 Febrero / 01 Marzo', workers: 'Santi M & Paco C (M y T)' },
+      { name: 'Semana Santa (25-28 Mar)', workers: 'Santi M & Paco C (M y T íntegros) · Miguel B (Noches 25, 26 y 27)' },
+      { name: 'Virgen de la Cabeza (23-26 Abr)', workers: 'Alberto H & Paco C (M y T íntegros) · A. León (Noches 23, 24 y 25)' },
+      { name: '01 Mayo (Fiesta del Trabajo)', workers: 'A. León & Alberto H (M y T)' },
+      { name: '16 Agosto (Festivo local)', workers: 'Miguel B & Extra 1 (M y T)' },
+      { name: 'Feria de Septiembre (04-06 Sep)', workers: 'Alberto H & Antonio J (M y T íntegros) · Extra 1 (Noches 03 al 06)' },
+      { name: '12 Octubre (Fiesta Nacional)', workers: 'Paco C & Miguel B (M y T)' },
+      { name: '01 Noviembre (Todos los Santos)', workers: 'A. León & Antonio J (M y T)' },
+      { name: '06 y 08 Diciembre (Puente)', workers: '06 Dic: Fran Espín & Paco C · 08 Dic: Santi M & Paco C' },
       { name: '24 Diciembre (Nochebuena)', workers: 'Alberto H (Noche)' },
-      { name: '25 Diciembre (Navidad)', workers: 'Miguel B & Fran Espín (M y T)' },
+      { name: '25 Diciembre (Navidad)', workers: 'Antonio J & Fran Espín (M y T)' },
       { name: '31 Diciembre (Nochevieja)', workers: 'Antonio J (Noche)' }
     ];
 
