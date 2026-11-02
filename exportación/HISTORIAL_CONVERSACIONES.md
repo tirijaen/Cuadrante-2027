@@ -917,6 +917,32 @@ creame un carpeta en el proyecto que se llame exportación y haz de una copia de
 4. **Validación Autónoma**:
    - Se ejecutó `python3 audit_v3_final.py` y `python3 export_v3_deliverables.py` dentro de `exportación/`, confirmando 0 errores de auditoría y autonomía operativa al 100%.
 
+---
+
+## 📅 Sesión 18 - Creación del Checkpoint de Relevo y Exportación (`checkpoint-relevo-2027`)
+
+### 💬 Mensaje de Antonio:
+```text
+añade un nuevo checkpoint en este punto
+```
+
+### 🤖 Diagnóstico y Acciones Realizadas:
+1. **Creación del Checkpoint Inmutable (`checkpoints/checkpoint_relevo_2027/`)**:
+   - Se guardó la instantánea verificada de todos los componentes activos:
+     * Cuadrantes y matrices: `Cuadrante_2027_Andujar.xlsx`, `Cuadrante_2027_Andujar_V3.xlsx`, `cuadrante_2027.json`, `cuadrante_2027_v3.json`.
+     * Archivos de la app web y datos: `js/cuadrante_data.js`, `js/historical_data.js`, `js/app.js`, `sw.js`.
+     * Scripts oficiales de resolución y auditoría: `audit_v3_final.py`, `solve_v5_equidad.py`, `export_v3_deliverables.py`.
+     * Documentación oficial y de histórico: `REGLAS_OFICIALES_CUADRANTE.md`, `HISTORIAL_CONVERSACIONES.md`, `HISTORIAL_FESTIVOS_Y_VACACIONES.md`.
+2. **Scripts de Restauración en 1 Clic**:
+   - `restaurar_checkpoint_relevo.py` y `restaurar_checkpoint_relevo.sh` creados y probados con éxito.
+   - Permite recuperar todo el estado con el comando: `python3 restaurar_checkpoint_relevo.py` o diciendo al asistente *"Vuelve al checkpoint de relevo"*.
+3. **Consolidación en Git**:
+   - Etiqueta Git (Tag): `checkpoint-relevo-2027`.
+   - Rama Git (Branch): `checkpoint-relevo-2027`.
+4. **Sincronización con `exportación/`**:
+   - Se incorporó este nuevo checkpoint y sus scripts de restauración en la carpeta `exportación/` para que los futuros agentes dispongan de ambos puntos de recuperación.
+
+
 
 
 

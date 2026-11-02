@@ -119,12 +119,19 @@ python3 -m http.server 8080
 ```
 Abrir `http://localhost:8080` en el navegador para comprobar la interfaz, cuadrantes mensuales, pestañas de festivos y vacaciones, e infografía.
 
-### 5. Restaurar el Punto de Oro en Caso de Contingencia:
-```bash
-python3 restaurar_punto_oro.py
-# o bien:
-./restaurar_punto_oro.sh
-```
+### 5. Restaurar Checkpoints en Caso de Contingencia:
+* **Checkpoint Relevo 2027 (Estado actual con Hilario 110M/110T y Tab 4 reparado)**:
+  ```bash
+  python3 restaurar_checkpoint_relevo.py
+  # o bien:
+  ./restaurar_checkpoint_relevo.sh
+  ```
+* **Punto de Oro Original (Sesión 14)**:
+  ```bash
+  python3 restaurar_punto_oro.py
+  # o bien:
+  ./restaurar_punto_oro.sh
+  ```
 
 ---
 
