@@ -534,7 +534,7 @@ window.CuadranteValidator = (function () {
         });
       }
 
-      if (isWeekend(dStr) || isDayHoliday(dStr) || dStr === '2027-04-23') {
+      if (isWeekend(dStr) || isDayHoliday(dStr)) {
         if (mCount !== 1 || tCount !== 1) {
           coverageViolations.push({
             rule: 'Cobertura Festivo / Fin de Semana',

@@ -11,7 +11,7 @@ w_map = {name: i for i, name in enumerate(workers)}
 
 holidays = {
     datetime.date(2027, 1, 1), datetime.date(2027, 1, 6), datetime.date(2027, 3, 1),
-    datetime.date(2027, 3, 25), datetime.date(2027, 3, 26), datetime.date(2027, 4, 23),
+    datetime.date(2027, 3, 25), datetime.date(2027, 3, 26),
     datetime.date(2027, 4, 26), datetime.date(2027, 5, 1), datetime.date(2027, 8, 16),
     datetime.date(2027, 9, 6), datetime.date(2027, 10, 12), datetime.date(2027, 11, 1),
     datetime.date(2027, 12, 6), datetime.date(2027, 12, 8), datetime.date(2027, 12, 25),
@@ -204,6 +204,19 @@ if matrix_plain[w_map["Antonio J"]][d_01nov].strip() not in ("M", "T"):
     errors.append("Antonio J no está en diurno el 1 de noviembre")
 if matrix_plain[w_map["A. Leon"]][d_01nov].strip() not in ("M", "T"):
     errors.append("A. Leon no está en diurno el 1 de noviembre")
+
+# 23 de Abril: Laborable ordinario con 3M, 2T, 1N
+d_23apr = (datetime.date(2027, 4, 23) - dates[0]).days
+m_workers_23 = [workers[i] for i in range(len(workers)) if matrix_plain[i][d_23apr].strip() == "M"]
+t_workers_23 = [workers[i] for i in range(len(workers)) if matrix_plain[i][d_23apr].strip() == "T"]
+n_workers_23 = [workers[i] for i in range(len(workers)) if matrix_plain[i][d_23apr].strip() == "N"]
+
+if sorted(m_workers_23) != sorted(["Alberto H", "Hilario", "Miguel B"]):
+    errors.append(f"23 de Abril Mañanas incorrectas: {m_workers_23} (debe ser Alberto H, Hilario, Miguel B)")
+if sorted(t_workers_23) != sorted(["Fran Espin", "Santi M"]):
+    errors.append(f"23 de Abril Tardes incorrectas: {t_workers_23} (debe ser Fran Espin, Santi M)")
+if n_workers_23 != ["A. Leon"]:
+    errors.append(f"23 de Abril Noches incorrectas: {n_workers_23} (debe ser A. Leon)")
 
 print("=== FINAL COMPREHENSIVE AUDIT REPORT ===")
 print(f"Total de errores detectados: {len(errors)}")

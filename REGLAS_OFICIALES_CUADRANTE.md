@@ -65,7 +65,7 @@ La plantilla consta de 9 trabajadores:
 Además de los festivos nacionales y autonómicos oficiales de Andalucía, se aplican de forma fija e ineludible las dos fiestas locales:
 * **26 de Abril**: Fiesta local oficial (Romería Virgen de la Cabeza).
 * **6 de Septiembre**: Fiesta local oficial (Feria de Septiembre).
-* *Viernes 23 de Abril*: Considerado operativo de Romería (coberturas reducidas de festivo: 1M, 1T, 1N).
+* **Viernes 23 de Abril**: Jornada laboral ordinaria (cobertura estándar completa de laborable: **3 Mañanas, 2 Tardes, 1 Noche**). Se asigna a Alberto H, Hilario y Miguel B en Mañana; Fran Espín y Santi M en Tarde; Antonio León en Noche. Las coberturas reducidas de festivo (1M, 1T, 1N) se aplican exclusivamente al ciclo de fin de semana y fiesta local: Sábado 24, Domingo 25 y Lunes de Romería 26 de Abril. Para compensar el turno añadido del 23 de abril y mantener el cupo exacto de 220 días anuales (y $\le 21$ días mensuales en abril), Miguel B, Santi M e Hilario descansan en una tarde complementaria de abril donde coincidían 3 trabajadores (16 de abril para Miguel B, 29 de abril para Santi M y 30 de abril para Hilario), garantizando en todo momento la cobertura mínima de 2 tardes.
 
 ### Consideración de Turnos Festivos
 Se consideran legal y económicamente festivos:

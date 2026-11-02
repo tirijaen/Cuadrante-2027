@@ -734,3 +734,49 @@ Analizando el cuadrante tengo 2 preguntas, la fiesta del 6 de Enero por que no h
    - `js/historical_data.js` sincronizado.
    - `js/app.js` y `sw.js` (versión v9.0) actualizados.
    - `HISTORIAL_FESTIVOS_Y_VACACIONES.md` y `REGLAS_OFICIALES_CUADRANTE.md` actualizados.
+
+---
+
+## 📅 Sesión 13 - Corrección de Cobertura Ordinaria del 23 de Abril (Viernes de Romería) y Compensación de Tardes Complementarias
+
+### 💬 Mensaje de Antonio:
+```text
+Porque estimas que el 23 de abril es fiesta y no debe haber 3 de mañana 2 de tarde y 1 de noches.
+Si has cometido un error te propongo una solución. Añade a Hilario y Miguel de mañanas y Santi de tardes. con eso se completará el cupo, y luego comprueba si trabajan el algunas tardes de esas complementarias que hay 3 turnos trabajando y puedes eliminarlos sin romper la regla del cupo
+```
+
+### 🤖 Diagnóstico y Resolución:
+
+1. **Causa del Error sobre el 23 de Abril**:
+   - En versiones preliminares del modelo se arrastró la etiqueta `"2027-04-23": "Romería Cabeza (Viernes)"` incluyéndola erróneamente en el conjunto de festivos con cobertura reducida (1M, 1T, 1N).
+   - En el calendario laboral oficial de Andújar, el Viernes 23 de Abril de 2027 es una **jornada laboral ordinaria**. El ciclo festivo con coberturas de festivo (1M, 1T, 1N) comprende exclusivamente el fin de semana y la fiesta local: **Sábado 24, Domingo 25 y Lunes de Romería 26 de Abril**.
+   - Por tanto, el Viernes 23 de Abril debe contar con la plantilla completa de día laborable: **3 Mañanas, 2 Tardes y 1 Noche**.
+
+2. **Implementación de la Solución Propuesta por el Usuario**:
+   - **Viernes 23 de Abril**:
+     * **Mañana (3M)**: Alberto Higueras (titular Romería), Hilario y Miguel Benítez.
+     * **Tarde (2T)**: Fran Espín (titular Romería) y Santi Molina.
+     * **Noche (1N)**: Antonio León (titular Noche Romería).
+     * **Libre**: Antonio Jesús, Paco Cantarero y Extra 1.
+     * Cobertura resultante: **3M, 2T, 1N** (100% estándar de laborable).
+
+3. **Compensación en Tardes Complementarias (Cupo Anual de 220 Días y Límite Mensual $\le 21$)**:
+   - Al incorporar un turno adicional el 23 de abril a Hilario (+1M), Miguel Benítez (+1M) y Santi Molina (+1T), se identificaron las jornadas ordinarias con 3 tardes (refuerzo complementario) para eliminar 1 turno de tarde a cada uno, garantizando que el día sigue cubierto con 2 tardes reglamentarias y sin romper el cupo:
+     * **Miguel Benítez**: Pasa de Tarde a Libre el **Viernes 16 de Abril** (quedan 2 tardes cubiertas por Antonio Jesús y Alberto Higueras). Mantiene exactamente **18 días en abril** y **220 días anuales**.
+     * **Santi Molina**: Pasa de Tarde a Libre el **Jueves 29 de Abril** (quedan 2 tardes cubiertas por Antonio Jesús y Alberto Higueras). Mantiene exactamente **18 días en abril** y **220 días anuales**.
+     * **Hilario**: Pasa de Tarde a Libre el **Viernes 30 de Abril** (quedan 2 tardes cubiertas por Antonio Jesús y Santi Molina). Mantiene exactamente **20 días en abril** y **220 días anuales**.
+
+4. **Resultados de Auditoría Matemática**:
+   - **0 errores de normativa** detectados en `audit_v3_final.py`.
+   - **0 fines de semana partidos**.
+   - **Jornada anual**: 220 días exactos para los 7 regulares e Hilario; 81 días para Extra 1.
+   - **Noches anuales**: 49 noches exactas para cada uno de los 7 titulares regulares.
+   - **Límite mensual estricto**: Ningún trabajador supera 21 días en meses regulares (en abril: AJ 19, SM 18, AH 21, FE 21, MB 18, PC 18, AL 20, Hilario 20).
+   - **Equidad global acumulada (2011–2027)**: Se mantiene en 69–70 festivos para toda la plantilla.
+
+5. **Entregables Sincronizados**:
+   - `REGLAS_OFICIALES_CUADRANTE.md`: Actualizada la regla del 23 de abril.
+   - `Cuadrante_2027_Andujar_V3.xlsx` y `Cuadrante_2027_Andujar.xlsx` regenerados.
+   - `cuadrante_2027_v3.json`, `cuadrante_2027.json` y `js/cuadrante_data.js` actualizados.
+   - `js/validator.js` y `sw.js` (caché v10.0) actualizados.
+

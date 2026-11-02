@@ -19,7 +19,6 @@ holidays = {
     datetime.date(2027, 3, 1),
     datetime.date(2027, 3, 25),
     datetime.date(2027, 3, 26),
-    datetime.date(2027, 4, 23),
     datetime.date(2027, 4, 26),
     datetime.date(2027, 5, 1),
     datetime.date(2027, 8, 16),
@@ -187,6 +186,8 @@ if match:
     js_data["description"] = "Cuadrante 2027 Andújar - Versión 3 (Conciliación Fines de Semana y 2 Días Descanso Tras Noches)"
     js_data["matrix"] = matrix_plain
     js_data["matrix_dot"] = matrix_dot
+    if "holidays" in js_data and "2027-04-23" in js_data["holidays"]:
+        js_data["holidays"].pop("2027-04-23")
     new_js = "// Cuadrante 2027 Andújar - Datos Oficiales V3 (Descanso 2 días tras noche)\nwindow.CUADRANTE_DATA = " + json.dumps(js_data, indent=2, ensure_ascii=False) + ";\n"
     with open("js/cuadrante_data.js", "w", encoding="utf-8") as f:
         f.write(new_js)
