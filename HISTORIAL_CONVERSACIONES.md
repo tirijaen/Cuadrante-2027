@@ -894,6 +894,30 @@ Ademas dentro de la misma pestaña el boton 2027 oficia, 2028 prevision 2029 pre
    - Se verificaron interactivamente todos los flujos mediante el agente de navegador: renderizado oscuro correcto de los botones de sub-vista, cambio inmediato entre 2027, 2028, 2029 e Histórico, y regreso fluido a Festivos & Equidad.
    - Caché PWA actualizada a `v14.0` en `sw.js`.
 
+---
+
+## 📅 Sesión 17 - Generación del Paquete Autónomo de Exportación y Relevo para Nuevos Agentes
+
+### 💬 Mensaje de Antonio:
+```text
+creame un carpeta en el proyecto que se llame exportación y haz de una copia de los archivos indispensables para que otro agente pueda continuar con el proyeto del cuadrante con los datos que ya tenemos.
+```
+
+### 🤖 Diagnóstico y Acciones Realizadas:
+1. **Creación del Directorio `exportación/`**:
+   - Se creó el directorio `exportación/` junto con el enlace simbólico `exportacion` para asegurar compatibilidad total en entornos CLI.
+2. **Selección y Copia de Archivos Indispensables**:
+   - **Documentación y Criterios Oficiales**: `REGLAS_OFICIALES_CUADRANTE.md`, `HISTORIAL_CONVERSACIONES.md`, `HISTORIAL_FESTIVOS_Y_VACACIONES.md`, `MANUAL_DE_USUARIO.md`, `reglas cuadrante.odt`, `calendario-laboral-andujar-2027-PDF.pdf`.
+   - **Datos y Cuadrantes Oficiales**: `Cuadrante 2026 para Agente.xlsx`, `Cuadrante_2027_Andujar.xlsx`, `Cuadrante_2027_Andujar_V3.xlsx`, `cuadrante_2027.json`, `cuadrante_2027_v3.json`.
+   - **Scripts Operativos**: `audit_v3_final.py`, `solve_v5_equidad.py`, `export_v3_deliverables.py`, `restaurar_punto_oro.py`, `restaurar_punto_oro.sh`, y el directorio `checkpoints/punto_oro_2027/`.
+   - **Aplicación Web PWA**: `index.html`, `infografia.html`, `manifest.json`, `sw.js`, `css/`, `js/`, `icons/`.
+   - **Reglas del Agente**: `.agents/rules/reglas_cuadrante.md`.
+3. **Elaboración de Guía de Relevo (`README.md`)**:
+   - Se redactó una guía técnica completa dentro de `exportación/README.md` que detalla el estado actual (Punto de Oro + 110M/110T en Hilario), métricas consolidadas, comandos de auditoría/regeneración y reglas sagradas que no deben romperse.
+4. **Validación Autónoma**:
+   - Se ejecutó `python3 audit_v3_final.py` y `python3 export_v3_deliverables.py` dentro de `exportación/`, confirmando 0 errores de auditoría y autonomía operativa al 100%.
+
+
 
 
 

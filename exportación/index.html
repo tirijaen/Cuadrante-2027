@@ -1,0 +1,1815 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Cuadrante 2027 · Andújar | Portal del Trabajador</title>
+  <meta name="description" content="App oficial de gestión de turnos, coberturas, permutas y estadísticas para los trabajadores del Cuadrante 2027 de Andújar">
+  
+  <!-- PWA & Mobile Web App Meta -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#080c14">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- App Header -->
+  <header class="app-header">
+    <div class="brand-wrapper">
+      <div class="brand-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+      </div>
+      <div class="brand-info">
+        <h1>
+          Cuadrante <span class="year-badge">2027</span>
+          <span id="headerCustomSheetBadge" style="display:none; font-size:0.65rem; background:rgba(16,185,129,0.2); color:#10b981; padding:2px 6px; border-radius:6px; border:1px solid rgba(16,185,129,0.4); font-weight:700;">Hoja Actualizada</span>
+        </h1>
+        <p id="headerSubtitle">HAG de Andújar · Plantilla Oficial</p>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <!-- Worker Selector Pill -->
+      <div class="worker-selector-pill" id="workerSelectorWrapper" title="Selecciona tu perfil de trabajador">
+        <div class="worker-avatar" id="workerAvatar">AJ</div>
+        <select id="workerSelect" class="worker-select-native" aria-label="Seleccionar trabajador">
+          <!-- Opciones inyectadas dinámicamente -->
+        </select>
+      </div>
+
+      <!-- Theme Switcher -->
+      <button class="btn-icon" id="themeToggleBtn" title="Cambiar tema claro/oscuro" aria-label="Cambiar tema">
+        <svg id="themeMoonIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+        <svg id="themeSunIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+      </button>
+
+      <!-- Infografía y Manual Quick Button -->
+      <a href="infografia.html" class="btn-icon" title="Infografías Oficiales y Manual de Usuario" aria-label="Infografías y Manual">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+          <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+        </svg>
+      </a>
+
+      <!-- Excel Download Quick Button -->
+      <a href="Cuadrante_2027_Andujar_V3.xlsx" download class="btn-icon" title="Descargar Cuadrante Excel Oficial" aria-label="Descargar Excel">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- Desktop Navigation Bar -->
+  <nav class="desktop-nav" aria-label="Navegación principal">
+    <div class="nav-item active" data-tab="tab-my-shift">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+        <line x1="16" y1="2" x2="16" y2="6"></line>
+        <line x1="8" y1="2" x2="8" y2="6"></line>
+        <line x1="3" y1="10" x2="21" y2="10"></line>
+      </svg>
+      Mi Cuadrante
+    </div>
+    <div class="nav-item" data-tab="tab-team">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+        <circle cx="9" cy="7" r="4"></circle>
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+      </svg>
+      Equipo y Coberturas
+    </div>
+    <div class="nav-item" data-tab="tab-swaps">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="17 1 21 5 17 9"></polyline>
+        <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+        <polyline points="7 23 3 19 7 15"></polyline>
+        <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+      </svg>
+      Permutas Inteligentes
+    </div>
+    <div class="nav-item" data-tab="tab-holidays-vacations">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="5"></circle>
+        <line x1="12" y1="1" x2="12" y2="3"></line>
+        <line x1="12" y1="21" x2="12" y2="23"></line>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+        <line x1="1" y1="12" x2="3" y2="12"></line>
+        <line x1="21" y1="12" x2="23" y2="12"></line>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+      </svg>
+      Festivos & Vacaciones
+    </div>
+    <div class="nav-item" data-tab="tab-stats">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="18" y1="20" x2="18" y2="10"></line>
+        <line x1="12" y1="20" x2="12" y2="4"></line>
+        <line x1="6" y1="20" x2="6" y2="14"></line>
+      </svg>
+      Estadísticas de Jornada
+    </div>
+    <div class="nav-item" data-tab="tab-tools">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="3"></circle>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+      </svg>
+      Exportar & Importar
+    </div>
+  </nav>
+
+  <!-- Main Container -->
+  <main class="app-container">
+
+    <!-- ====================================================================
+         TAB 1: MI CUADRANTE (PORTAL PERSONAL)
+         ==================================================================== -->
+    <section id="tab-my-shift" class="tab-content active">
+      
+      <!-- Hero Card "Mi Turno Hoy" -->
+      <div class="hero-card">
+        <div class="hero-top">
+          <div class="hero-worker-badge">
+            <span class="status-dot"></span>
+            <span id="heroWorkerName">Antonio J</span> · <span id="heroWorkerBadge">Personal Fijo</span>
+          </div>
+          <div class="hero-date-selector">
+            <label for="heroDatePicker" style="cursor:pointer;">📅</label>
+            <input type="date" id="heroDatePicker" value="2027-01-01" min="2027-01-01" max="2027-12-31">
+          </div>
+        </div>
+
+        <div class="hero-main">
+          <div class="hero-shift-display">
+            <div class="shift-badge-large M" id="heroShiftBadge">
+              <span id="heroShiftLetter">M</span>
+              <div class="holiday-indicator-dot" id="heroHolidayDot" style="display:none;" title="Turno Festivo"></div>
+            </div>
+            <div class="hero-shift-details">
+              <h2 id="heroShiftTitle">Turno de Mañana</h2>
+              <div class="shift-time" id="heroShiftTime">07:00 a 15:00</div>
+              <div class="holiday-name" id="heroHolidayName" style="display:none;">Año Nuevo</div>
+            </div>
+          </div>
+
+          <div class="hero-shift-meta">
+            <h4>Compañeros en el mismo turno</h4>
+            <div class="buddies-list" id="heroBuddiesList">
+              <!-- Compañeros inyectados dinámicamente -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Próximos 7 Días (Timeline Horizontal) -->
+      <div class="timeline-section">
+        <div class="section-header">
+          <h3>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            Próximos 7 días
+          </h3>
+          <span class="text-muted" style="font-size:0.75rem;" id="timelineRangeText"></span>
+        </div>
+        <div class="timeline-cards-row" id="timelineRow">
+          <!-- Inyectado dinámicamente -->
+        </div>
+      </div>
+
+      <!-- Banner de Permutas Activas en el Calendario -->
+      <div class="active-swaps-banner" id="calendarActiveSwapsBanner" style="display:none;">
+        <div class="active-swaps-info">
+          <span class="active-swaps-icon">🔀</span>
+          <div>
+            <div style="font-weight:700; font-size:0.92rem; color:#f8fafc;" id="calendarActiveSwapsTitle">1 permuta activa en tu cuadrante</div>
+            <div style="font-size:0.75rem; color:#94a3b8;" id="calendarActiveSwapsSub">Tus turnos se muestran actualizados según los cambios acordados.</div>
+          </div>
+        </div>
+        <div class="active-swaps-actions">
+          <button class="btn-sm-swap-view" id="btnViewActiveSwaps" type="button">
+            📋 Ver detalles
+          </button>
+          <button class="btn-sm-swap-reset" id="btnResetAllSwaps" type="button">
+            ↩️ Restablecer cuadrante oficial
+          </button>
+        </div>
+      </div>
+
+      <!-- Calendario Mensual Interactivo -->
+      <div class="calendar-card">
+        <div class="calendar-controls">
+          <div class="month-picker-group">
+            <button class="btn-icon" id="prevMonthBtn" title="Mes anterior" aria-label="Mes anterior">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+            <div class="month-title" id="calendarMonthTitle">Enero 2027</div>
+            <button class="btn-icon" id="nextMonthBtn" title="Mes siguiente" aria-label="Mes siguiente">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+          </div>
+
+          <div class="calendar-legend">
+            <div class="legend-item"><span class="legend-badge" style="background:var(--shift-m);"></span> Mañana</div>
+            <div class="legend-item"><span class="legend-badge" style="background:var(--shift-t);"></span> Tarde</div>
+            <div class="legend-item"><span class="legend-badge" style="background:var(--shift-n);"></span> Noche</div>
+            <div class="legend-item"><span class="legend-badge" style="background:var(--shift-fest); border-radius:50%;"></span> Festivo</div>
+            <div class="legend-item"><span class="legend-badge" style="background:var(--shift-vac);"></span> Vacaciones</div>
+            <div class="legend-item"><span class="legend-badge" style="background:var(--shift-free);"></span> Libre</div>
+          </div>
+        </div>
+
+        <div class="calendar-weekdays">
+          <div>LUN</div>
+          <div>MAR</div>
+          <div>MIÉ</div>
+          <div>JUE</div>
+          <div>VIE</div>
+          <div>SÁB</div>
+          <div>DOM</div>
+        </div>
+
+        <div class="calendar-grid" id="calendarGrid">
+          <!-- Celdas del calendario inyectadas dinámicamente -->
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:12px; margin-top:16px;">
+        <button class="btn-primary" id="quickExportIcsBtn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          Sincronizar mi Cuadrante (.ics)
+        </button>
+        <button class="btn-secondary" id="quickCompareBtn" type="button" style="font-size:0.85rem; padding:10px 18px; display:inline-flex; align-items:center; gap:8px;">
+          <span>👥</span> Comparar con un compañero ("¿Cuándo libramos?")
+        </button>
+      </div>
+
+    </section>
+
+    <!-- ====================================================================
+         TAB 2: EQUIPO Y COBERTURAS
+         ==================================================================== -->
+    <section id="tab-team" class="tab-content">
+      
+      <!-- Selector de Sub-Vista: Matriz General vs Comparador Dual -->
+      <div class="team-mode-nav">
+        <button type="button" class="team-mode-btn active" id="teamModeMatrixBtn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="3" y1="9" x2="21" y2="9"></line>
+            <line x1="3" y1="15" x2="21" y2="15"></line>
+            <line x1="9" y1="3" x2="9" y2="21"></line>
+            <line x1="15" y1="3" x2="15" y2="21"></line>
+          </svg>
+          Cobertura y Matriz General
+        </button>
+        <button type="button" class="team-mode-btn" id="teamModeCompareBtn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+          Comparador ("¿Cuándo libramos?")
+          <span class="compare-badge-pill">Nuevo</span>
+        </button>
+      </div>
+
+      <!-- SUB-VISTA 1: MATRIZ Y COBERTURA DIARIA -->
+      <div id="teamMatrixView">
+        <!-- "¿Quién trabaja hoy?" Diaria -->
+        <div class="team-daily-card">
+          <div class="section-header">
+            <h3>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+              Dotación y Cobertura del Día
+            </h3>
+            <div class="hero-date-selector">
+              <label for="teamDatePicker">📅</label>
+              <input type="date" id="teamDatePicker" value="2027-01-01" min="2027-01-01" max="2027-12-31">
+            </div>
+          </div>
+
+          <div id="teamDailyHolidayBadge" style="display:none; margin-bottom:12px; font-size:0.85rem; color:var(--shift-fest); font-weight:600;">
+            🎉 <span id="teamHolidayText"></span>
+          </div>
+
+          <div class="shifts-breakdown-grid">
+            <!-- Mañana -->
+            <div class="shift-column-card">
+              <div class="shift-col-header">
+                <div class="shift-col-title" style="color:var(--shift-m);">
+                  <span>🌅 Mañana</span>
+                  <span class="shift-time-range">(07:00 - 15:00)</span>
+                </div>
+                <span class="shift-count-pill shift-count-m" id="mCountBadge">0 trab.</span>
+              </div>
+              <div class="worker-list-cards" id="teamListM"></div>
+            </div>
+
+            <!-- Tarde -->
+            <div class="shift-column-card">
+              <div class="shift-col-header">
+                <div class="shift-col-title" style="color:var(--shift-t);">
+                  <span>☀️ Tarde</span>
+                  <span class="shift-time-range">(15:00 - 23:00)</span>
+                </div>
+                <span class="shift-count-pill shift-count-t" id="tCountBadge">0 trab.</span>
+              </div>
+              <div class="worker-list-cards" id="teamListT"></div>
+            </div>
+
+            <!-- Noche -->
+            <div class="shift-column-card">
+              <div class="shift-col-header">
+                <div class="shift-col-title" style="color:var(--shift-n);">
+                  <span>🌙 Noche</span>
+                  <span class="shift-time-range">(23:00 - 07:00)</span>
+                </div>
+                <span class="shift-count-pill shift-count-n" id="nCountBadge">1 trab.</span>
+              </div>
+              <div class="worker-list-cards" id="teamListN"></div>
+            </div>
+          </div>
+
+          <!-- Descansos y Vacaciones -->
+          <div style="margin-top:16px; background:var(--bg-surface); border-radius:var(--radius-md); padding:12px; border:1px solid var(--border-color);">
+            <div style="font-size:0.8rem; font-weight:700; color:var(--text-secondary); margin-bottom:8px;">🏖️ Descanso / Vacaciones hoy:</div>
+            <div class="buddies-list" id="teamListFree"></div>
+          </div>
+        </div>
+
+        <!-- Matriz General Completa del Cuadrante -->
+        <div class="matrix-container-card">
+          <div class="section-header">
+            <h3>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="3" y1="9" x2="21" y2="9"></line>
+                <line x1="3" y1="15" x2="21" y2="15"></line>
+                <line x1="9" y1="3" x2="9" y2="21"></line>
+                <line x1="15" y1="3" x2="15" y2="21"></line>
+              </svg>
+              Matriz Completa de la Plantilla (Visor Mensual)
+            </h3>
+            <div class="month-picker-group">
+              <select id="matrixMonthSelect" class="form-control" style="width:auto; font-weight:600;">
+                <!-- 12 meses -->
+              </select>
+            </div>
+          </div>
+          <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:12px;">Visualización réplica del cuadrante oficial de Andújar. Desplaza horizontalmente para ver todos los días del mes.</p>
+
+          <div class="matrix-scroll-wrapper">
+            <table class="matrix-table" id="matrixTable">
+              <thead id="matrixThead"></thead>
+              <tbody id="matrixTbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUB-VISTA 2: COMPARADOR DE CUADRANTES ENTRE COMPAÑEROS -->
+      <div id="teamCompareView" style="display:none;">
+        
+        <!-- Cabecera de Selección de Compañeros -->
+        <div class="compare-header-card">
+          <div class="section-header" style="margin-bottom:8px;">
+            <h3>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+              Comparador de Cuadrantes ("¿Cuándo libramos juntos?")
+            </h3>
+          </div>
+          <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:14px;">
+            Selecciona dos trabajadores de Andújar para cruzar sus turnos en tiempo real: descubre qué días y fines de semana descansáis juntos, en qué turnos coincidís trabajando o qué días os podéis hacer favores.
+          </p>
+
+          <div class="compare-workers-picker">
+            <!-- Trabajador 1 -->
+            <div class="compare-worker-box">
+              <div class="compare-worker-avatar" id="compareAvatar1">AJ</div>
+              <div style="flex:1;">
+                <label for="compareWorker1Select" style="display:block; font-size:0.75rem; color:var(--text-muted); font-weight:600; margin-bottom:4px;">Primer Compañero</label>
+                <select id="compareWorker1Select" class="form-control" style="font-weight:700;">
+                  <!-- Se rellena con JS -->
+                </select>
+              </div>
+            </div>
+
+            <!-- Botón Swap -->
+            <button type="button" class="compare-swap-btn" id="compareSwapWorkersBtn" title="Intercambiar compañeros" aria-label="Intercambiar compañeros">
+              ⇄
+            </button>
+
+            <!-- Trabajador 2 -->
+            <div class="compare-worker-box">
+              <div class="compare-worker-avatar" id="compareAvatar2" style="background:linear-gradient(135deg, #10b981, #059669);">AH</div>
+              <div style="flex:1;">
+                <label for="compareWorker2Select" style="display:block; font-size:0.75rem; color:var(--text-muted); font-weight:600; margin-bottom:4px;">Segundo Compañero</label>
+                <select id="compareWorker2Select" class="form-control" style="font-weight:700;">
+                  <!-- Se rellena con JS -->
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pastillas Rápidas de Selección de Compañero -->
+          <div style="margin-top:14px;">
+            <div style="font-size:0.75rem; color:var(--text-muted); font-weight:600; margin-bottom:6px;">Comparar rápidamente con:</div>
+            <div class="compare-quick-pills" id="compareQuickPills">
+              <!-- Inyectado dinámicamente -->
+            </div>
+          </div>
+        </div>
+
+        <!-- KPIs de Coincidencia Anual -->
+        <div class="compare-kpi-grid">
+          <div class="compare-kpi-card kpi-free">
+            <div class="compare-kpi-icon">🟢</div>
+            <div>
+              <div class="compare-kpi-num" id="compareKpiFree">0</div>
+              <div class="compare-kpi-label">Días Libres Juntos (Año 2027)</div>
+            </div>
+          </div>
+
+          <div class="compare-kpi-card kpi-weekend">
+            <div class="compare-kpi-icon">☀️</div>
+            <div>
+              <div class="compare-kpi-num" id="compareKpiWeekend">0</div>
+              <div class="compare-kpi-label">Fines de Semana Completos</div>
+            </div>
+          </div>
+
+          <div class="compare-kpi-card kpi-shift">
+            <div class="compare-kpi-icon">🔵</div>
+            <div>
+              <div class="compare-kpi-num" id="compareKpiShift">0</div>
+              <div class="compare-kpi-label">Mismo Turno de Trabajo</div>
+            </div>
+          </div>
+
+          <div class="compare-kpi-card kpi-swap">
+            <div class="compare-kpi-icon">🔀</div>
+            <div>
+              <div class="compare-kpi-num" id="compareKpiSwap">0</div>
+              <div class="compare-kpi-label">Días Permutables (Favor)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Calendario Mensual Dual -->
+        <div class="compare-card">
+          <div class="calendar-controls">
+            <div class="month-picker-group">
+              <button class="btn-icon" id="comparePrevMonthBtn" title="Mes anterior" aria-label="Mes anterior">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+              </button>
+              <div class="month-title" id="compareMonthTitle">Enero 2027</div>
+              <button class="btn-icon" id="compareNextMonthBtn" title="Mes siguiente" aria-label="Mes siguiente">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+              </button>
+            </div>
+
+            <div class="calendar-legend">
+              <div class="legend-item"><span style="color:#10b981; font-weight:700;">🟢</span> Libres Juntos</div>
+              <div class="legend-item"><span style="color:#f59e0b; font-weight:700;">☀️</span> Finde Libre</div>
+              <div class="legend-item"><span style="color:#38bdf8; font-weight:700;">🔵</span> Mismo Turno</div>
+              <div class="legend-item"><span style="color:#a855f7; font-weight:700;">🔀</span> Permutable</div>
+            </div>
+          </div>
+
+          <!-- Filtros de vista mensual -->
+          <div class="compare-filter-bar">
+            <span style="font-size:0.8rem; color:var(--text-muted); font-weight:600;">Filtrar días:</span>
+            <button type="button" class="compare-filter-pill active" data-filter="all">Todos los días</button>
+            <button type="button" class="compare-filter-pill" data-filter="free">🟢 Libres juntos</button>
+            <button type="button" class="compare-filter-pill" data-filter="weekend">☀️ Fines de semana libres</button>
+            <button type="button" class="compare-filter-pill" data-filter="shift">🔵 Mismo turno</button>
+            <button type="button" class="compare-filter-pill" data-filter="swap">🔀 Ocasiones permuta</button>
+          </div>
+
+          <div class="calendar-weekdays">
+            <div>Lun</div>
+            <div>Mar</div>
+            <div>Mié</div>
+            <div>Jue</div>
+            <div>Vie</div>
+            <div>Sáb</div>
+            <div>Dom</div>
+          </div>
+
+          <div class="compare-calendar-grid" id="compareCalendarGrid">
+            <!-- Celdas duales inyectadas dinámicamente -->
+          </div>
+        </div>
+
+        <!-- Agenda de Próximas Coincidencias y Compartir por WhatsApp -->
+        <div class="compare-card">
+          <div class="compare-agenda-header">
+            <div>
+              <h3 style="font-size:1.05rem; font-weight:700; color:var(--text-primary); margin-bottom:4px;">
+                📅 Próximas Fechas Clave Juntos
+              </h3>
+              <p style="font-size:0.8rem; color:var(--text-muted); margin:0;" id="compareAgendaSubtitle">
+                Fines de semana completos y días libres simultáneos más cercanos.
+              </p>
+            </div>
+            <button type="button" class="btn-whatsapp-share" id="btnShareComparisonWhatsapp">
+              <span>📲</span> Compartir por WhatsApp con <span id="btnShareWhatsappWorkerName">Compañero</span>
+            </button>
+          </div>
+
+          <div class="compare-agenda-list" id="compareAgendaList">
+            <!-- Items de agenda inyectados dinámicamente -->
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ====================================================================
+         TAB 3: PERMUTAS INTELIGENTES Y BOLSA DE TURNOS
+         ==================================================================== -->
+    <section id="tab-swaps" class="tab-content">
+      
+      <!-- Selector de Modo: Asistente de Permutas vs Bolsa de Turnos -->
+      <div class="swaps-mode-nav">
+        <button type="button" class="swaps-mode-btn active" id="modeAssistantBtn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="17 1 21 5 17 9"></polyline>
+            <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+            <polyline points="7 23 3 19 7 15"></polyline>
+            <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+          </svg>
+          Asistente de Permutas
+        </button>
+        <button type="button" class="swaps-mode-btn" id="modeBankBtn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <line x1="19" y1="8" x2="19" y2="14"></line>
+            <line x1="22" y1="11" x2="16" y2="11"></line>
+          </svg>
+          Bolsa de Turnos (Deudas)
+          <span class="bank-count-pill" id="bankPendingCountPill" style="display:none;">0</span>
+        </button>
+      </div>
+
+      <!-- VISTA 1: ASISTENTE DE PERMUTAS (4 PASOS) -->
+      <div id="swapsAssistantView">
+
+      <!-- Paso 1: Elegir el día que trabajas para ponértelo de libre -->
+      <div class="permuta-step-card active-step" id="step1Card">
+        <div class="step-header-wrapper">
+          <div class="step-badge-number">1</div>
+          <div class="step-title-group">
+            <h3>¿Qué día necesitas librar?</h3>
+            <p>Selecciona una fecha en la que tengas turno asignado para solicitar estar LIBRE.</p>
+          </div>
+        </div>
+
+        <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap; margin-top:12px;">
+          <div class="form-group" style="margin-bottom:0;">
+            <label for="swapDateA">Fecha que solicitas librar:</label>
+            <input type="date" id="swapDateA" class="form-control" value="2027-02-06" min="2027-01-01" max="2027-12-31" style="font-weight:600;">
+          </div>
+          <div style="font-size:0.85rem; color:var(--text-secondary); margin-top:16px;">
+            Trabajador solicitante: <strong id="step1WorkerName">Antonio J</strong>
+          </div>
+        </div>
+
+        <!-- Banner del Turno Seleccionado -->
+        <div class="shift-selected-banner" id="step1ShiftBanner">
+          <div style="display:flex; align-items:center; gap:12px;">
+            <div class="shift-badge-large M" id="step1ShiftBadge" style="width:48px; height:48px; font-size:1.3rem;">M</div>
+            <div>
+              <div style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase;">Tu turno original:</div>
+              <div style="font-weight:700; font-size:1.05rem;" id="step1ShiftTitle">Turno de Mañana</div>
+              <div style="font-size:0.8rem; color:var(--text-secondary);" id="step1ShiftTime">07:00 a 15:00</div>
+            </div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:0.75rem; color:var(--text-muted);">Tu nuevo estado solicitado:</div>
+            <div style="font-weight:800; font-size:1.15rem; color:#10b981;">LIBRE (Descanso)</div>
+          </div>
+        </div>
+
+        <!-- Alerta si el día ya es libre -->
+        <div id="step1AlreadyFreeAlert" style="display:none; margin-top:12px; font-size:0.85rem; color:#f59e0b; background:rgba(245,158,11,0.1); border:1px solid rgba(245,158,11,0.3); padding:10px 14px; border-radius:var(--radius-md);">
+          ⚠️ Ya estás de descanso en este día. Selecciona una fecha en la que tengas turno asignado (M, T o N).
+        </div>
+      </div>
+
+      <!-- Paso 2: Análisis de qué compañeros pueden cubrirte ese día -->
+      <div class="permuta-step-card" id="step2Card">
+        <div class="step-header-wrapper">
+          <div class="step-badge-number">2</div>
+          <div class="step-title-group">
+            <h3>¿Quién puede cubrirte o cambiar turno contigo ese día?</h3>
+            <p>Se auditan automáticamente todos los compañeros: tanto si están de <strong>descanso</strong> (para cubrirte la jornada) como si <strong>trabajan en otro turno</strong> (para realizar un <strong>cambio de turno directo</strong>: M ⇄ T, M ⇄ N o T ⇄ N). Puedes elegir opciones 100% conformes y con <strong>WARNING</strong> (descanso entre 8h y 12h o máx. 5 días). Si el descanso entre jornadas es menor de 8h o tienen tu mismo turno, aparece como <strong>NO DISPONIBLE</strong>.</p>
+          </div>
+        </div>
+
+        <div class="cover-candidates-grid" id="coverCandidatesGrid">
+          <!-- Tarjetas de compañeros inyectadas dinámicamente -->
+        </div>
+      </div>
+
+      <!-- Paso 3: Opciones para devolverle el turno al compañero elegido -->
+      <div class="permuta-step-card" id="step3Card" style="display:none;">
+        <div class="step-header-wrapper">
+          <div class="step-badge-number">3</div>
+          <div class="step-title-group">
+            <h3>¿Qué día le devuelves el turno a <span id="step3WorkerBName">Compañero</span>?</h3>
+            <p>El sistema comprueba todas las fechas viables para devolverle el día a <span id="step3WorkerBNameSub">tu compañero</span> (100% conformes o con <strong>WARNING</strong> si el descanso es de 8h a 12h). Las opciones con descanso inferior a 8h quedan descartadas como no disponibles.</p>
+          </div>
+        </div>
+
+        <!-- Filtros de fecha de devolución -->
+        <div class="recom-filter-pills" id="returnFilterPills" style="margin-bottom:12px;">
+          <button class="recom-filter-btn active" data-filter="all">Todas las opciones</button>
+          <button class="recom-filter-btn" data-filter="clean">100% Conformes</button>
+          <button class="recom-filter-btn" data-filter="warning">Con Warning</button>
+          <button class="recom-filter-btn" data-filter="month">Mismo mes</button>
+          <button class="recom-filter-btn" data-filter="weekend">Fines de semana</button>
+        </div>
+
+        <div class="return-days-grid" id="returnDaysGrid">
+          <!-- Tarjetas de días de devolución inyectadas dinámicamente -->
+        </div>
+      </div>
+
+      <!-- Paso 4: Resumen y Confirmación de la Permuta -->
+      <div class="swap-agreement-card" id="step4AgreementCard" style="display:none;">
+        <div class="section-header" style="margin-bottom:12px;">
+          <h3 style="color:#f8fafc; font-size:1.2rem;">
+            <span>🤝</span> Resumen del Acuerdo de Permuta
+          </h3>
+          <span class="result-badge" id="agreementResultBadge">Permuta Viable</span>
+        </div>
+
+        <!-- Flujo visual de los dos días acordados -->
+        <div class="agreement-days-flow">
+          <!-- Día 1 -->
+          <div class="agreement-day-box">
+            <div style="font-size:0.75rem; color:var(--text-muted); font-weight:700; text-transform:uppercase;">Día 1: Solicitud de libranza</div>
+            <div style="font-size:1rem; font-weight:700; margin:4px 0;" id="summaryDateA">Sábado, 6 de Febrero</div>
+            <div style="font-size:0.85rem; color:#10b981; font-weight:600;">Tú quedas: LIBRE</div>
+            <div style="font-size:0.8rem; color:var(--text-secondary); margin-top:4px;" id="summaryCoverWorkerB">
+              Te cubre: Alberto H (asume turno M.)
+            </div>
+          </div>
+
+          <!-- Icono de Intercambio -->
+          <div class="swap-icon-divider">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="17 1 21 5 17 9"></polyline>
+              <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+              <polyline points="7 23 3 19 7 15"></polyline>
+              <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+            </svg>
+          </div>
+
+          <!-- Día 2 -->
+          <div class="agreement-day-box highlight">
+            <div style="font-size:0.75rem; color:var(--text-muted); font-weight:700; text-transform:uppercase;">Día 2: Devolución de turno</div>
+            <div style="font-size:1rem; font-weight:700; margin:4px 0;" id="summaryDateB">Sábado, 27 de Febrero</div>
+            <div style="font-size:0.85rem; color:var(--accent-primary); font-weight:600;" id="summaryCoverWorkerA">
+              Tú cubres a Alberto H (asumes turno M.)
+            </div>
+            <div style="font-size:0.8rem; color:#10b981; margin-top:4px;" id="summaryWorkerBFree">
+              Alberto H queda: LIBRE
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel de Auditoría y Warnings -->
+        <div class="validation-results-panel valid" id="agreementValidationBox">
+          <div style="font-weight:700; font-size:0.95rem; margin-bottom:10px;" id="agreementValidationTitle">
+            Auditoría de Normativa Laboral Oficial
+          </div>
+
+          <!-- Lista de Verificaciones -->
+          <div class="checks-checklist" id="agreementChecklist"></div>
+
+          <!-- Advertencias (Warnings aceptados) -->
+          <div id="agreementWarningsList" style="display:none; margin-top:12px; padding-top:12px; border-top:1px solid var(--border-color);">
+            <div style="font-size:0.75rem; font-weight:700; color:#f59e0b; margin-bottom:6px;">⚠️ ADVERTENCIAS DE DESCANSO O JORNADA ACEPTADAS:</div>
+            <div id="agreementWarningsPills"></div>
+          </div>
+        </div>
+
+        <!-- Botones de Acción -->
+        <div style="display:flex; flex-wrap:wrap; gap:12px; margin-top:20px; align-items:center;">
+          <button class="btn-primary" id="applySimulationBtn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            Simular y Aplicar en mi Cuadrante
+          </button>
+          <button class="btn-primary" id="saveToBankBtn" style="background: linear-gradient(135deg, #10b981, #059669); border-color: #10b981;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+              <polyline points="17 21 17 13 7 13 7 21"></polyline>
+              <polyline points="7 3 7 8 15 8"></polyline>
+            </svg>
+            Guardar en mi Bolsa de Turnos
+          </button>
+          <button class="btn-primary" id="shareWhatsappBtn" style="background: #25D366; border-color: #1eb954; color: #fff;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+            </svg>
+            Compartir por WhatsApp
+          </button>
+          <button class="btn-primary" id="generatePdfBtn" style="background: linear-gradient(135deg, #334155, #1e293b); border-color: #475569; color: #fff;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+            Volante para RRHH (PDF / Imprimir)
+          </button>
+          <button class="btn-secondary" id="resetSimulationBtn" style="display:none;">
+            Restablecer Cuadrante Original
+          </button>
+          <button class="btn-secondary" id="restartSwapBtn">
+            Iniciar otra solicitud
+          </button>
+        </div>
+
+        <div id="activeSimulationsNotice" style="display:none; margin-top:16px; font-size:0.85rem; color:#f59e0b; background:rgba(245,158,11,0.1); padding:10px 14px; border-radius:var(--radius-sm); border:1px solid rgba(245,158,11,0.3);">
+          ⚠️ Tienes permutas simuladas activas en tu sesión. Los cambios se reflejan en tu calendario personal y estadísticas.
+        </div>
+      </div>
+      </div> <!-- /#swapsAssistantView -->
+
+      <!-- VISTA 2: BOLSA DE TURNOS (HISTORIAL DE DEUDAS Y COMPROMISOS) -->
+      <div id="swapsBankView" style="display:none;">
+        
+        <!-- Tarjeta de Cabecera y Resumen de la Bolsa -->
+        <div class="bank-header-card">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:16px;">
+            <div>
+              <div class="bank-header-title">
+                <span style="font-size:1.4rem;">🤝</span>
+                <h3>Bolsa de Turnos & Registro de Deudas</h3>
+              </div>
+              <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:4px;">
+                Control de turnos que te deben y que debes a tus compañeros. Todos los acuerdos se almacenan de forma privada en tu dispositivo.
+              </p>
+            </div>
+            <button class="btn-primary" id="openManualDebtModalBtn" style="padding:9px 18px; font-size:0.85rem; background:linear-gradient(135deg, #0284c7, #2563eb);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              Apuntar Turno Manual
+            </button>
+          </div>
+
+          <!-- Métricas de Balance KPI -->
+          <div class="bank-kpi-grid">
+            <div class="bank-kpi-card kpi-receive">
+              <div class="kpi-icon-pill">🟢</div>
+              <div>
+                <div class="kpi-num" id="bankKpiReceiveCount">0</div>
+                <div class="kpi-label">Me deben a mí</div>
+              </div>
+            </div>
+            <div class="bank-kpi-card kpi-give">
+              <div class="kpi-icon-pill">🟠</div>
+              <div>
+                <div class="kpi-num" id="bankKpiGiveCount">0</div>
+                <div class="kpi-label">Debo a compañeros</div>
+              </div>
+            </div>
+            <div class="bank-kpi-card kpi-balance">
+              <div class="kpi-icon-pill">⚖️</div>
+              <div>
+                <div class="kpi-num" id="bankKpiBalance">Al día</div>
+                <div class="kpi-label">Balance neto de turnos</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Barra de Filtros de la Bolsa -->
+        <div class="bank-filters-bar">
+          <div class="recom-filter-pills" id="bankFilterPills">
+            <button class="recom-filter-btn active" data-bank-filter="pending">
+              ⏳ Pendientes (<span id="filterCountPending">0</span>)
+            </button>
+            <button class="recom-filter-btn" data-bank-filter="settled">
+              ✓ Saldados (<span id="filterCountSettled">0</span>)
+            </button>
+            <button class="recom-filter-btn" data-bank-filter="all">
+              Todos (<span id="filterCountAll">0</span>)
+            </button>
+          </div>
+          <div style="font-size:0.75rem; color:var(--text-muted); font-weight:600;">
+            Mostrando para: <span id="bankCurrentWorkerDisplay" style="color:var(--accent-primary);">Antonio J</span>
+          </div>
+        </div>
+
+        <!-- Listado de Acuerdos / Deudas -->
+        <div id="bankDebtsList" class="bank-debts-list">
+          <!-- Tarjetas renderizadas dinámicamente -->
+        </div>
+
+      </div> <!-- /#swapsBankView -->
+
+    </section>
+
+    <!-- ====================================================================
+         TAB 4: FESTIVOS Y VACACIONES (HISTÓRICO 2011-2027 & PREVISIÓN 2028)
+         ==================================================================== -->
+    <section id="tab-holidays-vacations" class="tab-content">
+      
+      <!-- Toggle de Sub-vistas (Vacaciones vs Festivos) -->
+      <div class="team-subview-toggle" style="margin-bottom:20px;">
+        <button class="subview-btn active" id="btnSubViewVacations" type="button">
+          <span>🏖️</span> Vacaciones (2027 & Previsión 2028)
+        </button>
+        <button class="subview-btn" id="btnSubViewHolidays" type="button">
+          <span>🎉</span> Festivos & Equidad (2011 - 2027)
+        </button>
+      </div>
+
+      <!-- ================================================================
+           SUB-VISTA 1: VACACIONES
+           ================================================================ -->
+      <div id="subViewVacationsContainer">
+
+        <!-- Tarjeta Personal del Trabajador Activo -->
+        <div class="vac-personal-card">
+          <div class="vac-personal-top">
+            <div class="vac-personal-badge">
+              <span class="status-dot"></span>
+              <span id="vacCurrentWorkerName">Antonio J</span> · <span>Turno Personal de Vacaciones</span>
+            </div>
+            <div class="vac-partner-pill">
+              <span>Pareja Fija de Turno:</span>
+              <strong id="vacPartnerName" style="color:var(--accent-primary);">Miguel B</strong>
+            </div>
+          </div>
+
+          <div class="vac-personal-grid">
+            <!-- 2027 Oficial -->
+            <div class="vac-year-card is-2027">
+              <div class="vac-year-header">
+                <span class="vac-year-tag current">2027 OFICIAL</span>
+                <span class="vac-slot-badge" id="vac2027SlotName">Turno 1</span>
+              </div>
+              <div class="vac-dates-display" id="vac2027DatesText">
+                <div class="vac-date-row"><span>1ª Quincena:</span> <strong>01 al 15 de Junio</strong></div>
+                <div class="vac-date-row"><span>2ª Quincena:</span> <strong>01 al 15 de Agosto</strong></div>
+              </div>
+              <div class="vac-note-footer">Asignación activa en el cuadrante oficial</div>
+            </div>
+
+            <!-- Previsión 2028 Oficial -->
+            <div class="vac-year-card is-2028">
+              <div class="vac-year-header">
+                <span class="vac-year-tag next">🔮 PREVISIÓN 2028</span>
+                <span class="vac-slot-badge next" id="vac2028SlotName">Turno 2</span>
+              </div>
+              <div class="vac-dates-display" id="vac2028DatesText">
+                <div class="vac-date-row"><span>1ª Quincena:</span> <strong>16 al 30 de Junio</strong></div>
+                <div class="vac-date-row"><span>2ª Quincena:</span> <strong>16 al 30 de Agosto</strong></div>
+              </div>
+              <div class="vac-note-footer">Cálculo algorítmico según el ciclo rotativo de 4 años</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Visor Completo de la Plantilla por Quincenas -->
+        <div class="calculator-card" style="margin-top:20px;">
+          <div class="section-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+            <h3>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              <span id="vacQuincenasTitleText">Distribución por Parejas y Turnos Quincenales</span>
+            </h3>
+            
+            <!-- Selector de Año para el Visor -->
+            <div class="vac-selector-pills" id="vacYearSelectorGroup">
+              <button class="vac-pill-btn active" data-vac-view="2027" type="button">2027 Oficial</button>
+              <button class="vac-pill-btn" data-vac-view="2028" type="button">2028 Previsión</button>
+              <button class="vac-pill-btn" data-vac-view="2029" type="button">2029 Previsión</button>
+              <button class="vac-pill-btn" data-vac-view="history" type="button">📚 Histórico (2018-2026)</button>
+            </div>
+          </div>
+
+          <!-- Cuadrícula de 4 Turnos Quincenales -->
+          <div id="vacationQuincenasCards" class="vac-quincenas-grid">
+            <!-- Inyectado dinámicamente -->
+          </div>
+
+          <!-- Tabla Histórica (oculta por defecto, visible cuando vac-view == 'history') -->
+          <div id="vacationHistoryTableWrapper" style="display:none; margin-top:16px;" class="matrix-scroll-wrapper">
+            <table class="matrix-table" id="vacationHistoryTable">
+              <thead>
+                <tr>
+                  <th>Año</th>
+                  <th>1-15 Jun</th>
+                  <th>16-30 Jun</th>
+                  <th>1-15 Jul</th>
+                  <th>16-30 Jul</th>
+                  <th>1-15 Ago</th>
+                  <th>16-30 Ago</th>
+                  <th>1-15 Sep</th>
+                  <th>16-30 Sep</th>
+                </tr>
+              </thead>
+              <tbody id="vacationHistoryTableBody"></tbody>
+            </table>
+          </div>
+
+          <!-- Explicación del Algoritmo de Rotación -->
+          <div class="vac-rules-box" style="margin-top:20px; background:var(--bg-surface); border-radius:var(--radius-md); padding:14px; border:1px solid var(--border-color);">
+            <div style="font-weight:700; font-size:0.85rem; margin-bottom:6px; color:var(--accent-primary);">
+              ℹ️ ¿Cómo funciona la rotación de vacaciones?
+            </div>
+            <p style="font-size:0.78rem; color:var(--text-secondary); margin:0; line-height:1.5;">
+              La plantilla rota en <strong>4 parejas estables</strong> a lo largo de <strong>4 turnos de dos quincenas</strong> separadas por 2 meses exactos. 
+              Cada año, cada pareja avanza automáticamente <strong>+1 turno quincenal</strong>, completando el ciclo completo en 4 años y garantizando que todos los trabajadores disfruten de los mejores meses (julio y agosto) con idéntica frecuencia.
+            </p>
+          </div>
+        </div>
+
+      </div> <!-- /#subViewVacationsContainer -->
+
+      <!-- ================================================================
+           SUB-VISTA 2: FESTIVOS & EQUIDAD
+           ================================================================ -->
+      <div id="subViewHolidaysContainer" style="display:none;">
+
+        <!-- Semáforo de Equidad Acumulada 2011-2027 -->
+        <div class="calculator-card">
+          <div class="section-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+            <h3>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+              </svg>
+              Equidad Acumulada de Festivos (2011 - 2027)
+            </h3>
+            <span class="badge-success" style="font-size:0.75rem; padding:4px 10px; border-radius:12px; background:rgba(16,185,129,0.15); color:#10b981; border:1px solid rgba(16,185,129,0.3); font-weight:700;">
+              ✓ Paridad Matemática: Máxima diferencia de solo 1 festivo
+            </span>
+          </div>
+          <p style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:16px;">
+            Cómputo acumulado de los 20 festivos anuales a lo largo de 17 años de registros oficiales (incluyendo el historial de predecesores de cada puesto):
+          </p>
+
+          <div class="holiday-equity-bars" id="holidayEquityBarsList">
+            <!-- Barras inyectadas dinámicamente -->
+          </div>
+
+          <div style="margin-top:16px; padding:12px 14px; border-radius:var(--radius-sm); background:rgba(56,189,248,0.08); border:1px solid rgba(56,189,248,0.25); font-size:0.8rem; color:#38bdf8; display:flex; align-items:center; gap:8px;">
+            <span>🎯</span>
+            <div><strong>Criterio Oficial para 2028:</strong> Alberto H (70), Fran Espín (70) y Paco C (70) tendrán prioridad para realizar 1 festivo adicional en 2028 y empatar a 71 con el resto de compañeros.</div>
+          </div>
+        </div>
+
+        <!-- Matriz Completa de Equidad: 20 Festivos x 7 Trabajadores (Datos AB2:AH21 del Excel) -->
+        <div class="calculator-card" style="margin-top:20px;">
+          <div class="section-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+            <div>
+              <h3>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="3" y1="9" x2="21" y2="9"></line>
+                  <line x1="3" y1="15" x2="21" y2="15"></line>
+                  <line x1="9" y1="3" x2="9" y2="21"></line>
+                  <line x1="15" y1="3" x2="15" y2="21"></line>
+                </svg>
+                Equidad por Cada Festividad Oficial (Los 20 Festivos · 2011 a 2027)
+              </h3>
+              <p style="font-size:0.8rem; color:var(--text-secondary); margin-top:4px;">
+                Cómputo individual de cuántas veces cada trabajador ha realizado cada festivo específico (datos oficiales de las columnas <strong>AB a AH</strong> del Excel).
+              </p>
+            </div>
+
+            <!-- Selector de Vista: Tabla General vs Mis 20 Festivos -->
+            <div class="recom-filter-pills" id="holidayMatrixFilterPills">
+              <button type="button" class="recom-filter-btn active" id="btnHolidayViewMatrix" data-view="matrix">Matriz de Plantilla (7 compañeros)</button>
+              <button type="button" class="recom-filter-btn" id="btnHolidayViewPersonal" data-view="personal">Mis 20 Festivos (<span id="btnHolidayMyName">Antonio J</span>)</button>
+            </div>
+          </div>
+
+          <!-- Contenedor 1: Tabla Matriz de 20 Festivos x 7 Trabajadores -->
+          <div id="holidayMatrixContainer">
+            <div class="holiday-matrix-table-wrap">
+              <table class="holiday-matrix-table" id="holidayMatrixTable">
+                <!-- Inyectado dinámicamente -->
+              </table>
+            </div>
+            <div style="display:flex; gap:14px; flex-wrap:wrap; margin-top:10px; font-size:0.75rem; color:var(--text-muted);">
+              <span style="display:inline-flex; align-items:center; gap:4px;">
+                <span class="val-badge-min" style="font-size:0.68rem;">Verde</span> = Menos realizada (prioridad para realizar en 2028)
+              </span>
+              <span style="display:inline-flex; align-items:center; gap:4px;">
+                <span class="val-badge-max" style="font-size:0.68rem;">Naranja</span> = Más realizada (prioridad de descanso/libranza en 2028)
+              </span>
+              <span style="display:inline-flex; align-items:center; gap:4px;">
+                Columna azul = Cómputo del trabajador activo
+              </span>
+            </div>
+          </div>
+
+          <!-- Contenedor 2: Mis 20 Festivos (Vista Personal del Usuario Activo) -->
+          <div id="holidayPersonalListContainer" style="display:none; margin-top:14px;">
+            <div class="my-fest-all-grid" id="holidayPersonalAllList">
+              <!-- Inyectado dinámicamente -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Mis Fiestas Señaladas (Histórico del Usuario Activo) -->
+        <div class="calculator-card" style="margin-top:20px;">
+          <div class="section-header">
+            <h3>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+              </svg>
+              Mis Fiestas Señaladas (<span id="holidayMyWorkerTitle" style="color:var(--accent-primary);">Antonio J</span>)
+            </h3>
+          </div>
+          <div class="my-fest-special-grid" id="mySpecialFestList">
+            <!-- Tarjetas de Nochebuena, Nochevieja, Semana Santa, Romería -->
+          </div>
+        </div>
+
+        <!-- Buscador Cronológico de Cualquier Festivo (2011 - 2027) -->
+        <div class="calculator-card" style="margin-top:20px;">
+          <div class="section-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+            <h3>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              Buscador Cronológico por Festivo (2011 a 2027)
+            </h3>
+            
+            <div style="display:flex; align-items:center; gap:8px;">
+              <label for="selectHolidayCategory" style="font-size:0.8rem; color:var(--text-muted); font-weight:600;">Elegir fiesta:</label>
+              <select id="selectHolidayCategory" style="padding:6px 12px; font-size:0.82rem; border-radius:var(--radius-sm); background:var(--bg-surface); border:1px solid var(--border-color); color:var(--text-primary); cursor:pointer;">
+                <!-- Opciones inyectadas dinámicamente -->
+              </select>
+            </div>
+          </div>
+
+          <!-- Línea de Tiempo del Festivo Seleccionado -->
+          <div id="holidayTimelineContainer" style="margin-top:16px;">
+            <!-- Renderizado dinámicamente -->
+          </div>
+        </div>
+
+        <!-- Asignaciones Fijas Oficiales de 2027 -->
+        <div class="calculator-card" style="margin-top:20px;">
+          <div class="section-header">
+            <h3>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+              </svg>
+              Resumen de Asignaciones Fijas Oficiales 2027
+            </h3>
+            <span style="font-size:0.75rem; color:var(--text-muted);">
+              En festivos diurnos con 2 trabajadores, uno hace Mañana y otro Tarde indistintamente
+            </span>
+          </div>
+          <div class="fixed-holidays-2027-grid" id="fixedHolidays2027List">
+            <!-- Tarjetas de fechas fijas 2027 -->
+          </div>
+        </div>
+
+      </div> <!-- /#subViewHolidaysContainer -->
+
+    </section>
+
+    <!-- ====================================================================
+         TAB 5: ESTADÍSTICAS DE JORNADA
+         ==================================================================== -->
+    <section id="tab-stats" class="tab-content">
+      
+      <!-- KPIs Resumen de Jornada -->
+      <div class="stats-grid-row">
+        <div class="stat-kpi-card">
+          <div class="label">Jornadas Trabajadas</div>
+          <div class="num" id="statWorkedDays" style="color:var(--accent-primary);">220</div>
+          <div style="font-size:0.75rem; color:var(--text-secondary);" id="statGoalText">de 220 días legales</div>
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="statProgressBar" style="width:100%;"></div>
+          </div>
+        </div>
+
+        <div class="stat-kpi-card">
+          <div class="label">Mañanas (M / M.)</div>
+          <div class="num" id="statMornings" style="color:var(--shift-m);">0</div>
+          <div style="font-size:0.75rem; color:var(--text-secondary);">Turnos de 07:00 a 15:00</div>
+        </div>
+
+        <div class="stat-kpi-card">
+          <div class="label">Tardes (T / T.)</div>
+          <div class="num" id="statAfternoons" style="color:var(--shift-t);">0</div>
+          <div style="font-size:0.75rem; color:var(--text-secondary);">Turnos de 15:00 a 23:00</div>
+        </div>
+
+        <div class="stat-kpi-card">
+          <div class="label">Noches (N / N.)</div>
+          <div class="num" id="statNights" style="color:var(--shift-n);">0</div>
+          <div style="font-size:0.75rem; color:var(--text-secondary);">Turnos de 23:00 a 07:00</div>
+        </div>
+      </div>
+
+      <div class="stats-grid-row">
+        <div class="stat-kpi-card">
+          <div class="label">Festivos Trabajados</div>
+          <div class="num" id="statHolidays" style="color:var(--shift-fest);">0</div>
+          <div style="font-size:0.75rem; color:var(--text-secondary);">Turnos en días festivos</div>
+        </div>
+
+        <div class="stat-kpi-card">
+          <div class="label">Fines de Semana Trabajados</div>
+          <div class="num" id="statWeekendsWorked" style="color:#38bdf8;">0</div>
+          <div style="font-size:0.75rem; color:var(--text-secondary);">Sábados y Domingos íntegros</div>
+        </div>
+
+        <div class="stat-kpi-card">
+          <div class="label">Fines de Semana Libres</div>
+          <div class="num" id="statWeekendsFree" style="color:#a855f7;">0</div>
+          <div style="font-size:0.75rem; color:var(--text-secondary);">Conciliación familiar</div>
+        </div>
+
+        <div class="stat-kpi-card">
+          <div class="label">Periodos de Vacaciones</div>
+          <div class="num" id="statVacDays" style="color:#0ea5e9;">30</div>
+          <div style="font-size:0.75rem; color:var(--text-secondary);">2 quincenas reglamentarias</div>
+        </div>
+      </div>
+
+      <!-- Tabla Comparativa de Paridad en la Plantilla -->
+      <div class="calculator-card" style="margin-top:24px;">
+        <div class="section-header">
+          <h3>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+              <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+            </svg>
+            Equidad y Paridad Anual de la Plantilla
+          </h3>
+        </div>
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:12px;">Auditoría matemática de paridad entre los trabajadores en rotación completa:</p>
+        
+        <div class="matrix-scroll-wrapper">
+          <table class="matrix-table" id="equityTable">
+            <thead>
+              <tr>
+                <th>Trabajador</th>
+                <th>Días Trab.</th>
+                <th>Mañanas</th>
+                <th>Tardes</th>
+                <th>Noches</th>
+                <th>Festivos</th>
+                <th>Fines Semana</th>
+              </tr>
+            </thead>
+            <tbody id="equityTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ====================================================================
+         TAB 5: UTILIDADES, IMPORTADOR EXCEL & PWA
+         ==================================================================== -->
+    <section id="tab-tools" class="tab-content">
+      <div class="utilities-grid">
+
+        <!-- IMPORTADOR DE HOJA DE CÁLCULO EXCEL (.XLSX) -->
+        <div class="utility-box" style="grid-column: 1 / -1;">
+          <div>
+            <div class="section-header">
+              <h3>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <line x1="12" y1="18" x2="12" y2="12"></line>
+                  <line x1="9" y1="15" x2="15" y2="15"></line>
+                </svg>
+                Importador de Hoja de Cálculo Excel (.xlsx)
+              </h3>
+              <span id="excelActiveBadge" style="display:none; font-size:0.75rem; background:rgba(16,185,129,0.2); color:#10b981; padding:3px 8px; border-radius:6px; font-weight:700;">
+                Hoja Actualizada Activa
+              </span>
+            </div>
+            <p>
+              Si el cuadrante oficial de Andújar sufre cambios o actualizaciones en su archivo Excel, puedes importar directamente el nuevo archivo <code>.xlsx</code> aquí. La aplicación recalculará al instante todos los calendarios, coberturas, permutas y estadísticas sin perder tus notas personales.
+            </p>
+
+            <!-- Zona de arrastre / Drag & Drop -->
+            <div class="excel-dropzone" id="excelDropzone">
+              <input type="file" id="excelFileInput" accept=".xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" style="display:none;">
+              <div class="dropzone-icon">📊</div>
+              <div style="font-weight:700; font-size:1rem; margin-bottom:4px;">Haz clic aquí o arrastra tu archivo Excel (.xlsx)</div>
+              <div style="font-size:0.8rem; color:var(--text-muted);">Compatible con libros oficiales de 12 pestañas (01_Ene .. 12_Dic)</div>
+            </div>
+
+            <!-- Estado de Importación -->
+            <div id="excelImportStatus" style="display:none; margin-top:14px;"></div>
+          </div>
+
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:16px; flex-wrap:wrap; gap:10px;">
+            <button class="btn-primary" id="btnTriggerExcelUpload">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+              </svg>
+              Seleccionar archivo Excel
+            </button>
+            <button class="btn-secondary" id="btnResetToOriginalExcel" style="display:none;">
+              Restablecer al Cuadrante Original
+            </button>
+          </div>
+        </div>
+        
+        <!-- Sincronización Calendario Móvil (.ics) -->
+        <div class="utility-box">
+          <div>
+            <h3>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              Sincronización Móvil (.ics)
+            </h3>
+            <p>Descarga tus turnos en formato iCalendar (.ics) para agregarlos automáticamente a Google Calendar, Apple Calendar (iPhone/iPad/Mac) o Microsoft Outlook con alarmas previas.</p>
+            
+            <div class="form-group" style="margin-bottom:16px;">
+              <label>Periodo a exportar:</label>
+              <select id="exportPeriodSelect" class="form-control">
+                <option value="all">Todo el Año 2027 (Completo)</option>
+                <option value="1">Enero 2027</option>
+                <option value="2">Febrero 2027</option>
+                <option value="3">Marzo 2027</option>
+                <option value="4">Abril 2027 (Romería)</option>
+                <option value="5">Mayo 2027</option>
+                <option value="6">Junio 2027</option>
+                <option value="7">Julio 2027</option>
+                <option value="8">Agosto 2027</option>
+                <option value="9">Septiembre 2027 (Feria)</option>
+                <option value="10">Octubre 2027</option>
+                <option value="11">Noviembre 2027</option>
+                <option value="12">Diciembre 2027</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn-primary" id="btnDownloadIcs">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            Descargar archivo .ics
+          </button>
+        </div>
+
+        <!-- Descarga del Excel Oficial Actual -->
+        <div class="utility-box">
+          <div>
+            <h3>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+              </svg>
+              Descargar Excel Oficial
+            </h3>
+            <p>Descarga la hoja de cálculo generada con formato profesional (cabeceras azul marino, colores de turno, festivos destacados y fórmulas de recuento).</p>
+            <div style="font-size:0.8rem; color:var(--text-muted); margin-bottom:16px;">
+              Archivo actual: <code>Cuadrante_2027_Andujar_V3.xlsx</code>
+            </div>
+          </div>
+          <a href="Cuadrante_2027_Andujar_V3.xlsx" download class="btn-secondary" style="text-align:center;">
+            Descargar Archivo Excel (.xlsx)
+          </a>
+        </div>
+
+        <!-- Guía de Instalación PWA (App Móvil) -->
+        <div class="utility-box">
+          <div>
+            <h3>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                <line x1="12" y1="18" x2="12.01" y2="18"></line>
+              </svg>
+              Instalar en Pantalla de Inicio
+            </h3>
+            <p>Esta aplicación es una PWA (Progressive Web App) con soporte 100% offline. Puedes instalarla en tu smartphone como si fuera una aplicación nativa:</p>
+            <ul style="font-size:0.8rem; color:var(--text-secondary); padding-left:20px; margin-bottom:12px; line-height:1.6;">
+              <li><strong>En iPhone (Safari):</strong> Pulsa el botón "Compartir" y selecciona <em>"Añadir a pantalla de inicio"</em>.</li>
+              <li><strong>En Android (Chrome):</strong> Pulsa los 3 puntos y selecciona <em>"Instalar aplicación"</em> o <em>"Añadir a pantalla principal"</em>.</li>
+            </ul>
+          </div>
+          <button class="btn-secondary" id="pwaInstallBtn" style="display:none;">
+            Instalar App en este Dispositivo
+          </button>
+        </div>
+
+        <!-- Compendio Normativo Rápido -->
+        <div class="utility-box">
+          <div>
+            <h3>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+              </svg>
+              Criterios Operativos Oficiales
+            </h3>
+            <ul style="font-size:0.8rem; color:var(--text-secondary); padding-left:20px; line-height:1.6;">
+              <li><strong>Mañana (M):</strong> 07:00 a 15:00</li>
+              <li><strong>Tarde (T):</strong> 15:00 a 23:00</li>
+              <li><strong>Noche (N):</strong> 23:00 a 07:00</li>
+              <li><strong>Descanso legal:</strong> Mínimo 12h entre turnos sucesivos.</li>
+              <li><strong>Regla de Noche:</strong> Descanso mínimo de 48h tras bloque nocturno.</li>
+              <li><strong>Fines de Semana:</strong> 100% íntegros (nunca partidos).</li>
+            </ul>
+          </div>
+          <div style="font-size:0.75rem; color:var(--text-muted); margin-top:12px;">
+            Compendio Oficial Andújar 2027 · Aprobado
+          </div>
+        </div>
+
+        <!-- Infografías Oficiales & Manual de Usuario -->
+        <div class="utility-box" style="grid-column: 1 / -1; background:linear-gradient(135deg, rgba(2, 132, 199, 0.15) 0%, rgba(56, 189, 248, 0.05) 100%); border-color:rgba(56, 189, 248, 0.35);">
+          <div>
+            <div class="section-header">
+              <h3>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                </svg>
+                Infografías Oficiales & Manual de Usuario
+              </h3>
+              <span style="font-size:0.75rem; background:rgba(56,189,248,0.2); color:#38bdf8; padding:3px 8px; border-radius:6px; font-weight:700;">
+                Documento Oficial
+              </span>
+            </div>
+            <p>
+              Consulta la explicación gráfica de todas las reglas ergonómicas del cuadrante, los fines de semana de conciliación (0 partidos), la equidad matemática del reparto, las ventajas de la aplicación web y la guía de primeros pasos para los trabajadores.
+            </p>
+          </div>
+          <a href="infografia.html" class="btn-primary" style="text-decoration:none; display:inline-flex; align-items:center; gap:8px; align-self:flex-start;">
+            <span>📖</span> Abrir Infografías & Manual de Usuario
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Mobile Bottom Navigation Dock -->
+  <nav class="mobile-bottom-dock" aria-label="Navegación móvil">
+    <button class="dock-btn active" data-tab="tab-my-shift">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+        <line x1="16" y1="2" x2="16" y2="6"></line>
+        <line x1="8" y1="2" x2="8" y2="6"></line>
+        <line x1="3" y1="10" x2="21" y2="10"></line>
+      </svg>
+      <span>Mi Turno</span>
+    </button>
+    <button class="dock-btn" data-tab="tab-team">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+        <circle cx="9" cy="7" r="4"></circle>
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+      </svg>
+      <span>Equipo</span>
+    </button>
+    <button class="dock-btn" data-tab="tab-swaps">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="17 1 21 5 17 9"></polyline>
+        <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+        <polyline points="7 23 3 19 7 15"></polyline>
+        <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+      </svg>
+      <span>Permutas</span>
+    </button>
+    <button class="dock-btn" data-tab="tab-holidays-vacations">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="5"></circle>
+        <line x1="12" y1="1" x2="12" y2="3"></line>
+        <line x1="12" y1="21" x2="12" y2="23"></line>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+        <line x1="1" y1="12" x2="3" y2="12"></line>
+        <line x1="21" y1="12" x2="23" y2="12"></line>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+      </svg>
+      <span>Vacaciones</span>
+    </button>
+    <button class="dock-btn" data-tab="tab-stats">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="18" y1="20" x2="18" y2="10"></line>
+        <line x1="12" y1="20" x2="12" y2="4"></line>
+        <line x1="6" y1="20" x2="6" y2="14"></line>
+      </svg>
+      <span>Estadísticas</span>
+    </button>
+    <button class="dock-btn" data-tab="tab-tools">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="3"></circle>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+      </svg>
+      <span>Ajustes</span>
+    </button>
+  </nav>
+
+  <!-- Modal: Detalle del Día & Notas Personales -->
+  <div class="modal-overlay" id="dayDetailModal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 id="modalDayTitle">Detalle de la Jornada</h3>
+        <button class="modal-close-btn" id="modalCloseBtn" aria-label="Cerrar modal">&times;</button>
+      </div>
+
+      <div style="margin-bottom:16px;">
+        <div style="display:flex; align-items:center; gap:14px; margin-bottom:12px;">
+          <div class="shift-badge-large M" id="modalShiftBadge" style="width:50px; height:50px; font-size:1.4rem;">M</div>
+          <div>
+            <h4 id="modalShiftName" style="font-size:1.1rem; font-weight:700;">Turno de Mañana</h4>
+            <div id="modalShiftTime" style="font-size:0.85rem; color:var(--text-secondary);">07:00 a 15:00</div>
+            <div id="modalHolidayNotice" style="font-size:0.75rem; color:var(--shift-fest); font-weight:600; display:none;">Festivo Oficial</div>
+          </div>
+        </div>
+
+        <!-- Aviso de Permuta Activa en este día -->
+        <div id="modalSwapAlertBox" style="display:none; background:rgba(56,189,248,0.12); border:1px solid rgba(56,189,248,0.35); border-radius:var(--radius-md); padding:12px; margin-bottom:14px;">
+          <div style="display:flex; align-items:center; gap:8px; font-weight:700; color:#38bdf8; font-size:0.9rem;">
+            <span>🔀</span> Turno Modificado por Permuta
+          </div>
+          <div id="modalSwapAlertText" style="font-size:0.82rem; color:var(--text-primary); margin:6px 0 10px 0; line-height:1.4;">
+            <!-- Texto explicativo inyectado dinámicamente -->
+          </div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button type="button" class="btn-secondary" id="modalBtnRevertSwap" style="font-size:0.75rem; padding:6px 12px; color:#f43f5e; border-color:rgba(244,63,94,0.4); background:rgba(244,63,94,0.08);">
+              ↩️ Cancelar permuta y volver a turno original
+            </button>
+            <button type="button" class="btn-secondary" id="modalBtnVolanteSwap" style="font-size:0.75rem; padding:6px 12px; color:#38bdf8; border-color:rgba(56,189,248,0.35); background:rgba(56,189,248,0.08);">
+              📄 Ver Volante RRHH
+            </button>
+          </div>
+        </div>
+
+        <div style="background:var(--bg-surface); border-radius:var(--radius-md); padding:12px; border:1px solid var(--border-color); margin-bottom:16px;">
+          <div style="font-size:0.75rem; color:var(--text-muted); font-weight:600; margin-bottom:6px;">DOTACIÓN DEL TURNO:</div>
+          <div class="buddies-list" id="modalBuddiesList"></div>
+        </div>
+
+        <!-- Notas Personales (Guardadas en LocalStorage) -->
+        <div class="form-group">
+          <label for="modalDayNote">📝 Mi Nota Personal para este día:</label>
+          <textarea id="modalDayNote" class="form-control" rows="3" placeholder="Ej: Cambio acordado, cita médica, guardia preventiva..."></textarea>
+          <div style="font-size:0.7rem; color:var(--text-muted); margin-top:4px;">Las notas se guardan de forma privada en tu dispositivo.</div>
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:flex-end; gap:8px;">
+        <button class="btn-primary" id="modalSaveNoteBtn">Guardar Nota</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Apuntar Deuda Manual en la Bolsa -->
+  <div class="modal-overlay" id="manualDebtModal" style="display:none;">
+    <div class="modal-dialog" style="max-width:540px;">
+      <div class="modal-header">
+        <h3 style="font-size:1.15rem; font-weight:800; display:flex; align-items:center; gap:8px;">
+          <span>➕</span> Registrar Deuda de Turno
+        </h3>
+        <button class="modal-close-btn" id="closeManualDebtModalBtn" aria-label="Cerrar modal">&times;</button>
+      </div>
+      <div class="modal-body" style="padding-top:12px;">
+        <form id="manualDebtForm">
+          <div class="form-group">
+            <label for="debtOtherWorker">Compañero implicado:</label>
+            <select id="debtOtherWorker" class="form-control" style="font-weight:600;" required></select>
+          </div>
+          
+          <div class="form-group">
+            <label style="margin-bottom:6px; display:block;">Sentido del compromiso:</label>
+            <div class="debt-direction-toggle-group">
+              <label class="debt-direction-option">
+                <input type="radio" name="debtDirection" value="me_debe" checked>
+                <div class="direction-option-box green">
+                  <div style="font-weight:700; font-size:0.9rem;">🟢 Me debe a mí</div>
+                  <div style="font-size:0.75rem; color:var(--text-secondary);">Yo le cubrí un turno a él/ella</div>
+                </div>
+              </label>
+              <label class="debt-direction-option">
+                <input type="radio" name="debtDirection" value="le_debo">
+                <div class="direction-option-box orange">
+                  <div style="font-weight:700; font-size:0.9rem;">🟠 Le debo yo</div>
+                  <div style="font-size:0.75rem; color:var(--text-secondary);">Me cubrió un turno a mí</div>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+            <div class="form-group">
+              <label for="debtDateOriginal">Fecha del turno original:</label>
+              <input type="date" id="debtDateOriginal" class="form-control" value="2027-01-15" min="2027-01-01" max="2027-12-31" required>
+            </div>
+            <div class="form-group">
+              <label for="debtShiftOriginal">Turno cubierto / debido:</label>
+              <select id="debtShiftOriginal" class="form-control" required>
+                <option value="M">Mañana (07:00 - 15:00)</option>
+                <option value="T">Tarde (15:00 - 23:00)</option>
+                <option value="N">Noche (23:00 - 07:00)</option>
+                <option value="M.">Mañana Festivo (M.)</option>
+                <option value="T.">Tarde Festivo (T.)</option>
+                <option value="N.">Noche Festivo (N.)</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+            <div class="form-group">
+              <label for="debtDateReturn">Fecha devolución (opcional):</label>
+              <input type="date" id="debtDateReturn" class="form-control" min="2027-01-01" max="2027-12-31">
+            </div>
+            <div class="form-group">
+              <label for="debtShiftReturn">Turno devolución (opcional):</label>
+              <select id="debtShiftReturn" class="form-control">
+                <option value="">(Pendiente de acordar)</option>
+                <option value="M">Mañana (M)</option>
+                <option value="T">Tarde (T)</option>
+                <option value="N">Noche (N)</option>
+                <option value="M.">Mañana Festivo (M.)</option>
+                <option value="T.">Tarde Festivo (T.)</option>
+                <option value="N.">Noche Festivo (N.)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="debtNotes">Notas / Motivo (opcional):</label>
+            <input type="text" id="debtNotes" class="form-control" placeholder="Ej: Cambio por cita médica, asuntos propios...">
+          </div>
+
+          <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
+            <button type="button" class="btn-secondary" id="cancelManualDebtBtn">Cancelar</button>
+            <button type="submit" class="btn-primary" style="background:linear-gradient(135deg, #0284c7, #2563eb);">
+              Guardar en mi Bolsa
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Volante Oficial de Permuta para RRHH -->
+  <div class="modal-overlay" id="rrhhVolanteModal" style="display:none;">
+    <div class="modal-dialog" style="max-width:840px; width:95%; max-height:92vh; display:flex; flex-direction:column; padding:0; overflow:hidden;">
+      <div class="modal-header" style="flex-shrink:0; padding:16px 24px; border-bottom:1px solid var(--border-color); background:var(--bg-surface);">
+        <h3 style="font-size:1.15rem; font-weight:800; display:flex; align-items:center; gap:8px;">
+          <span>📄</span> Volante Oficial de Solicitud de Permuta (RRHH)
+        </h3>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <button class="btn-primary" id="btnPrintVolante" style="padding:7px 16px; font-size:0.8rem; background:linear-gradient(135deg, #0284c7, #2563eb);">
+            🖨️ Imprimir / Guardar PDF
+          </button>
+          <button class="modal-close-btn" id="closeVolanteModalBtn" aria-label="Cerrar modal">&times;</button>
+        </div>
+      </div>
+      
+      <div class="modal-body" style="overflow-y:auto; padding:24px; flex-grow:1; background:#0f172a;">
+        
+        <!-- Hoja formal de papel A4 imprimible -->
+        <div class="volante-paper" id="volantePaperPrintArea">
+          <div class="volante-header">
+            <div class="volante-org-badge">SERVICIO DE SEGURIDAD Y EMERGENCIAS · ANDÚJAR</div>
+            <h2 class="volante-doc-title">COMUNICACIÓN Y SOLICITUD FORMAL DE PERMUTA DE TURNOS</h2>
+            <div class="volante-meta-row">
+              <span><strong>Ref. Solicitud:</strong> <span id="vRefCode">PERM-2027-001</span></span>
+              <span><strong>Centro de Trabajo:</strong> Andújar (Cuadrante 2027)</span>
+              <span><strong>Fecha Solicitud:</strong> <span id="vEmissionDate">01/02/2027</span></span>
+            </div>
+          </div>
+
+          <!-- 1. Empleados Interesados -->
+          <div class="volante-section">
+            <div class="volante-section-title">1. DATOS DE LOS EMPLEADOS INTERESADOS</div>
+            <div class="volante-two-cols">
+              <div class="volante-col-box">
+                <div class="volante-col-label">EMPLEADO 1 (SOLICITANTE / CEDE SERVICIO):</div>
+                <div class="volante-field"><strong>Nombre y Apellidos:</strong> <span id="vWorker1Name">Antonio Jesús Sánchez</span></div>
+                <div class="volante-field"><strong>DNI / NIF:</strong> [ ________________________ ]</div>
+                <div class="volante-field"><strong>Categoría / Puesto:</strong> Personal Operativo Fijo</div>
+              </div>
+              <div class="volante-col-box">
+                <div class="volante-col-label">EMPLEADO 2 (SUSTITUTO / ASUME SERVICIO):</div>
+                <div class="volante-field"><strong>Nombre y Apellidos:</strong> <span id="vWorker2Name">Alberto Higueras</span></div>
+                <div class="volante-field"><strong>DNI / NIF:</strong> [ ________________________ ]</div>
+                <div class="volante-field"><strong>Categoría / Puesto:</strong> Personal Operativo Fijo</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Jornadas y Turnos a Intercambiar -->
+          <div class="volante-section">
+            <div class="volante-section-title">2. DETALLE DE LAS JORNADAS Y TURNOS A PERMUTAR</div>
+            <table class="volante-table">
+              <thead>
+                <tr>
+                  <th>Concepto</th>
+                  <th>Fecha</th>
+                  <th>Turno Oficial</th>
+                  <th>Trabajador que Asume</th>
+                  <th>Situación de la Otra Parte</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Jornada A (Cesión)</strong></td>
+                  <td id="vDateA">Sábado, 06/02/2027</td>
+                  <td id="vShiftA">Mañana (07:00 a 15:00)</td>
+                  <td id="vWorkerAssumesA">Alberto Higueras</td>
+                  <td><strong>LIBRE / DESCANSO</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>Jornada B (Devolución)</strong></td>
+                  <td id="vDateB">Sábado, 27/02/2027</td>
+                  <td id="vShiftB">Mañana (07:00 a 15:00)</td>
+                  <td id="vWorkerAssumesB">Antonio Jesús Sánchez</td>
+                  <td><strong>LIBRE / DESCANSO</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- 3. Auditoría de Normativa Laboral -->
+          <div class="volante-section">
+            <div class="volante-section-title">3. AUDITORÍA OFICIAL DE NORMATIVA LABORAL Y DESCANSOS</div>
+            <div class="volante-checks-grid" id="vChecksGrid">
+              <div class="v-check-item"><span>[X]</span> Descanso mínimo legal obligatorio (≥ 8h entre jornadas): CUMPLIDO</div>
+              <div class="v-check-item"><span>[X]</span> Descanso ergonómico recomendado (12h entre turnos): CUMPLIDO</div>
+              <div class="v-check-item"><span>[X]</span> Cobertura mínima de servicio de plantilla en Andújar: GARANTIZADA</div>
+              <div class="v-check-item"><span>[X]</span> Límite de jornadas consecutivas (máximo 5 días seguidos): CUMPLIDO</div>
+              <div class="v-check-item"><span>[X]</span> Régimen singular y restricciones operativas respetadas</div>
+            </div>
+          </div>
+
+          <!-- 4. Declaración Responsable -->
+          <div class="volante-section">
+            <div class="volante-section-title">4. DECLARACIÓN RESPONSABLE DE COMÚN ACUERDO</div>
+            <p class="volante-legal-text">
+              Los trabajadores abajo firmantes declaran que la presente permuta se realiza de común y mutuo acuerdo, con carácter voluntario, asumiendo íntegramente las obligaciones del servicio en las fechas acordadas sin menoscabo de la cobertura obligatoria ni del normal funcionamiento del centro de trabajo.
+            </p>
+          </div>
+
+          <!-- 5. Firmas de los Trabajadores -->
+          <div class="volante-section">
+            <div class="volante-section-title">5. CONFORMIDAD Y FIRMAS DE LOS EMPLEADOS</div>
+            <div class="volante-signatures-grid">
+              <div class="volante-sig-box">
+                <div class="sig-title">El Empleado 1 (Solicitante)</div>
+                <div class="sig-name" id="vSigWorker1">D. Antonio Jesús Sánchez</div>
+                <div class="sig-line">Fdo.:</div>
+              </div>
+              <div class="volante-sig-box">
+                <div class="sig-title">El Empleado 2 (Sustituto)</div>
+                <div class="sig-name" id="vSigWorker2">D. Alberto Higueras</div>
+                <div class="sig-line">Fdo.:</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 6. Resolución de Jefatura / RRHH -->
+          <div class="volante-section resolution-box">
+            <div class="volante-section-title">6. RESOLUCIÓN DE LA JEFATURA DE SERVICIO / RECURSOS HUMANOS</div>
+            <div style="display:flex; gap:24px; margin:8px 0; font-weight:700;">
+              <label><span style="border:1px solid #000; padding:1px 6px; margin-right:4px;">&nbsp;</span> AUTORIZADA la permuta solicitada</label>
+              <label><span style="border:1px solid #000; padding:1px 6px; margin-right:4px;">&nbsp;</span> DENEGADA</label>
+            </div>
+            <div style="font-size:0.8rem; margin-top:6px; color:#475569;">
+              En Andújar, a _____ de ________________________ de 2027.
+            </div>
+            <div style="margin-top:24px; display:flex; justify-content:space-between; align-items:flex-end;">
+              <div style="font-size:0.8rem; font-weight:700;">Vº Bº JEFATURA DE SERVICIO / RRHH</div>
+              <div style="border-top:1px solid #000; width:220px; text-align:center; font-size:0.75rem; padding-top:4px;">
+                Firma y Sello Oficial
+              </div>
+            </div>
+          </div>
+
+        </div> <!-- /#volantePaperPrintArea -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Listado de Permutas Activas -->
+  <div class="modal-overlay" id="activeSwapsListModal" style="display:none;">
+    <div class="modal-dialog" style="max-width:640px; width:95%;">
+      <div class="modal-header">
+        <h3 style="font-size:1.15rem; font-weight:800; display:flex; align-items:center; gap:8px;">
+          <span>🔀</span> Permutas Activas en tu Cuadrante
+        </h3>
+        <button class="modal-close-btn" id="closeActiveSwapsModalBtn" aria-label="Cerrar modal">&times;</button>
+      </div>
+      <div class="modal-body" style="padding:16px 20px;">
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:14px;">
+          Estas permutas están modificando tus turnos en el calendario y estadísticas. Puedes cancelarlas individualmente para volver a los turnos oficiales o restablecer todo tu cuadrante.
+        </p>
+        <div id="activeSwapsModalList" style="display:flex; flex-direction:column; gap:12px;">
+          <!-- Tarjetas de permutas inyectadas dinámicamente -->
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:20px; padding-top:14px; border-top:1px solid var(--border-color);">
+          <button class="btn-secondary" id="modalResetAllSwapsBtn" type="button" style="color:#f43f5e; border-color:rgba(244,63,94,0.4); background:rgba(244,63,94,0.08); font-size:0.8rem; padding:7px 14px;">
+            ↩️ Restablecer todo al Cuadrante Oficial
+          </button>
+          <button class="btn-primary" id="modalCloseActiveSwapsBtn" type="button" style="font-size:0.8rem; padding:7px 16px;">
+            Cerrar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Application Scripts -->
+  <script src="js/xlsx.full.min.js"></script>
+  <script src="js/cuadrante_data.js"></script>
+  <script src="js/historical_data.js"></script>
+  <script src="js/validator.js"></script>
+  <script src="js/calendar_export.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
