@@ -28,7 +28,7 @@ La plantilla consta de 9 trabajadores:
   * Solo puede trabajar en turnos de **Mañana (M)** y **Tarde (T)** de lunes a viernes laborables.
   * **NUNCA** realiza turnos de **Noche (N)**.
   * **NUNCA** trabaja en **fines de semana** (Sábado, Domingo) ni en **días festivos**.
-  * Sus 220 jornadas anuales se reparten de forma equitativa exclusivamente entre Mañanas y Tardes (~110-120 M, ~100-110 T).
+  * Sus 220 jornadas anuales se reparten de forma perfectamente equilibrada y simétrica: **exactamente 110 Mañanas y 110 Tardes** (mediante intercambios con los turnos de tarde laborables de los compañeros, respetando estrictamente los descansos de 12h y sin alterar noches ni festivos).
 * **Extra 1**:
   * Contratado exclusivamente durante los 4 meses de verano: **Junio, Julio, Agosto y Septiembre** (para refuerzo y cobertura de vacaciones). En el resto de meses no trabaja (0 días).
   * Realiza entre 80 y 88 días anuales, pudiendo trabajar **hasta 22 días al mes** en los meses estivales.

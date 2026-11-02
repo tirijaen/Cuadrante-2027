@@ -333,6 +333,10 @@ m2.Add(x[w_map['Miguel B'], d_idx(2027, 10, 31), 0] == 1)
 m2.Add(x[w_map['Antonio J'], d_idx(2027, 12, 24), 2] == 0)
 
 # Criterios de Equidad Anual (Sección 7 de las Reglas Oficiales):
+
+# Hilario: exactamente 110 Mañanas y 110 Tardes
+m2.Add(sum(x[w_map['Hilario'], d, 1] for d in range(total_days)) == 110)
+
 regular_indices = [w_map[w] for w in ['Antonio J', 'Santi M', 'Alberto H', 'Fran Espin', 'Miguel B', 'Paco C', 'A. Leon']]
 
 # 1. Mañanas (max - min <= 5)

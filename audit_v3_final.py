@@ -37,6 +37,11 @@ for d_idx, dt in enumerate(dates):
     if dt.weekday() in (5, 6) or dt in holidays:
         if s != "": errors.append(f"Hilario trabaja en fin de semana o festivo el {dt}")
 
+h_m = sum(1 for s in matrix_plain[h_idx] if s.strip() == "M")
+h_t = sum(1 for s in matrix_plain[h_idx] if s.strip() == "T")
+if h_m != 110 or h_t != 110:
+    errors.append(f"Hilario no tiene paridad 110M / 110T: Mañanas={h_m}, Tardes={h_t}")
+
 # 3. Extra 1: no trabaja fuera de verano, no noches ni findes en junio 1-14, hasta 22 días/mes
 e_idx = w_map["Extra 1"]
 for d_idx, dt in enumerate(dates):

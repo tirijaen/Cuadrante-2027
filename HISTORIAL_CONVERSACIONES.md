@@ -824,5 +824,46 @@ Me refiero valor de la foto donde pone festivos, que es la suma anual entre fest
    - `audit_v3_final.py` actualizado con verificación formal de paridad en festivos anuales (`diff_fest <= 1`).
    - `sw.js` actualizado a la versión de caché `cuadrante-2027-v12.0`.
 
+---
+
+## 📅 Sesión 15 - Simetría Perfecta de Hilario (110 Mañanas y 110 Tardes) sin Modificar Noches, Festivos ni Fines de Semana
+
+### 💬 Mensaje de Antonio:
+```text
+Vamos a igualarle los turnos de mañana y tarde a hilario, se lo haremos intercambiando mañanas y tardes con los otros trabajadores sin romper reglas, la meta es que hilario se aproxime a las 110 mañanas y 110 tardes. Evitaremos cambiar a los otros trabajadores, noches, festivos para no descuadrar ya un cuadrante que tenemos muy afinado.
+```
+
+### 🤖 Diagnóstico y Estrategia de Intercambio:
+1. **Estado Previo de Hilario**:
+   - Hilario tenía 153 Mañanas y 67 Tardes (Tot 220).
+   - Para alcanzar la simetría perfecta de 110 Mañanas y 110 Tardes, se requería transferir exactamente **43 turnos de Mañana a Tarde**.
+2. **Criterios de Blindaje Operativo**:
+   - **Noches intactas**: 0 cambios en el ciclo de noches (todos mantienen exactamente 49 noches).
+   - **Fines de semana y festivos intactos**: Como Hilario solo trabaja de lunes a viernes no festivos, todos los intercambios se realizaron estrictamente en días laborables ordinarios donde coincidían Hilario y los trabajadores regulares. Por tanto, los festivos (48/47) y fines de semana trabajados permanecen 100% idénticos.
+   - **Extra 1 blindado**: 0 modificaciones sobre Extra 1.
+   - **Descansos ergonómicos**: Respetado al 100% el descanso mínimo de 12 horas (ningún trabajador realiza Tarde seguida de Mañana al día siguiente).
+
+3. **Resultado Matemático de la Auditoría (`audit_v3_final.py` - 0 Errores)**:
+   - **Hilario**: **110 Mañanas y 110 Tardes exactas** (220 jornadas anuales, 0 noches, 0 festivos).
+   - **Plantilla Regular (7 titulares)**:
+     * **Antonio J**: M=97, T=74, N=49, Festivos=48, Fines de semana=17
+     * **Santi M**: M=95, T=76, N=49, Festivos=48, Fines de semana=19
+     * **Alberto H**: M=95, T=76, N=49, Festivos=48, Fines de semana=14
+     * **Fran Espin**: M=97, T=74, N=49, Festivos=48, Fines de semana=17
+     * **Miguel B**: M=96, T=75, N=49, Festivos=48, Fines de semana=15
+     * **Paco C**: M=95, T=76, N=49, Festivos=48, Fines de semana=17
+     * **A. Leon**: M=95, T=76, N=49, Festivos=47, Fines de semana=19
+   - **Paridad de Mañanas**: entre 95 y 97 ($\Delta = 2 \le 5$).
+   - **Paridad de Tardes**: entre 74 y 76 ($\Delta = 2 \le 5$).
+   - **Fines de semana partidos**: **0**.
+   - **Límites mensuales**: Máximo 21 días en meses regulares.
+
+4. **Entregables Sincronizados**:
+   - `Cuadrante_2027_Andujar_V3.xlsx` y `Cuadrante_2027_Andujar.xlsx` regenerados.
+   - `cuadrante_2027.json`, `cuadrante_2027_v3.json` y `js/cuadrante_data.js` actualizados.
+   - `audit_v3_final.py` actualizado con verificación formal de Hilario (110M / 110T).
+   - `sw.js` actualizado a la versión de caché `cuadrante-2027-v13.0`.
+
+
 
 
