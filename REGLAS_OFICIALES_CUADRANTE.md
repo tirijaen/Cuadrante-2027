@@ -2,6 +2,12 @@
 
 Este documento recopila la totalidad de las reglas, restricciones operativas, criterios ergonómicos, asignaciones fijas y directrices de diseño acumuladas para la generación, optimización y resolución matemática del cuadrante laboral. Servirá como **marco de referencia único y permanente para futuros diseños y revisiones**.
 
+> 📌 **Regla de Oro Metodológica de Diseño**:  
+> Todo diseño o recálculo del cuadrante debe ejecutarse obligatoriamente en **tres fases secuenciales estrictas**:  
+> 1. **1ª Fase**: Colocar y blindar las **Vacaciones** reglamentarias y sus descansos de víspera.  
+> 2. **2ª Fase**: Fijar los **Festivos oficiales** por mínimos históricos para garantizar la máxima equidad acumulada.  
+> 3. **3ª Fase**: Rellenar y cuadrar los días laborables restantes aplicando los **patrones operativos** (ergonomía de noches, fines de semana completos, límites mensuales $\le 21$ y tardes complementarias para cuadrar exactamente los 220 días). *(Ver Sección 10)*.
+
 ---
 
 ## 1. Plantilla y Roles
@@ -211,7 +217,43 @@ Cada vez que se calcule o genere el cuadrante oficial:
 
 ---
 
-## 10. Protocolo de Resolución de Conflictos
+## 10. Metodología Obligatoria y Orden Jerárquico de Diseño del Cuadrante (Fases de Construcción)
+
+Para el diseño, optimización o resolución matemática de cualquier cuadrante (tanto el presente como futuros ejercicios anuales), el proceso de construcción debe seguir **estricta y obligatoriamente el siguiente orden secuencial por fases**. Ninguna fase posterior puede desplazar, deshacer o contradecir las asignaciones fijadas en las fases previas:
+
+### 🥇 1ª Fase: Fijación y Blindaje de Vacaciones (Prioridad Máxima)
+1. **Colocación Inicial**: Lo primero que se fija de manera ineludible en el calendario son los periodos de **vacaciones** de toda la plantilla (las dos quincenas reglamentarias de 15 días concedidas a cada trabajador entre junio y septiembre, según la [Sección 8](#8-periodos-vacacionales-quincenas-reglamentarias)).
+2. **Blindaje de Vísperas**: Se bloquea de forma obligatoria la noche inmediatamente anterior al inicio de cada quincena vacacional para impedir que ningún trabajador realice turno de noche la víspera de sus vacaciones.
+3. **Cómputo Mensual en Periodo Vacacional**: En los dos meses en que el trabajador disfruta de quincena vacacional, sus días trabajados deben situarse estrictamente en la franja reglamentaria de **9 a 12 jornadas**.
+
+### 🥈 2ª Fase: Fijación de Festivos Oficiales para la Equidad Histórica Pura
+1. **Asignación Obligatoria por Mínimos Históricos**: Con las vacaciones ya fijadas e inalterables, el segundo paso ineludible es asignar todos los **festivos oficiales del año** (festivos diurnos individuales, festivos multi-día —Semana Santa, Romería y Feria— y las 5 noches festivas singulares).
+2. **Prioridad Absoluta de los Festivos sobre Patrones Ordinarios**: Los festivos se asignan siempre a los trabajadores que acumulan **menos servicios en esa festividad concreta** en el histórico oficial (`Cuadrante 2026 para Agente.xlsx`), con prioridad absoluta sobre la rotación ordinaria o los ciclos de noches comunes.
+3. **Integridad en Festivos Multi-Día**: El trabajador asignado a la mañana o tarde en una festividad de varios días cubre el ciclo completo del festivo (sin alternar personal en el mismo turno festivo, ej. Alberto H en Mañanas y Fran Espín en Tardes durante la Romería; Antonio J diurno en Feria).
+4. **Equidad Global Acumulada**: Las asignaciones deben calibrarse para que el cómputo global de festivos acumulados de toda la plantilla al cierre del año quede perfectamente nivelado en la banda de máxima paridad (entre **69 y 70 festivos acumulados** en 17 años).
+
+### 🥉 3ª Fase: Relleno y Cuadre de Días con los Patrones Operativos
+Habiendo fijado las vacaciones (1ª Fase) y los festivos de equidad (2ª Fase), se completan los días restantes del año aplicando secuencialmente los patrones operativos, ergonómicos y de conciliación:
+1. **Patrón Ergonómico de Noches**:
+   * Agrupación de noches en bloques compactos (habitualmente de 2 o 3 noches consecutivas).
+   * **Doble Descanso Obligatorio**: Garantía ineludible de 48 horas (2 días libres) inmediatamente posteriores a finalizar cualquier bloque de noche (excepto Hilario, que no realiza noches).
+   * Paridad exacta de 49 noches anuales para cada uno de los 7 titulares en rotación completa.
+2. **Patrón de Fines de Semana sin Partir**:
+   * Los fines de semana (desde el viernes noche hasta el domingo por la tarde) se asignan íntegros al mismo trabajador o se disfrutan completamente libres. Queda terminantemente prohibido partir fines de semana (**0 fines de semana partidos**).
+3. **Coberturas Ordinarias Diarias y Descansos Legales**:
+   * Lunes a viernes en periodo ordinario: 3 Mañanas, 2 Tardes (ampliables a 3), 1 Noche.
+   * Lunes a viernes en verano: Coberturas adaptadas y apoyo de Extra 1.
+   * Descanso legal de 12 horas entre turnos sucesivos (nunca Tarde seguido de Mañana, ni Noche seguido de Mañana/Tarde).
+   * Máximo de 5 días de trabajo consecutivos para personal titular e Hilario (6 días para Extra 1 con doble descanso posterior).
+4. **Cuadre de Cupos y Tardes Complementarias**:
+   * Ajuste fino de tardes complementarias (jornadas laborables ordinarias donde coinciden 3 trabajadores en turno de tarde) para absorber el sobrante de jornada hasta clavar exactamente los **220 días anuales** por trabajador (y 80-88 días para Extra 1).
+   * **Límite Mensual Estricto**: En ningún mes ordinario ningún trabajador puede realizar 22 días trabajados (estrictamente entre **18 y 21 días al mes**, NUNCA 22).
+5. **Eventos Personales y Descansos Blindados**:
+   * Respeto absoluto a los eventos personales aprobados para Antonio Jesús (02 de mayo libre y sin noche previa el 01 de mayo; 24 de diciembre solo mañana si trabaja; 31 de diciembre noche), Fran Espín (29 de mayo libre y sin noche previa el 28 de mayo) y Miguel Benítez (31 de octubre libre y sin noche previa el 30 de octubre).
+
+---
+
+## 11. Protocolo de Resolución de Conflictos
 
 Si durante la formulación o resolución del modelo se detecta una interferencia o conflicto normativo entre dos reglas (por ejemplo, asignaciones fijas que colisionen con periodos de vacaciones concedidos o con el descanso mínimo obligatorio):
 1. **NO tomar decisiones unilaterales arbitrarias**.
@@ -220,7 +262,7 @@ Si durante la formulación o resolución del modelo se detecta una interferencia
 
 ---
 
-## 11. Directriz de Entrega y Formato de Salida
+## 12. Directriz de Entrega y Formato de Salida
 
 * **Prescindir de tablas Markdown mes a mes en el chat**: Ya no es necesario volcar las 12 tablas mensuales en formato Markdown en las respuestas del chat, agilizando la lectura y evitando respuestas innecesariamente extensas.
 * **Canal oficial de entrega**: Es suficiente y obligatorio entregar el archivo Excel (`.xlsx`) completamente generado, con su diseño visual profesional (cabeceras en azul marino, fines de semana en gris claro, festivos destacados en salmón, colores suaves para turnos `M`, `T`, `N`) y las fórmulas nativas de recuento `=COUNTIF(...)`.

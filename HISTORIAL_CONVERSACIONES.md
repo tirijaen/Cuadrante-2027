@@ -775,8 +775,9 @@ Si has cometido un error te propongo una solución. Añade a Hilario y Miguel de
    - **Equidad global acumulada (2011–2027)**: Se mantiene en 69–70 festivos para toda la plantilla.
 
 5. **Entregables Sincronizados**:
-   - `REGLAS_OFICIALES_CUADRANTE.md`: Actualizada la regla del 23 de abril.
+   - `REGLAS_OFICIALES_CUADRANTE.md`: Actualizada la regla del 23 de abril y añadida la **Sección 10 (Metodología y Orden Jerárquico de Diseño en 3 Fases: 1º Vacaciones, 2º Festivos por equidad, 3º Relleno con patrones operativos)**.
    - `Cuadrante_2027_Andujar_V3.xlsx` y `Cuadrante_2027_Andujar.xlsx` regenerados.
    - `cuadrante_2027_v3.json`, `cuadrante_2027.json` y `js/cuadrante_data.js` actualizados.
    - `js/validator.js` y `sw.js` (caché v10.0) actualizados.
+
 
