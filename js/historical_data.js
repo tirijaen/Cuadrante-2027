@@ -394,7 +394,7 @@ window.HISTORICAL_DATA = {
           "2024": "MB",
           "2025": "AH",
           "2026": "AJ",
-          "2027": "AL"
+          "2027": "EX1"
         },
         "counts": {
           "AJ": 3,
@@ -403,7 +403,7 @@ window.HISTORICAL_DATA = {
           "FE": 2,
           "MB": 2,
           "PC": 2,
-          "AL": 1
+          "AL": 0
         },
         "totalTimes": 12
       },
@@ -671,7 +671,7 @@ window.HISTORICAL_DATA = {
       "FE": 70,
       "MB": 70,
       "PC": 70,
-      "AL": 71
+      "AL": 70
     }
   },
   "vacaciones": {

@@ -60,7 +60,7 @@ La equidad acumulada tras 17 años de registros es matemáticamente perfecta (m�
 | **1 DE MAYO** | JM-AC | AC-PR | AL-PS | AJ-MB | AC-AH | FE-PC | PC-SM | MG-FE |
 | **15 DE MAYO SAN EUFRASIO** | X | X | PC-JM | AJ-AL | X | X |  |  |
 | **15 DE AGOSTO ** | PC-AL | DC | AL | FE-PC | AC-AJ | AH-AC | AL | SM |
-| **NOCHES DE FERIA** | X | PC | AC | AJ | MB | AH | AJ | AL |
+| **NOCHES DE FERIA** | X | PC | AC | AJ | MB | AH | AJ | EX1 |
 | **FERIA** | DC-AC | JM | AL-PC | AL | AC-AL | AL-MB | FE | AJ |
 | **12 DE OCTUBRE** | PC-JM | AL-AJ | DC-AJ | PC-MB | AC-MB | FE-PC | AH-AJ | MG-PC |
 | **1 DE NOVIEMBRE** | AL-JM | AC-AJ | AC-PC | AL-DC | FE-MB | PC-MB | FE-AH | AJ-AL |
@@ -121,7 +121,7 @@ Las vacaciones se dividen en 8 quincenas anuales (Junio a Septiembre) y se asign
 | **1 DE MAYO (Trabajo)** | 5 | 5 | 4 | 5 | 5 | 4 | 4 | AJ, SM, FE, MB (5) descansan; AH, PC, AL (4) prioridad |
 | **15 DE MAYO (San Eufrasio)** | 1 | 1 | 0 | 2 | 1 | 2 | 1 | FE, PC (2) descansan; AH (0) máxima prioridad |
 | **15 DE AGOSTO (Asunción)** | 3 | 4 | 3 | 3 | 3 | 4 | 6 | AL (6) máxima libranza; AJ, AH, FE, MB (3) prioridad |
-| **NOCHES DE FERIA** | 3 | 1 | 1 | 2 | 2 | 2 | 1 | AJ (3) descansa; SM, AH, AL (1) en turno |
+| **NOCHES DE FERIA** | 3 | 1 | 1 | 2 | 2 | 2 | 0 | AL (0) máxima prioridad de turno; AJ (3) descansa; SM, AH (1) en turno |
 | **FERIA (Día)** | 3 | 3 | 4 | 4 | 3 | 3 | 4 | AH, FE, AL (4) descansan; AJ, SM, MB, PC (3) prioridad |
 | **12 DE OCTUBRE (Hispanidad)** | 5 | 4 | 5 | 4 | 5 | 5 | 4 | AJ, AH, MB, PC (5) descansan; SM, FE, AL (4) prioridad |
 | **1 DE NOVIEMBRE (Todos los Santos)** | 4 | 4 | 5 | 4 | 4 | 5 | 4 | AH, PC (5) descansan; AJ, SM, FE, MB, AL (4) prioridad |
@@ -130,4 +130,4 @@ Las vacaciones se dividen en 8 quincenas anuales (Junio a Septiembre) y se asign
 | **NOCHEBUENA** | 2 | 2 | 3 | 2 | 2 | 2 | 2 | AH (3) descansa; AJ, SM, FE, MB, PC, AL (2) en turno |
 | **25 DICIEMBRE (Navidad)** | 4 | 5 | 4 | 5 | 4 | 4 | 5 | SM, FE, AL (5) descansan; AJ, AH, MB, PC (4) prioridad |
 | **NOCHE 31 DICIEMBRE (Nochevieja)** | 3 | 2 | 2 | 2 | 3 | 2 | 2 | AJ, MB (3) descansan; resto de plantilla (2) en turno |
-| **TOTALES ACUMULADOS** | **72** | **71** | **70** | **70** | **70** | **70** | **71** | **Equidad global: 70 - 72** |
+| **TOTALES ACUMULADOS** | **72** | **71** | **70** | **70** | **70** | **70** | **70** | **Equidad global: 70 - 72** |

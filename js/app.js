@@ -3844,6 +3844,13 @@ ${debt.notes ? `• *Notas:* ${debt.notes}\n` : ''}
     if (!el.mySpecialFestList || !window.HISTORICAL_DATA) return;
     const w = state.currentWorker;
 
+    function getCleanShift(worker, dateStr) {
+      const s = getEffectiveShift(worker, dateStr);
+      return (s || '').replace('.', '').trim();
+    }
+    const s24 = getCleanShift(w, '2027-12-24');
+    const s31 = getCleanShift(w, '2027-12-31');
+
     // Fiestas clave
     const specialFestivals = [
       {
@@ -3860,27 +3867,27 @@ ${debt.notes ? `• *Notas:* ${debt.notes}\n` : ''}
           'Hilario': 'Exento',
           'Extra 1': 'Exento'
         },
-        works2027: (w === 'Alberto H'),
-        text2027: (w === 'Alberto H' ? 'Turno de Noche (23:00 - 07:00)' : 'Descanso / Libre'),
+        works2027: (s24 === 'N'),
+        text2027: (s24 === 'N' ? 'Turno de Noche (23:00 - 07:00) · ¡En servicio Nochebuena!' : (s24 === 'M' ? 'Turno de Mañana (07:00 - 15:00) · Nochebuena libre' : (s24 === 'T' ? 'Turno de Tarde (15:00 - 23:00) · Nochebuena libre' : 'Descanso / Libre · Nochebuena libre'))),
         forecast2028: 'A. León (Rotación anual)'
       },
       {
         id: 'nochevieja',
         title: '🍾 Nochevieja (31 Dic)',
         historyLast: {
-          'Antonio J': '2020',
+          'Antonio J': '2027 (¡Este año te toca!)',
           'Santi M': '2023 (antiguo Marcos Brito)',
           'Alberto H': '2021 (antiguo DC)',
           'Fran Espin': '2025',
-          'Miguel B': '2027 (¡Este año te toca!)',
+          'Miguel B': '2022 (antiguo AC)',
           'Paco C': '2026',
           'A. Leon': '2024',
           'Hilario': 'Exento',
           'Extra 1': 'Exento'
         },
-        works2027: (w === 'Miguel B'),
-        text2027: (w === 'Miguel B' ? 'Turno de Noche (23:00 - 07:00)' : 'Descanso / Libre'),
-        forecast2028: 'Antonio J (Rotación anual)'
+        works2027: (s31 === 'N'),
+        text2027: (s31 === 'N' ? 'Turno de Noche (23:00 - 07:00) · ¡En servicio Fin de Año!' : (s31 === 'M' ? 'Turno de Mañana (07:00 - 15:00) · Nochevieja libre' : (s31 === 'T' ? 'Turno de Tarde (15:00 - 23:00) · Cena/Noche libre' : 'Descanso / Libre · Nochevieja libre'))),
+        forecast2028: 'Rotación según cuadrante'
       },
       {
         id: 'semana_santa',
@@ -3916,6 +3923,24 @@ ${debt.notes ? `• *Notas:* ${debt.notes}\n` : ''}
         },
         works2027: (w === 'Antonio J' || w === 'Alberto H' || w === 'A. Leon'),
         text2027: (w === 'A. Leon' ? 'Noches (23, 24 y 25 Abr)' : (w === 'Antonio J' || w === 'Alberto H' ? 'Mañana/Tarde (23 al 26 Abr)' : 'Descanso')),
+        forecast2028: 'Rotación según festivos'
+      },
+      {
+        id: 'feria_septiembre',
+        title: '🎡 Feria y Noches de Feria (3 - 6 Sep)',
+        historyLast: {
+          'Antonio J': '2027 (Diurno 4, 5 y 6 Sep)',
+          'Santi M': '2024 (antiguo Marcos Brito)',
+          'Alberto H': '2027 (Diurno 4 y 5 Sep)',
+          'Fran Espin': '2027 (Diurno 6 Sep)',
+          'Miguel B': '2022 (antiguo AC)',
+          'Paco C': '2021',
+          'A. Leon': '2025',
+          'Hilario': 'Exento',
+          'Extra 1': '2027 (Noches 3, 4, 5 y 6 Sep)'
+        },
+        works2027: (w === 'Extra 1' || w === 'Antonio J' || w === 'Alberto H' || w === 'Fran Espin'),
+        text2027: (w === 'Extra 1' ? 'Turno de Noche (03, 04, 05 y 06 Sep)' : (w === 'Antonio J' ? 'Mañana/Tarde (04, 05 y 06 Sep) · Noches libres' : (w === 'Alberto H' ? 'Tarde (04 y 05 Sep) · Noches libres' : (w === 'Fran Espin' ? 'Mañana (06 Sep) · Noches libres' : 'Descanso / Libre completo en Feria')))),
         forecast2028: 'Rotación según festivos'
       }
     ];
@@ -3979,6 +4004,8 @@ ${debt.notes ? `• *Notas:* ${debt.notes}\n` : ''}
       'FR': 'A. Leon (predecesor FR)',
       'HG': 'Hilario',
       'FH': 'FH (histórico)',
+      'EX1': 'Extra 1',
+      'EX': 'Extra 1',
       'X': 'No celebrado / Sin turno'
     };
 
@@ -3996,7 +4023,8 @@ ${debt.notes ? `• *Notas:* ${debt.notes}\n` : ''}
                           (clean === 'FE' || clean === 'JM') && state.currentWorker === 'Fran Espin' ||
                           (clean === 'MG' || clean === 'AC') && state.currentWorker === 'Miguel B' ||
                           clean === 'PC' && state.currentWorker === 'Paco C' ||
-                          (clean === 'AL' || clean === 'FR') && state.currentWorker === 'A. Leon';
+                          (clean === 'AL' || clean === 'FR') && state.currentWorker === 'A. Leon' ||
+                          (clean === 'EX1' || clean === 'EX') && state.currentWorker === 'Extra 1';
         
         return `<span style="${isCurrent ? 'color:var(--accent-primary); font-weight:800;' : ''}">${expanded}</span>`;
       }).join(' <span style="color:var(--text-muted); font-weight:normal;">+</span> ');
@@ -4098,13 +4126,13 @@ ${debt.notes ? `• *Notas:* ${debt.notes}\n` : ''}
       { name: 'Virgen de la Cabeza (23-26 Abr)', workers: 'Antonio J & Alberto H (M y T) · A. León (Noches 23, 24 y 25)' },
       { name: '01 Mayo (Fiesta del Trabajo)', workers: 'Miguel B & Fran Espín (M y T)' },
       { name: '16 Agosto (Festivo local)', workers: 'Santi M & Extra 1 (M y T)' },
-      { name: 'Feria de Septiembre (04-06 Sep)', workers: 'Antonio J (Feria) & Extra 1 · A. León (Noches)' },
+      { name: 'Feria de Septiembre (04-06 Sep)', workers: 'Antonio J & Alberto H / Fran Espín (M y T) · Extra 1 (Noches 03 al 06)' },
       { name: '12 Octubre (Fiesta Nacional)', workers: 'Miguel B & Paco C (M y T)' },
       { name: '01 Noviembre (Todos los Santos)', workers: 'Antonio J & A. León (M y T)' },
       { name: '06 y 08 Diciembre (Puente)', workers: 'Paco C & Santi M (M y T)' },
       { name: '24 Diciembre (Nochebuena)', workers: 'Alberto H (Noche)' },
       { name: '25 Diciembre (Navidad)', workers: 'Miguel B & Fran Espín (M y T)' },
-      { name: '31 Diciembre (Nochevieja)', workers: 'Miguel B (Noche)' }
+      { name: '31 Diciembre (Nochevieja)', workers: 'Antonio J (Noche)' }
     ];
 
     el.fixedHolidays2027List.innerHTML = fixed2027.map(f => {

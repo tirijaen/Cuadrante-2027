@@ -413,3 +413,30 @@ Utiliza el sobrante de días trabajados (cuando pones 3 turnos de tardes en vez 
    - `all_tables_v3.md` regenerado con el cuadrante actualizado.
    - `sw.js` incrementado a `cuadrante-2027-v4.7`.
 
+---
+
+## Sesión 6 (2 Nov): Sincronización de Datos Históricos (Noches de Feria Extra 1) y Mis Fechas Señaladas Dinámicas (Nochevieja Antonio J)
+
+### 💬 Mensaje de Antonio:
+```text
+actualiza los datos según el cuadrante porque por ejemplo ahora las noches de feria no las hacel león si no el extra 1 .
+El apartado mis fechas señaladas tampoco se actualiza pues todavia pone que tengo libre la nochevieja
+```
+
+**Resolución y Cambios Aplicados:**
+1. **Historial de Festivos y Buscador Cronológico (`js/historical_data.js` & `HISTORIAL_FESTIVOS_Y_VACACIONES.md`):**
+   - **NOCHES DE FERIA 2027**: Reasignado a `EX1` (`Extra 1`).
+   - **Historial de A. León**: Al no realizar la Feria 2027 (y no haberla realizado en el histórico 2011-2026), su contador acumulado se fijó en **0** (`Mín`).
+   - **Criterio de Equidad 2028**: Establecido con máxima prioridad de turno para `A. León` (0 veces) y preferencia de libranza para `Antonio J` (3 veces).
+   - **Totales Acumulados de Festivos**: Ajustado el total acumulado de A. León a **70** (igual que Alberto H, Fran Espín, Miguel B y Paco C con 70; Santi M con 71; Antonio J con 72).
+2. **Apartado "Mis Fechas Señaladas" en la Web App (`js/app.js`):**
+   - **Normalización de Turnos**: Se implementó `getCleanShift()` eliminando puntos residuales (`N.` -> `N`) para garantizar que la comprobación de turnos coincida exactamente con la matriz de cuadrante.
+   - **Nochevieja (31 Dic)**: Sincronizado dinámicamente con `getCleanShift(w, '2027-12-31')`. Para Antonio J ahora muestra de forma exacta: `Turno de Noche (23:00 - 07:00) · ¡En servicio Fin de Año!` y la pastilla `⚠️ En servicio 2027`.
+   - **Nochebuena (24 Dic)**: Sincronizado dinámicamente con `getCleanShift(w, '2027-12-24')` (Alberto H en servicio; Antonio J descanso/libre).
+   - **Feria y Noches de Feria (3 - 6 Sep)**: Integrada nueva tarjeta dinámica que refleja que Extra 1 asume las noches y Antonio J cubre turnos diurnos.
+3. **Resumen de Asignaciones Fijas Oficiales 2027 (`js/app.js`):**
+   - Actualizada la tarjeta de Feria: `Antonio J & Alberto H / Fran Espín (M y T) · Extra 1 (Noches 03 al 06)`.
+   - Actualizada la tarjeta de Nochevieja: `Antonio J (Noche)`.
+4. **PWA y Caché Offline (`sw.js`):**
+   - Incrementada la versión de caché a `cuadrante-2027-v4.8` para forzar la actualización automática tanto en el móvil como en el PC de escritorio.
+
