@@ -50,7 +50,7 @@ window.HISTORICAL_DATA = {
           "PC": 2,
           "AL": 2
         },
-        "totalTimes": 17
+        "totalTimes": 15
       },
       {
         "name": "1 DE ENERO",
@@ -82,7 +82,7 @@ window.HISTORICAL_DATA = {
           "PC": 4,
           "AL": 4
         },
-        "totalTimes": 17
+        "totalTimes": 31
       },
       {
         "name": "6 DE ENERO",
@@ -103,18 +103,18 @@ window.HISTORICAL_DATA = {
           "2024": "AC-MB",
           "2025": "MB-AL",
           "2026": "FE-AC",
-          "2027": "AH-SM"
+          "2027": "AL-AH"
         },
         "counts": {
           "AJ": 4,
-          "SM": 5,
+          "SM": 4,
           "AH": 5,
           "FE": 4,
           "MB": 4,
           "PC": 6,
-          "AL": 3
+          "AL": 4
         },
-        "totalTimes": 17
+        "totalTimes": 31
       },
       {
         "name": "28 DE FEBRERO",
@@ -146,7 +146,7 @@ window.HISTORICAL_DATA = {
           "PC": 5,
           "AL": 5
         },
-        "totalTimes": 17
+        "totalTimes": 31
       },
       {
         "name": "SEMANA SANTA",
@@ -178,7 +178,7 @@ window.HISTORICAL_DATA = {
           "PC": 5,
           "AL": 4
         },
-        "totalTimes": 17
+        "totalTimes": 32
       },
       {
         "name": "NOCHES SEMANA SANTA",
@@ -210,7 +210,7 @@ window.HISTORICAL_DATA = {
           "PC": 2,
           "AL": 2
         },
-        "totalTimes": 17
+        "totalTimes": 16
       },
       {
         "name": "VIRGEN DE LA CABEZA",
@@ -242,7 +242,7 @@ window.HISTORICAL_DATA = {
           "PC": 4,
           "AL": 5
         },
-        "totalTimes": 17
+        "totalTimes": 32
       },
       {
         "name": "NOCHES VIRGEN DE LA CABEZA",
@@ -274,7 +274,7 @@ window.HISTORICAL_DATA = {
           "PC": 2,
           "AL": 3
         },
-        "totalTimes": 17
+        "totalTimes": 18
       },
       {
         "name": "1 DE MAYO",
@@ -306,7 +306,7 @@ window.HISTORICAL_DATA = {
           "PC": 5,
           "AL": 5
         },
-        "totalTimes": 17
+        "totalTimes": 32
       },
       {
         "name": "15 DE AGOSTO ",
@@ -338,7 +338,7 @@ window.HISTORICAL_DATA = {
           "PC": 4,
           "AL": 6
         },
-        "totalTimes": 16
+        "totalTimes": 27
       },
       {
         "name": "NOCHES DE FERIA",
@@ -370,7 +370,7 @@ window.HISTORICAL_DATA = {
           "PC": 2,
           "AL": 0
         },
-        "totalTimes": 13
+        "totalTimes": 11
       },
       {
         "name": "FERIA",
@@ -402,7 +402,7 @@ window.HISTORICAL_DATA = {
           "PC": 3,
           "AL": 4
         },
-        "totalTimes": 16
+        "totalTimes": 25
       },
       {
         "name": "12 DE OCTUBRE",
@@ -434,7 +434,7 @@ window.HISTORICAL_DATA = {
           "PC": 4,
           "AL": 4
         },
-        "totalTimes": 17
+        "totalTimes": 32
       },
       {
         "name": "1 DE NOVIEMBRE",
@@ -466,7 +466,7 @@ window.HISTORICAL_DATA = {
           "PC": 5,
           "AL": 4
         },
-        "totalTimes": 17
+        "totalTimes": 30
       },
       {
         "name": "6 DICIEMBRE-CONSTITUCION",
@@ -487,18 +487,18 @@ window.HISTORICAL_DATA = {
           "2024": "FE-AC",
           "2025": "AJ-MB",
           "2026": "AH-FE",
-          "2027": "FE-PC"
+          "2027": "PC-SM"
         },
         "counts": {
           "AJ": 4,
-          "SM": 4,
+          "SM": 5,
           "AH": 4,
-          "FE": 5,
+          "FE": 4,
           "MB": 5,
           "PC": 4,
           "AL": 5
         },
-        "totalTimes": 17
+        "totalTimes": 31
       },
       {
         "name": "8 DICIEMBRE-INMACULADA",
@@ -519,18 +519,18 @@ window.HISTORICAL_DATA = {
           "2024": "AJ-AC",
           "2025": "AJ-FE",
           "2026": "AH-FE",
-          "2027": "FE-SM"
+          "2027": "SM-PC"
         },
         "counts": {
           "AJ": 4,
           "SM": 5,
           "AH": 5,
-          "FE": 6,
+          "FE": 5,
           "MB": 4,
-          "PC": 3,
+          "PC": 4,
           "AL": 4
         },
-        "totalTimes": 17
+        "totalTimes": 31
       },
       {
         "name": "NOCHEBUENA",
@@ -562,7 +562,7 @@ window.HISTORICAL_DATA = {
           "PC": 2,
           "AL": 2
         },
-        "totalTimes": 17
+        "totalTimes": 15
       },
       {
         "name": "25 DICIEMBRE-NAVIDAD",
@@ -583,18 +583,18 @@ window.HISTORICAL_DATA = {
           "2024": "AH-AJ",
           "2025": "PC-MB",
           "2026": "MB-AL",
-          "2027": "MG-PC"
+          "2027": "FE-MG"
         },
         "counts": {
           "AJ": 4,
           "SM": 5,
           "AH": 4,
-          "FE": 4,
+          "FE": 5,
           "MB": 4,
-          "PC": 5,
+          "PC": 4,
           "AL": 5
         },
-        "totalTimes": 17
+        "totalTimes": 31
       },
       {
         "name": "NOCHE 31 DIEMBRE NOCHE",
@@ -626,17 +626,17 @@ window.HISTORICAL_DATA = {
           "PC": 2,
           "AL": 2
         },
-        "totalTimes": 17
+        "totalTimes": 16
       }
     ],
     "totals": {
       "AJ": 70,
       "SM": 70,
       "AH": 70,
-      "FE": 70,
+      "FE": 69,
       "MB": 69,
       "PC": 69,
-      "AL": 69
+      "AL": 70
     }
   }
 };

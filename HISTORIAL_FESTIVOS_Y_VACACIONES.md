@@ -35,13 +35,13 @@ La equidad acumulada tras 17 años de registros es matemáticamente perfecta (en
 | **Antonio Jesús Sánchez** (`AJ`) | **70** | Equilibrio histórico consolidado |
 | **Santiago Molina** (`SM`) | **70** | Equilibrio histórico consolidado |
 | **Alberto Higueras** (`AH`) | **70** | Equilibrio histórico consolidado |
-| **Francisco Espín** (`FE`) | **70** | Equilibrio histórico consolidado |
+| **Antonio León** (`AL`) | **70** | Equilibrio histórico consolidado |
+| **Francisco Espín** (`FE`) | **69** | **Prioridad festivos 2028 (+1)** |
 | **Miguel Benítez** (`MB`) | **69** | **Prioridad festivos 2028 (+1)** |
 | **Francisco Cantarero** (`PC`) | **69** | **Prioridad festivos 2028 (+1)** |
-| **Antonio León** (`AL`) | **69** | **Prioridad festivos 2028 (+1)** |
 
 > [!TIP]
-> En el diseño del **Cuadrante 2028**, los trabajadores con 69 festivos (**Miguel Benítez, Francisco Cantarero y Antonio León**) tendrán prioridad natural para asumir festivos adicionales y equilibrar con el resto del equipo (70).
+> En el diseño del **Cuadrante 2028**, los trabajadores con 69 festivos (**Francisco Espín, Miguel Benítez y Francisco Cantarero**) tendrán prioridad natural para asumir festivos adicionales y equilibrar con el resto del equipo (70).
 
 ---
 
@@ -51,7 +51,7 @@ La equidad acumulada tras 17 años de registros es matemáticamente perfecta (en
 |---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 | **NOCHES DEL 1 DE ENERO** | PS | AL | PS | DC | FE | AC | PC | SM |
 | **1 DE ENERO** | JM-AL | DC-PR | JM-PC | MB-FE | AL-AC | AJ-AH | AJ-AC | AL-AH |
-| **6 DE ENERO** | PR-JM | PC-AJ | DC-AJ | PC-FE | AC-MB | MB-AL | FE-AC | AH-SM |
+| **6 DE ENERO** | PR-JM | PC-AJ | DC-AJ | PC-FE | AC-MB | MB-AL | FE-AC | AL-AH |
 | **28 DE FEBRERO** | AL-DC | JM-PR | PC-AC | DC-AL | AJ-AH | AL-PC | AJ-AC | FE-PC |
 | **SEMANA SANTA** | PR-DC | AL-PC | MB-DC | AJ-FE | AC-FE | PC-AL | AC-AH | AJ-PC |
 | **NOCHES SEMANA SANTA** | AC | PR | JM-PC | DC | AL | AJ | MB | MG |
@@ -63,10 +63,10 @@ La equidad acumulada tras 17 años de registros es matemáticamente perfecta (en
 | **FERIA** | DC-AC | JM | AL-PC | AL | AC-AL | AL-MB | FE | AJ-MG |
 | **12 DE OCTUBRE** | PC-JM | AL-AJ | DC-AJ | PC-MB | AC-MB | FE-PC | AH-AJ | FE-SM |
 | **1 DE NOVIEMBRE** | AL-JM | AC-AJ | AC-PC | AL-DC | FE-MB | PC-MB | FE-AH | AJ-AL |
-| **6 DICIEMBRE-CONSTITUCION** | AL-PC | JM-AC | AC-AJ | DC-MB | FE-AC | AJ-MB | AH-FE | FE-PC |
-| **8 DICIEMBRE-INMACULADA** | PC-DC | AL-AC | AL-MB | DC-MB | AJ-AC | AJ-FE | AH-FE | FE-SM |
+| **6 DICIEMBRE-CONSTITUCION** | AL-PC | JM-AC | AC-AJ | DC-MB | FE-AC | AJ-MB | AH-FE | PC-SM |
+| **8 DICIEMBRE-INMACULADA** | PC-DC | AL-AC | AL-MB | DC-MB | AJ-AC | AJ-FE | AH-FE | SM-PC |
 | **NOCHEBUENA** | AL | MB | DC | FE | PC | AJ | AC | AH |
-| **25 DICIEMBRE-NAVIDAD** | PC-AJ | AL-DC | FE-MB | AC-AJ | AH-AJ | PC-MB | MB-AL | MG-PC |
+| **25 DICIEMBRE-NAVIDAD** | PC-AJ | AL-DC | FE-MB | AC-AJ | AH-AJ | PC-MB | MB-AL | FE-MG |
 | **NOCHE 31 DIEMBRE NOCHE** | AJ | DC | AC | MB | AL | FE | PC | AJ |
 
 ---

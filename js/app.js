@@ -4120,7 +4120,7 @@ ${debt.notes ? `• *Notas:* ${debt.notes}\n` : ''}
 
     const fixed2027 = [
       { name: '01 Enero (Año Nuevo)', workers: 'Antonio León (M) & Alberto Higueras (T) · Santi M (Noche)' },
-      { name: '06 Enero (Reyes)', workers: 'Alberto H & Santi M (M y T)' },
+      { name: '06 Enero (Reyes)', workers: 'Antonio León (M) & Alberto Higueras (T) · Antonio J (Noche)' },
       { name: '28 Febrero / 01 Marzo', workers: 'Fran Espín & Paco C (M y T)' },
       { name: 'Semana Santa (25-28 Mar)', workers: 'Antonio J & Paco C (M y T íntegros) · Miguel B (Noches 25, 26 y 27)' },
       { name: 'Virgen de la Cabeza (23-26 Abr)', workers: 'Alberto H & Fran Espín (M y T íntegros) · A. León (Noches 23, 24 y 25)' },
@@ -4129,9 +4129,9 @@ ${debt.notes ? `• *Notas:* ${debt.notes}\n` : ''}
       { name: 'Feria de Septiembre (04-06 Sep)', workers: 'Antonio J & Miguel B (M y T íntegros) · Extra 1 (Noches 03 al 06)' },
       { name: '12 Octubre (Fiesta Nacional)', workers: 'Fran Espín & Santi M (M y T)' },
       { name: '01 Noviembre (Todos los Santos)', workers: 'Antonio J & A. León (M y T)' },
-      { name: '06 y 08 Diciembre (Puente)', workers: '06 Dic: Fran Espín & Paco C · 08 Dic: Fran Espín & Santi M' },
+      { name: '06 y 08 Diciembre (Puente)', workers: '06 Dic: Paco C (M) & Santi M (T) · 08 Dic: Santi M (M) & Paco C (T)' },
       { name: '24 Diciembre (Nochebuena)', workers: 'Alberto H (Noche)' },
-      { name: '25 Diciembre (Navidad)', workers: 'Paco C & Miguel B (M y T)' },
+      { name: '25 Diciembre (Navidad)', workers: 'Fran Espín (M) & Miguel B (T)' },
       { name: '31 Diciembre (Nochevieja)', workers: 'Antonio J (Noche)' }
     ];
 

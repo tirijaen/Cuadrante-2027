@@ -692,3 +692,45 @@ Lo recalcules basándote en la plantilla xlsx que te pasé, compruebes cada vez 
    - `js/app.js` actualizado.
    - `sw.js` incrementado a `cuadrante-2027-v8.0`.
    - `REGLAS_OFICIALES_CUADRANTE.md` y `HISTORIAL_FESTIVOS_Y_VACACIONES.md` actualizados.
+
+---
+
+## Sesión 12 (2 Nov): Análisis y Corrección Primordial de Festivos (Antonio León en Reyes y Paco Cantarero en Inmaculada)
+
+### 💬 Mensaje de Antonio:
+```text
+Analizando el cuadrante tengo 2 preguntas, la fiesta del 6 de Enero por que no ha hace Antonio León que es el que menos lleva, y el 8 de Diciembre por que la hace Fran espin que es el que mas lleva y ademas repite del año pasado y no la hace paco cantarero. La disposición de los festivos debe ser primordial antes que la disposición de noches y otras disposiciones. Analiza si hay alguna solución facil a esos dos inconvenientes
+```
+
+### 🤖 Diagnóstico y Resolución:
+
+1. **Pregunta 1: 6 de Enero (Reyes) y Antonio León**:
+   - **Historial**: Antonio León tiene el **mínimo histórico absoluto de toda la plantilla (solo 3 veces)** en 16 años (2015, 2019 y 2025). Todos los demás tienen 4 o 6 veces.
+   - **Causa**: Había sido omitido de la lista de candidatos del solver en una iteración previa.
+   - **Solución fácil aplicada**: Antonio León asume el turno de **Mañanas (M)** el 6 de Enero (junto a Alberto Higueras de Tarde), adaptando los descansos de la primera semana de enero sin alterar sus noches (8-10 de enero) ni su total de 20 jornadas en enero.
+
+2. **Pregunta 2: 8 de Diciembre (Inmaculada), Fran Espín y Paco Cantarero**:
+   - **Historial**:
+     * **Paco Cantarero**: Mínimo histórico de Inmaculada (**solo 3 veces**: 2011, 2015 y 2020), llevando 7 años sin realizarla.
+     * **Fran Espín**: Máximo histórico de Inmaculada (**5 veces**: 2012, 2016, 2019, 2025 y 2026). Asignarlo en 2027 suponía repetir 3 años consecutivos.
+   - **Causa raíz confirmada (Prioridad de Festivos sobre Noches)**:
+     * La disposición previa de noches de la Fase 1 colocó un bloque de 3 noches a Paco Cantarero del 7 al 9 de diciembre. Al tener noche el 8 de diciembre, el solver de festivos diurnos lo descartó forzosamente y metió a Fran Espín.
+   - **Solución fácil aplicada**:
+     * **Priorización de Festivos**: Se reestructuró el calendario de noches de diciembre para liberar a Paco Cantarero (pasando sus noches a finales de mes: 21-23 y 28-29 dic).
+     * Se asignó a **Fran Espín** el ciclo de noches del 5 y 6 de diciembre, haciendo que el 7 y 8 de diciembre sean sus dos días de descanso obligatorio tras salir de noche. De este modo, queda matemáticamente excluido de trabajar el 8 de diciembre diurno y no repite.
+     * **Paco Cantarero** asume el festivo diurno de la Inmaculada (Turno de **Tarde (T)**, junto a Santi Molina en **Mañana (M)**).
+     * Antonio Jesús asume las noches del 7 al 9 de diciembre.
+     * Todos los trabajadores conservan exactamente sus **49 noches anuales** y sus **220 jornadas anuales**.
+
+3. **Métricas Consolidadas (0 Errores en Auditoría Oficial)**:
+   - **0 errores de normativa** y **0 fines de semana partidos**.
+   - **Límite mensual estricto**: Ningún titular alcanza 22 días trabajados en ningún mes (todos entre 18 y 21 días en meses ordinarios).
+   - **Equidad global acumulada (2011–2027)**: AJ (70), SM (70), AH (70), AL (70), FE (69), MB (69), PC (69) — Máxima equidad matemática ($\Delta = 1$ en 17 años).
+
+4. **Sincronización Total de Archivos**:
+   - `Cuadrante 2026 para Agente.xlsx` actualizado en filas 4, 16, 17 y 19.
+   - `Cuadrante_2027_Andujar_V3.xlsx` y `Cuadrante_2027_Andujar.xlsx` regenerados.
+   - `cuadrante_2027.json`, `cuadrante_2027_v3.json` y `js/cuadrante_data.js` actualizados.
+   - `js/historical_data.js` sincronizado.
+   - `js/app.js` y `sw.js` (versión v9.0) actualizados.
+   - `HISTORIAL_FESTIVOS_Y_VACACIONES.md` y `REGLAS_OFICIALES_CUADRANTE.md` actualizados.

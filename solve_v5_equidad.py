@@ -34,6 +34,31 @@ start_date = dates[0]
 def d_idx(y, m, day):
     return (datetime.date(y, m, day) - start_date).days
 
+# Ajuste ergonómico de noches en Diciembre:
+# Paco C pasa sus noches a finales de mes (21-23 y 28-29) para quedar libre en la Inmaculada (8 Dic).
+# Antonio J asume las noches del 7 al 9 de diciembre.
+# Fran Espín asume las noches del 5 y 6 de diciembre (quedando de descanso obligado tras noche el 7 y 8 de diciembre).
+dec_night_map = {
+    1: 'Santi M', 2: 'Santi M',
+    3: 'Alberto H', 4: 'Alberto H',
+    5: 'Fran Espin', 6: 'Fran Espin',
+    7: 'Antonio J', 8: 'Antonio J', 9: 'Antonio J',
+    10: 'Santi M', 11: 'Santi M',
+    12: 'Miguel B', 13: 'Miguel B',
+    14: 'A. Leon', 15: 'A. Leon', 16: 'A. Leon',
+    17: 'Miguel B', 18: 'Miguel B',
+    19: 'Fran Espin', 20: 'Fran Espin',
+    21: 'Paco C', 22: 'Paco C', 23: 'Paco C',
+    24: 'Alberto H', 25: 'Alberto H',
+    26: 'Santi M', 27: 'Santi M',
+    28: 'Paco C', 29: 'Paco C',
+    30: 'Antonio J', 31: 'Antonio J'
+}
+for day, w_name in dec_night_map.items():
+    for w_i in range(7):
+        fixed_n[w_i, d_idx(2027, 12, day)] = 0
+    fixed_n[w_map[w_name], d_idx(2027, 12, day)] = 1
+
 holidays = {
     datetime.date(2027, 1, 1), datetime.date(2027, 1, 6), datetime.date(2027, 3, 1),
     datetime.date(2027, 3, 25), datetime.date(2027, 3, 26), datetime.date(2027, 4, 23),
@@ -56,7 +81,7 @@ vacations = [
 # Candidate pools basados en mínimos históricos de Cuadrante 2026 para Agente.xlsx:
 holiday_candidate_pools = [
     ('2027-01-01', ['A. Leon', 'Alberto H']),
-    ('2027-01-06', ['Alberto H', 'Antonio J', 'Fran Espin', 'Miguel B', 'Santi M']),
+    ('2027-01-06', ['A. Leon', 'Alberto H']),
     ('2027-03-01', ['Paco C', 'Fran Espin', 'Santi M', 'Alberto H', 'Miguel B']),
     ('2027-03-25', ['Antonio J', 'Paco C', 'Fran Espin', 'Santi M']),
     ('2027-03-26', ['Antonio J', 'Paco C', 'Fran Espin', 'Santi M']),
@@ -74,7 +99,7 @@ holiday_candidate_pools = [
     ('2027-10-12', ['Fran Espin', 'A. Leon', 'Paco C', 'Miguel B', 'Santi M']),
     ('2027-11-01', ['Antonio J', 'A. Leon']),
     ('2027-12-06', ['Paco C', 'Fran Espin', 'Antonio J', 'Santi M', 'Alberto H']),
-    ('2027-12-08', ['Paco C', 'A. Leon', 'Fran Espin', 'Santi M', 'Miguel B']),
+    ('2027-12-08', ['Paco C', 'Santi M']),
     ('2027-12-25', ['Miguel B', 'Antonio J', 'Paco C', 'Alberto H', 'Fran Espin']),
 ]
 
@@ -159,6 +184,18 @@ m2.Add(x[w_map['Antonio J'], d_idx(2027, 9, 4), 1] + x[w_map['Antonio J'], d_idx
 m2.Add(x[w_map['Alberto H'], d_idx(2027, 9, 4), 1] == 0)
 m2.Add(x[w_map['Alberto H'], d_idx(2027, 9, 4), 2] == 0)
 m2.Add(x[w_map['Miguel B'], d_idx(2027, 12, 25), 1] + x[w_map['Miguel B'], d_idx(2027, 12, 25), 2] == 1)
+
+# 06 de Enero: Antonio León (Mañana) y Alberto Higueras (Tarde)
+m2.Add(x[w_map['A. Leon'], d_idx(2027, 1, 6), 1] == 1)
+m2.Add(x[w_map['Alberto H'], d_idx(2027, 1, 6), 2] == 1)
+
+# 08 de Diciembre: Santi Molina (Mañana) y Paco Cantarero (Tarde)
+m2.Add(x[w_map['Santi M'], d_idx(2027, 12, 8), 1] == 1)
+m2.Add(x[w_map['Paco C'], d_idx(2027, 12, 8), 2] == 1)
+
+# Fran Espin NO trabaja el 8 de Diciembre
+m2.Add(x[w_map['Fran Espin'], d_idx(2027, 12, 8), 1] == 0)
+m2.Add(x[w_map['Fran Espin'], d_idx(2027, 12, 8), 2] == 0)
 
 # Pools de candidatos
 for dt_str, cand_list in holiday_candidate_pools:
