@@ -71,7 +71,7 @@ window.HISTORICAL_DATA = {
           "2024": "AL-AC",
           "2025": "AJ-AH",
           "2026": "AJ-AC",
-          "2027": "AH-PC"
+          "2027": "AL-AH"
         },
         "counts": {
           "AJ": 4,
@@ -79,8 +79,8 @@ window.HISTORICAL_DATA = {
           "AH": 5,
           "FE": 5,
           "MB": 4,
-          "PC": 5,
-          "AL": 3
+          "PC": 4,
+          "AL": 4
         },
         "totalTimes": 17
       },
@@ -423,16 +423,16 @@ window.HISTORICAL_DATA = {
           "2024": "AC-MB",
           "2025": "FE-PC",
           "2026": "AH-AJ",
-          "2027": "AL-FE"
+          "2027": "FE-SM"
         },
         "counts": {
           "AJ": 5,
-          "SM": 4,
+          "SM": 5,
           "AH": 5,
           "FE": 5,
           "MB": 4,
           "PC": 4,
-          "AL": 5
+          "AL": 4
         },
         "totalTimes": 17
       },
@@ -455,7 +455,7 @@ window.HISTORICAL_DATA = {
           "2024": "FE-MB",
           "2025": "PC-MB",
           "2026": "FE-AH",
-          "2027": "AJ-AL"
+          "2027": "AL-AJ"
         },
         "counts": {
           "AJ": 4,
@@ -519,16 +519,16 @@ window.HISTORICAL_DATA = {
           "2024": "AJ-AC",
           "2025": "AJ-FE",
           "2026": "AH-FE",
-          "2027": "AL-FE"
+          "2027": "FE-SM"
         },
         "counts": {
           "AJ": 4,
-          "SM": 4,
+          "SM": 5,
           "AH": 5,
           "FE": 6,
           "MB": 4,
           "PC": 3,
-          "AL": 5
+          "AL": 4
         },
         "totalTimes": 17
       },
@@ -583,15 +583,15 @@ window.HISTORICAL_DATA = {
           "2024": "AH-AJ",
           "2025": "PC-MB",
           "2026": "MB-AL",
-          "2027": "AJ-MG"
+          "2027": "MG-PC"
         },
         "counts": {
-          "AJ": 5,
+          "AJ": 4,
           "SM": 5,
           "AH": 4,
           "FE": 4,
           "MB": 4,
-          "PC": 4,
+          "PC": 5,
           "AL": 5
         },
         "totalTimes": 17
@@ -630,13 +630,13 @@ window.HISTORICAL_DATA = {
       }
     ],
     "totals": {
-      "AJ": 71,
-      "SM": 68,
+      "AJ": 70,
+      "SM": 70,
       "AH": 70,
       "FE": 70,
       "MB": 69,
       "PC": 69,
-      "AL": 70
+      "AL": 69
     }
   }
 };

@@ -189,52 +189,25 @@ Las vacaciones se distribuyen en dos quincenas de 15 días naturales cada una (d
 > 4. **Regla de Integridad en Festivos Multi-Día**: Queda terminantemente prohibido utilizar varias personas para alternar el turno de mañana o tarde en una misma festividad de varios días (Semana Santa, Romería y Feria). **El trabajador que asume la mañana o la tarde de un festivo de varios días lo realiza íntegramente todos los días del bloque festivo**, computándosele de forma inequívoca el festivo en su registro histórico anual.
 > 5. **Supresión de San Eufrasio (15 de Mayo)**: Eliminada de las restricciones y cómputos al haber dejado de ser festivo local oficial.
 
-### 9.1. Cuadro de Asignaciones Óptimas y Oficiales 2027
+### Regla Mandatoria de Asignación por Mínimo Histórico Individual (Plantilla Excel)
 
-* **01 de Enero (Año Nuevo)**:
-  * **Noche**: **Santi M** (Prioridad absoluta: solo 1 vez en todo el histórico).
-  * **Mañana y Tarde**: **Alberto H** (M) y **Paco C** (T).
-* **06 de Enero (Reyes)**:
-  * **Mañana y Tarde**: **Alberto H** (M) y **Santi M** (T).
-* **01 de Marzo (Puente Día de Andalucía)**:
-  * **Mañana y Tarde**: **Paco C** (M) y **Fran Espín** (T).
-* **25, 26, 27 y 28 de Marzo (Semana Santa - Jueves a Domingo)**:
-  * **Noches (25, 26 y 27 de Marzo)**: **Miguel B** (Prioridad: 2 veces, no la realiza desde 2020 vía AC). Bloque íntegro de 3 noches.
-  * **Mañana**: **Antonio J** (Bloque íntegro los 4 días).
-  * **Tarde**: **Paco C** (Bloque íntegro los 4 días).
-* **23, 24, 25 y 26 de Abril (Romería Virgen de la Cabeza)**:
-  * **Noches (23, 24 y 25 de Abril)**: **A. León** (Prioridad: 2 veces, no la realiza desde 2021). Bloque íntegro de 3 noches.
-  * **Mañana**: **Alberto H** (Bloque íntegro los 4 días; prioridad por tener solo 3 en el histórico).
-  * **Tarde**: **Fran Espín** (Bloque íntegro los 4 días).
-* **01 de Mayo (Fiesta del Trabajo)**:
-  * **Mañana y Tarde**: **Paco C** (M) y **A. León** (T).
-* **16 de Agosto (Festivo local/trasladado)**:
-  * **Mañana y Tarde**: **Santi M** (M) y **Miguel B** (T).
-* **04, 05 y 06 de Septiembre (Feria de Andújar)**:
-  * **Noches de Feria**: **Extra 1** realiza las noches de feria íntegras (noches del 3, 4, 5 y 6 de septiembre).
-  * **Mañana de Feria**: **Miguel B** realiza las mañanas íntegras los 3 días (04, 05 y 06 Sep).
-  * **Tarde de Feria**: **Antonio J** realiza las tardes íntegras los 3 días (04, 05 y 06 Sep).
-  * Alberto H descansa (tenía 4, evitando subir injustamente a 5). A. León e Hilario descansan por vacaciones (1-15 Sep).
-* **12 de Octubre (Fiesta Nacional)**:
-  * **Mañana y Tarde**: **Fran Espín** (M) y **A. León** (T).
-* **01 de Noviembre (Todos los Santos)**:
-  * **Mañana y Tarde**: **Antonio J** (M) y **A. León** (T) (los dos únicos trabajadores con solo 3 veces en histórico).
-* **06 de Diciembre (Constitución)**:
-  * **Mañana y Tarde**: **Fran Espín** (M) y **Paco C** (T).
-* **08 de Diciembre (Inmaculada)**:
-  * **Mañana y Tarde**: **A. León** (M) y **Fran Espín** (T).
-* **24 de Diciembre (Nochebuena)**:
-  * **Noche**: **Alberto H** (2 veces, última 2022).
-  * Regla específica Antonio J: Cuando le toque trabajar para cuadrar el cuadrante los días 24 y 31 de diciembre, **siempre lo hará en turno de Mañana (M)**, nunca de tarde.
-* **25 de Diciembre (Navidad)**:
-  * **Mañana y Tarde**: **Miguel B** (M, prioridad absoluta al ser el que menos Navidades tenía) y **Antonio J** (T).
-* **31 de Diciembre (Nochevieja)**:
-  * **Noche**: **Antonio J** (Prioridad absoluta: 2 veces realizadas, ¡no la realiza desde 2020, 7 años transcurridos!). Esta asignación rompe la regla de mañana exclusiva al estar fijada su noche por equidad histórica.
+Cada vez que se calcule o genere el cuadrante oficial:
+1. **Cálculo Dinámico de Mínimos**: Para cada una de las festividades del año, se audita el registro acumulado del archivo `Cuadrante 2026 para Agente.xlsx` (hoja `FESTIVOS`). El sistema **comprueba y asigna obligatoriamente a los trabajadores que menos veces hayan realizado ese trabajo/festivo concreto**.
+2. **Regla Específica 01 de Enero de 2027**:
+   * **Antonio León** trabaja de **Mañanas (M)** el 1 de enero de 2027 (cumple además ser el trabajador con menor histórico de 1 de enero de toda la plantilla: solo 3 veces).
+   * **Alberto Higueras** trabaja de **Tarde (T)** ese día.
+   * **Santi Molina** trabaja de **Noche (N)** (mínimo histórico absoluto de Noche de Año Nuevo: solo 1 vez).
+3. **Regla de Integridad en Festivos Multi-Día**:
+   * En festividades de varios días (Semana Santa, Romería Virgen de la Cabeza y Feria), no se permite alternar trabajadores en el mismo turno: **un único trabajador asume todas las mañanas, otro todas las tardes y otro todas las noches del ciclo festivo**.
+4. **Noches de Feria**: Asignadas íntegramente a **Extra 1** (noches del 3 al 6 de septiembre).
+5. **Equidad Global Acumulada**: Tras las asignaciones por festivo individual, el balance total de festivos acumulados de toda la plantilla debe mantenerse en el rango de máxima equidad (69 a 70 festivos).
 
-### 9.1. Eventos Personales y Descansos Blindados
+### Eventos Personales y Descansos Blindados
 * **02 de Mayo**: Antonio Jesús Sánchez libre por evento personal (no puede tener turno ese día). En la víspera (**01 de Mayo**) no puede realizar turno de noche.
 * **29 de Mayo**: Francisco Espín libre por evento personal. En la víspera (**28 de Mayo**) no realiza turno de noche.
 * **31 de Octubre**: Miguel Benítez libre por evento personal. En la víspera (**30 de Octubre**) no realiza turno de noche.
+* **24 de Diciembre**: Antonio Jesús Sánchez, en caso de trabajar para cuadrar la jornada, lo hará **exclusivamente en turno de Mañana (M)**, nunca de Tarde.
+* **31 de Diciembre (Nochevieja)**: Antonio Jesús Sánchez realiza el turno de **Noche (N)** por turno estricto de rotación histórica (mínimo de noches de fin de año, no la realiza desde 2020).
 
 ---
 

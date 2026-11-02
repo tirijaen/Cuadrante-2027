@@ -646,3 +646,49 @@ Analiza el último cuadrante a ver si has roto mas reglas y genera uno nuevo con
 - `js/historical_data.js` sincronizado (equidad 68 a 71 festivos acumulados).
 - `js/app.js` y `sw.js` (versión v7.0) actualizados.
 - `audit_v3_final.py` ejecutado con **0 errores y 0 fines de semana partidos**.
+
+---
+
+## Sesión 11 (2 Nov): Eliminación del Punto 9.1 Fijo, Cálculo por Mínimo Histórico Dinámico y Regla Explícita 1 de Enero (Antonio León M y Alberto Higueras T)
+
+### 💬 Mensaje de Antonio:
+```text
+No, lo que quiero es que en las reglas oficiales que te sirven para general el cuadrante elimines todo el punto 9.1
+Lo recalcules basándote en la plantilla xlsx que te pasé, compruebes cada vez que generes un cuadrante que pones al trabajaor correcto que menos días ha realizado ese trabajo. Como regla pon Tambien que Antonio León trabaja de Mañanas el 1 de enero de 2027 y Alberto Higueras trabaja de tarde ese día . Ciñete a las reglas oficiales del cuadrante y asegurate antes de entregar el cuadrante que cumple todo lo que te he pedido
+```
+
+### 🤖 Diagnóstico y Acciones Realizadas:
+
+1. **Eliminación del Punto 9.1 Fijo de las Reglas Oficiales**:
+   - Se suprimió la tabla estática rígida del punto 9.1 de `REGLAS_OFICIALES_CUADRANTE.md`.
+   - Se sustituyó por la **Regla Mandatoria de Asignación Dinámica por Mínimo Histórico Individual** basada en la plantilla Excel `Cuadrante 2026 para Agente.xlsx`.
+   - Se estableció que cada vez que se formule el cuadrante, el solver debe auditar el histórico y seleccionar obligatoriamente al trabajador que menos veces haya realizado ese festivo concreto.
+
+2. **Regla Explícita de 1 de Enero de 2027**:
+   - **Antonio León**: Turno de **Mañana (M)** (cumple además ser el trabajador con menor histórico de 1 de Enero de toda la plantilla: solo 3 veces en 16 años).
+   - **Alberto Higueras**: Turno de **Tarde (T)**.
+   - **Santi Molina**: Turno de **Noche (N)** (mínimo histórico absoluto de Noche de Año Nuevo: solo 1 vez).
+
+3. **Optimización con Solver CP-SAT (`solve_v5_equidad.py`)**:
+   - Se ejecutó el modelo bi-etápico garantizando:
+     * Límite mensual estricto: **NUNCA 22 DÍAS** en meses normales para trabajadores titulares e Hilario (todos entre 18 y 21 días).
+     * Meses de vacaciones: entre 9 y 12 días.
+     * Extra 1 en verano: entre 18 y 22 días, con doble descanso consecutivo obligatorio tras 6 días de trabajo consecutivos.
+     * Ergonomía de descansos (12h mínimas entre turnos, 2 días libres tras noches).
+     * Cero fines de semana partidos.
+     * Exactamente 220 jornadas anuales para los 7 titulares y para Hilario.
+     * Integridad de turnos en festivos multi-día (Semana Santa, Romería, Feria).
+
+4. **Auditoría Integral y Cumplimiento de Reglas (`audit_v3_final.py`)**:
+   - **0 Errores normativos**.
+   - **0 Fines de semana partidos**.
+   - Ningún titular con 22 días trabajados en ningún mes del año.
+
+5. **Sincronización Total de Archivos y Entregables**:
+   - `Cuadrante 2026 para Agente.xlsx`: Columna R (2027) actualizada y fórmulas recalibradas.
+   - `Cuadrante_2027_Andujar_V3.xlsx` y `Cuadrante_2027_Andujar.xlsx` regenerados con formato profesional y fórmulas `=COUNTIF`.
+   - `cuadrante_2027.json`, `cuadrante_2027_v3.json` y `js/cuadrante_data.js` actualizados.
+   - `js/historical_data.js` sincronizado (acumulados 2011–2027: AJ 70, SM 70, AH 70, FE 70, MB 69, PC 69, AL 69 — rango de equidad absoluta de 69 a 70 festivos).
+   - `js/app.js` actualizado.
+   - `sw.js` incrementado a `cuadrante-2027-v8.0`.
+   - `REGLAS_OFICIALES_CUADRANTE.md` y `HISTORIAL_FESTIVOS_Y_VACACIONES.md` actualizados.

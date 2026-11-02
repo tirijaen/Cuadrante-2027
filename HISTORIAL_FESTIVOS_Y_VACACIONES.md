@@ -32,16 +32,16 @@ La equidad acumulada tras 17 años de registros es matemáticamente perfecta (en
 
 | Trabajador | Festivos Acumulados (2011 - 2027) | Objetivo para 2028 |
 |---|:---:|---|
-| **Antonio Jesús Sánchez** (`AJ`) | **71** | Equilibrio histórico consolidado |
-| **Santiago Molina** (`SM`) | **68** | **Prioridad festivos 2028 (+1)** |
+| **Antonio Jesús Sánchez** (`AJ`) | **70** | Equilibrio histórico consolidado |
+| **Santiago Molina** (`SM`) | **70** | Equilibrio histórico consolidado |
 | **Alberto Higueras** (`AH`) | **70** | Equilibrio histórico consolidado |
 | **Francisco Espín** (`FE`) | **70** | Equilibrio histórico consolidado |
-| **Miguel Benítez** (`MB`) | **69** | Equilibrio histórico consolidado |
-| **Francisco Cantarero** (`PC`) | **69** | Equilibrio histórico consolidado |
-| **Antonio León** (`AL`) | **70** | Equilibrio histórico consolidado |
+| **Miguel Benítez** (`MB`) | **69** | **Prioridad festivos 2028 (+1)** |
+| **Francisco Cantarero** (`PC`) | **69** | **Prioridad festivos 2028 (+1)** |
+| **Antonio León** (`AL`) | **69** | **Prioridad festivos 2028 (+1)** |
 
 > [!TIP]
-> En el diseño del **Cuadrante 2028**, el trabajador con 68 festivos (**Santiago Molina**) tendrá prioridad natural para asumir festivos adicionales y equilibrar con el resto del equipo.
+> En el diseño del **Cuadrante 2028**, los trabajadores con 69 festivos (**Miguel Benítez, Francisco Cantarero y Antonio León**) tendrán prioridad natural para asumir festivos adicionales y equilibrar con el resto del equipo (70).
 
 ---
 
@@ -50,7 +50,7 @@ La equidad acumulada tras 17 años de registros es matemáticamente perfecta (en
 | Festivo / Puesto | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 | 2026 | 2027 (Asignado) |
 |---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 | **NOCHES DEL 1 DE ENERO** | PS | AL | PS | DC | FE | AC | PC | SM |
-| **1 DE ENERO** | JM-AL | DC-PR | JM-PC | MB-FE | AL-AC | AJ-AH | AJ-AC | AH-PC |
+| **1 DE ENERO** | JM-AL | DC-PR | JM-PC | MB-FE | AL-AC | AJ-AH | AJ-AC | AL-AH |
 | **6 DE ENERO** | PR-JM | PC-AJ | DC-AJ | PC-FE | AC-MB | MB-AL | FE-AC | AH-SM |
 | **28 DE FEBRERO** | AL-DC | JM-PR | PC-AC | DC-AL | AJ-AH | AL-PC | AJ-AC | FE-PC |
 | **SEMANA SANTA** | PR-DC | AL-PC | MB-DC | AJ-FE | AC-FE | PC-AL | AC-AH | AJ-PC |
@@ -61,12 +61,12 @@ La equidad acumulada tras 17 años de registros es matemáticamente perfecta (en
 | **15 DE AGOSTO ** | PC-AL | DC | AL | FE-PC | AC-AJ | AH-AC | AL | MG-SM |
 | **NOCHES DE FERIA** | X | PC | AC | AJ | MB | AH | AJ | EX1 |
 | **FERIA** | DC-AC | JM | AL-PC | AL | AC-AL | AL-MB | FE | AJ-MG |
-| **12 DE OCTUBRE** | PC-JM | AL-AJ | DC-AJ | PC-MB | AC-MB | FE-PC | AH-AJ | AL-FE |
+| **12 DE OCTUBRE** | PC-JM | AL-AJ | DC-AJ | PC-MB | AC-MB | FE-PC | AH-AJ | FE-SM |
 | **1 DE NOVIEMBRE** | AL-JM | AC-AJ | AC-PC | AL-DC | FE-MB | PC-MB | FE-AH | AJ-AL |
 | **6 DICIEMBRE-CONSTITUCION** | AL-PC | JM-AC | AC-AJ | DC-MB | FE-AC | AJ-MB | AH-FE | FE-PC |
-| **8 DICIEMBRE-INMACULADA** | PC-DC | AL-AC | AL-MB | DC-MB | AJ-AC | AJ-FE | AH-FE | AL-FE |
+| **8 DICIEMBRE-INMACULADA** | PC-DC | AL-AC | AL-MB | DC-MB | AJ-AC | AJ-FE | AH-FE | FE-SM |
 | **NOCHEBUENA** | AL | MB | DC | FE | PC | AJ | AC | AH |
-| **25 DICIEMBRE-NAVIDAD** | PC-AJ | AL-DC | FE-MB | AC-AJ | AH-AJ | PC-MB | MB-AL | AJ-MG |
+| **25 DICIEMBRE-NAVIDAD** | PC-AJ | AL-DC | FE-MB | AC-AJ | AH-AJ | PC-MB | MB-AL | MG-PC |
 | **NOCHE 31 DIEMBRE NOCHE** | AJ | DC | AC | MB | AL | FE | PC | AJ |
 
 ---
@@ -110,22 +110,22 @@ Las vacaciones se dividen en 8 quincenas anuales (Junio a Septiembre) y se asign
 | Festividad Oficial | AJ | SM | AH | FE | MB | PC | AL | Criterio de Equidad 2027 / 2028 |
 |---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|---|
 | **NOCHES DEL 1 DE ENERO** | 3 | 2 | 2 | 2 | 2 | 2 | 2 | Santi M (Noche) (tenía 1, mínimo de todos) |
-| **1 DE ENERO** | 4 | 5 | 5 | 5 | 4 | 5 | 3 | Alberto H (M) y Paco C (T) en turno |
+| **1 DE ENERO** | 4 | 5 | 5 | 5 | 4 | 4 | 4 | Antonio León (M) y Alberto Higueras (T) (AL tenía 3, mínimo) |
 | **6 DE ENERO (Reyes)** | 4 | 5 | 5 | 4 | 4 | 6 | 3 | Alberto H (M) y Santi M (T); FE descansa |
-| **28 DE FEBRERO (Día de Andalucía)** | 4 | 4 | 4 | 5 | 4 | 5 | 5 | Paco C (M) y Fran Espín (T); AL descansa |
+| **28 DE FEBRERO (Día de Andalucía)** | 4 | 4 | 4 | 5 | 4 | 5 | 5 | Fran Espín (M) y Paco C (T) |
 | **SEMANA SANTA** | 5 | 4 | 6 | 4 | 4 | 5 | 4 | Antonio J (M) y Paco C (T) íntegros 25-28 Mar |
 | **NOCHES SEMANA SANTA** | 2 | 3 | 2 | 2 | 3 | 2 | 2 | Miguel B (3) noches completas 25, 26 y 27 Mar |
-| **VIRGEN DE LA CABEZA (Romería)** | 4 | 5 | 4 | 5 | 5 | 4 | 5 | Alberto H (M) y Fran Espín (T) íntegros 23-26 Abr |
+| **VIRGEN DE LA CABEZA (Romería)** | 4 | 5 | 4 | 5 | 5 | 4 | 5 | Alberto H (M, tenía 3) y Fran Espín (T) íntegros 23-26 Abr |
 | **NOCHES VIRGEN DE LA CABEZA** | 4 | 2 | 2 | 2 | 3 | 2 | 3 | A. León (3) noches completas 23, 24 y 25 Abr |
-| **1 DE MAYO (Trabajo)** | 5 | 5 | 4 | 4 | 4 | 5 | 5 | Paco C (M) y A. León (T); AJ y SM descansan |
+| **1 DE MAYO (Trabajo)** | 5 | 5 | 4 | 4 | 4 | 5 | 5 | Paco C (M) y A. León (T) |
 | **15 DE AGOSTO (Asunción)** | 3 | 4 | 3 | 3 | 4 | 4 | 6 | Santi M (M) y Miguel B (T) |
 | **NOCHES DE FERIA** | 3 | 1 | 1 | 2 | 2 | 2 | 0 | Extra 1 (noches completas 03 al 06 Sep) |
-| **FERIA (Día)** | 3 | 3 | 4 | 4 | 4 | 3 | 4 | Miguel B (M) y Antonio J (T) íntegros 4-6 Sep (Alberto H descansó) |
-| **12 DE OCTUBRE (Hispanidad)** | 5 | 4 | 5 | 5 | 4 | 4 | 5 | Fran Espín (M) y A. León (T); AJ y AH descansan |
+| **FERIA (Día)** | 3 | 3 | 4 | 4 | 4 | 3 | 4 | Miguel B (M) y Antonio J (T) íntegros 4-6 Sep (Antonio J tenía 2, Alberto H descansó) |
+| **12 DE OCTUBRE (Hispanidad)** | 5 | 5 | 5 | 5 | 4 | 4 | 4 | Fran Espín (M) y Santi M (T) |
 | **1 DE NOVIEMBRE (Todos los Santos)** | 4 | 4 | 5 | 4 | 4 | 5 | 4 | Antonio J (M) y A. León (T) (ambos tenían 3) |
-| **6 DICIEMBRE (Constitución)** | 4 | 4 | 4 | 5 | 5 | 4 | 5 | Fran Espín (M) y Paco C (T) |
-| **8 DICIEMBRE (Inmaculada)** | 4 | 4 | 5 | 6 | 4 | 3 | 5 | A. León (M) y Fran Espín (T) |
+| **6 DICIEMBRE (Constitución)** | 4 | 4 | 4 | 5 | 5 | 4 | 5 | Paco C (M, tenía 3) y Fran Espín (T) |
+| **8 DICIEMBRE (Inmaculada)** | 4 | 5 | 5 | 6 | 4 | 3 | 4 | Fran Espín (M) y Santi M (T) |
 | **NOCHEBUENA** | 2 | 2 | 3 | 2 | 2 | 2 | 2 | Alberto H (3) turno de noche completo |
-| **25 DICIEMBRE (Navidad)** | 5 | 5 | 4 | 4 | 4 | 4 | 5 | Miguel B (M, sube de 3 a 4) y Antonio J (T) |
+| **25 DICIEMBRE (Navidad)** | 4 | 5 | 4 | 4 | 4 | 5 | 5 | Paco C (M) y Miguel B (T, tenía 3, mínimo) |
 | **NOCHE 31 DICIEMBRE (Nochevieja)** | 3 | 2 | 2 | 2 | 3 | 2 | 2 | Antonio J (3) turno de noche exclusivo |
-| **TOTALES ACUMULADOS** | **71** | **68** | **70** | **70** | **69** | **69** | **70** | **Equidad global histórica: 68 - 71** |
+| **TOTALES ACUMULADOS** | **70** | **70** | **70** | **70** | **69** | **69** | **69** | **Equidad global histórica perfecta: 69 - 70** |
