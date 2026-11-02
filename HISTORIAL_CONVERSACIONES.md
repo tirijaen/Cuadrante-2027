@@ -864,6 +864,37 @@ Vamos a igualarle los turnos de mañana y tarde a hilario, se lo haremos interca
    - `audit_v3_final.py` actualizado con verificación formal de Hilario (110M / 110T).
    - `sw.js` actualizado a la versión de caché `cuadrante-2027-v13.0`.
 
+---
+
+## 📅 Sesión 16 - Rediseño Visual de Botones en Tab 4 y Reparación de la Rotación e Historial de Vacaciones
+
+### 💬 Mensaje de Antonio:
+```text
+Los botones vacaciones y festivos & equidad en la pestaña festivos y vacaciones, no van con el estilo de la app, son blancos y parecen de otra app. integralos visualmente como los otros de la app.
+Ademas dentro de la misma pestaña el boton 2027 oficia, 2028 prevision 2029 prevision e histórico los pulso y no hacen nada, creo que eso esta relacionado con lo de la vista previa del compañaero de vacaciones que ibas a tener pero que dije que eliminaras porque siempre son los mismo compañaeros con los que te vas de vacaciones
+```
+
+### 🤖 Diagnóstico y Corrección Aplicada:
+1. **Rediseño de los Botones Principales de Sub-vista (`.subview-btn`)**:
+   - En la versión anterior faltaba la definición CSS para `.team-subview-toggle` y `.subview-btn`, por lo que el navegador renderizaba botones HTML por defecto (blancos y rectangulares).
+   - Se aplicó el sistema de diseño completo de la app: contenedor con glassmorphism oscuro (`--bg-surface`, bordes sutiles, esquinas redondeadas `--radius-xl`), botones estilizados con iconos y estado activo con degradado celeste-índigo (`--accent-gradient`), brillo suave y transiciones rápidas.
+
+2. **Causa del Bloqueo en los Botones 2027, 2028, 2029 e Histórico**:
+   - En `js/app.js`, la función `renderVacationsSubView()` contenía una condición de guarda estricta: `if (!hist || !hist.vacaciones) return;`.
+   - En `js/historical_data.js`, la clave `vacaciones` no estaba definida (solo existía `festivos`), provocando que la función abortara de inmediato y los clics en los botones de año no realizaran ninguna acción.
+   
+3. **Solución Implementada**:
+   - Se incorporó en `js/historical_data.js` el histórico oficial de turnos de vacaciones (2018 a 2027) extraído de la hoja `VACACIONES` de `Cuadrante 2026 para Agente.xlsx`.
+   - Se refactorizó `renderVacationsSubView()` en `js/app.js` eliminando el bloqueo para que la tarjeta personal y la rotación por quincenas funcionen de forma autónoma.
+   - Al pulsar **2027 Oficial**, **2028 Previsión** o **2029 Previsión**, las 4 tarjetas quincenales se actualizan dinámicamente mostrando cómo rotan las parejas en el ciclo de 4 años, destacando al usuario activo.
+   - Al pulsar **📚 Histórico (2018-2026)**, se ocultan las tarjetas y se muestra la tabla histórica de quincenas con todos los años del Excel.
+   - Se añadió sincronización dinámica del título de sección (`vacQuincenasTitleText`) para que el usuario reciba confirmación visual instantánea del año seleccionado.
+
+4. **Verificación en Navegador**:
+   - Se verificaron interactivamente todos los flujos mediante el agente de navegador: renderizado oscuro correcto de los botones de sub-vista, cambio inmediato entre 2027, 2028, 2029 e Histórico, y regreso fluido a Festivos & Equidad.
+   - Caché PWA actualizada a `v14.0` en `sw.js`.
+
+
 
 
 
