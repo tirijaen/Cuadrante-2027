@@ -218,6 +218,23 @@ if sorted(t_workers_23) != sorted(["Fran Espin", "Santi M"]):
 if n_workers_23 != ["A. Leon"]:
     errors.append(f"23 de Abril Noches incorrectas: {n_workers_23} (debe ser A. Leon)")
 
+# 11. Criterios de Equidad Anual (Sección 7)
+reg_workers = ["Antonio J", "Santi M", "Alberto H", "Fran Espin", "Miguel B", "Paco C", "A. Leon"]
+m_counts = [sum(1 for s in matrix_plain[w_map[w]] if s.strip() == "M") for w in reg_workers]
+t_counts = [sum(1 for s in matrix_plain[w_map[w]] if s.strip() == "T") for w in reg_workers]
+n_counts = [sum(1 for s in matrix_plain[w_map[w]] if s.strip() == "N") for w in reg_workers]
+
+diff_m = max(m_counts) - min(m_counts)
+diff_t = max(t_counts) - min(t_counts)
+diff_n = max(n_counts) - min(n_counts)
+
+if diff_m > 5:
+    errors.append(f"Paridad anual de Mañanas rota: diferencia={diff_m} (máximo permitido 5)")
+if diff_t > 5:
+    errors.append(f"Paridad anual de Tardes rota: diferencia={diff_t} (máximo permitido 5)")
+if diff_n > 3:
+    errors.append(f"Paridad anual de Noches rota: diferencia={diff_n} (máximo permitido 3)")
+
 print("=== FINAL COMPREHENSIVE AUDIT REPORT ===")
 print(f"Total de errores detectados: {len(errors)}")
 print(f"Total fines de semana partidos: {broken_weekends}")

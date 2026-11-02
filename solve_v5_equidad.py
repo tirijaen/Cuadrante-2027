@@ -326,6 +326,17 @@ m2.Add(x[w_map['Fran Espin'], d_idx(2027, 5, 29), 0] == 1)
 m2.Add(x[w_map['Miguel B'], d_idx(2027, 10, 31), 0] == 1)
 m2.Add(x[w_map['Antonio J'], d_idx(2027, 12, 24), 2] == 0)
 
+# Criterios de Equidad Anual (Sección 7 de las Reglas Oficiales):
+# Diferencia máxima de 5 mañanas y 5 tardes entre los 7 trabajadores regulares:
+regular_indices = [w_map[w] for w in ['Antonio J', 'Santi M', 'Alberto H', 'Fran Espin', 'Miguel B', 'Paco C', 'A. Leon']]
+min_m_var = m2.NewIntVar(80, 100, 'min_m')
+max_m_var = m2.NewIntVar(80, 100, 'max_m')
+for wi in regular_indices:
+    m_count_w = sum(x[wi, d, 1] for d in range(total_days))
+    m2.Add(m_count_w >= min_m_var)
+    m2.Add(m_count_w <= max_m_var)
+m2.Add(max_m_var - min_m_var <= 5)
+
 # Maximizar estabilidad preservando el cuadrante existente salvo las modificaciones solicitadas
 obj_terms = []
 for w in range(n_workers):
