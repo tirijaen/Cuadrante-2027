@@ -62,7 +62,7 @@ La plantilla consta de 9 trabajadores:
 ### Calendario y Festivos Locales de Andújar
 Además de los festivos nacionales y autonómicos oficiales de Andalucía, se aplican de forma fija e ineludible las dos fiestas locales:
 * **26 de Abril**: Fiesta local oficial (Romería Virgen de la Cabeza).
-* **6 de Septiembre**: Fiesta local oficial (Feria de Septiembre).
+* **13 de Septiembre**: Fiesta local oficial (Feria de Septiembre).
 * *Viernes 23 de Abril*: Considerado operativo de Romería (coberturas reducidas de festivo: 1M, 1T, 1N).
 
 ### Consideración de Turnos Festivos
@@ -197,8 +197,10 @@ Las vacaciones se distribuyen en dos quincenas de 15 días naturales por trabaja
   * Mañana y Tarde: Miguel B y Fran Espín.
 * **16 de Agosto (Festivo local/trasladado)**:
   * Mañana y Tarde: Santi M y Extra 1.
-* **04, 05 y 06 de Septiembre (Feria de Andújar)**:
-  * Mañana y Tarde: Antonio J y Extra 1.
+* **11, 12 y 13 de Septiembre (Feria de Andújar)**:
+  * Mañanas: Paco Cantarero.
+  * Tardes: Antonio Jesús Sánchez.
+  * Noches (10 al 13 de Septiembre): Extra 1.
 * **12 de Octubre (Fiesta Nacional)**:
   * Mañana y Tarde: Miguel B y Paco C.
 * **06 y 08 de Diciembre (Constitución e Inmaculada)**:

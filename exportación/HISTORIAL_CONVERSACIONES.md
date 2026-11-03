@@ -942,6 +942,59 @@ añade un nuevo checkpoint en este punto
 4. **Sincronización con `exportación/`**:
    - Se incorporó este nuevo checkpoint y sus scripts de restauración en la carpeta `exportación/` para que los futuros agentes dispongan de ambos puntos de recuperación.
 
+---
+
+## 📅 Sesión 19 - Corrección de Fecha de Feria (11 al 13 de Septiembre) y Festivo Local del 13 de Septiembre
+
+### 💬 Mensajes de Antonio:
+```text
+En la definicion de la reglas cometí un error. Conté como festivo local el día 6 de septiembre cuando el festivo es en realidad el día 13 de septimbre. 
+Eso conlleva varios ajustes a realizar:
+1º Las mañanas y tardes de feria que eran 4 5 y 6 de septiembre a realizar por Paco C y Antonio J ahora son las mañanas y tardes del 11 12 y 13 de septiembre.
+2º El extra que tenía asignadas las noches de feria que eran las noches del 3 a 6 de septiembre ahora seran las noches del 11 al 13 de septiembre.
+
+Pero es importante que para realizar esos cambios intentemos respetar el cuadrante que ya estaba 100% definido.
+Evidentemente tenemos que respetar todas las reglas que hemos venido siguiendo.
+Intenta solventar el problema realizando los mínimos cambios posibles sin tocar las demas fiestas que ya estaban definidas. Este problema solo afecta a Feria y Noches Feria
+Una vez tengas solución al problema, consultame esta vez los cambios que conlleva reparar este error antes de ejecutarlo finalmente.
+```
+```text
+Si, me parece perfecta
+```
+
+### 🤖 Diagnóstico y Acciones Realizadas:
+1. **Reubicación de Festivo Local y Feria de Septiembre**:
+   - Se corrigió el festivo local oficial de Andújar del 6 de septiembre al **Lunes 13 de Septiembre de 2027**.
+   - **Feria Diurna (11, 12 y 13 de Septiembre)**: Asignada íntegramente a **Paco Cantarero** en Mañanas (`M.`) y a **Antonio Jesús Sánchez** en Tardes (`T.`).
+   - **Feria Nocturna (10, 11, 12 y 13 de Septiembre)**: Asignada íntegramente a **Extra 1** en Noches (`N.`, cubriendo viernes a lunes festivo para preservar la integridad del fin de semana sin partir).
+   - **Fin de Semana 4-5 de Septiembre**: Pasa a ser fin de semana ordinario, cubierto con turnos regulares.
+2. **Resolución Matemática con CP-SAT (`solve_v6_feria.py` / `solve_v5_equidad.py`)**:
+   - Se formuló y resolvió el modelo matemático respetando el 100% de los meses fuera de septiembre.
+   - En septiembre se reconfiguraron ergonómicamente los descansos y bloques de noches:
+     * Santi M: noches 1 y 2 de sep.
+     * Alberto H: noches 3 y 4 de sep.
+     * Fran Espín: noches 5 al 9 de sep (bloque de 5 noches).
+     * Extra 1: noches 10 al 13 de sep (Feria nocturna) y 29-30 de sep.
+     * Antonio J: noches 14 y 15 de sep (después de Feria, con descanso legal > 12h y 2 descansos posteriores).
+     * Miguel B: noches 16 al 18 de sep y 27-28 de sep.
+     * Paco C: noches 19 al 23 de sep.
+     * A. León: noches 24 al 26 de sep.
+3. **Auditoría Exhaustiva (`audit_v3_final.py`)**:
+   - **Total de errores detectados: 0**.
+   - **Total fines de semana partidos: 0**.
+   - **Jornadas Anuales:** 220 días exactos para los 7 trabajadores regulares y para Hilario; 81 días para Extra 1.
+   - **Noches Anuales:** Exactamente 49 noches cada titular ($\Delta = 0$), 22 Extra 1, 0 Hilario.
+   - **Paridad Festivos:** 48 festivos para 6 titulares, 47 para A. León ($\Delta = 1$, máxima equidad legal).
+   - **Paridad Mañanas y Tardes:** Diferencias dentro del límite reglamentario ($\le 5$).
+   - **Hilario Gómez:** Exactamente 110 Mañanas y 110 Tardes, 0 noches, 0 fines de semana/festivos.
+4. **Regeneración Total de Entregables**:
+   - `Cuadrante_2027_Andujar.xlsx` y `Cuadrante_2027_Andujar_V3.xlsx`.
+   - `cuadrante_2027.json` y `cuadrante_2027_v3.json`.
+   - `js/cuadrante_data.js`.
+   - `sw.js` actualizado a `cuadrante-2027-v15.0`.
+   - Documentación actualizada: `REGLAS_OFICIALES_CUADRANTE.md` y `.agents/rules/reglas_cuadrante.md`.
+   - Copia sincronizada en el directorio `exportación/`.
+
 
 
 

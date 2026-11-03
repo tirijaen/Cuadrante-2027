@@ -13,7 +13,7 @@ holidays = {
     datetime.date(2027, 1, 1), datetime.date(2027, 1, 6), datetime.date(2027, 3, 1),
     datetime.date(2027, 3, 25), datetime.date(2027, 3, 26),
     datetime.date(2027, 4, 26), datetime.date(2027, 5, 1), datetime.date(2027, 8, 16),
-    datetime.date(2027, 9, 6), datetime.date(2027, 10, 12), datetime.date(2027, 11, 1),
+    datetime.date(2027, 9, 13), datetime.date(2027, 10, 12), datetime.date(2027, 11, 1),
     datetime.date(2027, 12, 6), datetime.date(2027, 12, 8), datetime.date(2027, 12, 25),
 }
 
@@ -181,11 +181,19 @@ d_31dec = (datetime.date(2027, 12, 31) - dates[0]).days
 if matrix_plain[w_map["Antonio J"]][d_31dec].strip() != "N":
     errors.append("Antonio J no hace noche el 31 de diciembre")
 
-# Extra 1 noches de Feria (3, 4, 5, 6 de septiembre)
-for ds in (3, 4, 5, 6):
+# Extra 1 noches de Feria (10, 11, 12, 13 de septiembre)
+for ds in (10, 11, 12, 13):
     d_sep = (datetime.date(2027, 9, ds) - dates[0]).days
     if matrix_plain[w_map["Extra 1"]][d_sep].strip() != "N":
         errors.append(f"Extra 1 no hace noche de feria el {ds} de septiembre")
+
+# Feria diurna (11, 12, 13 de septiembre: Paco C Mañanas y Antonio J Tardes)
+for ds in (11, 12, 13):
+    d_sep = (datetime.date(2027, 9, ds) - dates[0]).days
+    if matrix_plain[w_map["Paco C"]][d_sep].strip() != "M":
+        errors.append(f"Paco C no hace Mañana de feria el {ds} de septiembre")
+    if matrix_plain[w_map["Antonio J"]][d_sep].strip() != "T":
+        errors.append(f"Antonio J no hace Tarde de feria el {ds} de septiembre")
 
 # Fran Espin evento 29 mayo
 d_29may = (datetime.date(2027, 5, 29) - dates[0]).days

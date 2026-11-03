@@ -22,7 +22,7 @@ holidays = {
     datetime.date(2027, 4, 26),
     datetime.date(2027, 5, 1),
     datetime.date(2027, 8, 16),
-    datetime.date(2027, 9, 6),
+    datetime.date(2027, 9, 13),
     datetime.date(2027, 10, 12),
     datetime.date(2027, 11, 1),
     datetime.date(2027, 12, 6),

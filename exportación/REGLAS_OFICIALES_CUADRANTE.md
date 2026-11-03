@@ -70,7 +70,7 @@ La plantilla consta de 9 trabajadores:
 ### Calendario y Festivos Locales de Andújar
 Además de los festivos nacionales y autonómicos oficiales de Andalucía, se aplican de forma fija e ineludible las dos fiestas locales:
 * **26 de Abril**: Fiesta local oficial (Romería Virgen de la Cabeza).
-* **6 de Septiembre**: Fiesta local oficial (Feria de Septiembre).
+* **13 de Septiembre**: Fiesta local oficial (Feria de Septiembre).
 * **Viernes 23 de Abril**: Jornada laboral ordinaria (cobertura estándar completa de laborable: **3 Mañanas, 2 Tardes, 1 Noche**). Se asigna a Alberto H, Hilario y Miguel B en Mañana; Fran Espín y Santi M en Tarde; Antonio León en Noche. Las coberturas reducidas de festivo (1M, 1T, 1N) se aplican exclusivamente al ciclo de fin de semana y fiesta local: Sábado 24, Domingo 25 y Lunes de Romería 26 de Abril. Para compensar el turno añadido del 23 de abril y mantener el cupo exacto de 220 días anuales (y $\le 21$ días mensuales en abril), Miguel B, Santi M e Hilario descansan en una tarde complementaria de abril donde coincidían 3 trabajadores (16 de abril para Miguel B, 29 de abril para Santi M y 30 de abril para Hilario), garantizando en todo momento la cobertura mínima de 2 tardes.
 
 ### Consideración de Turnos Festivos
@@ -205,7 +205,7 @@ Cada vez que se calcule o genere el cuadrante oficial:
    * **Santi Molina** trabaja de **Noche (N)** (mínimo histórico absoluto de Noche de Año Nuevo: solo 1 vez).
 3. **Regla de Integridad en Festivos Multi-Día**:
    * En festividades de varios días (Semana Santa, Romería Virgen de la Cabeza y Feria), no se permite alternar trabajadores en el mismo turno: **un único trabajador asume todas las mañanas, otro todas las tardes y otro todas las noches del ciclo festivo**.
-4. **Noches de Feria**: Asignadas íntegramente a **Extra 1** (noches del 3 al 6 de septiembre).
+4. **Feria de Septiembre**: Asignada con **Paco Cantarero** en Mañanas y **Antonio Jesús Sánchez** en Tardes (11, 12 y 13 de septiembre). Las Noches de Feria corresponden íntegramente a **Extra 1** (noches del 10 al 13 de septiembre, cubriendo el ciclo festivo y el fin de semana íntegro sin partir).
 5. **Equidad Global Acumulada**: Tras las asignaciones por festivo individual, el balance total de festivos acumulados de toda la plantilla debe mantenerse en el rango de máxima equidad (69 a 70 festivos).
 
 ### Eventos Personales y Descansos Blindados
