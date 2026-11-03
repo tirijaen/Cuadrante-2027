@@ -135,14 +135,14 @@ window.HISTORICAL_DATA = {
           "2024": "AJ-AH",
           "2025": "AL-PC",
           "2026": "AJ-AC",
-          "2027": "FE-PC"
+          "2027": "PC-MG"
         },
         "counts": {
           "AJ": 4,
           "SM": 4,
           "AH": 4,
-          "FE": 5,
-          "MB": 4,
+          "FE": 4,
+          "MB": 5,
           "PC": 5,
           "AL": 5
         },
@@ -295,7 +295,7 @@ window.HISTORICAL_DATA = {
           "2024": "AC-AH",
           "2025": "FE-PC",
           "2026": "PC-SM",
-          "2027": "AL-PC"
+          "2027": "PC-AL"
         },
         "counts": {
           "AJ": 5,
@@ -391,15 +391,15 @@ window.HISTORICAL_DATA = {
           "2024": "AC-AL",
           "2025": "AL-MB",
           "2026": "FE",
-          "2027": "AJ-MG"
+          "2027": "PC-AJ"
         },
         "counts": {
           "AJ": 3,
           "SM": 3,
           "AH": 4,
           "FE": 4,
-          "MB": 4,
-          "PC": 3,
+          "MB": 3,
+          "PC": 4,
           "AL": 4
         },
         "totalTimes": 25
@@ -423,14 +423,14 @@ window.HISTORICAL_DATA = {
           "2024": "AC-MB",
           "2025": "FE-PC",
           "2026": "AH-AJ",
-          "2027": "FE-SM"
+          "2027": "FE-MG"
         },
         "counts": {
           "AJ": 5,
-          "SM": 5,
+          "SM": 4,
           "AH": 5,
           "FE": 5,
-          "MB": 4,
+          "MB": 5,
           "PC": 4,
           "AL": 4
         },
@@ -455,7 +455,7 @@ window.HISTORICAL_DATA = {
           "2024": "FE-MB",
           "2025": "PC-MB",
           "2026": "FE-AH",
-          "2027": "AL-AJ"
+          "2027": "AJ-AL"
         },
         "counts": {
           "AJ": 4,
@@ -487,7 +487,7 @@ window.HISTORICAL_DATA = {
           "2024": "FE-AC",
           "2025": "AJ-MB",
           "2026": "AH-FE",
-          "2027": "PC-SM"
+          "2027": "SM-PC"
         },
         "counts": {
           "AJ": 4,
@@ -631,27 +631,126 @@ window.HISTORICAL_DATA = {
     ],
     "totals": {
       "AJ": 70,
-      "SM": 70,
+      "SM": 69,
       "AH": 70,
-      "FE": 69,
-      "MB": 69,
-      "PC": 69,
+      "FE": 68,
+      "MB": 70,
+      "PC": 70,
       "AL": 70
     }
   },
   "vacaciones": {
-    "headers": ["1-15 Jun", "16-30 Jun", "1-15 Jul", "16-30 Jul", "1-15 Ago", "16-30 Ago", "1-15 Sep", "16-30 Sep"],
+    "headers": [
+      "1-15 Jun",
+      "16-30 Jun",
+      "1-15 Jul",
+      "16-30 Jul",
+      "1-15 Ago",
+      "16-30 Ago",
+      "1-15 Sep",
+      "16-30 Sep"
+    ],
     "history": {
-      "2018": ["PC - AL", "AJ-JM", "MB-DC", "AJ-AC", "FE-PC", "AL-HG", "MB-AC", "AC-HG"],
-      "2019": ["AC-HG", "PC-JM", "AL-HG", "MB-DC", "AJ-AC", "FE-PC", "AJ-AL", "MB-CD"],
-      "2020": ["MB-DC", "AC-HG", "FE-PC", "AL-HG", "MB-DC", "AJ-AC", "PC-FE", "AJ-AL"],
-      "2021": ["AJ-AL", "MB-DC", "AJ-AC", "FE-PC", "AL-HG", "MB-DC", "AC-HG", "PC-FE"],
-      "2022": ["-", "-", "MB-DC", "AJ-AC", "FE-PC", "AL-HG", "-", "-"],
-      "2023": ["PC-FE", "AJ-AC", "AL-HG", "MB-DC", "AJ-AC", "FE-PC", "MB-DC", "AL-HG"],
-      "2024": ["AL-HG", "AJ-AC", "PC-FE", "AL-HG", "MB-AH", "AJ-AC", "PC-FE", "MB-AH"],
-      "2025": ["AL-HG", "MB-DC", "AJ-AC", "PC-FE", "AL-HG", "MB-AH", "AJ-AC", "PC-FE"],
-      "2026": ["PC-FE", "AL-HG", "MB-AH", "AJ-AC", "PC-FE", "AL-HG", "MB-AH", "AJ-AC"],
-      "2027": ["AJ-MB", "PC-FE", "AL-HG", "SM-AH", "AJ-MB", "PC-FE", "AL-HG", "SM-AH"]
+      "2018": [
+        "PC - AL",
+        "AJ-JM",
+        "MB-DC",
+        "AJ-AC",
+        "FE-PC",
+        "AL-HG",
+        "MB-AC",
+        "AC-HG"
+      ],
+      "2019": [
+        "AC-HG",
+        "PC-JM",
+        "AL-HG",
+        "MB-DC",
+        "AJ-AC",
+        "FE-PC",
+        "AJ-AL",
+        "MB-CD"
+      ],
+      "2020": [
+        "MB-DC",
+        "AC-HG",
+        "FE-PC",
+        "AL-HG",
+        "MB-DC",
+        "AJ-AC",
+        "PC-FE",
+        "AJ-AL"
+      ],
+      "2021": [
+        "AJ-AL",
+        "MB-DC",
+        "AJ-AC",
+        "FE-PC",
+        "AL-HG",
+        "MB-DC",
+        "AC-HG",
+        "PC-FE"
+      ],
+      "2022": [
+        "-",
+        "-",
+        "MB-DC",
+        "AJ-AC",
+        "FE-PC",
+        "AL-HG",
+        "-",
+        "-"
+      ],
+      "2023": [
+        "PC-FE",
+        "AJ-AC",
+        "AL-HG",
+        "MB-DC",
+        "AJ-AC",
+        "FE-PC",
+        "MB-DC",
+        "AL-HG"
+      ],
+      "2024": [
+        "AL-HG",
+        "AJ-AC",
+        "PC-FE",
+        "AL-HG",
+        "MB-AH",
+        "AJ-AC",
+        "PC-FE",
+        "MB-AH"
+      ],
+      "2025": [
+        "AL-HG",
+        "MB-DC",
+        "AJ-AC",
+        "PC-FE",
+        "AL-HG",
+        "MB-AH",
+        "AJ-AC",
+        "PC-FE"
+      ],
+      "2026": [
+        "PC-FE",
+        "AL-HG",
+        "MB-AH",
+        "AJ-AC",
+        "PC-FE",
+        "AL-HG",
+        "MB-AH",
+        "AJ-AC"
+      ],
+      "2027": [
+        "AJ-MB",
+        "PC-FE",
+        "AL-HG",
+        "SM-AH",
+        "AJ-MB",
+        "PC-FE",
+        "AL-HG",
+        "SM-AH"
+      ]
     }
   }
 };

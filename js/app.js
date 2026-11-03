@@ -3706,6 +3706,7 @@ ${debt.notes ? `• *Notas:* ${debt.notes}\n` : ''}
     `;
 
     // Fila de totales acumulados
+    const maxVal = Math.max(...workers.map(wk => totals[wk.code] || 0));
     const tfoot = `
       <tfoot>
         <tr style="background:var(--bg-card); font-weight:800; border-top:2px solid var(--border-color);">
@@ -3715,12 +3716,13 @@ ${debt.notes ? `• *Notas:* ${debt.notes}\n` : ''}
           ${workers.map(w => {
             const tot = totals[w.code] || 0;
             const isAct = w.code === currentCode;
-            const isFull = tot >= 71;
+            const diff = maxVal - tot;
+            const isFull = diff === 0;
             return `
               <td class="${isAct ? 'is-active-col' : ''}" style="font-size:0.85rem;">
                 <span style="${isFull ? 'color:#10b981;' : 'color:#f59e0b;'} font-weight:800;">${tot}</span>
                 <div style="font-size:0.6rem; color:var(--text-muted); font-weight:normal;">
-                  ${isFull ? 'Equitativo' : '+1 en 2028'}
+                  ${isFull ? 'Equitativo' : `+${diff} en 2028`}
                 </div>
               </td>
             `;
@@ -3818,12 +3820,14 @@ ${debt.notes ? `• *Notas:* ${debt.notes}\n` : ''}
       { name: 'Paco C', full: 'Francisco Cantarero', code: 'PC' }
     ];
 
-    const maxCount = 71;
+    const counts = workers.map(w => totals[w.code] || 0);
+    const maxCount = Math.max(...counts);
 
     el.holidayEquityBarsList.innerHTML = workers.map(w => {
-      const count = totals[w.code] || 70;
-      const pct = (count / maxCount) * 100;
-      const isMax = count === 71;
+      const count = totals[w.code] || 0;
+      const pct = maxCount > 0 ? (count / maxCount) * 100 : 100;
+      const diff = maxCount - count;
+      const isMax = diff === 0;
       const isActive = w.name === state.currentWorker;
 
       return `
@@ -3835,8 +3839,8 @@ ${debt.notes ? `• *Notas:* ${debt.notes}\n` : ''}
             <div class="holiday-equity-counts">
               <strong>${count} festivos</strong>
               ${isMax 
-                ? '<span style="font-size:0.7rem; background:rgba(16,185,129,0.18); color:#10b981; padding:2px 6px; border-radius:4px; font-weight:700;">Cumplido (71)</span>'
-                : '<span style="font-size:0.7rem; background:rgba(245,158,11,0.18); color:#f59e0b; padding:2px 6px; border-radius:4px; font-weight:700;">Prioridad 2028 (+1)</span>'
+                ? `<span style="font-size:0.7rem; background:rgba(16,185,129,0.18); color:#10b981; padding:2px 6px; border-radius:4px; font-weight:700;">Cumplido (${count})</span>`
+                : `<span style="font-size:0.7rem; background:rgba(245,158,11,0.18); color:#f59e0b; padding:2px 6px; border-radius:4px; font-weight:700;">Prioridad 2028 (+${diff})</span>`
               }
             </div>
           </div>
@@ -3846,6 +3850,18 @@ ${debt.notes ? `• *Notas:* ${debt.notes}\n` : ''}
         </div>
       `;
     }).join('');
+
+    const noticeEl = document.getElementById('holidayEquityNotice');
+    if (noticeEl) {
+      const pendingWorkers = workers.filter(w => (totals[w.code] || 0) < maxCount);
+      if (pendingWorkers.length > 0) {
+        const pendingDesc = pendingWorkers.map(w => `${w.name} (${totals[w.code]}, +${maxCount - totals[w.code]})`).join(' y ');
+        const maxWorkersDesc = workers.filter(w => (totals[w.code] || 0) === maxCount).map(w => `${w.code}: ${totals[w.code]}`).join(', ');
+        noticeEl.innerHTML = `<strong>Criterio Oficial para 2028:</strong> ${pendingDesc} tendrán prioridad para realizar festivos en 2028 y empatar a ${maxCount} con el resto de compañeros (${maxWorkersDesc}).`;
+      } else {
+        noticeEl.innerHTML = `<strong>Plantilla 100% Equitativa:</strong> Todos los compañeros están empatados al máximo de ${maxCount} festivos acumulados (2011-2027).`;
+      }
+    }
   }
 
   function renderMySpecialHolidays() {
@@ -3935,20 +3951,20 @@ ${debt.notes ? `• *Notas:* ${debt.notes}\n` : ''}
       },
       {
         id: 'feria_septiembre',
-        title: '🎡 Feria y Noches de Feria (3 - 6 Sep)',
+        title: '🎡 Feria y Noches de Feria (11 - 13 Sep)',
         historyLast: {
-          'Antonio J': '2027 (Diurno 4, 5 y 6 Sep con Miguel B)',
+          'Antonio J': '2027 (Tardes 11, 12 y 13 Sep con Paco C)',
           'Santi M': '2025',
           'Alberto H': 'Descanso en 2027 (Equidad histórica)',
           'Fran Espin': '2026',
-          'Miguel B': '2027 (Diurno 4, 5 y 6 Sep con Antonio J)',
-          'Paco C': '2022',
+          'Miguel B': 'Descanso en 2027',
+          'Paco C': '2027 (Mañanas 11, 12 y 13 Sep con Antonio J)',
           'A. Leon': 'Vacaciones 1-15 Sep',
           'Hilario': 'Exento',
-          'Extra 1': '2027 (Noches 3, 4, 5 y 6 Sep)'
+          'Extra 1': '2027 (Noches 10, 11, 12 y 13 Sep)'
         },
-        works2027: (w === 'Extra 1' || w === 'Antonio J' || w === 'Miguel B'),
-        text2027: (w === 'Extra 1' ? 'Turno de Noche (03, 04, 05 y 06 Sep)' : (w === 'Antonio J' || w === 'Miguel B' ? 'Mañana/Tarde íntegros (04, 05 y 06 Sep) · Noches libres' : 'Descanso / Libre completo en Feria')),
+        works2027: (w === 'Extra 1' || w === 'Antonio J' || w === 'Paco C'),
+        text2027: (w === 'Extra 1' ? 'Turno de Noche (10, 11, 12 y 13 Sep)' : (w === 'Paco C' ? 'Mañanas (11, 12 y 13 Sep) · Tardes y Noches libres' : (w === 'Antonio J' ? 'Tardes (11, 12 y 13 Sep) · Mañanas y Noches libres' : 'Descanso / Libre completo en Feria'))),
         forecast2028: 'Rotación según festivos'
       }
     ];
@@ -4001,7 +4017,7 @@ ${debt.notes ? `• *Notas:* ${debt.notes}\n` : ''}
       'SM': 'Santi M',
       'PR': 'Santi M (predecesor PR)',
       'MB': 'Marcos Brito (predecesor SM)',
-      'MG': 'Miguel B (2027)',
+      'MG': 'Miguel B',
       'AC': 'Miguel B (predecesor AC)',
       'AH': 'Alberto H',
       'DC': 'Alberto H (predecesor DC)',
@@ -4129,18 +4145,18 @@ ${debt.notes ? `• *Notas:* ${debt.notes}\n` : ''}
     const fixed2027 = [
       { name: '01 Enero (Año Nuevo)', workers: 'Antonio León (M) & Alberto Higueras (T) · Santi M (Noche)' },
       { name: '06 Enero (Reyes)', workers: 'Antonio León (M) & Alberto Higueras (T) · Antonio J (Noche)' },
-      { name: '28 Febrero / 01 Marzo', workers: 'Fran Espín & Paco C (M y T)' },
-      { name: 'Semana Santa (25-28 Mar)', workers: 'Antonio J & Paco C (M y T íntegros) · Miguel B (Noches 25, 26 y 27)' },
-      { name: 'Virgen de la Cabeza (23-26 Abr)', workers: 'Alberto H & Fran Espín (M y T íntegros) · A. León (Noches 23, 24 y 25)' },
-      { name: '01 Mayo (Fiesta del Trabajo)', workers: 'Paco C & A. León (M y T)' },
-      { name: '16 Agosto (Festivo local)', workers: 'Miguel B & Santi M (M y T)' },
-      { name: 'Feria de Septiembre (04-06 Sep)', workers: 'Antonio J & Miguel B (M y T íntegros) · Extra 1 (Noches 03 al 06)' },
-      { name: '12 Octubre (Fiesta Nacional)', workers: 'Fran Espín & Santi M (M y T)' },
-      { name: '01 Noviembre (Todos los Santos)', workers: 'Antonio J & A. León (M y T)' },
-      { name: '06 y 08 Diciembre (Puente)', workers: '06 Dic: Paco C (M) & Santi M (T) · 08 Dic: Santi M (M) & Paco C (T)' },
-      { name: '24 Diciembre (Nochebuena)', workers: 'Alberto H (Noche)' },
-      { name: '25 Diciembre (Navidad)', workers: 'Fran Espín (M) & Miguel B (T)' },
-      { name: '31 Diciembre (Nochevieja)', workers: 'Antonio J (Noche)' }
+      { name: '28 Febrero (Día de Andalucía)', workers: 'Paco Cantarero (M) & Miguel Benítez (T)' },
+      { name: 'Semana Santa (25-28 Mar)', workers: 'Antonio Jesús (M) & Paco Cantarero (T) · Miguel Benítez (Noches 25, 26 y 27)' },
+      { name: 'Virgen de la Cabeza (23-26 Abr)', workers: 'Alberto Higueras (M) & Fran Espín (T) · Antonio León (Noches 23, 24 y 25)' },
+      { name: '01 Mayo (Fiesta del Trabajo)', workers: 'Paco Cantarero (M) & Antonio León (T)' },
+      { name: '16 Agosto (Festivo local)', workers: 'Miguel Benítez (M) & Santi Molina (T)' },
+      { name: 'Feria de Septiembre (11-13 Sep)', workers: 'Paco Cantarero (M) & Antonio Jesús (T) · Extra 1 (Noches 10 al 13)' },
+      { name: '12 Octubre (Fiesta Nacional)', workers: 'Fran Espín (M) & Miguel Benítez (T)' },
+      { name: '01 Noviembre (Todos los Santos)', workers: 'Antonio Jesús (M) & Antonio León (T)' },
+      { name: '06 y 08 Diciembre (Puente)', workers: 'Santi Molina (M) & Paco Cantarero (T)' },
+      { name: '24 Diciembre (Nochebuena)', workers: 'Alberto Higueras (Noche)' },
+      { name: '25 Diciembre (Navidad)', workers: 'Fran Espín (M) & Miguel Benítez (T)' },
+      { name: '31 Diciembre (Nochevieja)', workers: 'Antonio Jesús (Noche)' }
     ];
 
     el.fixedHolidays2027List.innerHTML = fixed2027.map(f => {

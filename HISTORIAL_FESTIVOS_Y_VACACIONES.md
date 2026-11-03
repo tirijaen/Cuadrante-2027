@@ -28,20 +28,20 @@ A lo largo de los años (2011 a 2027) la plantilla ha tenido jubilaciones o rele
 
 ## 2. Balance Acumulado de Festivos (2011 - 2027)
 
-La equidad acumulada tras 17 años de registros es matemáticamente perfecta (entre 68 y 71 festivos totales en casi dos décadas):
+La equidad acumulada tras 17 años de registros es matemáticamente equilibrada (entre 68 y 70 festivos totales en casi dos décadas):
 
 | Trabajador | Festivos Acumulados (2011 - 2027) | Objetivo para 2028 |
 |---|:---:|---|
-| **Antonio Jesús Sánchez** (`AJ`) | **70** | Equilibrio histórico consolidado |
-| **Santiago Molina** (`SM`) | **70** | Equilibrio histórico consolidado |
-| **Alberto Higueras** (`AH`) | **70** | Equilibrio histórico consolidado |
-| **Antonio León** (`AL`) | **70** | Equilibrio histórico consolidado |
-| **Francisco Espín** (`FE`) | **69** | **Prioridad festivos 2028 (+1)** |
-| **Miguel Benítez** (`MB`) | **69** | **Prioridad festivos 2028 (+1)** |
-| **Francisco Cantarero** (`PC`) | **69** | **Prioridad festivos 2028 (+1)** |
+| **Antonio Jesús Sánchez** (`AJ`) | **70** | Máximo histórico alcanzado |
+| **Alberto Higueras** (`AH`) | **70** | Máximo histórico alcanzado |
+| **Miguel Benítez** (`MB`) | **70** | Máximo histórico alcanzado |
+| **Francisco Cantarero** (`PC`) | **70** | Máximo histórico alcanzado |
+| **Antonio León** (`AL`) | **70** | Máximo histórico alcanzado |
+| **Santiago Molina** (`SM`) | **69** | **Prioridad festivos 2028 (+1)** |
+| **Francisco Espín** (`FE`) | **68** | **Prioridad festivos 2028 (+2)** |
 
 > [!TIP]
-> En el diseño del **Cuadrante 2028**, los trabajadores con 69 festivos (**Francisco Espín, Miguel Benítez y Francisco Cantarero**) tendrán prioridad natural para asumir festivos adicionales y equilibrar con el resto del equipo (70).
+> En el diseño del **Cuadrante 2028**, los trabajadores con 68 y 69 festivos (**Francisco Espín y Santiago Molina**) tendrán prioridad natural para asumir festivos adicionales y equilibrar con el resto del equipo (70).
 
 ---
 
@@ -52,18 +52,18 @@ La equidad acumulada tras 17 años de registros es matemáticamente perfecta (en
 | **NOCHES DEL 1 DE ENERO** | PS | AL | PS | DC | FE | AC | PC | SM |
 | **1 DE ENERO** | JM-AL | DC-PR | JM-PC | MB-FE | AL-AC | AJ-AH | AJ-AC | AL-AH |
 | **6 DE ENERO** | PR-JM | PC-AJ | DC-AJ | PC-FE | AC-MB | MB-AL | FE-AC | AL-AH |
-| **28 DE FEBRERO** | AL-DC | JM-PR | PC-AC | DC-AL | AJ-AH | AL-PC | AJ-AC | FE-PC |
+| **28 DE FEBRERO** | AL-DC | JM-PR | PC-AC | DC-AL | AJ-AH | AL-PC | AJ-AC | PC-MG |
 | **SEMANA SANTA** | PR-DC | AL-PC | MB-DC | AJ-FE | AC-FE | PC-AL | AC-AH | AJ-PC |
 | **NOCHES SEMANA SANTA** | AC | PR | JM-PC | DC | AL | AJ | MB | MG |
 | **VIRGEN DE LA CABEZA** | PR-DC | JM-AC | AL-PC | AJ -MB | FE-AL | AH-AC | AL-SM | AH-FE |
 | **NOCHES VIRGEN DE LA CABEZA** | AJ | AL | AJ | FE | MB | PC | AH | AL |
-| **1 DE MAYO** | JM-AC | AC-PR | AL-PS | AJ-MB | AC-AH | FE-PC | PC-SM | AL-PC |
+| **1 DE MAYO** | JM-AC | AC-PR | AL-PS | AJ-MB | AC-AH | FE-PC | PC-SM | PC-AL |
 | **15 DE AGOSTO ** | PC-AL | DC | AL | FE-PC | AC-AJ | AH-AC | AL | MG-SM |
 | **NOCHES DE FERIA** | X | PC | AC | AJ | MB | AH | AJ | EX1 |
-| **FERIA** | DC-AC | JM | AL-PC | AL | AC-AL | AL-MB | FE | AJ-MG |
-| **12 DE OCTUBRE** | PC-JM | AL-AJ | DC-AJ | PC-MB | AC-MB | FE-PC | AH-AJ | FE-SM |
+| **FERIA** | DC-AC | JM | AL-PC | AL | AC-AL | AL-MB | FE | PC-AJ |
+| **12 DE OCTUBRE** | PC-JM | AL-AJ | DC-AJ | PC-MB | AC-MB | FE-PC | AH-AJ | FE-MG |
 | **1 DE NOVIEMBRE** | AL-JM | AC-AJ | AC-PC | AL-DC | FE-MB | PC-MB | FE-AH | AJ-AL |
-| **6 DICIEMBRE-CONSTITUCION** | AL-PC | JM-AC | AC-AJ | DC-MB | FE-AC | AJ-MB | AH-FE | PC-SM |
+| **6 DICIEMBRE-CONSTITUCION** | AL-PC | JM-AC | AC-AJ | DC-MB | FE-AC | AJ-MB | AH-FE | SM-PC |
 | **8 DICIEMBRE-INMACULADA** | PC-DC | AL-AC | AL-MB | DC-MB | AJ-AC | AJ-FE | AH-FE | SM-PC |
 | **NOCHEBUENA** | AL | MB | DC | FE | PC | AJ | AC | AH |
 | **25 DICIEMBRE-NAVIDAD** | PC-AJ | AL-DC | FE-MB | AC-AJ | AH-AJ | PC-MB | MB-AL | FE-MG |

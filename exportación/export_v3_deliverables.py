@@ -192,3 +192,6 @@ if match:
     with open("js/cuadrante_data.js", "w", encoding="utf-8") as f:
         f.write(new_js)
     print("Updated js/cuadrante_data.js successfully!")
+
+# Sincronizar datos históricos (Cuadrante 2026 para Agente.xlsx y js/historical_data.js)
+import sync_historical_festivos
