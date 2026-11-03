@@ -56,8 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
     holidaysVacationsMode: 'vacations', // 'vacations' | 'holidays'
     vacationsViewYear: '2027', // '2027' | '2028' | '2029' | 'history'
     selectedHolidayTimeline: 'NOCHES DEL 1 DE ENERO',
-    holidayMatrixView: 'matrix', // 'matrix' | 'personal'
-    lastValidationResult: null
+    holidayMatrixView: 'matrix' // 'matrix' | 'personal'
   };
 
   // Cargar notas del trabajador actual
@@ -245,12 +244,9 @@ document.addEventListener('DOMContentLoaded', () => {
     vDateA: document.getElementById('vDateA'),
     vShiftA: document.getElementById('vShiftA'),
     vWorkerAssumesA: document.getElementById('vWorkerAssumesA'),
-    vSituationA: document.getElementById('vSituationA'),
     vDateB: document.getElementById('vDateB'),
     vShiftB: document.getElementById('vShiftB'),
     vWorkerAssumesB: document.getElementById('vWorkerAssumesB'),
-    vSituationB: document.getElementById('vSituationB'),
-    vChecksGrid: document.getElementById('vChecksGrid'),
     vSigWorker1: document.getElementById('vSigWorker1'),
     vSigWorker2: document.getElementById('vSigWorker2'),
 
@@ -2076,7 +2072,6 @@ document.addEventListener('DOMContentLoaded', () => {
         workerA, dateA, newShiftA: origShiftB,
         workerB, dateB: dateA, newShiftB: curShiftA
       });
-      state.lastValidationResult = res;
 
       if (el.agreementValidationBox) {
         el.agreementValidationBox.className = 'validation-results-panel ' + (res.valid ? (res.hasWarnings ? 'has-warning' : 'valid') : 'invalid');
@@ -2146,7 +2141,6 @@ document.addEventListener('DOMContentLoaded', () => {
         workerA, dateA, newShiftA: ' ',
         workerB, dateB, newShiftB: ' '
       });
-      state.lastValidationResult = res;
 
       if (el.agreementValidationBox) {
         el.agreementValidationBox.className = 'validation-results-panel ' + (res.valid ? (res.hasWarnings ? 'has-warning' : 'valid') : 'invalid');
@@ -2802,10 +2796,10 @@ ${debt.notes ? `• *Notas:* ${debt.notes}\n` : ''}
     if (data) {
       workerA = data.workerA;
       workerB = data.workerB;
-      dateA = data.dateOriginal || data.dateA;
-      shiftA = data.shiftOriginal || data.origShiftA || data.shiftA || (workerA && dateA ? getOfficialShift(workerA, dateA) : 'M');
-      dateB = data.dateReturn || data.dateB;
-      shiftB = data.shiftReturn || data.origShiftB || data.shiftB || (workerB && dateB ? getOfficialShift(workerB, dateB) : 'M');
+      dateA = data.dateOriginal;
+      shiftA = data.shiftOriginal || 'M';
+      dateB = data.dateReturn;
+      shiftB = data.shiftReturn || 'M';
     } else {
       workerA = state.currentWorker;
       workerB = state.selectedWorkerB;
@@ -2822,10 +2816,6 @@ ${debt.notes ? `• *Notas:* ${debt.notes}\n` : ''}
         ? (state.selectedWorkerBShift || getOfficialShift(workerB, dateA))
         : getOfficialShift(workerB, dateB);
     }
-
-    const isShiftSwap = data 
-      ? Boolean(data.isShiftSwap || data.type === 'shift_exchange' || (dateA && dateB && dateA === dateB))
-      : Boolean(state.isShiftSwap || (dateA === dateB));
 
     const nameA = getWorkerFullName(workerA);
     const nameB = getWorkerFullName(workerB);
@@ -2850,146 +2840,15 @@ ${debt.notes ? `• *Notas:* ${debt.notes}\n` : ''}
     if (el.vDateA) el.vDateA.textContent = formatDateSpanishWithYear(dateA);
     if (el.vShiftA) el.vShiftA.textContent = formatShiftDesc(shiftA);
     if (el.vWorkerAssumesA) el.vWorkerAssumesA.textContent = nameB;
-    if (el.vSituationA) {
-      el.vSituationA.innerHTML = isShiftSwap 
-        ? `<strong>ASUME ${formatShiftDesc(shiftB).toUpperCase()}</strong>`
-        : `<strong>LIBRE / DESCANSO</strong>`;
-    }
 
     // Jornada B
     if (el.vDateB) el.vDateB.textContent = dateB ? formatDateSpanishWithYear(dateB) : 'Pendiente de acordar por las partes';
     if (el.vShiftB) el.vShiftB.textContent = dateB ? formatShiftDesc(shiftB) : 'A convenir con Jefatura / RRHH';
     if (el.vWorkerAssumesB) el.vWorkerAssumesB.textContent = nameA;
-    if (el.vSituationB) {
-      el.vSituationB.innerHTML = isShiftSwap 
-        ? `<strong>ASUME ${formatShiftDesc(shiftA).toUpperCase()}</strong>`
-        : `<strong>LIBRE / DESCANSO</strong>`;
-    }
 
     // Firmas
     if (el.vSigWorker1) el.vSigWorker1.textContent = `D. ${nameA}`;
     if (el.vSigWorker2) el.vSigWorker2.textContent = `D. ${nameB}`;
-
-    // 3. Auditoría de Normativa Laboral Oficial sincronizada
-    let validationRes = (!data && state.lastValidationResult) ? state.lastValidationResult : null;
-    if (!validationRes && window.CuadranteValidator && workerA && workerB && dateA) {
-      if (isShiftSwap) {
-        validationRes = window.CuadranteValidator.validateSwap({
-          workerA, dateA, newShiftA: shiftB,
-          workerB, dateB: dateA, newShiftB: shiftA
-        });
-      } else if (dateB) {
-        validationRes = window.CuadranteValidator.validateSwap({
-          workerA, dateA, newShiftA: ' ',
-          workerB, dateB, newShiftB: ' '
-        });
-      } else {
-        const origA = shiftA || getOfficialShift(workerA, dateA);
-        const resA = window.CuadranteValidator.validateWorkerSchedule(workerA, { [dateA]: ' ' });
-        const resB = window.CuadranteValidator.validateWorkerSchedule(workerB, { [dateA]: origA });
-        const allErrors = [
-          ...resA.errors.map(v => ({ ...v, worker: workerA })),
-          ...resB.errors.map(v => ({ ...v, worker: workerB }))
-        ];
-        const allWarnings = [
-          ...resA.warnings.map(v => ({ ...v, worker: workerA })),
-          ...resB.warnings.map(v => ({ ...v, worker: workerB }))
-        ];
-        validationRes = {
-          valid: allErrors.length === 0,
-          hasWarnings: allWarnings.length > 0,
-          errors: allErrors,
-          warnings: allWarnings,
-          checks: [
-            { name: 'Descanso mínimo obligatorio (≥ 8h)', ok: !allErrors.some(e => e.rule && e.rule.includes('Descanso')), isWarning: false },
-            { name: 'Descanso ergonómico de 12h entre jornadas', ok: !allWarnings.some(w => w.rule && w.rule.includes('12h')), isWarning: true },
-            { name: 'Máximo 5 días trabajados seguidos', ok: !allWarnings.some(w => w.rule && w.rule.includes('5 días')), isWarning: true },
-            { name: 'Restricciones singulares respetadas', ok: !allErrors.some(e => e.rule && (e.rule.includes('Hilario') || e.rule.includes('Extra 1') || e.rule.includes('Víspera'))), isWarning: false },
-            { name: 'Cobertura mínima de plantilla en Andújar', ok: true, isWarning: false }
-          ]
-        };
-      }
-    }
-
-    if (el.vChecksGrid) {
-      if (validationRes && validationRes.checks) {
-        const c8h = !validationRes.errors.some(e => e.rule && e.rule.includes('Descanso'));
-        const c12h = !validationRes.warnings.some(w => w.rule && w.rule.includes('12h'));
-        const cCoverage = !validationRes.errors.some(e => e.rule && (e.rule.includes('Cobertura') || e.rule.includes('Noche')));
-        const c5d = !validationRes.warnings.some(w => w.rule && w.rule.includes('5 días'));
-        const cSingular = !validationRes.errors.some(e => e.rule && (e.rule.includes('Hilario') || e.rule.includes('Extra 1') || e.rule.includes('Víspera')));
-
-        const items = [
-          {
-            title: 'Descanso mínimo legal obligatorio (≥ 8h entre jornadas)',
-            ok: c8h,
-            isWarning: false,
-            okLabel: 'CUMPLIDO',
-            badLabel: 'NO CUMPLE (< 8h)'
-          },
-          {
-            title: 'Descanso ergonómico recomendado (12h entre turnos)',
-            ok: c12h,
-            isWarning: true,
-            okLabel: 'CUMPLIDO',
-            badLabel: 'ADVERTENCIA (8h a 12h con consentimiento)'
-          },
-          {
-            title: 'Cobertura mínima de servicio de plantilla en Andújar',
-            ok: cCoverage,
-            isWarning: false,
-            okLabel: 'GARANTIZADA',
-            badLabel: 'INSUFICIENTE'
-          },
-          {
-            title: 'Límite de jornadas consecutivas (máximo 5 días seguidos)',
-            ok: c5d,
-            isWarning: true,
-            okLabel: 'CUMPLIDO',
-            badLabel: 'ADVERTENCIA (> 5 días)'
-          },
-          {
-            title: 'Régimen singular y restricciones operativas respetadas',
-            ok: cSingular,
-            isWarning: false,
-            okLabel: 'CUMPLIDO',
-            badLabel: 'NO RESPETADAS'
-          }
-        ];
-
-        el.vChecksGrid.innerHTML = items.map(item => {
-          let icon, color, statusText;
-          if (item.ok) {
-            icon = '✅';
-            color = '#059669';
-            statusText = `<strong>${item.okLabel}</strong>`;
-          } else if (item.isWarning) {
-            icon = '⚠️';
-            color = '#d97706';
-            statusText = `<strong style="color:#d97706;">${item.badLabel}</strong>`;
-          } else {
-            icon = '❌';
-            color = '#dc2626';
-            statusText = `<strong style="color:#dc2626;">${item.badLabel}</strong>`;
-          }
-
-          return `
-            <div class="v-check-item ${item.ok ? 'ok' : (item.isWarning ? 'warning' : 'fail')}">
-              <span style="color:${color}; font-size:0.85rem; font-weight:800;">${icon}</span>
-              <span>${item.title}: ${statusText}</span>
-            </div>
-          `;
-        }).join('');
-      } else {
-        el.vChecksGrid.innerHTML = `
-          <div class="v-check-item ok"><span style="color:#059669; font-weight:800;">✅</span> Descanso mínimo legal obligatorio (≥ 8h entre jornadas): <strong>CUMPLIDO</strong></div>
-          <div class="v-check-item ok"><span style="color:#059669; font-weight:800;">✅</span> Descanso ergonómico recomendado (12h entre turnos): <strong>CUMPLIDO</strong></div>
-          <div class="v-check-item ok"><span style="color:#059669; font-weight:800;">✅</span> Cobertura mínima de servicio de plantilla en Andújar: <strong>GARANTIZADA</strong></div>
-          <div class="v-check-item ok"><span style="color:#059669; font-weight:800;">✅</span> Límite de jornadas consecutivas (máximo 5 días seguidos): <strong>CUMPLIDO</strong></div>
-          <div class="v-check-item ok"><span style="color:#059669; font-weight:800;">✅</span> Régimen singular y restricciones operativas respetadas: <strong>CUMPLIDO</strong></div>
-        `;
-      }
-    }
 
     if (el.rrhhVolanteModal) {
       el.rrhhVolanteModal.style.display = 'flex';
@@ -3003,16 +2862,8 @@ ${debt.notes ? `• *Notas:* ${debt.notes}\n` : ''}
   }
 
   function printRrhhVolante() {
-    document.body.classList.add('is-printing-volante');
     window.print();
-    setTimeout(() => {
-      document.body.classList.remove('is-printing-volante');
-    }, 1200);
   }
-
-  window.addEventListener('afterprint', () => {
-    document.body.classList.remove('is-printing-volante');
-  });
 
   // ====================================================================
   // GESTIÓN Y PERSISTENCIA DE PERMUTAS ACTIVAS (OPCIÓN A)
