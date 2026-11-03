@@ -2988,52 +2988,155 @@ button, select, input, textarea {
   transform: translateY(0);
 }
 
-/* Reglas de Impresión A4 Nítida */
+/* Reglas de Impresión A4 Nítida y Profesional */
+@page {
+  size: A4 portrait;
+  margin: 10mm 14mm;
+}
+
+body.is-printing-volante > *:not(#rrhhVolanteModal) {
+  display: none !important;
+}
+
 @media print {
-  body {
+  html, body {
     background: #ffffff !important;
     color: #000000 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: auto !important;
+    overflow: visible !important;
   }
 
-  /* Ocultar todos los elementos de la interfaz */
-  .app-header,
-  .main-nav,
-  .mobile-dock,
-  .app-container,
+  /* Ocultar rigurosamente todos los menús, cabeceras, botones y elementos web */
+  header,
+  nav,
+  main,
+  footer,
+  .header,
+  .desktop-nav,
+  .main-content,
+  .mobile-nav,
   .toast-container,
+  .btn-icon,
+  .btn-primary,
+  .btn-secondary,
   .modal-overlay:not(#rrhhVolanteModal),
-  #rrhhVolanteModal .modal-header {
+  #rrhhVolanteModal .modal-header,
+  #rrhhVolanteModal .modal-close-btn,
+  #btnPrintVolante,
+  #dayDetailModal,
+  #activeSwapsListModal {
     display: none !important;
   }
 
+  /* El modal del volante pasa a flujo estático natural para impresión */
   #rrhhVolanteModal {
     position: static !important;
     display: block !important;
     background: transparent !important;
     padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+    border: none !important;
+    box-shadow: none !important;
   }
 
   #rrhhVolanteModal .modal-dialog {
+    position: static !important;
     max-width: 100% !important;
     width: 100% !important;
     box-shadow: none !important;
     border: none !important;
     padding: 0 !important;
     margin: 0 !important;
+    overflow: visible !important;
+    background: transparent !important;
+    max-height: none !important;
+    height: auto !important;
   }
 
   #rrhhVolanteModal .modal-body {
     padding: 0 !important;
     background: transparent !important;
+    overflow: visible !important;
+    max-height: none !important;
+    height: auto !important;
   }
 
   .volante-paper {
     box-shadow: none !important;
     border: none !important;
+    border-radius: 0 !important;
     padding: 0 !important;
+    margin: 0 auto !important;
     max-width: 100% !important;
     width: 100% !important;
-    margin: 0 !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 8.8pt !important;
+    line-height: 1.35 !important;
+  }
+
+  .volante-section {
+    page-break-inside: avoid;
+    break-inside: avoid;
+    margin-bottom: 12px !important;
+  }
+
+  .volante-meta-row {
+    background: #f8fafc !important;
+    border: 1px solid #94a3b8 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .volante-col-box {
+    background: #ffffff !important;
+    border: 1px solid #64748b !important;
+  }
+
+  .volante-table {
+    border: 1px solid #334155 !important;
+    width: 100% !important;
+  }
+
+  .volante-table th,
+  .volante-table td {
+    border: 1px solid #64748b !important;
+    padding: 5px 8px !important;
+    font-size: 8.5pt !important;
+    color: #000000 !important;
+  }
+
+  .volante-table th {
+    background: #f1f5f9 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .volante-checks-grid {
+    background: #f8fafc !important;
+    border: 1px solid #94a3b8 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .volante-signatures-grid {
+    page-break-inside: avoid;
+    break-inside: avoid;
+    margin-top: 10px !important;
+  }
+
+  .volante-sig-box {
+    border: 1px solid #475569 !important;
+    min-height: 80px !important;
+    background: #ffffff !important;
   }
 }
 

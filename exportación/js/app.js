@@ -251,7 +251,6 @@ document.addEventListener('DOMContentLoaded', () => {
     vWorkerAssumesB: document.getElementById('vWorkerAssumesB'),
     vSituationB: document.getElementById('vSituationB'),
     vChecksGrid: document.getElementById('vChecksGrid'),
-    vAuditNotesBox: document.getElementById('vAuditNotesBox'),
     vSigWorker1: document.getElementById('vSigWorker1'),
     vSigWorker2: document.getElementById('vSigWorker2'),
 
@@ -2981,33 +2980,6 @@ ${debt.notes ? `• *Notas:* ${debt.notes}\n` : ''}
             </div>
           `;
         }).join('');
-
-        if (el.vAuditNotesBox) {
-          if (validationRes.warnings && validationRes.warnings.length > 0) {
-            el.vAuditNotesBox.style.display = 'block';
-            el.vAuditNotesBox.innerHTML = `
-              <div style="font-size:0.72rem; color:#92400e; background:#fffbeb; border:1px solid #fde68a; border-left:3px solid #d97706; padding:6px 10px; border-radius:4px; line-height:1.4;">
-                <strong>⚠️ Observación de Auditoría Laboral:</strong> Se hace constar que la permuta acordada voluntariamente incluye excepciones consentidas por las partes respecto al descanso recomendado de 12 horas o acumulación de jornadas (respetando en todo caso el mínimo legal imperativo de 8h):
-                <ul style="margin:4px 0 0 16px; padding:0;">
-                  ${validationRes.warnings.map(w => `<li><strong>${w.worker || ''} (${w.date || ''}):</strong> ${w.desc}</li>`).join('')}
-                </ul>
-              </div>
-            `;
-          } else if (validationRes.errors && validationRes.errors.length > 0) {
-            el.vAuditNotesBox.style.display = 'block';
-            el.vAuditNotesBox.innerHTML = `
-              <div style="font-size:0.72rem; color:#991b1b; background:#fef2f2; border:1px solid #fee2e2; border-left:3px solid #dc2626; padding:6px 10px; border-radius:4px; line-height:1.4;">
-                <strong>⛔ Incidencias de Normativa Laboral:</strong>
-                <ul style="margin:4px 0 0 16px; padding:0;">
-                  ${validationRes.errors.map(e => `<li><strong>${e.worker || ''} (${e.date || ''}):</strong> ${e.desc}</li>`).join('')}
-                </ul>
-              </div>
-            `;
-          } else {
-            el.vAuditNotesBox.style.display = 'none';
-            el.vAuditNotesBox.innerHTML = '';
-          }
-        }
       } else {
         el.vChecksGrid.innerHTML = `
           <div class="v-check-item ok"><span style="color:#059669; font-weight:800;">✅</span> Descanso mínimo legal obligatorio (≥ 8h entre jornadas): <strong>CUMPLIDO</strong></div>
@@ -3016,10 +2988,6 @@ ${debt.notes ? `• *Notas:* ${debt.notes}\n` : ''}
           <div class="v-check-item ok"><span style="color:#059669; font-weight:800;">✅</span> Límite de jornadas consecutivas (máximo 5 días seguidos): <strong>CUMPLIDO</strong></div>
           <div class="v-check-item ok"><span style="color:#059669; font-weight:800;">✅</span> Régimen singular y restricciones operativas respetadas: <strong>CUMPLIDO</strong></div>
         `;
-        if (el.vAuditNotesBox) {
-          el.vAuditNotesBox.style.display = 'none';
-          el.vAuditNotesBox.innerHTML = '';
-        }
       }
     }
 
@@ -3035,8 +3003,16 @@ ${debt.notes ? `• *Notas:* ${debt.notes}\n` : ''}
   }
 
   function printRrhhVolante() {
+    document.body.classList.add('is-printing-volante');
     window.print();
+    setTimeout(() => {
+      document.body.classList.remove('is-printing-volante');
+    }, 1200);
   }
+
+  window.addEventListener('afterprint', () => {
+    document.body.classList.remove('is-printing-volante');
+  });
 
   // ====================================================================
   // GESTIÓN Y PERSISTENCIA DE PERMUTAS ACTIVAS (OPCIÓN A)
