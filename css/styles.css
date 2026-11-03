@@ -2413,6 +2413,14 @@ button, select, input, textarea {
   color: #059669;
 }
 
+.v-check-item.warning span {
+  color: #d97706;
+}
+
+.v-check-item.fail span {
+  color: #dc2626;
+}
+
 .volante-legal-text {
   font-size: 0.74rem;
   color: #475569;

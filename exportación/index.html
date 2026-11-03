@@ -1700,14 +1700,14 @@
                   <td id="vDateA">Sábado, 06/02/2027</td>
                   <td id="vShiftA">Mañana (07:00 a 15:00)</td>
                   <td id="vWorkerAssumesA">Alberto Higueras</td>
-                  <td><strong>LIBRE / DESCANSO</strong></td>
+                  <td id="vSituationA"><strong>LIBRE / DESCANSO</strong></td>
                 </tr>
                 <tr>
                   <td><strong>Jornada B (Devolución)</strong></td>
                   <td id="vDateB">Sábado, 27/02/2027</td>
                   <td id="vShiftB">Mañana (07:00 a 15:00)</td>
                   <td id="vWorkerAssumesB">Antonio Jesús Sánchez</td>
-                  <td><strong>LIBRE / DESCANSO</strong></td>
+                  <td id="vSituationB"><strong>LIBRE / DESCANSO</strong></td>
                 </tr>
               </tbody>
             </table>
@@ -1717,12 +1717,9 @@
           <div class="volante-section">
             <div class="volante-section-title">3. AUDITORÍA OFICIAL DE NORMATIVA LABORAL Y DESCANSOS</div>
             <div class="volante-checks-grid" id="vChecksGrid">
-              <div class="v-check-item"><span>[X]</span> Descanso mínimo legal obligatorio (≥ 8h entre jornadas): CUMPLIDO</div>
-              <div class="v-check-item"><span>[X]</span> Descanso ergonómico recomendado (12h entre turnos): CUMPLIDO</div>
-              <div class="v-check-item"><span>[X]</span> Cobertura mínima de servicio de plantilla en Andújar: GARANTIZADA</div>
-              <div class="v-check-item"><span>[X]</span> Límite de jornadas consecutivas (máximo 5 días seguidos): CUMPLIDO</div>
-              <div class="v-check-item"><span>[X]</span> Régimen singular y restricciones operativas respetadas</div>
+              <!-- Inyectado dinámicamente según la auditoría oficial del cuadrante -->
             </div>
+            <div id="vAuditNotesBox" style="display:none; margin-top:8px;"></div>
           </div>
 
           <!-- 4. Declaración Responsable -->
